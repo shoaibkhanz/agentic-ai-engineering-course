@@ -12,7 +12,7 @@
         - Lack of modularity; hard to update or improve specific parts.
         - Increased likelihood of "lost in the middle" issues with long contexts.
         - Potentially higher token consumption for prompts trying to do too much.
-    - Show an example prompt of this, with an example output where we pinpoint problems with it (i.e. parts of the complex instructions are not satisfied with the result). Show a minimal (but runnable) code example using the OpenAI Python library (https://github.com/openai/openai-python/blob/main/README.md) with the “completion” endpoint. Here you should explain how to set an environment variable in google Colab (as the students will run the code from Google Colab) and how to set the “OPENAI_API_KEY” environment variable (it can be retrieved with `from google.colab import userdata`, and it will be used by the openai Python client), and then proceed by defining the prompt and using it with the openai library to generate a completion. When talking about the "OPENAI_API_KEY" api key, you should explain also how to get it and that you have to buy some credits to use the openai models via API, with a minimum purchase of 5$. Explain also how to retrieve the API key. You'll find the code of this section below in these guidelines. Comment also the outputs of the code cells if relevant, they are in the code below as well between cells.
+    - Show an example prompt of this, with an example output where we pinpoint problems with it (i.e. parts of the complex instructions are not satisfied with the result). Show a minimal (but runnable) code example using Gemini-2.5-flash. Here you should explain how to set an environment variable in google Colab (as the students will run the code from Google Colab) and how to set the GOOGLE_API_KEY environment variable (it can be retrieved with `from google.colab import userdata`, and it will be used by the Gemini client), and then proceed by defining the prompt and using it to generate a completion. When talking about the "GOOGLE_API_KEY" api key, you should explain also how to get it. Explain also how to retrieve the API key. You'll find the code of this section below in these guidelines. Comment also the outputs of the code cells if relevant, they are in the code below as well between cells.
     - Introduce Chaining: The concept of connecting multiple LLM calls (or other processing steps) sequentially, where the output of one step becomes the input for the next. (https://www.promptingguide.ai/techniques/prompt_chaining)
     - List the benefits of chaining:
         - **Improved Modularity:** Each LLM call focuses on a specific, well-defined sub-task.
@@ -67,7 +67,7 @@ When copying the code from below, try to keep the code cells the same, without s
 Notebook code for the lesson:
 <notebook-code>
 ```python
-!pip install -q openai
+!pip install -q google-generativeai
 ```
 
 
@@ -76,24 +76,24 @@ import os
 import json
 import asyncio
 import random
-from openai import OpenAI, AsyncOpenAI
+import google.generativeai as genai
 from google.colab import userdata
 
 
-# Initialize the OpenAI clients (sync and async)
-# The clients automatically read the OPENAI_API_KEY from the environment
+# Initialize the Gemini client
+# The client uses the GOOGLE_API_KEY from the environment
 try:
-    client = OpenAI(api_key=userdata.get('OPENAI_API_KEY'))
-    aclient = AsyncOpenAI(api_key=userdata.get('OPENAI_API_KEY'))
-    print("OpenAI clients initialized successfully.")
+    genai.configure(api_key=userdata.get('GOOGLE_API_KEY'))
+    model = genai.GenerativeModel('gemini-2.5-flash')
+    print("Gemini client initialized successfully.")
 except Exception as e:
-    print(f"Error initializing OpenAI client: {e}")
-    print("Please ensure your OPENAI_API_KEY is set correctly in Colab.")
+    print(f"Error initializing Gemini client: {e}")
+    print("Please ensure your GOOGLE_API_KEY is set correctly in Colab.")
 ```
 
 **Output:**
 ```
-OpenAI clients initialized successfully.
+Gemini client initialized successfully.
 ```
 
 
@@ -163,16 +163,14 @@ Provided Content:
 ---
 """.strip()
 
-response_complex = client.chat.completions.create(
-    model="gpt-4.1-nano",
-    messages=[
-        {"role": "system", "content": "You are an expert at creating FAQs from provided documents."},
-        {"role": "user", "content": prompt_complex}
-    ],
-    response_format={"type": "json_object"}
+response_complex = model.generate_content(
+    f"You are an expert at creating FAQs from provided documents.\n\n{prompt_complex}",
+    generation_config=genai.GenerationConfig(
+        response_mime_type="application/json"
+    )
 )
 # Note: Even with JSON mode, the model might fail to follow all instructions perfectly.
-result_complex = response_complex.choices[0].message.content
+result_complex = response_complex.text
 print("Complex prompt result (might be inconsistent):")
 print(json.dumps(json.loads(result_complex), indent=2))
 ```
@@ -180,80 +178,78 @@ print(json.dumps(json.loads(result_complex), indent=2))
 **Output:**
 ```
 Complex prompt result (might be inconsistent):
-{
-  "faqs": [
-    {
-      "question": "What are the main benefits of solar energy?",
-      "answer": "Solar energy reduces reliance on fossil fuels, cuts greenhouse gas emissions, lowers electricity bills, and can allow homeowners to sell excess power back to the grid. It is also a key component in achieving energy independence for nations.",
-      "sources": [
-        "The Benefits of Solar Energy"
-      ]
-    },
-    {
-      "question": "How do wind turbines generate electricity?",
-      "answer": "Wind turbines capture kinetic energy from the wind and convert it into electrical power, functioning as a critical part of sustainable energy systems.",
-      "sources": [
-        "Understanding Wind Turbines"
-      ]
-    },
-    {
-      "question": "Where can wind turbines be installed?",
-      "answer": "Wind turbines can be installed both onshore and offshore, with offshore turbines generally producing more consistent power due to stronger, more reliable winds.",
-      "sources": [
-        "Understanding Wind Turbines"
-      ]
-    },
-    {
-      "question": "What is a major challenge of wind energy?",
-      "answer": "The main challenge for wind energy is its intermittency\u2014it only generates power when the wind blows, requiring energy storage solutions to ensure a steady supply.",
-      "sources": [
-        "Understanding Wind Turbines"
-      ]
-    },
-    {
-      "question": "Why is energy storage important for renewable energy sources?",
-      "answer": "Effective energy storage allows excess energy generated when supplies are plentiful to be stored and released when needed, making the power grid more stable and reliable.",
-      "sources": [
-        "Energy Storage Solutions"
-      ]
-    },
-    {
-      "question": "What are common energy storage methods?",
-      "answer": "The most common large-scale storage method is pumped-hydro storage, and lithium-ion batteries are also increasingly affordable and widespread for use in various settings.",
-      "sources": [
-        "Energy Storage Solutions"
-      ]
-    },
-    {
-      "question": "How do batteries enhance energy system reliability?",
-      "answer": "Batteries, especially lithium-ion ones, help balance energy supply and demand, making the energy system more resilient and reliable.",
-      "sources": [
-        "Energy Storage Solutions"
-      ]
-    },
-    {
-      "question": "What are the economic considerations of solar energy?",
-      "answer": "While the initial installation cost can be high, government incentives and long-term savings make solar energy a financially viable option.",
-      "sources": [
-        "The Benefits of Solar Energy"
-      ]
-    },
-    {
-      "question": "How does solar energy contribute to environmental benefits?",
-      "answer": "Solar energy reduces greenhouse gas emissions by converting sunlight into electricity without fossil fuels.",
-      "sources": [
-        "The Benefits of Solar Energy"
-      ]
-    },
-    {
-      "question": "What role does wind power play in sustainable energy development?",
-      "answer": "Wind power is a critical part of the global shift towards sustainable energy, capturing wind's kinetic energy for electricity generation and helping reduce reliance on fossil fuels.",
-      "sources": [
-        "Understanding Wind Turbines"
-      ]
-    }
-  ]
-}
+[
+  {
+    "question": "What are the main benefits of solar energy?",
+    "answer": "Solar energy offers numerous environmental and economic benefits, including reducing reliance on fossil fuels, cutting greenhouse gas emissions, lowering electricity bills, and contributing to energy independence.",
+    "sources": [
+      "The Benefits of Solar Energy"
+    ]
+  },
+  {
+    "question": "How does solar energy generate electricity?",
+    "answer": "Solar energy converts sunlight into electricity through photovoltaic (PV) panels.",
+    "sources": [
+      "The Benefits of Solar Energy"
+    ]
+  },
+  {
+    "question": "Can homeowners save money by installing solar panels?",
+    "answer": "Homeowners who install solar panels can significantly lower their monthly electricity bills and, in some cases, sell excess power back to the grid.",
+    "sources": [
+      "The Benefits of Solar Energy"
+    ]
+  },
+  {
+    "question": "Is solar energy financially viable despite its initial cost?",
+    "answer": "Yes, while the initial installation cost can be high, government incentives and long-term savings make it a financially viable option for many.",
+    "sources": [
+      "The Benefits of Solar Energy"
+    ]
+  },
+  {
+    "question": "What is the primary function of wind turbines?",
+    "answer": "Wind turbines capture kinetic energy from the wind and convert it into electrical power.",
+    "sources": [
+      "Understanding Wind Turbines"
+    ]
+  },
+  {
+    "question": "What is a key challenge for wind energy?",
+    "answer": "The main challenge for wind energy is its intermittency, meaning it only generates power when the wind blows.",
+    "sources": [
+      "Understanding Wind Turbines"
+    ]
+  },
+  {
+    "question": "Where can wind turbines be installed to generate power?",
+    "answer": "Wind turbines can be installed both onshore and offshore, with offshore wind farms generally producing more consistent power.",
+    "sources": [
+      "Understanding Wind Turbines"
+    ]
+  },
+  {
+    "question": "Why is energy storage crucial for renewable energy sources like solar and wind?",
+    "answer": "Effective energy storage is crucial because renewable sources are intermittent, requiring storage of excess energy when plentiful and release when needed to ensure a stable power grid.",
+    "sources": [
+      "Energy Storage Solutions"
+    ]
+  },
+  {
+    "question": "What are some common forms of large-scale energy storage?",
+    "answer": "The most common form of large-scale storage is pumped-hydro storage, and battery technologies, particularly lithium-ion, are also becoming widespread.",
+    "sources": [
+      "Energy Storage Solutions"
+    ]
+  },
+  {
+    "question": "How do batteries help balance energy supply and demand?",
+    "answer": "Batteries can be used in homes, businesses, and at the utility scale to balance energy supply and demand, making the energy system more resilient and reliable.",
+    "sources": [
+      "Energy Storage Solutions"
+    ]
+  }
+]
 ```
 
 
@@ -302,16 +298,14 @@ Documents:
 
 ```python
 # Step 1: Generate questions
-response_questions = client.chat.completions.create(
-    model="gpt-4.1-nano",
-    messages=[
-        {"role": "system", "content": "You are a helpful assistant that generates questions based on text."},
-        {"role": "user", "content": prompt_generate_questions.format(combined_content=combined_content)}
-    ],
-    response_format={"type": "json_object"}
+response_questions = model.generate_content(
+    f"You are a helpful assistant that generates questions based on text.\n\n{prompt_generate_questions.format(combined_content=combined_content)}",
+    generation_config=genai.GenerationConfig(
+        response_mime_type="application/json"
+    )
 )
 
-generated_questions = json.loads(response_questions.choices[0].message.content)['questions']
+generated_questions = json.loads(response_questions.text)
 print(f"Successfully generated {len(generated_questions)} questions.")
 
 # Steps 2 & 3: Answer and find sources for each question
@@ -332,25 +326,19 @@ for question in generated_questions:
     {combined_content}
     ---
     """
-    answer_response = client.chat.completions.create(
-        model="gpt-4.1-nano",
-        messages=[
-            {"role": "system", "content": "You answer questions based *only* on the provided context."},
-            {"role": "user", "content": prompt_answer_question.format(combined_content=combined_content)}
-        ]
+    answer_response = model.generate_content(
+        f"You answer questions based *only* on the provided context.\n\n{prompt_answer_question.format(combined_content=combined_content)}"
     )
-    answer = answer_response.choices[0].message.content
+    answer = answer_response.text
 
     # Step 3: Identify the sources for the generated answer
-    sources_response = client.chat.completions.create(
-        model="gpt-4.1-nano",
-        messages=[
-            {"role": "system", "content": "You are an expert at identifying document sources for a given text."},
-            {"role": "user", "content": prompt_find_sources.format(question=question, answer=answer, combined_content=combined_content)}
-        ],
-        response_format={"type": "json_object"}
+    sources_response = model.generate_content(
+        f"You are an expert at identifying document sources for a given text.\n\n{prompt_find_sources.format(question=question, answer=answer, combined_content=combined_content)}",
+        generation_config=genai.GenerationConfig(
+            response_mime_type="application/json"
+        )
     )
-    sources = json.loads(sources_response.choices[0].message.content)['sources']
+    sources = json.loads(sources_response.text)['sources']
 
     final_faqs.append({
         "question": question,
@@ -366,91 +354,90 @@ print(json.dumps(final_faqs, indent=2))
 **Output:**
 ```
 Successfully generated 10 questions.
-  - Processing: 'What are the main environmental benefits of using ...'
-  - Processing: 'How do photovoltaic (PV) panels convert sunlight i...'
-  - Processing: 'What financial incentives are available for homeow...'
-  - Processing: 'How does wind energy contribute to sustainable ene...'
-  - Processing: 'What are the differences between onshore and offsh...'
-  - Processing: 'Why is wind energy considered intermittent, and ho...'
-  - Processing: 'What role do energy storage solutions play in rene...'
-  - Processing: 'How do batteries like lithium-ion enhance the stab...'
-  - Processing: 'What are the advantages and disadvantages of pumpe...'
-  - Processing: 'What challenges are associated with integrating re...'
+  - Processing: 'What are the primary environmental and economic be...'
+  - Processing: 'How does solar energy contribute to reducing relia...'
+  - Processing: 'What are the financial considerations for homeowne...'
+  - Processing: 'What is the main purpose of wind turbines, and wha...'
+  - Processing: 'What is the primary challenge associated with wind...'
+  - Processing: 'Why is effective energy storage considered crucial...'
+  - Processing: 'What are the most common forms of large-scale ener...'
+  - Processing: 'How are battery technologies, such as lithium-ion,...'
+  - Processing: 'Besides large-scale utility applications, where el...'
+  - Processing: 'How do both solar and wind power contribute to a g...'
 
 Generated FAQ List:
 [
   {
-    "question": "What are the main environmental benefits of using solar energy?",
-    "answer": "The main environmental benefits of using solar energy are reducing reliance on fossil fuels and cutting down greenhouse gas emissions.",
+    "question": "What are the primary environmental and economic benefits of utilizing solar energy?",
+    "answer": "The primary environmental benefit of utilizing solar energy is the reduction of greenhouse gas emissions by cutting down reliance on fossil fuels. Economically, it allows homeowners to significantly lower monthly electricity bills, sell excess power back to the grid, and contributes to national energy independence.",
     "sources": [
       "The Benefits of Solar Energy"
     ]
   },
   {
-    "question": "How do photovoltaic (PV) panels convert sunlight into electricity?",
-    "answer": "Photovoltaic (PV) panels convert sunlight into electricity by using solar cells that generate electrical current when exposed to sunlight.",
+    "question": "How does solar energy contribute to reducing reliance on fossil fuels and achieving energy independence for nations?",
+    "answer": "Solar energy reduces reliance on fossil fuels by converting sunlight into electricity through photovoltaic (PV) panels. It is also a key component in achieving energy independence for nations.",
     "sources": [
       "The Benefits of Solar Energy"
     ]
   },
   {
-    "question": "What financial incentives are available for homeowners to install solar panels?",
-    "answer": "Homeowners can benefit from government incentives for installing solar panels.",
+    "question": "What are the financial considerations for homeowners installing solar panels, including initial costs and potential savings?",
+    "answer": "For homeowners installing solar panels, the initial installation cost can be high. However, they can significantly lower their monthly electricity bills, in some cases sell excess power back to the grid, and benefit from government incentives and long-term savings.",
     "sources": [
       "The Benefits of Solar Energy"
     ]
   },
   {
-    "question": "How does wind energy contribute to sustainable energy goals worldwide?",
-    "answer": "Wind energy contributes to sustainable energy goals worldwide by providing a renewable source of electricity, reducing reliance on fossil fuels, and lowering greenhouse gas emissions. It helps achieve energy independence and supports the global shift toward environmentally friendly power generation.",
+    "question": "What is the main purpose of wind turbines, and what are the typical locations for their installation?",
+    "answer": "Wind turbines' main purpose is to capture kinetic energy from the wind and convert it into electrical power. They are typically installed both onshore and offshore.",
     "sources": [
       "Understanding Wind Turbines"
     ]
   },
   {
-    "question": "What are the differences between onshore and offshore wind turbines?",
-    "answer": "Onshore wind turbines are installed on land, while offshore wind turbines are installed at sea, typically producing more consistent power due to stronger winds.",
-    "sources": [
-      "Understanding Wind Turbines"
-    ]
-  },
-  {
-    "question": "Why is wind energy considered intermittent, and how does this affect power supply?",
-    "answer": "Wind energy is considered intermittent because it only generates power when the wind blows. This affects power supply by necessitating energy storage solutions to ensure a steady and reliable supply of electricity.",
+    "question": "What is the primary challenge associated with wind energy generation, and what is necessary to overcome it?",
+    "answer": "The primary challenge associated with wind energy generation is its intermittency, as it only generates power when the wind blows. To overcome this, energy storage solutions, such as large-scale batteries, are necessary to ensure a steady supply of electricity.",
     "sources": [
       "Understanding Wind Turbines",
       "Energy Storage Solutions"
     ]
   },
   {
-    "question": "What role do energy storage solutions play in renewable energy systems?",
-    "answer": "Energy storage solutions play a crucial role in renewable energy systems by storing excess energy generated from sources like solar and wind when it is plentiful, and releasing it when needed. This helps to address the intermittency of renewable sources and ensures a stable, reliable power supply.",
-    "sources": [
-      "Energy Storage Solutions",
-      "Understanding Wind Turbines"
-    ]
-  },
-  {
-    "question": "How do batteries like lithium-ion enhance the stability of renewable energy sources?",
-    "answer": "Batteries like lithium-ion enhance the stability of renewable energy sources by storing excess energy when production is high and releasing it when demand is high or generation is low, ensuring a steady and reliable power supply.",
-    "sources": [
-      "Energy Storage Solutions",
-      "Understanding Wind Turbines"
-    ]
-  },
-  {
-    "question": "What are the advantages and disadvantages of pumped-hydro storage versus battery storage?",
-    "answer": "Advantages of pumped-hydro storage include large capacity and long-term efficiency. Disadvantages are high initial infrastructure costs and limited site availability.  \nAdvantages of battery storage include lower initial costs and flexibility in installation. Disadvantages are generally smaller capacity compared to pumped-hydro and higher cost per unit of stored energy over large scales.",
-    "sources": [
-      "Energy Storage Solutions"
-    ]
-  },
-  {
-    "question": "What challenges are associated with integrating renewable energy into existing power grids?",
-    "answer": "The challenges associated with integrating renewable energy into existing power grids include managing intermittency, which requires energy storage solutions like batteries to ensure a steady supply of electricity.",
+    "question": "Why is effective energy storage considered crucial for unlocking the full potential of intermittent renewable sources like solar and wind?",
+    "answer": "Effective energy storage is considered crucial for unlocking the full potential of intermittent renewable sources like solar and wind because these sources only generate power when their respective resources (sunlight or wind) are available. Storing excess energy when it's plentiful and releasing it when it's needed ensures a stable power grid and a steady supply of electricity.",
     "sources": [
       "Understanding Wind Turbines",
       "Energy Storage Solutions"
+    ]
+  },
+  {
+    "question": "What are the most common forms of large-scale energy storage solutions mentioned in the provided content?",
+    "answer": "The most common form of large-scale energy storage mentioned is pumped-hydro storage. Battery technologies, particularly lithium-ion, are also rapidly becoming more affordable and widespread for large-scale use.",
+    "sources": [
+      "Energy Storage Solutions"
+    ]
+  },
+  {
+    "question": "How are battery technologies, such as lithium-ion, impacting the accessibility and widespread use of energy storage?",
+    "answer": "Battery technologies, particularly lithium-ion, are rapidly becoming more affordable and widespread. They are used in homes, businesses, and at the utility scale to balance energy supply and demand, making the energy system more resilient and reliable.",
+    "sources": [
+      "Energy Storage Solutions"
+    ]
+  },
+  {
+    "question": "Besides large-scale utility applications, where else can energy storage batteries be utilized?",
+    "answer": "Energy storage batteries can be utilized in homes and businesses.",
+    "sources": [
+      "Energy Storage Solutions"
+    ]
+  },
+  {
+    "question": "How do both solar and wind power contribute to a global shift towards sustainable energy?",
+    "answer": "Solar energy reduces reliance on fossil fuels and cuts down greenhouse gas emissions, also contributing to energy independence. Wind power, through turbines converting wind into electrical power, is a critical part of this global shift towards sustainable energy.",
+    "sources": [
+      "The Benefits of Solar Energy",
+      "Understanding Wind Turbines"
     ]
   }
 ]
@@ -469,14 +456,10 @@ User Query: "{user_query}"
 
 def classify_intent(user_query):
     """Uses an LLM to classify a user query."""
-    response = client.chat.completions.create(
-        model="gpt-4.1-mini",
-        messages=[
-            {"role": "system", "content": "You are an expert at classifying user intents."},
-            {"role": "user", "content": prompt_classification.format(user_query=user_query)}
-        ]
+    response = model.generate_content(
+        f"You are an expert at classifying user intents.\n\n{prompt_classification.format(user_query=user_query)}"
     )
-    intent = response.choices[0].message.content.strip()
+    intent = response.text.strip()
     return intent
 
 query_1 = "My internet connection is not working."
@@ -539,11 +522,8 @@ def handle_query(user_query, intent):
         prompt = prompt_general_question.format(user_query=user_query)
     else:
         prompt = prompt_general_question.format(user_query=user_query)
-    response = client.chat.completions.create(
-        model="gpt-4.1-mini",
-        messages=[{"role": "system", "content": prompt}]
-    )
-    return response.choices[0].message.content
+    response = model.generate_content(prompt)
+    return response.text
 
 response_1 = handle_query(query_1, intent_1)
 print(f"Query: {query_1}\nIntent: {intent_1}\nResponse: {response_1}\n")
@@ -559,15 +539,24 @@ print(f"Query: {query_3}\nIntent: {intent_3}\nResponse: {response_3}\n")
 ```
 Query: My internet connection is not working.
 Intent: Technical Support
-Response: I'm sorry to hear that your internet connection isn't working. Could you please provide a bit more detail? For example, are you using a wired or wireless connection? Have you tried any troubleshooting steps so far, such as restarting your modem/router or checking if other devices can connect? This info will help me assist you better.
+Response: I'm sorry to hear your internet connection isn't working! I can definitely help you troubleshoot that.
+
+To get started and avoid suggesting steps you've already tried, could you tell me a little more about what's happening and what you've already attempted? For example:
+
+*   Have you tried restarting your modem and router?
+*   Are you seeing any particular error messages?
+*   Are other devices in your home (like phones or tablets) also unable to connect, or is it just one device?
+*   Are any lights on your modem or router unusual (e.g., red, blinking)?
+
+The more details you can give me, the quicker we can narrow down the issue!
 
 Query: I think there is a mistake on my last invoice.
 Intent: Billing Inquiry
-Response: I'm sorry to hear that you think there may be a mistake on your last invoice. To assist you further, could you please provide me with your account number? That way, I can look up your account and review the details.
+Response: "I'm sorry to hear there might be a mistake on your last invoice. I can certainly help you look into that. To access your account, could you please provide me with your account number?"
 
 Query: What are your opening hours?
 Intent: General Question
-Response: I'm sorry, I'm not sure how to help with that. Could you please rephrase your question or provide more details?
+Response: I apologize, I'm not sure how to help with that. Could you please rephrase your question?
 ```
 
 
@@ -592,13 +581,15 @@ User Query:
 Return ONLY the JSON array and nothing else. Start with "[", end with "]" and separate objects with a comma.
 """.strip()
 
-async def orchestrator(complex_query):
+def orchestrator(complex_query):
     """Breaks down a complex query into a list of tasks."""
-    response = await aclient.chat.completions.create(
-        model="gpt-4.1-mini",
-        messages=[{"role": "user", "content": prompt_orchestrator.format(complex_query=complex_query)}]
+    response = model.generate_content(
+        prompt_orchestrator.format(complex_query=complex_query),
+        generation_config=genai.GenerationConfig(
+            response_mime_type="application/json"
+        )
     )
-    tasks_str = response.choices[0].message.content
+    tasks_str = response.text
     try:
         return json.loads(tasks_str)
     except json.JSONDecodeError as e:
@@ -623,7 +614,7 @@ Full User Query:
 Extracted concern about invoice {invoice_number}:
 """.strip()
 
-async def handle_billing_worker(invoice_number, original_user_query):
+def handle_billing_worker(invoice_number, original_user_query):
     """
     Handles a billing inquiry.
     1. Uses an LLM to extract the specific concern about the invoice from the original query.
@@ -634,11 +625,8 @@ async def handle_billing_worker(invoice_number, original_user_query):
         invoice_number=invoice_number,
         original_user_query=original_user_query
     )
-    response = await aclient.chat.completions.create(
-        model="gpt-4.1-mini",
-        messages=[{"role": "user", "content": extraction_prompt}]
-    )
-    extracted_concern = response.choices[0].message.content.strip()
+    response = model.generate_content(extraction_prompt)
+    extracted_concern = response.text.strip()
 
     # Simulate backend action: opening an investigation
     print(f"  [Billing Worker] Action: Investigating invoice {invoice_number} for concern: '{extracted_concern}'")
@@ -657,7 +645,7 @@ async def handle_billing_worker(invoice_number, original_user_query):
 
 ```python
 # Worker for Product Return
-async def handle_return_worker(product_name, reason_for_return):
+def handle_return_worker(product_name, reason_for_return):
     """
     Handles a product return request.
     1. Simulates generating an RMA number and providing return instructions.
@@ -684,7 +672,7 @@ async def handle_return_worker(product_name, reason_for_return):
 
 ```python
 # Worker for Status Update
-async def handle_status_worker(order_id):
+def handle_status_worker(order_id):
     """
     Handles an order status update request.
     1. Simulates fetching order status from a backend system.
@@ -729,7 +717,7 @@ Combine these points into one cohesive response. Start with a friendly greeting 
 Ensure the tone is helpful and professional.
 """.strip()
 
-async def synthesizer(results):
+def synthesizer(results):
     """Combines structured results from workers into a single user-facing message."""
     bullet_points = []
     for res in results:
@@ -756,29 +744,19 @@ async def synthesizer(results):
 
     formatted_results = "\n\n".join(bullet_points)
     prompt = prompt_synthesizer.format(formatted_results=formatted_results)
-    response = await aclient.chat.completions.create(
-        model="gpt-4.1-mini",
-        messages=[{"role": "user", "content": prompt}]
-    )
-    return response.choices[0].message.content
+    response = model.generate_content(prompt)
+    return response.text
 ```
 
 
 ```python
-# Test with customer query
-complex_customer_query = """
-Hi, I'm writing to you because I have a question about invoice #INV-7890. It seems higher than I expected.
-Also, I would like to return the 'SuperWidget 5000' I bought because it's not compatible with my system.
-Finally, can you give me an update on my order #A-12345?
-""".strip()
-
-async def process_user_query(user_query):
+def process_user_query(user_query):
     """Processes a query using the Orchestrator-Worker-Synthesizer pattern."""
 
     print(f"User query:\n---\n{user_query}\n---")
 
     # 1. Run orchestrator
-    tasks_list = await orchestrator(user_query)
+    tasks_list = orchestrator(user_query)
     if not tasks_list:
         print("\nOrchestrator did not return any tasks. Exiting.")
         return
@@ -789,23 +767,21 @@ async def process_user_query(user_query):
     # 2. Run workers
     worker_results = []
     if tasks_list:
-        worker_coroutines = []
         print(f"\nDispatching {len(tasks_list)} workers...")
         for task in tasks_list:
             if task['query_type'] == 'BillingInquiry':
-                worker_coroutines.append(handle_billing_worker(task['invoice_number'], user_query))
+                worker_results.append(handle_billing_worker(task['invoice_number'], user_query))
             elif task['query_type'] == 'ProductReturn':
                 # Ensure reason_for_return is present, provide a default if not (though orchestrator should capture it)
                 reason = task.get('reason_for_return', 'Not specified by user')
-                worker_coroutines.append(handle_return_worker(task['product_name'], reason))
+                worker_results.append(handle_return_worker(task['product_name'], reason))
             elif task['query_type'] == 'StatusUpdate':
-                worker_coroutines.append(handle_status_worker(task['order_id']))
+                worker_results.append(handle_status_worker(task['order_id']))
             else:
                 print(f"Warning: Unknown query_type '{task.get('query_type')}' found in orchestrator tasks.")
 
-        if worker_coroutines:
-            print(f"Running {len(worker_coroutines)} workers concurrently...")
-            worker_results = await asyncio.gather(*worker_coroutines)
+        if worker_results:
+            print(f"Ran {len(worker_results)} workers sequentially.")
             print("\nWorkers finished their jobs. Results:")
             for i, res in enumerate(worker_results):
                 print(f"--- Worker Result {i+1} ---")
@@ -819,14 +795,24 @@ async def process_user_query(user_query):
     # 3. Run synthesizer
     if worker_results:
         print("\nSynthesizing final response...")
-        final_user_message = await synthesizer(worker_results)
+        final_user_message = synthesizer(worker_results)
         print("\n--- Final Synthesized Response ---")
         print(final_user_message)
         print("---------------------------------")
     else:
         print("\nSkipping synthesis because there were no worker results.")
+```
 
-await process_user_query(complex_customer_query)
+
+```python
+# Test with customer query
+complex_customer_query = """
+Hi, I'm writing to you because I have a question about invoice #INV-7890. It seems higher than I expected.
+Also, I would like to return the 'SuperWidget 5000' I bought because it's not compatible with my system.
+Finally, can you give me an update on my order #A-12345?
+""".strip()
+
+process_user_query(complex_customer_query)
 ```
 
 **Output:**
@@ -856,18 +842,18 @@ Deconstructed tasks from Orchestrator:
 ]
 
 Dispatching 3 workers...
-Running 3 workers concurrently...
-  [Return Worker] Action: Generated RMA RMA-63742 for SuperWidget 5000 (Reason: not compatible with my system)
-  [Status Worker] Action: Fetched status for order A-12345: Delayed
-  [Billing Worker] Action: Investigating invoice INV-7890 for concern: 'The invoice amount seems higher than expected.'
+  [Billing Worker] Action: Investigating invoice INV-7890 for concern: 'It seems higher than I expected.'
+  [Return Worker] Action: Generated RMA RMA-35638 for SuperWidget 5000 (Reason: not compatible with my system)
+  [Status Worker] Action: Fetched status for order A-12345: Shipped
+Ran 3 workers sequentially.
 
 Workers finished their jobs. Results:
 --- Worker Result 1 ---
 {
   "task": "Billing Inquiry",
   "invoice_number": "INV-7890",
-  "user_concern": "The invoice amount seems higher than expected.",
-  "action_taken": "An investigation (Case ID: INV_CASE_1468) has been opened regarding your concern.",
+  "user_concern": "It seems higher than I expected.",
+  "action_taken": "An investigation (Case ID: INV_CASE_8006) has been opened regarding your concern.",
   "resolution_eta": "2 business days"
 }
 ----------------------
@@ -876,37 +862,45 @@ Workers finished their jobs. Results:
   "task": "Product Return",
   "product_name": "SuperWidget 5000",
   "reason_for_return": "not compatible with my system",
-  "rma_number": "RMA-63742",
-  "shipping_instructions": "Please pack the 'SuperWidget 5000' securely in its original packaging if possible. Include all accessories and manuals. Write the RMA number (RMA-63742) clearly on the outside of the package. Ship to: Returns Department, 123 Automation Lane, Tech City, TC 98765."
+  "rma_number": "RMA-35638",
+  "shipping_instructions": "Please pack the 'SuperWidget 5000' securely in its original packaging if possible. Include all accessories and manuals. Write the RMA number (RMA-35638) clearly on the outside of the package. Ship to: Returns Department, 123 Automation Lane, Tech City, TC 98765."
 }
 ----------------------
 --- Worker Result 3 ---
 {
   "task": "Status Update",
   "order_id": "A-12345",
-  "current_status": "Delayed",
-  "carrier": "Standard Post",
-  "tracking_number": "SP40802",
-  "expected_delivery": "Expected in 2-3 additional days"
+  "current_status": "Shipped",
+  "carrier": "SuperFast Shipping",
+  "tracking_number": "SF182305",
+  "expected_delivery": "Tomorrow"
 }
 ----------------------
 
 Synthesizing final response...
 
 --- Final Synthesized Response ---
-Hi there,
+Dear Customer,
 
-Thank you for reaching out to us. I wanted to provide you with an update regarding your recent queries.
+We're writing to provide you with a consolidated update regarding your recent inquiries. We aim to keep you well-informed every step of the way!
 
-Concerning your billing inquiry about Invoice Number INV-7890, we understand that the amount appeared higher than expected. To address this, we have opened an investigation under Case ID INV_CASE_1468. Our team is actively looking into this and will get back to you within the next 2 business days with a resolution.
+Here's the latest information:
 
-Regarding your order status for Order ID A-12345, please note that the shipment with Standard Post is currently delayed. The tracking number SP40802 indicates that delivery is now expected within the next 2 to 3 days. We appreciate your patience as we work to get your order to you as promptly as possible.
+**Regarding Your Billing Inquiry (Invoice INV-7890):**
+We understand your concern that the amount on invoice INV-7890 seemed higher than you expected. Please rest assured that we're looking into this for you. We've opened an investigation (Case ID: INV_CASE_8006) to thoroughly review your billing. Our team will get back to you with an update within 2 business days.
 
-If you have any further questions or need assistance, please don’t hesitate to reach out.
+**Regarding Your Order Status Update (Order A-12345):**
+Great news! Your order A-12345 has officially shipped.
+*   **Current Status:** Shipped
+*   **Carrier:** SuperFast Shipping
+*   **Tracking Number:** SF182305
+*   **Delivery Estimate:** You can expect your delivery as early as tomorrow!
 
-Best regards,  
-[Your Name]  
-Customer Support Team
+We hope this information is helpful. Please don't hesitate to reach out if you have any further questions or need additional assistance.
+
+Best regards,
+
+Your Support Team
 ---------------------------------
 ```
 </notebook-code>
