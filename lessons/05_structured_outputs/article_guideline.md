@@ -70,7 +70,7 @@ Links to code that will be used to support the article. Always prioritize this c
 
 - [Gemini API Structured Output](https://ai.google.dev/gemini-api/docs/structured-output)
 - [Structured Outputs with Pydantic & OpenAI Function Calling](https://www.youtube.com/watch?v=NGEZsqEUpC0)
-- [A Practical Guide on Structuring LLM Outputs with Pydantic](https://developer-service.blog/a-practical-guide-on-structuring-llm-outputs-with-pydantic/)
+- [Structured Outputs with OpenAI](https://platform.openai.com/docs/guides/structured-outputs)
 - [Steering Large Language Models with Pydantic](https://pydantic.dev/articles/llm-intro)
 - [How to return structured data from a model](https://python.langchain.com/docs/how_to/structured_output/)
 
