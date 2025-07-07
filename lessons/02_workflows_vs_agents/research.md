@@ -1,426 +1,887 @@
-# Research based on provided article guidelines
+# Research
 
 ## Research Results
 
----
-
 <details>
-<summary>What are the key differences between LLM workflows and agentic systems in recent AI architecture literature and technical documentation?</summary>
+<summary>What recent industry or academic studies compare the operational cost, latency, and reliability of LLM agentic systems versus fixed-step LLM workflows?</summary>
 
-### Source: https://www.anthropic.com/research/building-effective-agents
-Workflows are described as systems where LLMs and tools are orchestrated through predefined code paths. In these, tasks are decomposed into a sequence of steps—often using prompt chaining—where each LLM call processes the output of the previous step, potentially with programmatic checks to validate intermediate results. This approach is well-suited for tasks that can be broken into fixed subtasks and where predictability and control are desired.
+### Source [2]: https://www.lyzr.ai/blog/agentic-ai-vs-llm/
 
-Agentic systems, by contrast, build on augmented LLMs but move beyond fixed workflows. They grant the LLM autonomy to generate its own search queries, select tools, determine what information to retain, and make decisions about how to proceed with tasks. Instead of following a rigid, step-by-step process, agentic systems can adaptively plan and execute actions based on context, user input, and dynamic requirements. This results in higher flexibility and the possibility for emergent behavior, as the agent can optimize its actions in real time rather than follow a static script.
+Query: What recent industry or academic studies compare the operational cost, latency, and reliability of LLM agentic systems versus fixed-step LLM workflows?
 
-</details>
+Answer: This recent industry comparison provides **quantitative data** for operational cost, latency, and reliability:
 
----
+- **Latency:**  
+  - LLM runners (fixed-step): Single call latency is low (300 ms–2 seconds).
+  - Agentic AI: Each reasoning loop takes 3–10 seconds; total workflow can take minutes if steps chain.
 
-<details>
-<summary>How do leading AI companies (Anthropic, OpenAI, Google, etc.) define and implement agentic systems versus LLM workflows in their products and research as of 2025?</summary>
+- **Cost per Execution:**  
+  - LLM runners: $0.001–$0.02 per call (using APIs like OpenAI, Claude, Gemini Pro).
+  - Agentic AI: $0.10–$5 per workflow, depending on memory, tool calls, and steps. Example: Drafting an email with GPT-4 costs $0.01; a sales outreach agent involving personalized CRM search and scheduling can cost $0.50–$1.20.
 
-### Source: https://www.fanktank.ch/en/blog/choosing-ai-models-openai-anthropic-google-2025
-In 2025, Anthropic, OpenAI, and Google have each advanced their approaches to integrating agentic systems and LLM (large language model) workflows. Anthropic’s release of Claude 4 introduced significant improvements in reasoning and multi-step task execution. Claude 4 is described as more “agentic,” not just generating text but engaging in planning, taking actions, and interacting autonomously with tools and APIs. This agentic capability is distinguished from traditional LLM workflows, where the model primarily responds to prompts in a single, stateless exchange. OpenAI’s latest GPT models have also become more agentic, offering features for multi-step, autonomous task completion and integration with external applications. Google’s Gemini similarly emphasizes agentic features, enabling autonomous workflows and deep integration with business logic, APIs, and productivity tools. In summary, all three companies define agentic systems as AI that can plan, act, and interact autonomously with software and data, while LLM workflows are more focused on generating text or answers in response to direct prompts without persistent context or goal-driven behavior.
+- **Infrastructure Burden:**  
+  - LLM runners: Do not require persistent storage or state management.
+  - Agentic AI: Needs memory storage (e.g., Redis, vector DBs), tool integrations, and additional debugging layers.
+
+- **Reliability:**  
+  - Fixed-step LLM runners are easy to debug (retry the prompt).
+  - Agentic AI systems are more prone to failure due to tool misuse, memory corruption, planning errors, or looping. Failure rates for open-ended agent goals (e.g., AutoGPT) can be 20–40%, while structured frameworks (LangGraph, CrewAI) improve reliability through guardrails.
+
+Overall, fixed-step LLM workflows are more reliable, lower latency, and lower cost, while agentic systems offer flexibility but at a higher operational cost and complexity.
 
 -----
 
-### Source: https://www.zdnet.com/article/google-joins-openai-in-adopting-anthropics-protocol-for-connecting-ai-agents-why-it-matters/
-In April 2025, Google joined OpenAI in adopting Anthropic’s Model Context Protocol (MCP). MCP is an open-source protocol designed to improve AI agent interoperability and access to data. It enables AI agents—defined here as assistants capable of executing a range of tasks, autonomously or semi-autonomously—to connect to data stores, developer spaces, and business applications. The protocol streamlines integration, allowing agents to access information from sources like Google Drive, GitHub, and Slack without custom connectors for each system. This approach contrasts with classic LLM workflows, which generally require manual data preparation or integration for each use case. By supporting MCP, Google, OpenAI, and Anthropic highlight a shift toward standardized, agentic systems that can autonomously access and utilize external resources, while traditional LLM workflows remain more constrained to single-session, prompt-response interactions.
+-----
 
 -----
 
-</details>
+### Source [4]: https://arxiv.org/html/2507.02097v1
 
----
+Query: What recent industry or academic studies compare the operational cost, latency, and reliability of LLM agentic systems versus fixed-step LLM workflows?
 
-<details>
-<summary>What are the current state-of-the-art AI agents (e.g., Deep Research agents, Devin, Codex) and their common operational mechanisms such as planning, tool use, and memory?</summary>
+Answer: This academic source establishes clear **definitions and boundaries** between agentic systems and fixed-step LLM workflows. It notes that fixed-step, chain-based workflows—even when chaining LLM calls—do not demonstrate agent autonomy; true agentic systems operate via internal observe-decide-act loops, iteratively refining outputs and adapting to context. Agentic systems can personalize and improve results through feedback and iterative interaction, which is not possible with static, single-pass LLM workflows.
 
-### Source: https://cognition.ai/blog/introducing-devin
-Devin distinguishes itself through a range of autonomous capabilities:
-- It can learn to use unfamiliar technologies, adapt to new tools, and build and deploy applications end-to-end.
-- Devin autonomously finds and fixes bugs, as demonstrated in benchmarks where it sets up environments, reproduces issues, codes, tests fixes, and compiles reports without external guidance.
-- In the SWE-bench benchmark, Devin correctly resolved 13.86% of real-world GitHub issues end-to-end, significantly outperforming prior state-of-the-art models, which managed 1.96% (unassisted) and 4.80% (with file-level hints).
-- Devin’s operation is unassisted, handling context gathering and setup from minimal initial input (such as just a GitHub link), demonstrating advanced planning, tool use (environment setup, testing tools), and memory (maintaining context over multi-step tasks).
-
------
-
-### Source: https://en.wikipedia.org/wiki/Devin_AI
-Devin AI, developed by Cognition Labs, is an autonomous AI assistant specialized in software engineering:
-- It performs tasks such as coding, debugging, planning, and problem-solving through advanced machine learning techniques.
-- The user initiates tasks via natural language prompts; Devin responds by presenting its plan, executing code, and adjusting its actions based on user feedback or newly identified issues.
-- During execution, Devin searches online resources to learn or resolve uncertainties, demonstrating tool use and adaptive learning.
-- Devin can create websites and complete complex projects rapidly, such as building websites or compiling computer vision models.
-- Benchmarks show Devin fixes 13.86% of real-world issues without human help, outperforming prior models.
-- Later versions introduced multi-agent operations, where Devin can delegate tasks to other AI agents, and self-assessment capabilities, prompting clarification from users when uncertain.
-- In 2025, Devin introduced features like Devin Wiki (automated documentation) and Devin Search (codebase QA), enhancing its operational memory and knowledge retrieval abilities.
+The source visually compares these approaches, emphasizing that agentic systems support more dynamic problem-solving but at the cost of increased system complexity and the need for memory and planning infrastructure. While not providing direct operational cost or latency metrics, it affirms that agentic workflows require more robust design and monitoring compared to simpler, fixed-step LLM orchestrations.
 
 -----
 
 </details>
 
----
-
 <details>
-<summary>What are the major design and orchestration challenges faced when building agentic systems compared to LLM workflows, especially regarding reliability, scalability, and cost?</summary>
+<summary>What official engineering write-ups or documentation describe the architecture and execution loop of Google’s Gemini CLI agent released in 2025?</summary>
 
-### Source: https://sam-solutions.com/blog/llm-agent-architecture/
-Agentic LLM systems introduce a range of design and orchestration challenges, particularly in reliability, scalability, and cost, compared to traditional LLM workflows. Unlike a single LLM query, which typically involves a single model call and takes only a few seconds, agentic systems are resource-intensive: an autonomous agent may perform dozens of model calls and tool invocations to accomplish a complex task. This significantly impacts scalability, as the infrastructure must handle many concurrent and often interdependent operations.
+### Source [9]: https://www.helpnetsecurity.com/2025/06/26/google-gemini-cli-open-source-ai-agents/
 
-The agentic architecture involves not only the LLM backbone but also additional components that enable the system to plan, act, observe, and reflect. The orchestration layer manages the workflow, sequencing actions and handling feedback loops, which adds further complexity. These multi-stage cycles inherently increase the chances of failures, require robust monitoring, and demand careful management to maintain reliability.
+Query: What official engineering write-ups or documentation describe the architecture and execution loop of Google’s Gemini CLI agent released in 2025?
 
-Moreover, as agentic systems continuously interact with various tools and data sources, orchestration must account for error handling, state management, and recovery from partial failures, which are less prominent in simple LLM workflows. The increased number of operations and integration points also amplifies operational costs and complicates cost management, since each action—whether a model call or a tool invocation—incurs additional computational expense.
+Answer: Google’s Gemini CLI is an open-source command-line agent built upon the Gemini 1.5 Pro model and is designed to serve as a local AI assistant for complex developer workflows. Its architecture is explicitly described as “agentic,” emphasizing openness, composability, and developer control. The agent comes with several built-in modules, including a code reader, command runner, and memory module, each of which can be extended through Multimodal Composable Functions (MCPs)—a Python-based interface for adding custom behaviors and integrations. The core execution loop of Gemini CLI centers around chains of reasoning, tool invocation, and context management, allowing developers to interact with the agent using natural language for tasks such as project analysis and automated file editing. The entire codebase is available under the Apache 2.0 license, and Google’s official announcement highlights that the open-source nature allows developers to inspect the implementation details, understand the execution flow, and verify security implications. The Gemini 1.5 Pro model enables the agent to handle large context windows (up to 1 million tokens), supporting in-depth codebase analysis and multi-step operations, all orchestrated through a transparent and extensible architecture[1].
 
-In summary, agentic systems face major challenges in:
-- Scaling efficiently due to high resource demands
-- Ensuring reliability across multiple interdependent components and steps
-- Managing escalating costs from frequent model calls and tool interactions
+-----
 
-These challenges are far less pronounced in single-step LLM workflows, which are simpler to orchestrate, scale, and maintain from a cost perspective.
+-----
+
+### Source [10]: https://www.infoq.com/news/2025/07/google-gemini-cli/
+
+Query: What official engineering write-ups or documentation describe the architecture and execution loop of Google’s Gemini CLI agent released in 2025?
+
+Answer: The official documentation and engineering write-ups for Gemini CLI describe it as a lightweight, open-source terminal agent deeply integrated with Gemini Code Assist. The architecture supports the Gemini 2.5 Pro model, features a 1 million token context window, and allows prompt grounding using Google Search for real-time web context. Gemini CLI implements the Model Context Protocol (MCP), which governs how the agent manages context, tool invocation, and custom system prompts (configurable via a GEMINI.md file). The execution loop accommodates both interactive and non-interactive (scripting/CI/CD) modes, enabling developers to automate tasks with AI directly from the terminal. The design also supports authentication via a Google account or API keys for advanced use. The open-source nature (Apache 2.0 license) ensures that all execution logic, context management, and extension points (such as MCP modules) are available for public inspection and modification, as detailed in Google’s official engineering documentation[3].
+
+-----
+
+-----
+
+### Source [11]: https://blog.google/technology/developers/introducing-gemini-cli-open-source-ai-agent/
+
+Query: What official engineering write-ups or documentation describe the architecture and execution loop of Google’s Gemini CLI agent released in 2025?
+
+Answer: Google’s official announcement blog for Gemini CLI outlines its architecture and execution model as centered on powerful built-in tools that enable code understanding, file manipulation, command execution, and dynamic troubleshooting from the command line. A key architectural feature is the agent’s ability to “ground prompts with Google Search,” which fetches real-time web context for more accurate and current responses. The CLI is designed to be extended through the Model Context Protocol (MCP), which provides a standardized way to add new tools or augment the agent’s capabilities. The execution loop operates by receiving user input, managing context, invoking appropriate tools or functions, and returning results directly in the terminal. The official documentation emphasizes openness, extensibility, and integration with both local and external resources, ensuring developers have deep control and transparency over the agent’s workflow and execution logic[5].
+-----
 
 -----
 
 </details>
 
----
-
 <details>
-<summary>What architectural patterns and best practices are recommended for engineers choosing between LLM workflows and more autonomous agentic systems in AI product development?</summary>
+<summary>Which peer-reviewed papers or reputable blog posts catalogue common AI-agent design patterns—planning, tool invocation, memory, and multi-agent coordination—such as ReAct, Toolformer, and LangGraph?</summary>
 
-### Source: https://guides.library.cmu.edu/LLM_best_practices
-This resource from Carnegie Mellon University highlights best practices for integrating AI tools, including large language models (LLMs), into academic and professional workflows. Key recommendations for engineers building LLM workflows or agentic systems include:
+### Source [12]: https://research.aimultiple.com/agentic-ai-design-patterns/
 
-- Assessing the specific needs of the workflow to determine whether a simple LLM pipeline or a more autonomous agentic system is appropriate.
-- Ensuring modularity in workflow design to facilitate updates, maintenance, and scalability.
-- Emphasizing data quality and transparency, as LLMs and agentic systems depend on robust, well-curated datasets for reliable outcomes.
-- Incorporating strong monitoring and human-in-the-loop review systems to ensure results remain accurate, especially as models evolve.
-- Applying ethical guidelines and bias mitigation strategies throughout the development and deployment process.
-- Maintaining clear documentation of AI workflows, including decision points, model selection, and evaluation metrics.
+Query: Which peer-reviewed papers or reputable blog posts catalogue common AI-agent design patterns—planning, tool invocation, memory, and multi-agent coordination—such as ReAct, Toolformer, and LangGraph?
 
-These practices help teams balance efficiency, scalability, and accountability when choosing and architecting between LLM workflows and more autonomous agentic systems.
+Answer: This source catalogs **four main agentic AI design patterns** that enhance the autonomy and flexibility of large language model (LLM) agents:
 
------
-
-### Source: https://www.maxiomtech.com/large-language-model-architecture/
-This guide outlines technical best practices and architectural patterns for LLM-based systems:
-
-- **Modular Design:** Architect systems with modular components to allow easier scaling, maintenance, and replacement of individual parts.
-- **Asynchronous Processing:** Use asynchronous data processing to improve throughput and efficiency, especially for high-volume or latency-sensitive tasks.
-- **Data Pipeline Optimization:** Streamline data pipelines to reduce latency and improve data flow, which is essential for real-time or near-real-time LLM applications.
-- **Dynamic Resource Allocation:** Employ strategies that allocate computing resources based on demand, helping optimize costs and performance.
-- **Continuous Integration/Continuous Deployment (CI/CD):** Integrate CI/CD practices to support regular, reliable updates and rapid iteration.
-
-For LLM workflows, the guide recommends leveraging robust ML frameworks (such as TensorFlow or PyTorch), pre-trained model libraries (like Hugging Face Transformers), and cloud platforms (AWS SageMaker, Google Cloud AI Platform) to ensure flexibility, scalability, and speed from development to production.
+- **Planning Pattern:** Enables LLMs to break down large tasks into subtasks and organize them into a logical sequence. Agents may plan actions linearly or in parallel branches for more complex scenarios. A highlighted example is **HuggingGPT**, which coordinates LLMs with models from platforms like Hugging Face to tackle multifaceted AI tasks.
+- **Multi-Agent Pattern:** Focuses on **task delegation** by assigning different responsibilities to multiple agents. This pattern uses Agent-to-Agent (A2A) protocols to govern communication and information flow between agents. Notable implementations include **Google’s A2A protocol** and frameworks such as AutoGen, LangChain, ChatDev, and OpenAI Swarm.
+- The article also references **tool invocation** and **memory** as part of agentic systems, though the detailed descriptions focus more on planning and multi-agent coordination.
+- It provides real-world examples and links to open-source agentic AI builders and frameworks, giving readers a practical overview of how these patterns are deployed in current AI systems.
 
 -----
 
-### Source: https://www.zenml.io/blog/llm-agents-in-production-architectures-challenges-and-best-practices
-This article delves into production-grade architectures for LLM agents, discussing the key differences and best practices for LLM workflows versus agentic systems:
-
-- **LLM Workflows:** Typically involve sequential or modular pipelines where LLMs perform specific, well-defined tasks. Best practices include clear separation of workflow components, robust error handling, and continuous monitoring to ensure reliability and scalability.
-- **Agentic Systems:** Require more autonomy, involving multi-step reasoning, state management, and sometimes multi-agent orchestration. Best practices here include:
-  - Designing for explicit memory and state tracking to handle complex, multi-turn tasks.
-  - Building modular, composable architectures to allow agents to interact flexibly with tools, APIs, and other models.
-  - Implementing centralized observability for debugging and monitoring agent behavior.
-  - Prioritizing security and access control, since agentic systems may interact autonomously with sensitive systems or data.
-
-The article emphasizes the importance of modularity, observability, robust error handling, and continuous evaluation in both paradigms but notes that agentic systems require additional safeguards and architectural flexibility to manage their higher autonomy.
+-----
 
 -----
 
-### Source: https://www.crossml.com/llm-orchestration-in-the-real-world/
-This resource addresses best practices for orchestrating LLM workflows and agentic systems in real-world production environments:
+### Source [13]: https://hub.athina.ai/top-10-ai-agent-papers-from-january-2025-shaping-their-future/
 
-- **Modular Pipeline Architecture:** Designing workflows as modular pipelines allows for scalability, easier maintenance, and clearer separation of concerns.
-- **Custom Embeddings:** For domain-specific tasks, generating custom embeddings improves the relevance and precision of LLM outputs.
-- **Robust Error Handling:** Implement robust error handling to deal with the inherent unpredictability of LLM outputs and external API integrations.
-- **Resource Optimization:** Dynamically manage and optimize compute resources to maintain performance and control costs, especially in multi-model or agentic environments.
-- **Continuous Monitoring:** Deploy monitoring tools to track model performance, detect errors, and trigger human intervention as needed.
-- **Separation of Workflow Components:** Clearly separate different components (e.g., prompt management, response aggregation, tool calls) for transparency and maintainability.
-- **Multi-Agent Systems:** For agentic architectures, use multi-agent systems, continuous feedback loops, and context maintenance to ensure agents can collaborate and maintain coherence over complex tasks.
+Query: Which peer-reviewed papers or reputable blog posts catalogue common AI-agent design patterns—planning, tool invocation, memory, and multi-agent coordination—such as ReAct, Toolformer, and LangGraph?
 
-The source highlights that orchestration is crucial for combining multiple AI components, maintaining context, and delivering consistent, reliable results in production, particularly for agentic systems and advanced LLM applications.
+Answer: This article summarizes recent peer-reviewed papers that contribute to cataloging AI-agent design patterns:
+
+- It describes the **“agent infrastructure”** concept, which provides technical systems and shared protocols for mediating agent interactions, such as authentication-based user-agent ties and regulatory frameworks, ensuring safe, accountable, and structured integration of AI agents.
+- The listed paper, **“Agentic Systems: A Guide to Transforming Industries with Vertical AI Agents,”** introduces a **standardization framework** for designing vertical (domain-specific) AI agents. It highlights a **Cognitive Skills** module aimed at enhancing domain-specific reasoning and inference, and details operational patterns and real-world agent deployments.
+- The coverage underlines the importance of **standardized design patterns** for scalability, adaptability, and consistency, directly addressing the need for cataloging agentic system approaches such as planning, tool use, and multi-agent workflows.
+
+-----
+
+-----
+
+-----
+
+### Source [15]: https://www.deeplearning.ai/the-batch/agentic-design-patterns-part-2-reflection/
+
+Query: Which peer-reviewed papers or reputable blog posts catalogue common AI-agent design patterns—planning, tool invocation, memory, and multi-agent coordination—such as ReAct, Toolformer, and LangGraph?
+
+Answer: This DeepLearning.AI newsletter entry discusses four core **agentic design patterns** central to recent progress:
+
+- The four patterns are **Reflection, Tool Use, Planning, and Multi-Agent Collaboration**.
+- The **Reflection pattern** involves having the LLM **generate output, then prompt itself to critically evaluate and improve that output**, automating iterative improvement. This can yield significant performance gains across tasks like code generation or writing.
+- The newsletter outlines how **agentic workflows** prompt LLMs multiple times, building up to higher-quality results step by step, rather than relying on a single-shot generation.
+- The other listed patterns—**Tool Use** (invoking external tools/APIs), **Planning** (decomposing tasks), and **Multi-Agent Collaboration**—are said to be drivers of current and future progress in agentic AI design, though detailed descriptions are reserved for other installments.
+
+-----
+
+-----
+
+-----
+
+### Source [16]: https://www.anthropic.com/research/building-effective-agents
+
+Query: Which peer-reviewed papers or reputable blog posts catalogue common AI-agent design patterns—planning, tool invocation, memory, and multi-agent coordination—such as ReAct, Toolformer, and LangGraph?
+
+Answer: This official Anthropic research page discusses **common patterns for agentic systems** seen in production deployments:
+
+- The section references **foundational building blocks and workflows** used to construct effective AI agents, focusing on scalable and maintainable design.
+- While the excerpt does not provide the full list, Anthropic’s public research typically covers patterns such as **planning**, **tool use (invocation of external APIs or functions)**, **memory (storing and retrieving context or task history)**, and **multi-agent coordination** (delegating tasks among agent submodules or multiple models).
+- Anthropic’s approach is grounded in extensive empirical experience, providing guidelines and pattern cataloging that are widely referenced in the field.
+- The research emphasizes using proven design choices to build robust agentic systems, directly addressing the themes of planning, tool invocation, and coordination.
+
+-----
 
 -----
 
 </details>
 
----
-
 <details>
-<summary>Which open-source or commercial frameworks (as of 2025) are most used for orchestrating LLM workflows versus agentic systems, and what distinguishing features do they offer for each?</summary>
+<summary>How does Cognition AI’s 2025 “Devin” autonomous software-engineering agent plan tasks, invoke tools, run tests, and iterate during a typical coding assignment?</summary>
 
-### Source: https://research.aimultiple.com/llm-orchestration/
-AIMultiple provides a comprehensive comparison of the top LLM orchestration frameworks as of 2025, highlighting both open-source and commercial solutions. The most widely used frameworks include:
+### Source [23]: https://research.contrary.com/company/cognition
 
-- **LangChain** (83.8k GitHub stars): Best suited for complex AI workflows, supporting both Python and JavaScript. LangChain is renowned for its modular approach to building LLM-driven applications, allowing for seamless integration, prompt chaining, and workflow management.
-- **AutoGen** (38.7k): Focused on multi-agent coordination in Python, making it ideal for agentic systems that require orchestrating multiple autonomous LLM agents to collaborate or compete on tasks.
-- **LlamaIndex** (31.2k): Specializes in data integration, supporting both Python and TypeScript. It is particularly effective when connecting LLMs to custom or proprietary data sources, enabling retrieval-augmented generation.
-- **crewAI** (25.9k): Designed for role-based agent orchestration in Python, making it a preferred choice for agentic systems where LLM agents assume specialized roles within a workflow.
-- **Semantic Kernel by Microsoft** (22.9k): Supports C# and Python, optimized for Azure environments and enterprise-grade orchestration, emphasizing security and scalability.
-- **Haystack by Deepset AI** (19k): Focused on building custom NLP pipelines in Python, with a strong emphasis on retrieval, document processing, and integrations for search and question answering.
-- **TaskWeaver, Agency Swarm, Microchain, Loft, and IBM watsonx orchestrate**: These frameworks offer specialized features such as agent-based task automation, AI agent networks, lightweight microservices, no-code/low-code automation, and enterprise-level orchestration.
+Query: How does Cognition AI’s 2025 “Devin” autonomous software-engineering agent plan tasks, invoke tools, run tests, and iterate during a typical coding assignment?
 
-Notably, LangChain and LlamaIndex are most popular for general LLM workflow orchestration, while AutoGen, crewAI, and Agency Swarm are distinguished for agentic, multi-agent systems. Commercial solutions like IBM watsonx orchestrate cater to enterprise use cases, focusing on integration, compliance, and scalability.
+Answer: Devin operates as an AI coding agent capable of autonomously completing software engineering tasks end-to-end within a sandboxed environment. It is equipped with its own Linux shell, code editor, browser, and other standard developer tools, all accessible in a cloud-based workspace. When assigned a task, Devin follows these steps:
 
------
+- **Formulates a step-by-step plan** for the assignment.
+- **Executes code, runs tests, debugs, and updates its plan** as necessary.
+- **Streams updates and accepts user corrections** to maintain an interactive feedback loop.
+- Handles a variety of software development lifecycle tasks, such as building full-stack applications, bug fixing, integrating new libraries, and training/fine-tuning machine learning models.
+- **Retains context over thousands of steps** and makes numerous micro-decisions toward achieving its assigned goal.
+- When errors or failed tests occur, Devin searches documentation or forums and uses a built-in self-reflection loop to **adjust its strategy and retry**.
+- Supports voice command input and provides enhanced repository context for large codebases.
+- Integrates with platforms like GitHub and is available as a web app, Slack bot, or VS Code extension.
 
-### Source: https://labelyourdata.com/articles/llm-orchestration
-Label Your Data explains the technical aspects and strategy behind LLM orchestration frameworks. Key features associated with these frameworks include:
-
-- **Workflow Automation**: Orchestration frameworks manage the handoff and sequencing between different LLMs or AI components, automating complex tasks such as data extraction, summarization, and reasoning.
-- **Prompt Chaining**: Allows passing context and intermediate outputs between models, which is vital for building multi-step AI workflows.
-- **API Integration**: Facilitates connecting LLMs to external data sources, tools, or APIs, ensuring smooth data flow and real-time responsiveness.
-- **Monitoring and Adjustment**: Provides dashboards and logs for real-time performance tracking, enabling dynamic prompt tuning and model replacement.
-- **Use Case Example**: In a chatbot setting, a smaller LLM might handle routine queries, while a more advanced model tackles complex reasoning tasks. The orchestrator manages which model is used for each query, ensuring efficiency and quality.
-
-These frameworks are essential for streamlining AI development, particularly as applications increasingly require both traditional workflow automation and agentic, multi-agent coordination.
+Devin’s architecture is based on large language models (e.g., GPT-4 Turbo) combined with custom planning algorithms, long-term memory, and adaptive reasoning capabilities.
 
 -----
-
-### Source: https://www.upsilonit.com/blog/top-ai-frameworks-and-llm-libraries
-UpsilonIT's review of top AI frameworks and LLM libraries in 2025 highlights three major players:
-
-- **LlamaIndex**: Noted for its strength in data integration and retrieval-augmented generation, LlamaIndex is commonly used to connect LLMs with structured or unstructured data sources, making it a go-to framework for applications that require dynamic, data-driven responses.
-- **LangChain**: Recognized for its ability to construct complex, modular LLM workflows, LangChain is frequently employed for prompt chaining, workflow automation, and integrating LLMs with external APIs or data stores.
-- **Haystack**: Focused on building custom NLP pipelines, Haystack is particularly strong in search, document processing, and question answering, supporting both traditional LLM workflows and more sophisticated retrieval-augmented agentic systems.
-
-These frameworks distinguish themselves by offering robust tools for chaining, orchestration, and extensibility, catering to both conventional LLM workflow orchestration and modern agentic system design.
-
-</details>
-
----
-
-<details>
-<summary>How do state-of-the-art agentic systems (e.g., Deep Research agents, computer control agents like Operator) address the compounding error, consistency, and security challenges unique to multi-step, autonomous operation?</summary>
-
-### Source: https://openai.com/index/introducing-deep-research/
-OpenAI’s Deep Research agent is designed to autonomously synthesize large amounts of online information and complete multi-step research tasks. It utilizes a specialized version of the OpenAI o3 model, which is optimized for reasoning and web browsing. The agent’s architecture is tailored to handle complex, multi-stage tasks by continuously gathering and analyzing new information as it proceeds, helping to mitigate compounding errors by verifying and updating its understanding throughout the process. Deep Research also documents its research process, provides explicit citations, and details its thought process, which enhances consistency and transparency in its outputs. The model’s training includes real-world tasks that require not just browsing but also reasoning and data analysis, aiding in robust autonomous operation over extended task sequences.
-
------
-
-### Source: https://aisecuritychronicles.org/a-comparison-of-deep-research-ai-agents-52492ee47ca7
-Deep Research agents, such as those from OpenAI and Google’s Gemini, perform multi-step reasoning by autonomously formulating search queries, browsing content, analyzing data, and synthesizing findings into structured reports with citations. There are two main architectural approaches:
-
-- Fully Autonomous Agents: These agents operate end-to-end without human intervention, making decisions about research direction and information verification on their own. This autonomy requires robust internal mechanisms for error correction and consistency checking, as there is no external oversight during operation.
-- Human-in-the-Loop (HITL) Agents: These agents periodically pause their workflow for human review, particularly after planning or outlining research. This plan review stage acts as a quality control checkpoint, allowing users to catch and correct potential errors early, improving output reliability and consistency.
-
-The choice of approach impacts how agents address compounding errors and consistency challenges. Fully autonomous agents rely on their internal verification and reasoning capabilities, while HITL agents benefit from human oversight to catch and prevent errors during multi-step operations.
 
 -----
 
 </details>
 
----
-
 <details>
-<summary>What are the detailed differences in memory management, context retention, and feedback loops between advanced agentic systems (e.g., Deep Research, Devin) and traditional LLM workflows?</summary>
+<summary>What recent technical studies examine the predominant failure modes, reliability gaps, and cascading-error risks in multi-step LLM agents versus fixed-step LLM workflows?</summary>
 
-### Source: https://markovate.com/blog/agentic-ai-architecture/
-Agentic AI architecture, as described here, is organized into five interconnected layers that collectively enable advanced memory management, context retention, and feedback loops:
+### Source [27]: https://langfuse.com/blog/2024-10-observability-in-multi-step-llm-systems
 
-- The **Data Storage & Retrieval Layer** is specifically designed for efficient data management. It employs centralized and distributed repositories, vector stores for rapid retrieval, and knowledge graphs for contextual reasoning. This marks a significant advancement over traditional LLM workflows, which generally rely on limited context windows and ephemeral memory for each prompt.
+Query: What recent technical studies examine the predominant failure modes, reliability gaps, and cascading-error risks in multi-step LLM agents versus fixed-step LLM workflows?
 
-- In terms of **context retention**, agentic systems utilize knowledge graphs and vector stores to maintain both short- and long-term context, allowing them to reason across sessions and tasks. This enables more sophisticated context awareness compared to traditional LLMs, which often lack persistent memory between interactions.
-
-- **Feedback loops** in agentic systems are realized through the Agent Orchestration Layer, which coordinates multi-agent collaboration and supports self-evaluation, performance monitoring, and continuous improvement. Specialized agents handle planning and execution, while others focus on self-evaluation and incremental learning, creating a dynamic feedback mechanism for ongoing refinement.
-
-- The architecture also integrates safeguards for governance, safety, and iterative validation, ensuring both compliance and continuous improvement, features not typically found in traditional LLM workflows.
-
-Overall, agentic systems are structured for adaptive learning, dynamic decision-making, and continuous feedback, making them more autonomous and context-aware than standard LLM approaches.
+Answer: This source discusses the **failure modes and reliability gaps** in multi-step LLM systems by highlighting the complexity introduced when various components—such as routing, query extraction, document retrieval, summarization, and security checks—interact within an application. Each step introduces a potential **bottleneck**, and a failure or delay in any single step, such as query embedding, can **cascade**, increasing the latency and compounding errors throughout the system. The source emphasizes that the intricate nature of multi-step LLM workflows requires **continuous iteration and improvement**. As workloads evolve and features are added, developers need to routinely revisit and refine these systems. The source advocates for **monitoring and analysis**—advanced observability, feedback, and testing strategies are key to transforming these complex systems into robust, high-performing applications. This underscores the need to identify and mitigate individual step failures and cascading error risks that are far less pronounced in simpler, fixed-step workflows[1].
 
 -----
 
-### Source: https://hyperdev.substack.com/p/agentic-coding-emerging-tools
-Later versions of Devin introduced **multi-agent collaboration**, where Devin can spin up additional, specialized AI agents that work together on complex tasks. This architecture allows for distributed problem-solving and parallelization, which supports advanced forms of memory management and task-specific context retention. Each specialized agent can retain local context relevant to its function, while the orchestrating agent maintains an overview, coordinating state and knowledge across agents.
-
-Traditional LLM workflows, by contrast, are generally stateless between interactions—each prompt is treated in isolation, with limited or no memory of previous exchanges. The multi-agent approach in advanced agentic systems like Devin enables persistent context across tasks, better division of responsibilities, and more robust feedback loops, since agents can critique, monitor, and refine each other’s outputs in a coordinated fashion.
+-----
 
 -----
 
-### Source: https://www.youtube.com/watch?v=KfXq9s96tPU
-A deep dive into Devin’s architecture reveals several advanced mechanisms for memory management, context retention, and feedback:
+### Source [28]: https://arxiv.org/html/2503.13657v2
 
-- **Memory Management and Context Retention**: Devin employs techniques beyond basic Retrieval Augmented Generation (RAG). For each query, Devin performs preprocessing, advanced filtering, and re-ranking, including multi-hop search. This ensures the system retrieves highly relevant context, which can comprise both source files and documentation (e.g., wiki pages), combining micro and macro context for grounded, accurate outputs.
+Query: What recent technical studies examine the predominant failure modes, reliability gaps, and cascading-error risks in multi-step LLM agents versus fixed-step LLM workflows?
 
-- **Feedback Loops**: Post-training and reinforcement learning (RL) are leveraged to further optimize Devin for specific domains. The architecture allows for iterative refinement through self-evaluation and RL-based feedback, enabling the system to adapt and improve its performance over time, particularly in narrow domains.
-
-- **Comparison with Traditional LLMs**: Traditional LLM workflows typically use a fixed context window and stateless interactions, with RAG providing only limited contextual augmentation. In contrast, Devin’s architecture includes sophisticated context retrieval and dynamic adaptation, enabling more persistent and relevant memory across interactions.
+Answer: This recent technical study is the first systematic investigation into the **failure modes of LLM-based Multi-Agent Systems (MAS)**. By analyzing over 200 execution traces with Grounded Theory, the study identifies **14 unique failure modes** organized into three overarching categories: **(i) specification issues, (ii) inter-agent communication breakdowns, and (iii) execution errors**. The resulting Multi-Agent System Failure Taxonomy (MAST) forms a foundational framework for diagnosing and addressing failures in MAS. The study introduces an **automatic evaluation pipeline** (LLM Annotator), making scalable failure analysis possible. The findings highlight that, while MAS offers great potential, **widespread adoption is constrained by reliability issues**—these include failures arising from ambiguous task specifications, misaligned agent objectives, communication lapses among agents, and cascading errors where one agent’s mistake propagates throughout the system. The taxonomy and tools developed enable more systematic diagnosis and guide future research to mitigate these failures. The study also presents case studies and tactical interventions, concluding that only **limited reliability gains** are possible without addressing fundamental design flaws in multi-step and multi-agent LLM systems[2].
 
 -----
 
-### Source: https://www.deeplearning.ai/the-batch/agentic-design-patterns-part-5-multi-agent-collaboration/
-Multi-agent collaboration is described as a key agentic design pattern. In such systems, multiple specialized agents work together, each with their own state and memory pertaining to their specific tasks. The orchestrating mechanism coordinates these agents, facilitating information sharing and ongoing context retention across the group.
-
-This collaborative setup enables advanced feedback loops, where agents can critique, verify, and build upon each other’s results. In traditional LLM workflows, such persistent, multi-agent memory and internal feedback mechanisms are typically absent—each prompt is processed independently, and context is limited to the prompt’s content and immediate history.
-
-Agentic systems, by contrast, leverage these feedback and memory mechanisms to achieve higher reliability, adaptability, and performance in complex, real-world tasks.
-
-</details>
-
----
-
-<details>
-<summary>What are standard best practices for error mitigation and recovery in multi-step, autonomous agentic systems to prevent compounding errors?</summary>
-
-### Source: https://blog.kodezi.com/effective-error-mitigation-techniques-strategies-and-best-practices/
-Best practices for error mitigation in multi-step, autonomous agentic systems emphasize several core strategies:
-
-- **Detailed Documentation:** Comprehensive records of potential attack vectors and corresponding countermeasures are critical. This ensures teams understand and can respond to known and anticipated errors systematically.
-- **Real-Time System Monitoring:** Continuous monitoring allows for the rapid detection and correction of faults before they escalate, supporting proactive intervention rather than reactive fixes.
-- **Resilience via Microservices:** Building systems as collections of microservices fosters resilience, as individual components can fail or be updated independently, reducing the likelihood of cascading failures.
-- **Performance Evaluations:** Regular assessments of system performance help identify weaknesses and inform improvements, thereby reducing the probability of compounding errors.
-- **Chaos Engineering:** Structured experiments that introduce failures under controlled conditions help teams understand system behavior under stress, providing insights that inform the design of robust mitigation and recovery strategies.
-- **Assurance Cases:** These are structured arguments supported by evidence, demonstrating that the system meets its dependability requirements, which is especially vital for autonomous and AI-driven systems.
-
-Collectively, these practices focus on anticipating, detecting, and correcting errors before they develop into significant system failures, thus preventing error compounding in autonomous agentic workflows.
-
-### Source: https://www.numberanalytics.com/blog/securing-robotics-and-autonomous-systems
-Key best practices for error mitigation and recovery in autonomous multi-step systems include:
-
-- **Modular Design:** By structuring systems into independent modules, faults can be isolated, limiting the impact of any single failure and allowing for targeted recovery or replacement of faulty modules.
-- **Fault-Tolerant Control Systems:** Implementing control algorithms such as model predictive control and adaptive control enables the system to detect faults and adapt its behavior dynamically, maintaining operational continuity.
-- **Sensor and Actuator Redundancy:** Employing duplicate or diverse sensors and actuators ensures that a failure in one does not lead to system-wide breakdowns. This redundancy allows the system to cross-validate data and continue functioning even as individual components fail.
-
-These approaches support robust fault detection, isolation, and recovery, reducing the risk of compounding errors in multi-step autonomous systems.
-
-### Source: https://arxiv.org/pdf/2307.05203
-Best practices for error mitigation in complex, multi-step systems, particularly in quantum and agentic workflows, include:
-
-- **Composite Error Mitigation Strategies:** Combining multiple techniques—such as readout mitigation, random gate compilation (“twirling”), and zero-noise extrapolation (dZNE)—addresses different error types and improves robustness.
-- **Calibration and Customization:** Regularly calibrating settings for error mitigation (e.g., noise factors, extrapolation functions) ensures strategies remain effective as system and environmental conditions evolve.
-- **Targeted Approaches for Specific Error Types:** Augmenting general mitigation strategies with specialized techniques (such as readout error correction for SPAM errors) tailors error handling to the system’s unique vulnerabilities.
-- **Continuous Evaluation and Adaptation:** Ongoing studies and adaptations to specific system configurations, noise profiles, and operational contexts are critical for maintaining effective error mitigation and preventing error accumulation across steps.
-
-These practices emphasize a multi-layered and adaptive approach to error mitigation and recovery, crucial for avoiding the propagation of errors through autonomous, multi-step processes.
 -----
-
-</details>
-
----
-
-<details>
-<summary>What open-source libraries or frameworks provide state-of-the-art support for orchestrating hybrid LLM workflow/agentic systems and visualizing their execution in 2025?</summary>
-
-### Source: https://www.pracdata.io/p/state-of-workflow-orchestration-ecosystem-2025
-This source provides a comprehensive analysis of the open-source workflow orchestration ecosystem in 2025, emphasizing the convergence between traditional workflow engines and LLM-specific orchestration frameworks.
-
-Key highlights include:
-- The rise of hybrid workflow/agentic systems, where multiple LLMs, traditional code, and other AI agents interact within complex pipelines.
-- Several open-source orchestrators, such as LangChain, AutoGen, and crewAI, are specifically mentioned as leaders in handling LLM-centric agent workflows. These tools feature execution tracing, stepwise debugging, and interactive visualization dashboards to monitor workflow progress and agent decision paths.
-- The ecosystem also includes traditional orchestration tools (like Airflow and Prefect) that are increasingly integrating LLM components. However, the LLM-native orchestrators (LangChain, AutoGen, crewAI) offer more advanced visualization and agent coordination capabilities tailored for the hybrid paradigm.
-- Visualization is a core differentiator in 2025, with leading frameworks offering graph-based interfaces, agent activity logs, and real-time execution trees to provide transparency and debuggability for complex LLM-powered workflows.
 
 -----
 
-### Source: https://research.aimultiple.com/llm-orchestration/
-This source compares the top LLM orchestration frameworks in 2025, focusing on open-source tools with state-of-the-art support for hybrid LLM/agentic workflows and execution visualization.
+### Source [29]: https://openreview.net/pdf?id=kFrqoVtMIy
 
-The leading frameworks highlighted are:
+Query: What recent technical studies examine the predominant failure modes, reliability gaps, and cascading-error risks in multi-step LLM agents versus fixed-step LLM workflows?
 
-- **LangChain**: With 83.8k GitHub stars, LangChain is praised for its support for complex AI workflows, including hybrid orchestrations, multi-agent coordination, and detailed execution visualization. It supports both Python and JavaScript.
-- **AutoGen**: With 38.7k stars, AutoGen is designed for multi-agent coordination, supporting the orchestration of various agentic systems and offering visualization tools for agent interactions and workflow steps.
-- **crewAI**: With 25.9k stars, crewAI specializes in role-based agent orchestration and visual tracing of agent roles, task assignments, and execution flows.
-- **LlamaIndex**: With 31.2k stars, LlamaIndex focuses on data integration but also includes workflow orchestration and visualization features.
-- **Haystack by Deepset AI**: While primarily a custom NLP pipeline framework, Haystack offers orchestration of LLM components and visual pipeline editors for workflow inspection.
-
-The frameworks provide APIs and interfaces for visualizing execution, inspecting agent decisions, and monitoring workflow states, making them state-of-the-art for hybrid LLM workflow and agentic system orchestration in 2025.
+Answer: This assessment finds that **LLMs often struggle with complex, multi-step tasks** due to error propagation risks—incorrect outputs at one step can lead to cascading failures across subsequent steps. The research suggests that **standardizing intermediate steps** and incorporating **intermediate verification** points can substantially reduce errors such as hallucinations or using wrong tool types. While hybrid systems—where human-authored task networks guide the LLM—can help, they also face portability and scalability challenges. The study notes that **error cascading is a frequent issue in multi-step LLM workflows**, and that benchmarking and systematic verification at each step are necessary to improve reliability. These findings indicate that, compared to fixed-step workflows, multi-step and dynamic agent-based workflows are fundamentally more prone to accumulating and propagating errors unless explicit safeguards and verifications are implemented[3].
 
 -----
 
-### Source: https://airbyte.com/top-etl-tools-for-sources/data-orchestration-tools
-This source discusses open-source data orchestration tools relevant for AI and LLM workflow management in 2025. Two notable tools are:
+-----
 
-- **MLRun**: A Python-based orchestration tool designed for managing machine learning pipelines and data workflows. It features elastic scaling, real-time data processing, and detailed workflow management. MLRun provides tracking, automation, and deployment support for complex pipelines, including those integrating AI/LLM components. Its workflow visualization tools enable users to monitor data and execution flows across hybrid systems.
-- **Metaflow**: Developed at Netflix, Metaflow is an open-source data orchestration framework using a dataflow programming paradigm. Programs are represented as directed graphs (“flows”), allowing for visualization of operations, sequences, branches, and dynamic iterations. Metaflow’s artifact management and visualization features simplify monitoring and debugging of complex workflows, making it suitable for hybrid LLM and agentic system orchestration.
+-----
+
+### Source [31]: https://arxiv.org/html/2406.14884v1
+
+Query: What recent technical studies examine the predominant failure modes, reliability gaps, and cascading-error risks in multi-step LLM agents versus fixed-step LLM workflows?
+
+Answer: This benchmarking study (FlowBench) evaluates LLMs’ ability to perform **workflow-guided planning** and compares performance with and without explicit workflow knowledge. The results show that **incorporating structured workflow knowledge significantly enhances agent planning and reduces errors** at both the step and session levels. When LLMs lack access to such workflow knowledge, their performance degrades, especially in expertise-intensive domains, increasing the risk of errors and failure cascades. The study also observes that **cross-scenario transitions** (shifts between different workflow contexts) lead to further performance drops, but structured workflow guidance still mitigates the risk compared to unguided multi-step reasoning. This highlights that **explicit workflow structuring and guidance are critical to minimizing error propagation and reliability gaps** in multi-step LLM workflows, as opposed to fixed-step or single-turn approaches where such complexity is less pronounced[5].
+
+-----
 
 -----
 
 </details>
 
----
-
 <details>
-<summary>What are notable case studies or industry examples (2024–2025) that demonstrate hybrid AI systems blending LLM workflows with agentic autonomy, and what practical lessons have emerged from these deployments?</summary>
+<summary>What peer-reviewed papers or engineering blog posts from the last 18 months catalogue standard design patterns for LLM agents—planning, long-/short-term memory, tool use, reflection, and multi-agent coordination?</summary>
 
-### Source: https://www.mckinsey.com/capabilities/quantumblack/our-insights/seizing-the-agentic-ai-advantage
-McKinsey highlights the emergence of agentic AI, which combines large language models (LLMs) with autonomous agent workflows to solve a broad array of business problems. Notable examples from 2024–2025 include deployments in both vertical and horizontal use cases, such as automated legal research, dynamic marketing campaign management, and supply chain optimization. 
+### Source [37]: https://arxiv.org/html/2505.12786v2
 
-Key lessons learned from these deployments include:
-- **Balance Between Autonomy and Control:** Successful implementations require careful alignment of agent autonomy with organizational risk tolerance and compliance needs.
-- **Iterative Use Case Fine-Tuning:** Organizations often start with pilot projects, iteratively refining the scope and guardrails as agentic systems prove their reliability.
-- **Trust and Explainability:** Businesses that prioritize transparency in agent decision-making and maintain clear audit trails see higher adoption and trust among users.
-- **Integration with Human Workflows:** Agentic AI is most effective when designed to augment, not replace, human expertise, with seamless hand-offs between agents and people.
-- **Scalability Challenges:** Scaling agentic AI across business units presents organizational and technical challenges, including data integration and model retraining needs.
+Query: What peer-reviewed papers or engineering blog posts from the last 18 months catalogue standard design patterns for LLM agents—planning, long-/short-term memory, tool use, reflection, and multi-agent coordination?
 
-These case studies demonstrate that agentic AI can deliver significant value by automating complex, multistep tasks, but practical rollouts require a nuanced understanding of organizational context and rigorous change management.
+Answer: This peer-reviewed survey offers a technical overview of **design patterns for LLM agents**, focusing on autonomous cybersecurity agents but discussing generalizable concepts:
 
------
+- **Memory**: LLM agents increasingly use a **dual-memory architecture** comprising *long-term memory* (knowledge internalized during pretraining, such as cybersecurity corpora, advisories, and scripts) and *short-term memory* (dynamic context from the environment). Specialized datasets like Primus, Attacker, SecQA, and CmdCaliper are used to build robust long-term memory for threat detection and adaptive responses.
+  
+- **Reasoning and Planning**: Modern LLM agents leverage **chain-of-thought (CoT) reasoning** and can adjust tactics dynamically. Planning involves multi-stage operations and dynamic adjustment to environmental changes. Agents "reason through failures and change tactics on the fly," which is critical for executing complex, multi-step tasks autonomously.
 
-### Source: https://edrm.net/2025/06/from-prompters-to-partners-the-rise-of-agentic-ai-in-law-and-professional-practice/
-In the legal sector, EDRM reports that law firms in 2024–2025 are leveraging agentic AI systems that blend LLM-driven reasoning with autonomous agents. These systems perform iterative legal research, validate case law, draft and compile arguments, and even recommend litigation strategies.
+- **Tool Use**: Orchestration tools coordinate agent actions and enable agents to invoke external tools for specialized tasks.
 
-Case studies show that agentic AI is being used to:
-- **Accelerate Document Review:** AI agents autonomously sift through large volumes of discovery documents, flagging relevant content and cross-referencing with case precedents.
-- **Enhance Argument Construction:** LLMs generate draft arguments, which agentic systems iteratively refine by consulting legal databases and adapting to new information.
-- **Continuous Legal Monitoring:** Agents provide real-time updates on regulatory changes and case law, automatically alerting attorneys to potential impacts on active matters.
+- **Multi-Agent Collaboration**: Systems are designed for collaboration and distributed problem-solving, with orchestration layers handling coordination.
 
-Practical lessons include the necessity of robust validation pipelines to ensure accuracy, human oversight for critical decisions, and the importance of transparency for client trust. Early adopters also report efficiency gains but stress the need for ongoing training and adaptation of both the technology and legal professionals.
+The survey references recent architectures and datasets that shape these design patterns, emphasizing the modular and adaptive nature of contemporary LLM agents.
 
 -----
 
-### Source: https://ctomagazine.com/agentic-ai-in-enterprise/
-CTO Magazine examines the cost and ROI trade-offs of deploying agentic AI in enterprise environments. Real-world examples from 2024–2025 showcase agentic systems in sectors including finance, logistics, and HR.
-
-Highlights include:
-- **Finance:** Agentic AI automates compliance monitoring, risk analysis, and fraud detection, reducing manual workload and increasing accuracy.
-- **Logistics:** Autonomous agents optimize inventory, route planning, and supplier negotiation, reacting in real time to disruptions.
-- **HR:** Systems personalize onboarding and training, adapting content to individual employee profiles and learning speeds.
-
-Lessons learned:
-- **ROI Realism:** Enterprises find that the initial promise of agentic autonomy must be balanced with the real costs of integration, customization, and governance.
-- **Change Management:** Employee acceptance is critical; successful deployments include strong change management and clear communication on how agentic AI augments human roles.
-- **Continuous Evaluation:** Ongoing performance monitoring and iterative tuning are necessary to maintain system relevance and effectiveness.
+-----
 
 -----
 
-### Source: https://arxiv.org/html/2506.02153v1
-This arXiv preprint discusses the transition from large language models to small language models (SLMs) in agentic AI, with several short case studies from 2024–2025. The case studies estimate the extent to which SLMs can replace LLMs in agentic workflows without sacrificing autonomy or task performance.
+### Source [39]: https://mlnotes.substack.com/p/4-agentic-design-patterns-and-4-key
 
-Findings include:
-- **Task-Specific SLMs:** In customer support and basic information retrieval, SLM-based agents achieve comparable results to LLMs at lower cost and latency.
-- **Hybrid Architectures:** Workflows with LLM “overseers” delegating subtasks to SLM agents prove effective in settings with resource constraints or privacy requirements.
-- **Cost Efficiency:** Organizations report significant reductions in computational costs and environmental impact when shifting suitable tasks to SLMs.
+Query: What peer-reviewed papers or engineering blog posts from the last 18 months catalogue standard design patterns for LLM agents—planning, long-/short-term memory, tool use, reflection, and multi-agent coordination?
 
-Lessons emphasize the importance of task decomposition, modular architecture, and careful cost–benefit analysis when designing hybrid agentic AI systems.
+Answer: This engineering blog post (December 2024) outlines **four core agentic design patterns** observed in modern LLM agents:
+
+- **Specialized Model Tuning & Tool Use**: Highlights the trend of customizing language models specifically for robust tool use, allowing agents to interact with APIs and external systems.
+  
+- **Planning & Reflection**: Discusses the integration of explicit planning modules (for decomposing and sequencing tasks) and reflection mechanisms (for iterative self-improvement).
+
+- **Multi-Agent Coordination**: Notes the emergence of agentic frameworks that enable multiple LLMs to collaborate on workflows, with each agent specializing in a different aspect of the task.
+
+The article positions these patterns as foundational for the next generation of LLM-based automation and reasoning, especially in enterprise and developer-focused frameworks.
 
 -----
 
-### Source: https://www.ibm.com/think/insights/agentic-ai
-IBM outlines several industry applications of agentic AI that combine LLM-driven intelligence with autonomous agent workflows. Notable 2024–2025 examples include:
-
-- **Marketing:** Agents autonomously manage campaigns, monitor performance, and adjust strategies in real time.
-- **Healthcare:** Systems monitor patient data, update treatment recommendations, and provide clinicians with actionable feedback.
-- **Cybersecurity:** Agents continuously analyze network activity, detect anomalies, and respond to threats without direct human intervention.
-- **Supply Chain:** Agentic AI autonomously places orders and adjusts production schedules based on real-time inventory and demand data.
-- **Human Resources:** Personalized onboarding and training paths are generated and dynamically refined for each new hire.
-
-Practical lessons highlight that agentic AI can operate continuously without constant human oversight, maintain long-term goals, and manage multistep tasks. Successful deployments often involve replacing or augmenting traditional SaaS tools, allowing users to interact with complex systems through natural language interfaces, streamlining workflows, and improving overall efficiency.
 -----
 
 </details>
 
----
+<details>
+<summary>Are there 2025 benchmark reports comparing agentic “deep research” tools (e.g., Perplexity Deep Research, Gemini Discovery, OpenAI’s Researcher) to traditional search or RAG workflows on accuracy, depth, and turnaround time?</summary>
+
+### Source [41]: https://youssefh.substack.com/p/important-llm-papers-for-the-week-175
+
+Query: Are there 2025 benchmark reports comparing agentic “deep research” tools (e.g., Perplexity Deep Research, Gemini Discovery, OpenAI’s Researcher) to traditional search or RAG workflows on accuracy, depth, and turnaround time?
+
+Answer: This source reviews the release of DeepResearch Bench, the first dedicated and comprehensive benchmarking tool for rigorously evaluating the end-to-end capabilities of Deep Research Agents. The benchmark compares leading agentic research tools, including Gemini-2.5-Pro Deep Research, Perplexity Deep Research, and OpenAI's agents, across several axes:
+
+- **Agent Performance:** There are notable differences among agents. Gemini-2.5-Pro excelled in report quality (as measured by RACE), while Perplexity had the highest citation accuracy (90%).
+- **Report Quality (RACE):** Gemini-2.5-Pro and OpenAI’s agent produced the most comprehensive and insightful reports. The RACE evaluation framework was highly consistent with human expert judgments and outperformed simpler evaluation approaches.
+- **Citation Quality (FACT):** Gemini-2.5-Pro generated the most citations per task (111), but Perplexity’s citations were more accurate.
+- **Human Alignment:** The RACE framework closely matched human expert evaluations, validating its reliability for nuanced, long-form research assessment.
+
+This benchmark allows for meaningful, rigorous comparison of agentic deep research tools, directly addressing their accuracy, depth, and (by implication) efficiency. It represents a significant advance over traditional or RAG-based evaluations by focusing on real research tasks and introducing human-aligned metrics.
+
+-----
+
+-----
+
+-----
+
+### Source [42]: https://arxiv.org/html/2506.18959v2
+
+Query: Are there 2025 benchmark reports comparing agentic “deep research” tools (e.g., Perplexity Deep Research, Gemini Discovery, OpenAI’s Researcher) to traditional search or RAG workflows on accuracy, depth, and turnaround time?
+
+Answer: This academic paper surveys the transition from traditional web search to agentic deep research, focusing on benchmarks specifically designed to compare standard LLMs, reasoning LLMs, and agentic deep research models. The main benchmarks cited include BrowseComp, BrowseComp-ZH, and Humanity’s Last Exam (HLE), each designed to test different aspects of agentic research:
+
+- **BrowseComp:** Tests an agent’s ability to perform multi-step, open-ended web searches to retrieve complex, non-trivial information.
+- **BrowseComp-ZH:** Similar to BrowseComp but focused on the Chinese web, increasing linguistic complexity.
+- **HLE:** Presents expert-level questions across diverse domains that cannot be solved via naive retrieval, requiring synthesis from obscure and fragmented sources.
+
+Results show that standard LLMs perform poorly (below 10% on BrowseComp, under 20% on HLE). In contrast, the OpenAI Deep Research agent achieves significantly higher scores: 51.5% on BrowseComp, 42.9% on BrowseComp-ZH, and 26.6% on HLE. These results demonstrate that agentic deep research tools with integrated reasoning and retrieval capabilities substantially outperform both traditional search and standard LLM-based RAG workflows on accuracy and depth for challenging research questions.
+
+-----
+
+-----
+
+</details>
+
+<details>
+<summary>What documented security vulnerabilities (e.g., agent-injection, tool misuse) and recommended safeguards have researchers identified when deploying autonomous LLM agents in production?</summary>
+
+### Source [44]: https://i-tracing.com/blog/llm-agents-cybersecurity/
+
+Query: What documented security vulnerabilities (e.g., agent-injection, tool misuse) and recommended safeguards have researchers identified when deploying autonomous LLM agents in production?
+
+Answer: Researchers have documented that **autonomous LLM agents** can exploit a range of cybersecurity vulnerabilities, both simple and complex. In one study, GPT-4 agents were able to autonomously perform attacks such as **blind SQL injection** and **Server-Side Template Injection (SSTI)**, retrieving sensitive data or reading files on the server without human intervention. These capabilities were demonstrated through multi-step attack chains that combined web navigation, information gathering, and payload execution. Notably, GPT-4 showed success in attacks where other models failed.
+
+Further research focused on LLM agents exploiting **known vulnerabilities** (CVE-listed), automating exploit processes that previously required manual effort. Such automation indicates a potential shift from simple bots to more sophisticated, agent-driven offensive tools.
+
+Another case involved the development of **ReaperAI**, an autonomous agent using large-scale language models to simulate and execute cyberattacks, successfully identifying and exploiting vulnerabilities in controlled environments. This underscores the risk of LLM agents being used for offensive operations at scale.
+
+Recommended safeguards include rigorous **testing and evaluation of agents in controlled environments**, continuous monitoring for unexpected behaviors, and restricting agent capabilities to only what is absolutely necessary. Limiting access to sensitive tools and enforcing strict validation of agent actions are also suggested to prevent misuse and exploitation.
+
+-----
+
+-----
+
+-----
+
+### Source [45]: https://arxiv.org/html/2505.13076v1
+
+Query: What documented security vulnerabilities (e.g., agent-injection, tool misuse) and recommended safeguards have researchers identified when deploying autonomous LLM agents in production?
+
+Answer: This source details multiple **security vulnerabilities** specific to autonomous LLM agent deployments, particularly for agents with browsing or tool-invocation capabilities.
+
+Key documented vulnerabilities include:
+
+- **Tool Misuse**: Agents may call legitimate tools with malicious or unintended arguments, resulting in harmful actions such as data exfiltration or destructive edits. This can occur due to weak validation of tool input or argument overloading, where subtle manipulations bypass security checks.
+- **Prompt-Template Tampering**: If runtime templates that structure prompts for the LLM are altered, either by attackers or faulty deployments, agents may receive instructions that disable safety constraints. For example, a debug template could remove all guardrails, leading to unsafe agent behavior.
+- **Working Memory Poisoning**: Malicious data injected into the agent's memory can persist and be replayed in future prompts, contaminating reasoning and leading to unsafe actions (e.g., autofilling weak passwords).
+- **Infinite-Step or Looping Plans**: Agents may generate recursive or cyclic plans, causing excessive resource consumption (API calls, tokens) and potential denial of service.
+- **Tool-Registry Manipulation**: Attackers may modify the registry that maps agent tools, allowing unauthorized capabilities (such as shell execution) or disabling critical safety functions.
+
+Recommended safeguards include:
+- **Strict argument validation** for tool invocations.
+- **Controlled access and integrity checks** for prompt templates and tool registries.
+- **Input sanitization** for agent memory and persistent stores.
+- **Execution limits and monitoring** to detect and halt infinite loops.
+- **Isolation of agent environments** to minimize lateral movement or impact from compromised components.
+
+-----
+
+-----
+
+-----
+
+### Source [46]: https://arxiv.org/html/2404.08144v1
+
+Query: What documented security vulnerabilities (e.g., agent-injection, tool misuse) and recommended safeguards have researchers identified when deploying autonomous LLM agents in production?
+
+Answer: This research shows that **LLM agents can autonomously exploit one-day vulnerabilities**—recently disclosed vulnerabilities with public exploits, but not yet patched in all systems. In a controlled study, researchers provided GPT-4 agents with the CVE descriptions for 15 real-world vulnerabilities, including some with critical severity. The GPT-4 agents were able to exploit **87%** of these vulnerabilities, whereas other models and automated scanners (like ZAP and Metasploit) had zero success.
+
+Importantly, the ability to exploit was highly dependent on the agent's access to **detailed vulnerability descriptions**. Without the CVE description, GPT-4 exploited only 7% of vulnerabilities.
+
+The study raises concerns about deploying highly capable LLM agents in production, especially if they can access real-time vulnerability feeds or descriptions. This could allow for rapid, autonomous exploitation before human defenders can respond.
+
+Safeguards suggested or implied include limiting agent access to sensitive vulnerability data, restricting outbound actions (especially those that can interact with system-level resources), and careful monitoring of agent activity for signs of exploitation or lateral movement.
+
+-----
+
+-----
+
+</details>
+
+<details>
+<summary>Which technical write-ups describe the orchestration layer that coordinates multi-step LLM workflows versus agentic planners (for example, LangGraph, Ray Serve, or Amazon Bedrock Agents) and compare their design trade-offs?</summary>
+
+### Source [47]: https://aws.amazon.com/blogs/machine-learning/build-multi-agent-systems-with-langgraph-and-amazon-bedrock/
+
+Query: Which technical write-ups describe the orchestration layer that coordinates multi-step LLM workflows versus agentic planners (for example, LangGraph, Ray Serve, or Amazon Bedrock Agents) and compare their design trade-offs?
+
+Answer: The integration of LangGraph with Amazon Bedrock is discussed in this post, highlighting how it advances multi-agent system development by providing a robust framework for sophisticated AI applications. LangGraph's orchestration capabilities and feature management in Amazon Bedrock create scalable, efficient systems that address challenges in multi-agent architectures through state management, agent coordination, and workflow orchestration. This integration offers features like memory management, error handling, and human-in-the-loop capabilities. LangGraph Studio's visualization and debugging tools enable efficient design and maintenance of complex agent interactions, providing a powerful foundation for next-generation multi-agent systems with effective workflow handling and optimal resource utilization.
+
+-----
+
+-----
+
+### Source [48]: https://aws.amazon.com/blogs/machine-learning/design-multi-agent-orchestration-with-reasoning-using-amazon-bedrock-and-open-source-frameworks/
+
+Query: Which technical write-ups describe the orchestration layer that coordinates multi-step LLM workflows versus agentic planners (for example, LangGraph, Ray Serve, or Amazon Bedrock Agents) and compare their design trade-offs?
+
+Answer: This write-up provides step-by-step instructions for creating a collaborative multi-agent framework with reasoning capabilities using Amazon Bedrock and open-source frameworks like LangGraph. The graph-based approach is crucial for representing the structure of multi-agent systems, making it easier to analyze, simulate, and reason about emergent behaviors from agent interactions. The framework emphasizes a plug-and-play feature, allowing dynamic changes and flexibility to accommodate third-party agents. This adaptability enhances the system's versatility and usability, particularly in domains requiring complex, dynamic interactions between autonomous entities.
+
+-----
+
+-----
+
+### Source [49]: https://slashdot.org/software/comparison/Amazon-Bedrock-vs-LangGraph/
+
+Query: Which technical write-ups describe the orchestration layer that coordinates multi-step LLM workflows versus agentic planners (for example, LangGraph, Ray Serve, or Amazon Bedrock Agents) and compare their design trade-offs?
+
+Answer: This comparison highlights the differences between Amazon Bedrock and LangGraph. Amazon Bedrock is a comprehensive service for developing and expanding generative AI applications by providing access to high-performance foundation models. It streamlines infrastructure management and offers a unified API for personalizing models. On the other hand, LangGraph is a platform for creating agents capable of managing intricate tasks, offering a flexible framework for various control mechanisms and ensuring reliability through moderation and quality loops. While Amazon Bedrock focuses on AI model integration, LangGraph emphasizes agent-driven application development and scalability.
+
+-----
+
+</details>
+
+<details>
+<summary>What benchmark reports released in 2025 compare Deep Research agents (Perplexity, Gemini Discovery, OpenAI’s Researcher, etc.) with traditional search or RAG pipelines on accuracy, citation quality, and turnaround time?</summary>
+
+### Source [55]: https://huggingface.co/papers/2506.11763
+
+Query: What benchmark reports released in 2025 compare Deep Research agents (Perplexity, Gemini Discovery, OpenAI’s Researcher, etc.) with traditional search or RAG pipelines on accuracy, citation quality, and turnaround time?
+
+Answer: A comprehensive benchmark report titled **"DeepResearch Bench"** was released in June 2025 to systematically evaluate the capabilities of Deep Research Agents compared to traditional research and retrieval-augmented generation (RAG) pipelines. The benchmark consists of 100 PhD-level research tasks across 22 fields, all crafted by domain experts. It introduces two novel methodologies for evaluation:
+- A **reference-based method** with adaptive criteria to assess the quality of generated research reports.
+- A framework for evaluating agents' information retrieval and collection capabilities, specifically analyzing **effective citation count** and **overall citation accuracy**.
+
+DeepResearch Bench is open-sourced and designed to provide strong alignment with human judgment, aiming to accelerate the development and objective comparison of LLM-based research agents on metrics such as **accuracy, citation quality, and turnaround time**.
+
+Key highlights:
+- The benchmark focuses explicitly on **research quality, information retrieval accuracy, effective citation count, and citation accuracy**.
+- It provides a direct framework for comparing Deep Research Agents—such as those from Perplexity, Gemini, and OpenAI—against traditional search and RAG pipelines.
+- The open-source nature allows for transparent, reproducible evaluations across the research community.
+
+The benchmark and its methodology are available publicly, providing a standardized way to assess Deep Research Agents as of 2025[1].
+
+-----
+
+-----
+
+-----
+
+### Source [56]: https://www.helicone.ai/blog/openai-deep-research
+
+Query: What benchmark reports released in 2025 compare Deep Research agents (Perplexity, Gemini Discovery, OpenAI’s Researcher, etc.) with traditional search or RAG pipelines on accuracy, citation quality, and turnaround time?
+
+Answer: This report from February 2025 provides a comparative analysis of Deep Research solutions from **OpenAI, Perplexity, and Google Gemini**, including direct discussions of their performance on accuracy, citation quality, and turnaround time:
+
+- **OpenAI Deep Research** is identified as the most powerful but also the most expensive. It excels at technical and academic research, offering **high accuracy** (with occasional errors), **generally reliable citations** (though some errors are noted), and **detailed output**. Turnaround time ranges from **5 to 30 minutes per query**.
+- **Perplexity Deep Research** is highlighted for its **speed** (2–4 minutes per query), **high accuracy** (slightly below OpenAI), and **consistently reliable citations**. It is favored for real-time analysis and journalism due to its structured, concise, and well-cited summaries.
+- **Gemini Deep Research** is more affordable but prone to **SEO-driven biases** and **citation inaccuracies**.
+
+The comparison includes a table summarizing cost, level of detail, source diversity, process transparency, and output format. While all models show progress, reliability remains a challenge, especially for complex queries.
+
+This report is among the most cited for practical, end-user-focused benchmarking of Deep Research agents as of early 2025[2].
+
+-----
+
+-----
+
+-----
+
+### Source [57]: https://www.youtube.com/watch?v=qnqW7ievln4
+
+Query: What benchmark reports released in 2025 compare Deep Research agents (Perplexity, Gemini Discovery, OpenAI’s Researcher, etc.) with traditional search or RAG pipelines on accuracy, citation quality, and turnaround time?
+
+Answer: A video published in June 2025 discusses the newly released **DeepResearch Bench** benchmark. The presenter reviews the structure and methodology of this benchmark:
+
+- The benchmark was created using a dataset of **100,000 real-world user queries**, filtered and organized to focus on **22 research domains**.
+- Evaluation involves two newly developed methods for assessing research quality and information retrieval effectiveness.
+- The benchmark is described as more complex and challenging than previous ones, reflecting the advanced capabilities of modern LLM-based research agents.
+- The video emphasizes that the benchmark directly compares **Deep Research Agents** (such as those from OpenAI, Perplexity, and Gemini) and highlights the importance of **citation accuracy, research depth, and turnaround time** as measured metrics.
+
+This source confirms that DeepResearch Bench is recognized in the community as the new standard for benchmarking Deep Research Agents in 2025[3].
+
+-----
+
+-----
+
+</details>
+
 
 ## Sources Scraped From Research Results
 
----
 <details>
-<summary>Building Effective AI Agents \ Anthropic</summary>
+<summary>4 Agentic AI Design Patterns & Real-World Examples [2025]</summary>
 
-[Engineering at Anthropic](https://www.anthropic.com/engineering)
+# 4 Agentic AI Design Patterns & Real-World Examples [2025]
 
-![](https://www-cdn.anthropic.com/images/4zrzovbb/website/039b6648c28eb33070a63a58d49013600b229238-2554x2554.svg)
+[Agentic AI](https://research.aimultiple.com/agentic-ai/) design patterns enhance the autonomy of [large language models (LLMs)](https://research.aimultiple.com/large-language-models-examples/) like Llama, Claude, or GPT by leveraging tool-use, decision-making, and problem-solving. This brings a structured approach for creating and managing autonomous agents in several [use cases](https://research.aimultiple.com/agentic-ai-design-patterns/#agentic-workflows-use-cases).
+
+## What are agentic workflows?
+
+An agent is considered more intelligent if it consistently chooses actions that lead to outcomes more closely aligned with its objective function.
+
+https://research.aimultiple.com/wp-content/uploads/2025/04/agentic-wokrflows-1224x512.png.webp_Agentic workflows_ [1](https://research.aimultiple.com/agentic-ai-design-patterns/#easy-footnote-bottom-1-1417491 "https://medium.com/machine-learning-bites/agentic-workflows-3b786c6dcb53")
+
+**Automated workflows (rule-based, non-Al)**
+
+Follow **predefined rules and processes**, typically based on fixed instructions. They are designed to handle repetitive tasks efficiently, often through systems like robotic process automation (RPA), where little to no decision-making is required.
+
+**AI workflows (non-agentic)**
+
+Systems where LLMs and tools are orchestrated through predefined code paths, with minimal thinking involved.  In a non-agentic workflow, an LLM generates an output from a prompt, like generating a list of recommendations based on input.
+
+**Agentic workflows**
+
+AI-driven processes where autonomous agents make decisions, take actions, and coordinate tasks with minimal human input. These workflows use key components like reasoning, planning, and tool utilization to handle complex tasks.
+
+Compared to traditional automation, like [RPA](https://research.aimultiple.com/robotic-process-automation-use-cases/), which follows fixed rules and designs, agentic workflows are more “ **dynamic and flexible**”, adapting to real-time data and unexpected conditions.
+
+https://research.aimultiple.com/wp-content/uploads/2025/04/unnamed.gif_Agentic workflow example_ [2](https://research.aimultiple.com/agentic-ai-design-patterns/#easy-footnote-bottom-2-1417492 "https://www.linkedin.com/posts/dipanjans_there-is-a-lot-of-hype-on-ai-agents-recently-activity-7249082921423110144-a5Uh/")
+
+**In this workflow, the** [**AI agent**](https://research.aimultiple.com/ai-agent-tools/) **is answering the user query (Example: “Who won the Euro in 2024?”)**
+
+1. **User query:** The user asks a question.
+
+2. [**LLM**](https://research.aimultiple.com/large-language-models-examples/) **analysis:** The LLM interprets it and determines if external data is needed.
+
+3. **External tool activation:** A search tool retrieves real-time info.
+
+4. **Response creation:** The LLM combines the data and replies:
+
+_“Spain won the Euro 2024 against England with a score of 2–1 in the Final in Berlin in July 2024.”_
+
+## 4 types of agentic AI design patterns
+
+## Reflection pattern
+
+https://research.aimultiple.com/wp-content/uploads/2025/04/Reflection-pattern-1224x690.png.webp
+
+The reflection pattern enhances agentic workflows with continuous self-improvement.
+
+→ This pattern involves a self-feedback mechanism where an AI agent evaluates its outputs or decisions before finalizing its response or taking further action.
+
+→ It allows the agent to analyze its own work, identify errors or gaps, and refine its approach, leading to better results over time. This process is not limited to a single iteration, agents can adjust their answers in subsequent interactions.
+
+**Real-world example:**
+
+AI agents such as **GitHub Copilot** can refine the code through self-reflection by examining and modifying its own structure and behavior at runtime, for example:
+
+- **Initial response**: GitHub Copilot generates a code snippet based on a prompt.
+
+- **Reflection process**: Reviews the generated code for errors, inefficiencies, or improvements. It may use a feedback loop, such as running the code in a sandbox environment, to identify bugs.
+
+- **Self-iteration**: Evaluates whether the generated code functions as expected, refines its logic, and suggests optimizations.
+
+## Tool use pattern
+
+https://research.aimultiple.com/wp-content/uploads/2025/04/Tool-use-pattern-1224x690.png.webp
+
+The **tool use pattern** in [agentic](https://research.aimultiple.com/agentic-ai-trends/) [AI](https://research.aimultiple.com/agentic-ai-trends/) enhances the capabilities of large language models (LLMs) by enabling them to interact dynamically with external tools and resources.
+
+**Protocols** like the [Model Context Protocol (MCP)](https://research.aimultiple.com/model-context-protocol/) help standardize the tool use process.[3](https://research.aimultiple.com/agentic-ai-design-patterns/#easy-footnote-bottom-3-1417493 "https://docs.anthropic.com/en/docs/agents-and-tools/mcp")
+
+This allows the AI to move beyond its pre-existing training data and perform real-world applications. With tool use patents and agentic models, can:
+
+- access real-time information (via APIs), search the web
+- interact with APIs to process and generate responses
+- interact  with information retrieval systems
+- retrieve specific datasets
+- run scripts for data analysis
+- leverage machine learning models to run specialized algorithms
+
+_We used popular AI agents to test their tool use capabilities:_
+
+- [Tool use benchmark results](https://research.aimultiple.com/ai-agents/#tool-use-benchmark-results)
+- [Web search benchmark results](https://research.aimultiple.com/ai-agents/#web-search-benchmark-results)
+
+**Real-world example:**
+
+**Visual-textual synthesis project** uses **GPT-4** to interact dynamically with both external tools (such as CLIP for image analysis and GPT-4 for reasoning) and external resources (e.g., design tools, e-commerce platforms) to complete complex tasks.[4](https://research.aimultiple.com/agentic-ai-design-patterns/#easy-footnote-bottom-4-1417494 "https://arxiv.org/abs/2307.11661")
+
+## Planning pattern
+
+https://research.aimultiple.com/wp-content/uploads/2025/04/Planning-pattern-1224x690.png.webp
+
+The **planning pattern** enables LLMs to break down large tasks into subtasks.
+
+An LLM using the planning pattern will organize the sub-goals into a logical sequence. Depending on the complexity, the agent may plan actions in a linear order or create branches for parallel execution.
+
+**Real-world example:**
+
+A group of researchers demonstrated how LLM agents collaborate with models from platforms like Hugging Face to handle complex, larger tasks.
+
+The approach was called **HuggingGPT**, an LLM-powered agent that leverages LLMs (e.g., ChatGPT) to connect various AI models in machine learning communities (e.g., Hugging Face) to solve AI tasks.[5](https://research.aimultiple.com/agentic-ai-design-patterns/#easy-footnote-bottom-5-1417495 "https://arxiv.org/abs/2303.17580")
+
+## Multi-agent pattern
+
+https://research.aimultiple.com/wp-content/uploads/2025/04/Multi-agent-pattern-1224x690.png.webp
+
+The multi-agent patterns focus on task delegation, which involves assigning different agents to different tasks that can be created by prompting a single LLM (or multiple LLMs) to handle distinct responsibilities.
+
+For example, to create a software developer agent, you could prompt the LLM: _“You are an expert in writing efficient, clear code. Please write the code to accomplish \[specific task\]_. _“_
+
+In multi-agent systems, agents communicate using Agent-to-Agent (A2A) protocols that define the flow of information between them. For instance, **Google’s A2A protocol** is an open framework that equips agents with structured context and tools.[6](https://research.aimultiple.com/agentic-ai-design-patterns/#easy-footnote-bottom-6-1417496 "https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/")
+
+**Real-world examples of multi-agent frameworks:**
+
+- AutoGen
+- LangChain
+- ChatDev
+- OpenAI Swarm
+
+**For more:** [Open source agentic AI builders](https://research.aimultiple.com/ai-agent-builders/#open-source-frameworks) & frameworks
+
+## Agentic workflow use cases
+
+### 1\. Retrieval-augmented generation (RAG)
+
+Agentic design patterns can be used in RAG systems to incorporate agents into the RAG pipeline.
+
+**For more, see:**
+
+→ [Discover Top 20+ Agentic RAG Systems](https://research.aimultiple.com/agentic-rag/)
+
+→ [Compare Top 20+ Retrieval-Augmented Generation Tools](https://research.aimultiple.com/retrieval-augmented-generation/)
+
+### 2\. Software development
+
+- **Code generation & completion**:
+
+
+  - **Cursor**: Automatically generates code snippets and entire functions based on natural language descriptions
+  - **Devin:** Creates apps from scratch with minimal human oversight, using a browser or a command line interface.
+- **Automated software testing**:
+
+
+  - **Diffblue**: Automatically writes unit tests for Java code, ensuring coverage and code correctness.
+
+  - **Snyk**: Detects and fixes security vulnerabilities in dependencies without human input.
+
+### 3\. Gaming
+
+- **Autonomous NPCs:**
+  - **AI Dungeon**: Uses an LLM to generate fully autonomous text-based NPCs, reacting to player actions and creating narrative events.
+  - **AgentRefine:** Enables AI agents and models to identify errors and autonomously correct them, improving their performance for general tasks.
+- **Autonomous exploration:**
+  - **Spore (AI-controlled evolution)**: AI agents reproduce, mutate, and evolve without human intervention, becoming increasingly intelligent and diverse with each generation.
+- **Pathfinding:**
+  - **NavMesh AI**: Autonomous pathfinding system in gaming, where agents can navigate dynamic environments.
+
+### 4\. Multimedia creation
+
+- **Turning GenAI search results into Wikipedia pages**
+  - **Perplexity Pages:** When a user enters a search query, Perplexity Pages aggregates relevant information from multiple sources to turn search results into Wikipedia pages.
+- **Automated video production**
+  - **Pictory** autonomously turns text-based content into video.
+
+### 5\. Research & data analysis
+
+- **ChemCrow**: Running simulations and making autonomous recommendations.
+
+for drug discovery.
+- **AI2:** Provides data warehouse management through autonomous systems.
+
+### 6\. Computer use
+
+Computer-use agents (e.g., Anthropic’s Claude Computer Use, or Open Operator) can interact with GUIs, the buttons, menus, and text fields people see on a screen, just as humans do.
+
+These agents can:
+
+- Fill out online forms
+- Search the web
+- Book travel arrangements
+- Automating workflows
+
+### 7\. Customer service
+
+[AI agents for customer service](https://research.aimultiple.com/ai-agents-customer-service/) respond to customer queries in natural language, interpret context, and generate human-like responses. These agents are commonly used for contact center automation. Some examples include:
+
+- Zendesk AI
+- Intercom’s Fim
+- Kore.AI Agent
+
+### 8\. Healthcare automation
+
+[Agentic AI for healthcare](https://research.aimultiple.com/agentic-ai-healthcare/) aims to leverage healthcare systems to automate workflows in clinical operations. Tool examples include:
+
+**General-purpose healthcare automation:**
+
+- Sully.ai
+- Hippocratic AI
+- Innovacer
+- Beam AI Healthcare agent
+- Notable Health
+
+**Patient support:**
+
+- Amelia AI
+- Cognigy
+
+## Further reading
+
+- [Top AI agent tools](https://research.aimultiple.com/ai-agent-tools/)
+- [AI Agents: Operator vs Browser Use vs Project Mariner](https://research.aimultiple.com/ai-agents/)
+
+</details>
+
+<details>
+<summary>Agentic AI vs LLM: Comparing What Scales Better in Task Runners</summary>
+
+# Agentic AI vs LLM: Comparing What Scales Better in Task Runners
+
+Picture a factory. One worker follows instructions from a manager and completes one task at a time. Another? Thinks, plans, uses tools, collaborates, and adjusts on the fly. Both are efficient in different ways — but scale them across thousands of workflows, and the differences start to matter.
+
+That’s what enterprises are facing today with AI. Enterprise AI integrates artificial intelligence and machine learning into large-scale operations, accelerating problem-solving and improving business efficiency.
+
+On one side: **LLM-based task runners** — simple, fast, and stateless. LLMs are primarily used for text generation, producing new content such as emails or dialogues. They are capable of generating human-like text for communication and automation. On the other: **Agentic AI systems**, goal-driven, multi-step thinkers with memory and tool usage. Unlike traditional AI, which relies on predefined rules and passive data processing, agentic AI exhibits goal oriented behavior and autonomy, focusing on achieving specific objectives.
+
+This blog breaks down which approach scales better across different dimensions: performance, cost, complexity, and reliability. It’s not just about what works — it’s about what works _when_.
+
+## 1\. Core Differences
+
+#### What is a Task Runner?
+
+LLM-based task runners are single-prompt systems powered by large language models (LLMs). Large language models (LLMs) are advanced AI systems designed to generate text and answer questions based on user prompts. A question goes in, and a response comes out. These models are used in workflows like summarization, email drafting, classification, or SQL generation—these are specific tasks that LLMs can perform. LLM workflows are explicitly defined, with clear steps and little room for adaptation. They don’t remember past tasks and don’t plan future steps. LLMs are capable of generating text for a variety of applications.
+
+#### What is Agentic AI?
+
+Agentic AI systems are composed of autonomous agents that can operate independently. These AI agents can act independently or collaborate within a multi-agent system to accomplish tasks and execute multi-step processes. They can reason through goals, break them into multi-step tasks, invoke external tools, access memory, and iterate until the job is done. Agentic AI works by following a structure: **planner + executor + memory + toolchain.** This structure enables AI agents to function effectively by integrating with external tools, breaking down objectives into multi-step tasks, and working together within multi-agent systems to achieve complex goals.
+
+**Table: Key Architectural Differences**
+
+| Feature | LLM Task Runner | Agentic AI System |
+| --- | --- | --- |
+| State | Stateless | Stateful (via memory) |
+| Step count | Single-step | Multi-step |
+| Control | User-driven | Goal-driven autonomy |
+| Tool usage | Rare | Frequent |
+| Complexity handling | Minimal | Supports nested logic |
+
+## 2\. Scaling Workload and Complexity with Minimal Human Intervention
+
+#### 2.1 Horizontal vs Vertical Scaling
+
+- **LLM runners** scale horizontally, you can run 10,000 prompts in parallel with little orchestration.
+- **Agentic AI** scales vertically, it handles complex workflows by chaining multiple steps, with some sub-tasks parallelized using multi-agent orchestration (e.g., CrewAI, LangGraph). Advanced AI models and AI tools, powered by machine learning, enable agentic systems to scale efficiently with minimal human input.
+
+#### 2.2 Complexity Tradeoffs in Complex Tasks
+
+Agentic systems are better at breaking down complex tasks (e.g., writing and testing a full codebase or handling end-to-end customer queries). Agentic AI can also be used for content creation, content generation, and code generation, streamlining software development by enabling AI agents to write code and solve complex problems through collaborative, automated workflows. But with complexity comes slower execution and greater engineering effort.
+
+**Table: Scaling Comparison**
+
+| Metric | LLM Runners | Agentic AI |
+| --- | --- | --- |
+| Throughput | High | Moderate |
+| Task Complexity | Low | High |
+| Parallel Execution | Easy | Needs orchestration |
+| Developer Overhead | Low | High |
+
+## 3\. Latency, Cost & Resource Impact
+
+#### 3.1 Latency
+
+- LLM runners: Single call = low latency (~300ms–2s).
+- Agentic AI: 3–10s _per_ reasoning loop; total workflow can take minutes if steps chain.
+
+#### 3.2 Cost Per Execution
+
+- LLM runners: $0.001–$0.02 per call (OpenAI, Claude, Gemini Pro).
+- Agentic AI: $0.10–$5 per workflow depending on memory use, tool calls, number of steps.
+
+For example:
+
+> Drafting 1 email using GPT-4 might cost $0.01.
+>
+> A sales outreach agent that searches CRM, writes the email, adds personalisation, and schedules the send might cost $0.50–$1.20.
+
+#### 3.3 Infrastructure Burden
+
+- LLM runners don’t need persistent storage or state management.
+- Agentic AI systems often need:
+  - Memory storage (e.g., Redis, vector DBs)
+  - Tool integration (APIs, SDKs)
+  - Logs, checkpoints, debugging layers
+
+## 4\. Reliability, Monitoring & Risk
+
+#### 4.1 Task Completion
+
+Studies show basic agents fail or hallucinate when instructions become ambiguous. Without guardrails, agent loops can spiral into irrelevant sub-tasks.
+
+- AutoGPT and similar systems often see 20–40% task failure in open-ended goals.
+- Controlled environments (LangGraph, CrewAI) reduce failures via structured flows.
+
+#### 4.2 Observability and Debugging
+
+LLM runners are easy to debug — just retry the prompt.
+
+Agentic AI, however, may fail due to:
+
+- Bad tool usage
+- Memory corruption
+- Wrong planning logic
+- Looping behavior
+
+This requires logging at every step, trace visualizations, and often human-in-the-loop.
+
+## 5\. Use Cases
+
+#### 5.1 Where LLM Runners Shine
+
+- Chatbots with tight scripts
+- Classification & tagging
+- Email summarization
+- Extract-transform-load (ETL) operations
+
+LLM runners excel at natural language understanding and text generation, making them ideal for chatbots and summarization tasks.
+
+These don’t need memory or planning.
+
+#### 5.2 Where Agentic AI Is Better
+
+- Software QA bots: test, generate logs, file Jira tickets
+- Customer agents: handle full complaint cycles from lookup to escalation
+- Financial research agents: analyze quarterly results and build investment briefs. Agentic AI can leverage domain-specific knowledge and contextual awareness to deliver more accurate and relevant results in these tasks.
+- Document processing: parse, summarize, validate, cross-reference data across files. Agentic AI can process real-time data and adapt to dynamic environments, ensuring up-to-date and flexible document handling.
+
+## 6\. Maturity and Production Readiness
+
+#### LLM Runners
+
+- Mature and used at scale in enterprises
+- Supported by platforms like OpenAI, Cohere, AWS Bedrock
+- Minimal infra needed
+
+#### Agentic Systems
+
+- Still early-stage in production-grade stability
+- Growing maturity through LangGraph, CrewAI, Autogen, Microsoft AutoGen
+- Requires tighter control to meet enterprise standards (SOC2, PII handling, audit logs)
+
+## Which One Scales Better?
+
+Let’s break it down:
+
+Before diving into the details, it’s important to highlight the key differences between LLM runners and agentic AI: LLM runners excel at handling a wide range of tasks simultaneously (horizontal scale), while agentic AI focuses on deeper, more autonomous decision-making and complex task execution (task depth).
+
+https://i0.wp.com/www.lyzr.ai/wp-content/uploads/2025/06/Agentic-AI-vs-LLM-1.webp?resize=1024%2C577&ssl=1
+
+| Dimension | LLM Runners | Agentic AI |
+| --- | --- | --- |
+| Horizontal Scale | ⭐⭐⭐⭐⭐ | ⭐⭐ |
+| Task Depth | ⭐⭐ | ⭐⭐⭐⭐ |
+| Cost Efficiency | ⭐⭐⭐⭐ | ⭐ |
+| Observability | ⭐⭐⭐ | ⭐⭐ |
+| Maturity | ⭐⭐⭐⭐ | ⭐⭐ |
+| Engineering Need | ⭐ | ⭐⭐⭐⭐ |
+
+LLM runners scale _wider_. Agentic AI scales _deeper_.
+
+## The Hybrid Future
+
+Most scalable AI workflows in production today are **hybrids**:
+
+- Stateless LLM components handle fast responses.
+- Agentic subsystems step in when workflows need judgment, planning, or context.
+
+Agentic AI brings new capabilities to hybrid workflows by enabling autonomous operation, collaboration among multiple AI agents, and the facilitation of complex, structured workflows.
+
+For example, a support agent might:
+
+- Use LLM for instant replies to FAQs.
+- Switch to an agentic flow for billing disputes: lookup → policy check → escalation.
+
+Agentic AI represents a significant advancement in autonomous operations, allowing subsystems to operate independently and collaboratively to achieve complex goals.
+
+As agent platforms mature and serving gets faster (e.g., Autellix reports 4–15× throughput improvements), more enterprises will layer agentic reasoning into LLM workflows — not replace them. Agentic AI operates within these hybrid architectures to enable more complex automation by actively managing tasks, adapting to new information, and making decisions autonomously.
+
+## Wrapping up
+
+Scalability isn’t just about volume — it’s about matching the right architecture to the right job.
+
+- LLM-based task runners are efficient, fast, and production-ready for most single-step tasks.
+- Agentic AI introduces autonomy and depth, but comes with cost, latency, and operational complexity.
+
+The best systems don’t choose between the two — they blend both.
+
+**Start simple. Scale smart. Automate what matters.**
+
+</details>
+
+<details>
+<summary>Building effective agents</summary>
 
 # Building effective agents
 
@@ -470,7 +931,7 @@ In this section, we’ll explore the common patterns for agentic systems we’ve
 
 The basic building block of agentic systems is an LLM enhanced with augmentations such as retrieval, tools, and memory. Our current models can actively use these capabilities—generating their own search queries, selecting appropriate tools, and determining what information to retain.
 
-![](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fd3083d3f40bb2b6f477901cc9a240738d3dd1371-2401x1000.png&w=3840&q=75)The augmented LLM
+https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fd3083d3f40bb2b6f477901cc9a240738d3dd1371-2401x1000.png&w=3840&q=75The augmented LLM
 
 We recommend focusing on two key aspects of the implementation: tailoring these capabilities to your specific use case and ensuring they provide an easy, well-documented interface for your LLM. While there are many ways to implement these augmentations, one approach is through our recently released [Model Context Protocol](https://www.anthropic.com/news/model-context-protocol), which allows developers to integrate with a growing ecosystem of third-party tools with a simple [client implementation](https://modelcontextprotocol.io/tutorials/building-a-client#building-mcp-clients).
 
@@ -480,7 +941,7 @@ For the remainder of this post, we'll assume each LLM call has access to these a
 
 Prompt chaining decomposes a task into a sequence of steps, where each LLM call processes the output of the previous one. You can add programmatic checks (see "gate” in the diagram below) on any intermediate steps to ensure that the process is still on track.
 
-![](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F7418719e3dab222dccb379b8879e1dc08ad34c78-2401x1000.png&w=3840&q=75)The prompt chaining workflow
+https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F7418719e3dab222dccb379b8879e1dc08ad34c78-2401x1000.png&w=3840&q=75The prompt chaining workflow
 
 **When to use this workflow:** This workflow is ideal for situations where the task can be easily and cleanly decomposed into fixed subtasks. The main goal is to trade off latency for higher accuracy, by making each LLM call an easier task.
 
@@ -493,7 +954,7 @@ Prompt chaining decomposes a task into a sequence of steps, where each LLM call 
 
 Routing classifies an input and directs it to a specialized followup task. This workflow allows for separation of concerns, and building more specialized prompts. Without this workflow, optimizing for one kind of input can hurt performance on other inputs.
 
-![](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F5c0c0e9fe4def0b584c04d37849941da55e5e71c-2401x1000.png&w=3840&q=75)The routing workflow
+https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F5c0c0e9fe4def0b584c04d37849941da55e5e71c-2401x1000.png&w=3840&q=75The routing workflow
 
 **When to use this workflow:** Routing works well for complex tasks where there are distinct categories that are better handled separately, and where classification can be handled accurately, either by an LLM or a more traditional classification model/algorithm.
 
@@ -509,7 +970,7 @@ LLMs can sometimes work simultaneously on a task and have their outputs aggregat
 - **Sectioning**: Breaking a task into independent subtasks run in parallel.
 - **Voting:** Running the same task multiple times to get diverse outputs.
 
-![](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F406bb032ca007fd1624f261af717d70e6ca86286-2401x1000.png&w=3840&q=75)The parallelization workflow
+https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F406bb032ca007fd1624f261af717d70e6ca86286-2401x1000.png&w=3840&q=75The parallelization workflow
 
 **When to use this workflow:** Parallelization is effective when the divided subtasks can be parallelized for speed, or when multiple perspectives or attempts are needed for higher confidence results. For complex tasks with multiple considerations, LLMs generally perform better when each consideration is handled by a separate LLM call, allowing focused attention on each specific aspect.
 
@@ -526,7 +987,7 @@ LLMs can sometimes work simultaneously on a task and have their outputs aggregat
 
 In the orchestrator-workers workflow, a central LLM dynamically breaks down tasks, delegates them to worker LLMs, and synthesizes their results.
 
-![](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F8985fc683fae4780fb34eab1365ab78c7e51bc8e-2401x1000.png&w=3840&q=75)The orchestrator-workers workflow
+https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F8985fc683fae4780fb34eab1365ab78c7e51bc8e-2401x1000.png&w=3840&q=75The orchestrator-workers workflow
 
 **When to use this workflow:** This workflow is well-suited for complex tasks where you can’t predict the subtasks needed (in coding, for example, the number of files that need to be changed and the nature of the change in each file likely depend on the task). Whereas it’s topographically similar, the key difference from parallelization is its flexibility—subtasks aren't pre-defined, but determined by the orchestrator based on the specific input.
 
@@ -539,7 +1000,7 @@ In the orchestrator-workers workflow, a central LLM dynamically breaks down task
 
 In the evaluator-optimizer workflow, one LLM call generates a response while another provides evaluation and feedback in a loop.
 
-![](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F14f51e6406ccb29e695da48b17017e899a6119c7-2401x1000.png&w=3840&q=75)The evaluator-optimizer workflow
+https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F14f51e6406ccb29e695da48b17017e899a6119c7-2401x1000.png&w=3840&q=75The evaluator-optimizer workflow
 
 **When to use this workflow:** This workflow is particularly effective when we have clear evaluation criteria, and when iterative refinement provides measurable value. The two signs of good fit are, first, that LLM responses can be demonstrably improved when a human articulates their feedback; and second, that the LLM can provide such feedback. This is analogous to the iterative writing process a human writer might go through when producing a polished document.
 
@@ -554,7 +1015,7 @@ Agents are emerging in production as LLMs mature in key capabilities—understan
 
 Agents can handle sophisticated tasks, but their implementation is often straightforward. They are typically just LLMs using tools based on environmental feedback in a loop. It is therefore crucial to design toolsets and their documentation clearly and thoughtfully. We expand on best practices for tool development in Appendix 2 ("Prompt Engineering your Tools").
 
-![](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F58d9f10c985c4eb5d53798dea315f7bb5ab6249e-2401x1000.png&w=3840&q=75)Autonomous agent
+https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F58d9f10c985c4eb5d53798dea315f7bb5ab6249e-2401x1000.png&w=3840&q=75Autonomous agent
 
 **When to use agents:** Agents can be used for open-ended problems where it’s difficult or impossible to predict the required number of steps, and where you can’t hardcode a fixed path. The LLM will potentially operate for many turns, and you must have some level of trust in its decision-making. Agents' autonomy makes them ideal for scaling tasks in trusted environments.
 
@@ -567,7 +1028,7 @@ The following examples are from our own implementations:
 - A coding Agent to resolve [SWE-bench tasks](https://www.anthropic.com/research/swe-bench-sonnet), which involve edits to many files based on a task description;
 - Our [“computer use” reference implementation](https://github.com/anthropics/anthropic-quickstarts/tree/main/computer-use-demo), where Claude uses a computer to accomplish tasks.
 
-![](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F4b9a1f4eb63d5962a6e1746ac26bbc857cf3474f-2400x1666.png&w=3840&q=75)High-level flow of a coding agent
+https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F4b9a1f4eb63d5962a6e1746ac26bbc857cf3474f-2400x1666.png&w=3840&q=75High-level flow of a coding agent
 
 ## Combining and customizing these patterns
 
@@ -584,10 +1045,6 @@ When implementing agents, we try to follow three core principles:
 3. Carefully craft your agent-computer interface (ACI) through thorough tool **documentation and testing**.
 
 Frameworks can help you get started quickly, but don't hesitate to reduce abstraction layers and build with basic components as you move to production. By following these principles, you can create agents that are not only powerful but also reliable, maintainable, and trusted by their users.
-
-### Acknowledgements
-
-Written by Erik Schluntz and Barry Zhang. This work draws upon our experiences building agents at Anthropic and the valuable insights shared by our customers, for which we're deeply grateful.
 
 ## Appendix 1: Agents in practice
 
@@ -636,1360 +1093,1995 @@ One rule of thumb is to think about how much effort goes into human-computer int
 
 While building our agent for [SWE-bench](https://www.anthropic.com/research/swe-bench-sonnet), we actually spent more time optimizing our tools than the overall prompt. For example, we found that the model would make mistakes with tools using relative filepaths after the agent had moved out of the root directory. To fix this, we changed the tool to always require absolute filepaths—and we found that the model used this method flawlessly.
 
-### Original URL
-https://www.anthropic.com/research/building-effective-agents
 </details>
 
----
 <details>
-<summary>Cognition | Introducing Devin, the first AI software engineer</summary>
+<summary>From Web Search towards Agentic Deep Research: Incentivizing Search with Reasoning Agents</summary>
 
-# Introducing Devin, the first AI software engineer
+# From Web Search towards Agentic Deep Research: Incentivizing Search with Reasoning Agents
 
-Setting a new state of the art on the SWE-bench coding benchmark. Meet Devin, the world’s first fully autonomous AI software engineer.
+Information retrieval is a cornerstone of modern knowledge acquisition, enabling billions of queries each day across diverse domains. However, traditional keyword-based search engines are increasingly inadequate for handling complex, multi-step information needs. Our position is that Large Language Models (LLMs), endowed with reasoning and agentic capabilities, are ushering in a new paradigm termed Agentic Deep Research. These systems transcend conventional information search techniques by tightly integrating autonomous reasoning, iterative retrieval, and information synthesis into a dynamic feedback loop. We trace the evolution from static web search to interactive, agent-based systems that plan, explore, and learn. We also introduce a test-time scaling law to formalize the impact of computational depth on reasoning and search. Supported by benchmark results and the rise of open-source implementations, we demonstrate that Agentic Deep Research not only significantly outperforms existing approaches, but is also poised to become the dominant paradigm for future information seeking.
+All the related resources, including industry products, research papers, benchmark datasets, and open-source implementations, are collected for the community in [https://github.com/DavidZWZ/Awesome-Deep-Research](https://github.com/DavidZWZ/Awesome-Deep-Research "").
 
-Devin is a tireless, skilled teammate, equally ready to build alongside you or independently complete tasks for you to review.
+## 1 Introduction
 
-With Devin, engineers can focus on more interesting problems and engineering teams can strive for more ambitious goals.
+“Introducing deep research: An agent that uses reasoning to synthesize large amounts of online information and complete multi-step research tasks for you.”
 
-## Devin's Capabilities
+– OpenAI
 
-With our advances in long-term reasoning and planning, Devin can plan and execute complex engineering tasks requiring thousands of decisions. Devin can recall relevant context at every step, learn over time, and fix mistakes.
+Every day, billions of people search for information online  (Amendola et al.,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib4 "")), and rely heavily on these online resources to make decisions across personal, professional, and societal contexts ( [Zhang et al., 2024a,](https://arxiv.org/html/2506.18959v2#bib.bib100 "")). For decades, traditional web search engines based on keyword matching have served as the primary gateway to digital information. While once revolutionary, these systems increasingly struggle with complex, multi-faceted queries that demand nuanced understanding and synthesis (Mo et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib55 "")). The growing inadequacy highlights their inherent limitations in contextual comprehension and knowledge integration.
 
-We've also equipped Devin with common developer tools including the shell, code editor, and browser within a sandboxed compute environment—everything a human would need to do their work.
+Against this backdrop, information seeking and synthesis are undergoing a profound transformation with large language models (LLMs). Rather than merely enhancing traditional search paradigms, LLMs are poised to fundamentally replace them in addressing complex information needs.
+Initially, we witnessed the rise of LLMs as standalone, knowledgeable chatbots, which challenged the dominance of web search by offering more direct answers and a degree of synthesis, thereby reducing the user’s burden of sifting through numerous links (Liu et al.,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib48 "")). However, single LLMs are tethered to static, offline knowledge. The subsequent integration of search and retrieval-augmented generation (RAG) marked a step forward, grounding LLMs in external data and mitigating issues like hallucination (Ma et al.,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib51 ""); Yang et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib93 "")). Nevertheless, these naive RAG methods still struggle with real-world questions that require sophisticated multi-hop reasoning and strategic search planning, as they often cannot plan correct search paths for complex problems ( [Yao et al., 2023b,](https://arxiv.org/html/2506.18959v2#bib.bib96 "")).
 
-Finally, we've given Devin the ability to actively collaborate with the user. Devin reports on its progress in real time, accepts feedback, and works together with you through design choices as needed.‍Here's a sample of what Devin can do:
+https://arxiv.org/html/x1.png  
+Figure 1: The evolution of information search paradigms.
 
-### Devin can learn how to use unfamiliar technologies.
+Recently, test-time scaling (TTS) has emerged as a potent paradigm for boosting the reasoning and agentic capabilities of LLMs (Snell et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib71 "")). It assigns additional computation during inference, enabling deeper problem-solving ( [Zou et al., 2025a,](https://arxiv.org/html/2506.18959v2#bib.bib113 ""); Gu et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib23 "")).
+Equipped with TTS on reasoning and search, LLMs are set to drive a new search paradigm termed Agentic Deep Research systems, which are capable of autonomous reasoning, on-demand searching, and iterative information synthesis.
+Demonstrations from deep research products launched by OpenAI and Google highlight several key advantages of this paradigm: (1) Comprehensive Understanding: Ability to dissect and address complex, multifaceted queries that overwhelm traditional methods (Wei et al.,, [2022](https://arxiv.org/html/2506.18959v2#bib.bib89 "")); (2) Enhanced Synthesis: Excels at synthesizing information from diverse, potentially conflicting sources into coherent and insightful narratives (Cheng et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib19 "")); (3) Reduced User Burden: Significantly decreases the cognitive load and manual effort required from users by automating laborious search steps (Sami et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib65 "")).
 
-After reading a blog post, Devin runs ControlNet on Modal to produce images with concealed messages for Sara.
+Our position is that the LLM-driven Agentic Deep Research framework will inevitably become the dominant paradigm for future information search.
+In this paper, we comprehensively investigate this paradigm shift and make four key contributions: (1) We systematically trace and analyze the evolutionary trajectory of information search paradigms, from traditional keyword-based search, through conversational LLM chatbots and naive search-augmented LLMs, and ultimately to the Agentic Deep Research; (2) We introduce the test-time scaling (TTS) law for Deep Research, a novel hypothesis formalizing the relationship between inference-time computational resources allocation and the resulting improvements in LLMs reasoning capabilities and knowledge depth;
+(3) We conduct extensive evaluations on existing Agentic Deep Research models, coupled with analyses of open-source implementations to support our position; and (4) As the first to holistically summarize the field of Deep Research, we offer a detailed exploration of critical future research directions, outlining both opportunities and challenges. Our discussion outlines a clear roadmap for this rapidly evolving field, underscoring how this evolution is fundamentally reshaping human interaction with real-world information and guiding further advancement on Agentic Deep Research.
 
-### Devin can build and deploy apps end to end
+## 2 Traditional Information Search Paradigms
 
-Devin makes an interactive website which simulates the Game of Life! It incrementally adds features requested by the user and then deploys the app to Netlify.
+The evolution of search paradigms as in Figure [1](https://arxiv.org/html/2506.18959v2#S1.F1 "Figure 1 ‣ 1 Introduction ‣ From Web Search towards Agentic Deep Research: Incentivizing Search with Reasoning Agents") represents a fundamental transformation in how humans access and interact with information. This section examines three distinct frameworks that have shaped the landscape of information retrieval: traditional web search engines, Large Language Models (LLMs) as chatbots, and LLMs with Retrieval Augmented Generation (RAG) systems. Each paradigm offers unique capabilities and addresses prior information seeking challenges, from systematic web crawling and ranking to interactive dialogue and knowledge-augmented generation.
 
-### Devin can autonomously find and fix bugs in codebases
+### 2.1 Web Search
 
-Devin helps Andrew maintain and debug his open source competitive programming book.
+Web search has fundamentally transformed information access in modern society, enabling near-instantaneous retrieval of knowledge that previously required days or months to locate (Brin and Page,, [1998](https://arxiv.org/html/2506.18959v2#bib.bib11 "")). This revolutionary technology has democratized knowledge acquisition, accelerated economic development through improved information flow, and catalyzed scientific discovery by providing researchers with rapid access to cutting-edge developments. As the primary infrastructure for information retrieval in the Internet era, online search engines like Google have continuously shaped how humans interact with the expanding information landscape (Page et al.,, [1999](https://arxiv.org/html/2506.18959v2#bib.bib59 "")).
 
-### Devin can train and fine tune its own AI models
+The applications of web search span diverse contexts, from general-purpose engines handling broad information needs to specialized platforms optimized for specific domains. General search engines utilize sophisticated algorithms to address multifaceted user queries (Broder,, [2002](https://arxiv.org/html/2506.18959v2#bib.bib12 "")), while specialized systems like Google Scholar focus on academic literature, providing researchers with precise pathways to scholarly resources (Noruzi,, [2005](https://arxiv.org/html/2506.18959v2#bib.bib58 "")). Content platforms (TikTok), social networks (Facebook), and e-commerce sites have developed internal search capabilities tailored to their unique content types and user behaviors, demonstrating how web search has permeated virtually every digital sphere.
 
-Devin sets up fine tuning for a large language model given only a link to a research repository on GitHub.
+Basically, web search operates through three fundamental processes: crawling (Khder,, [2021](https://arxiv.org/html/2506.18959v2#bib.bib37 "")), indexing (Hendriksen et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib27 "")), and ranking (Robertson et al.,, [2009](https://arxiv.org/html/2506.18959v2#bib.bib64 "")). Crawlers systematically discover and collect web content, which is then analyzed and organized into inverted indices for efficient retrieval. When users submit queries, search engines employ complex algorithms to assess document relevance and importance (Fuhr,, [1992](https://arxiv.org/html/2506.18959v2#bib.bib21 "")). The PageRank algorithm revolutionized search by evaluating page authority based on the web’s citation graph, determining a page’s significance through its incoming links from other high-quality pages (Page et al.,, [1999](https://arxiv.org/html/2506.18959v2#bib.bib59 "")). Modern search systems have further evolved to incorporate semantic understanding, user behavior data, and personalization to deliver increasingly relevant results ( [Wang et al., 2024b,](https://arxiv.org/html/2506.18959v2#bib.bib85 "")). However, the contexts presented to the user may not always be relevant and accurate, due to the limited context for user-specific complex queries (Leake and Scherle,, [2001](https://arxiv.org/html/2506.18959v2#bib.bib40 "")) and the influence of advertisement bidding (Linden et al.,, [2009](https://arxiv.org/html/2506.18959v2#bib.bib47 "")).
 
-### Devin can address bugs and feature requests in open source repositories
+### 2.2 LLMs as Chatbots
 
-Given just a link to a GitHub issue, Devin does all the setup and context gathering that is needed.
+Leveraging recent advances in natural language processing (NLP) and hardware enhancements, large language models (LLMs) represent the latest evolution in information retrieval as user chatbots for tailored response generation. Models like ChatGPT Achiam et al., ( [2023](https://arxiv.org/html/2506.18959v2#bib.bib2 "")), Claude Anthropic, ( [2023](https://arxiv.org/html/2506.18959v2#bib.bib5 "")), and LLaMa Touvron et al., ( [2023](https://arxiv.org/html/2506.18959v2#bib.bib78 "")) transcend traditional static retrieval methods by engaging users through interactive dialogue with integrate and tailored solutions that not directly available online (Thirunavukarasu et al.,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib77 ""); Kasneci et al.,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib36 "")).
+Unlike conventional search engines that process each query independently—requiring iterative user efforts in providing contextual information and content browsing, LLM chatbots maintain conversation history throughout interactions, Beyond that, they aggregate vast amounts of web-sourced knowledge within their parameters, effectively serving as compact representations of extensive online information (Zhang et al.,, [2022](https://arxiv.org/html/2506.18959v2#bib.bib103 ""); Zeng et al.,, [2022](https://arxiv.org/html/2506.18959v2#bib.bib99 "")).
+Through supervised fine-tuning on conversation and instruction datasets (Iyer et al.,, [2022](https://arxiv.org/html/2506.18959v2#bib.bib31 "")), coupled with reinforcement learning from human feedback (RLHF) (Bai et al.,, [2022](https://arxiv.org/html/2506.18959v2#bib.bib8 "")), these models optimize their responses for accuracy, relevance, and alignment with user preferences. Additionally, targeted prompt engineering (Zhou et al.,, [2022](https://arxiv.org/html/2506.18959v2#bib.bib110 "")) and optimization techniques (Li and Liang,, [2021](https://arxiv.org/html/2506.18959v2#bib.bib45 "")), alongside maintaining conversational context (Callison-Burch et al.,, [2022](https://arxiv.org/html/2506.18959v2#bib.bib13 "")), further enhance the coherence and maturity of multi-turn interactions.
 
-### Devin can contribute to mature production repositories.
+However, despite these advantages, relying exclusively on internal LLM knowledge presents notable challenges: (1) hallucinations, where models generate plausible but inaccurate content (Tam et al.,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib76 ""); [Yao et al., 2023a,](https://arxiv.org/html/2506.18959v2#bib.bib95 ""); Zhao et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib105 "")); (2) lack of awareness of recent events, which compromises the timeliness of responses (Chen and Shu,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib14 "")); and (3) Limited context window, hindering a comprehensive understanding of complex queries ( [Wang et al., 2024c,](https://arxiv.org/html/2506.18959v2#bib.bib86 "")). Therefore, integrating external information sources and employing advanced reasoning to verify retrieved data are crucial strategies for addressing these limitations, thus ensuring LLM chatbots deliver accurate, relevant, and up-to-date information (Peng et al.,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib60 "")).
 
-This example is part of the SWE-bench benchmark. Devin solves a bug with logarithm calculations in the sympy Python algebra system. Devin sets up the code environment, reproduces the bug, and codes and tests the fix on its own.
+### 2.3 LLMs with RAG
 
-### We even tried giving Devin real jobs on Upwork and it could do those too!
+To address the inherent limitations of LLMs mentioned above, particularly their static knowledge and tendency to hallucinations, Retrieval Augmented Generation (RAG) has emerged as a promising paradigm (Prabhune and Berndt,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib62 "")). RAG integrates the generative capabilities of LLMs with retrieval systems to dynamically access relevant external information.
+Early implementations of RAG primarily employed a straightforward "Retrieve-then-Read" workflow (Ma et al.,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib51 "")), typically involving a single-step retrieval from a predefined local database or document collection. Although they improve upon purely parametric methods, such naive RAG systems can still struggle with inaccurate retrieval when faced with complex queries.
 
-Here, Devin writes and debugs code to run a computer vision model. Devin samples the resulting data and compiles a report at the end.
+To solve this problem, multi-hop retrieval addresses the limitations of traditional single-hop retrieval by enabling iterative, sequential searches and reasoning steps across multiple data sources (Jiang et al.,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib34 "")). Multi-hop retrieval incorporates iterative refinement, where intermediate retrieval outcomes guide subsequent queries, progressively building comprehensive context ( [Zhang et al., 2025a,](https://arxiv.org/html/2506.18959v2#bib.bib102 "")). Although multi-hop retrieval has strong power generation capabilities, it also suffers from limitations due to the underlying techniques it employs. Early stage errors in reasoning paths can propagate throughout subsequent retrieval and reasoning steps, severely influencing the final output integrity ( [Zhang et al., 2025a,](https://arxiv.org/html/2506.18959v2#bib.bib102 "")). Additionally, maintaining faithfulness to retrieved evidence poses ongoing difficulties, as language models frequently encounter conflicts between retrieved data and internal parametric knowledge ( [Zheng et al., 2025b,](https://arxiv.org/html/2506.18959v2#bib.bib107 "")).
 
-## Devin's Performance
+## 3 Towards Agentic Deep Research
 
-We evaluated Devin on [SWE-bench](https://swebench.com/), a challenging benchmark that asks agents to resolve real-world GitHub issues found in open source projects like Django and scikit-learn.
+Many complex real-world problems, including open-domain question answering (Yang et al.,, [2015](https://arxiv.org/html/2506.18959v2#bib.bib94 ""); Chen and Yih,, [2020](https://arxiv.org/html/2506.18959v2#bib.bib15 "")) and scientific discovery (Lu et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib49 ""); [Wang et al., 2023b,](https://arxiv.org/html/2506.18959v2#bib.bib84 ""); Baek et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib7 ""); Schmidgall et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib67 "")), inherently require an iterative interplay between information retrieval and reasoning. A single search step often falls short of capturing comprehensive information, while isolated reasoning phases can fail to identify critical insights (Trivedi et al.,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib79 "")). By tightly integrating search and reasoning in a multi-step and interactive manner, these systems can progressively enhance the relevance and depth of retrieved knowledge and simultaneously refine the reasoning process underlying query interpretation, ultimately producing more accurate and contextually nuanced responses.
+Here, reasoning actively influences search (e.g., refining search queries based on intermediate deductions), while retrieved information recursively refines reasoning in a dynamic feedback loop. Unlike the previous LLM with RAG framework in Section [2.3](https://arxiv.org/html/2506.18959v2#S2.SS3 "2.3 LLMs with RAG ‣ 2 Traditional Information Search Paradigms ‣ From Web Search towards Agentic Deep Research: Incentivizing Search with Reasoning Agents"), where retrieval and reasoning occur in discrete and sequential stages, this approach treats them as interdependent, continuously co-evolving.
 
-Devin correctly resolves 13.86%\* of the issues end-to-end, far exceeding the previous state-of-the-art of 1.96%. Even when given the exact files to edit, the best previous models can only resolve 4.80% of issues.
+This evolution in search methodologies gives rise to a transformative paradigm we define as Agentic Deep Research. In this paradigm, language models takes on the role of active information-seeking agents. Rather than a one-shot prompt + retrieve paradigm, an “agentic” LLM plans a series of steps: it can issue search queries, consult documents, browse on web, or even collaborate with other agents, all while refining its query understanding and response via iterative retrieval and reasoning. Inspired by the way human experts might research a question, we encapsulate this iterative synergy between reasoning and search in the term Deep Research highlighting its dynamic and interactive essence.
+To substantiate our central position that LLM-driven Agentic Deep Research will inevitably become the predominant paradigm for future information-seeking—we ground our argument across three interlinked technical dimensions: reasoning capabilities as the foundation, principled approaches to incentivize search, and ecosystem-level momentum evidenced through benchmarks and implementations.
 
-[![](https://cdn.sanity.io/images/2mc9cv2v/production/5dd1cd4fd86149ed2cf4d8ab605f99707040615e-1600x858.png)](https://cdn.sanity.io/images/2mc9cv2v/production/5dd1cd4fd86149ed2cf4d8ab605f99707040615e-1600x858.png)
+The evolution of reasoning capabilities in large language models represents a crucial stepping stone toward truly agentic systems, particularly in the context of deep research tasks. While Chain-of-Thought (CoT) prompting (Wei et al.,, [2022](https://arxiv.org/html/2506.18959v2#bib.bib89 "")) initially demonstrated the possibility of explicit reasoning processes, the real breakthrough lies in how reasoning mechanisms enable autonomous decision-making and strategic planning, essential for conducting deep research.
+The transformation from simple CoT to more sophisticated reasoning frameworks marks a fundamental shift in how AI systems approach complex tasks. Rather than merely following predetermined patterns, modern reasoning frameworks enable systems to dynamically plan, execute, and adjust their approach based on intermediate outcomes.
+This capability is particularly evident in recent reinforcement learning-based optimization approaches (Jaech et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib32 ""); Guo et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib24 "")), which have demonstrated unprecedented abilities in managing complex search tasks. These systems can autonomously determine when to initiate searches, formulate appropriate queries, and synthesize findings into coherent understanding, forming the cornerstone of agentic behavior.
 
-Devin was evaluated on a random 25% subset of the dataset. Devin was unassisted, whereas all other models were assisted (meaning the model was told exactly which files need to be edited).
+The DeepSeek-R1 (Guo et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib24 "")) represents a significant milestone in this evolution, demonstrating how reinforcement learning can optimize reasoning processes for complex mathematical tasks. By learning from experience and feedback, these systems develop sophisticated strategies for information gathering and synthesis, moving beyond simple pattern matching to true strategic planning. This advancement in reasoning capabilities provides the essential foundation for agentic deep research by enabling systems to autonomously evaluate information needs, strategically decompose complex queries, synthesize information across multiple sources while maintaining logical consistency, and adapt search strategies based on intermediate results and feedback (Jin et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib35 "")).
+These capabilities, rooted in advanced reasoning mechanisms, establish the preliminary foundation necessary for conducting deep research tasks that require strategic planning, iterative refinement, and complex decision-making. The integration of reinforcement learning with reasoning frameworks represents a crucial step toward truly agentic systems capable of conducting sophisticated research autonomously, marking a significant advancement from traditional search and retrieval paradigms ( [Chen et al., 2025b,](https://arxiv.org/html/2506.18959v2#bib.bib17 "")).
 
-We plan to publish a more detailed technical report soon—stay tuned for more details.
+### 3.1 Incentivizing Search with Reasoning Agents
 
-### Original URL
-https://cognition.ai/blog/introducing-devin
+Within this paradigm, reasoning is not merely an auxiliary component applied post-retrieval; rather, it constitutes the core mechanism that determines when, what, and how to search (Wu et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib91 "")). While prompting and supervised fine-tuning (SFT) serve as foundational techniques for instilling tool-use behaviors and basic query generation, they are inherently limited by their reliance on fixed instruction patterns and offline supervision ( [Wang et al., 2023a,](https://arxiv.org/html/2506.18959v2#bib.bib82 ""); Ghosh et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib22 "")). In contrast, reinforcement learning (RL) provides a principled framework for cultivating truly agentic behavior—enabling models to explore, self-correct, and adaptively optimize their retrieval strategies in open-ended, interactive environments (Singh et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib70 ""); Jin et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib35 ""); Song et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib72 "")). This shift toward RL-incentivized search marks a critical step toward developing autonomous agents capable of reasoning-driven information acquisition.
+
+#### Prompting and In-Context Learning: Bridging Search and Reasoning.
+
+Prompting methods have laid important groundwork for coupling reasoning with external information retrieval. ReAct ( [Yao et al., 2023c,](https://arxiv.org/html/2506.18959v2#bib.bib97 "")) and its successors ( [Li et al., 2025b,](https://arxiv.org/html/2506.18959v2#bib.bib43 ""); Alzubi et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib3 "")) introduced paradigms where LLMs alternate between reasoning steps and tool use, guiding models to break problems down and issue relevant search queries mid-process. This enables iterative refinement of reasoning with retrieved evidence, improving factuality and coherence.
+Extensions such as Search-o1 ( [Li et al., 2025b,](https://arxiv.org/html/2506.18959v2#bib.bib43 "")) and Open Deep Search (ODS) (Alzubi et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib3 "")) prompt LLMs to actively consult web resources and integrate results into ongoing thought chains. In parallel, methods like Self-Ask (Press et al.,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib63 "")) and IRCoT (Trivedi et al.,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib79 "")) embed search directly within step-by-step reasoning, generating sub-questions and retrieving partial answers in a recursive loop.
+These prompting approaches offer flexible templates to scaffold retrieval-enhanced reasoning. However, they rely on fixed prompting logic and do not provide incentives for exploring better search or reasoning paths, limiting their scalability for open-ended or high-stakes tasks.
+
+#### Supervised Fine-Tuning: Hard-Coding Search Patterns.
+
+Supervised fine-tuning (SFT) takes a more structured approach by directly training LLMs on datasets that combine reasoning and retrieval. Toolformer (Schick et al.,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib66 "")) and INTERS (Zhu et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib111 "")) illustrate how models can be trained to learn when and how to query external tools, assess retrieved information, and integrate it logically into final outputs.
+SFT data typically comes from two sources: synthetic data generation (e.g., Toolformer (Schick et al.,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib66 "")), RAG-Studio (Mao et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib53 ""))) or instructional reformulation of existing datasets (e.g., INTERS (Zhu et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib111 "")), InstructRetro ( [Wang et al., 2024a,](https://arxiv.org/html/2506.18959v2#bib.bib83 ""))). These enable LLMs to follow structured retrieval-reasoning sequences. However, such methods primarily encode static behaviors learned from data, not dynamic, adaptive behaviors optimized for diverse environments.
+While prompting and SFT offer controlled environments for building retrieval-aware reasoning, they impose fixed search patterns and predefined goals. They do not equip agents with the ability to explore the open-ended, uncertain nature of real-world search tasks.
+
+#### Reinforcement Learning: Optimizing Reasoning-Driven Search in the Wild.
+
+Reinforcement learning (RL) fundamentally changes the search paradigm by letting agents learn through trial and error in interactive environments. Instead of being told how to search, RL-trained agents are incentivized (through feedback or reward functions) to discover, refine, and adapt their reasoning and search strategies for specific goals.
+Early systems like WebGPT (Nakano et al.,, [2021](https://arxiv.org/html/2506.18959v2#bib.bib57 "")) and RAG-RL ( [Huang et al., 2025a,](https://arxiv.org/html/2506.18959v2#bib.bib28 "")) demonstrated how reward signals (based on human feedback or factual correctness) can guide multi-step retrieval policies that improve response accuracy and trustworthiness. More modular designs like M-RAG ( [Wang et al., 2024d,](https://arxiv.org/html/2506.18959v2#bib.bib87 "")) separate reasoning and retrieval into specialized agents, each trained to collaborate via shared RL objectives.
+Recent RL-based systems such as Search-R1 (Jin et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib35 "")), R1-Searcher (Song et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib72 "")), DeepResearcher ( [Zheng et al., 2025a,](https://arxiv.org/html/2506.18959v2#bib.bib106 "")), ZeroSearch ( [Sun et al., 2025a,](https://arxiv.org/html/2506.18959v2#bib.bib74 "")), and WebAgent-R1 [Wei et al., 2025b](https://arxiv.org/html/2506.18959v2#bib.bib90 "") operate in various search environments from static local corpora and open search APIs to real-world web interfaces. These agents learn to decompose complex tasks, plan query sequences, verify evidence, and adjust their strategies based on environment feedback. Such behaviors are difficult to teach through SFT or prompts alone.
+Importantly, ReSearch ( [Chen et al., 2025b,](https://arxiv.org/html/2506.18959v2#bib.bib17 "")) and ReARTeR ( [Sun et al., 2025b,](https://arxiv.org/html/2506.18959v2#bib.bib75 "")) go a step further by optimizing not just factual correctness, but also alignment with transparent, interpretable reasoning. ReARTeR introduces a dual-model approach that incentivizes both outcome quality and step-wise explainability, offering a more human-aligned path to trustworthy automation.
+
+### 3.2 Benchmarks and Open-Source Implementations:
+
+https://arxiv.org/html/extracted/6574156/Figures/benchmark.png  
+Figure 2: Benchmarks of 5 standard LLMs, 4 reasoning LLMs, and 1 agentic deep research model (OpenAI Deep Research) on BrowseComp, BrowseComp-ZH, and Humanity’s Last Exam.
+
+#### Deep Research Benchmarks
+
+To rigorously compare the capabilities of standard LLMs, reasoning LLMs, and agentic deep research models in realistic and high-stakes scenarios, we adopt and evaluate three representative benchmarks, including BrowseComp ( [Wei et al., 2025a,](https://arxiv.org/html/2506.18959v2#bib.bib88 "")), BrowseComp-ZH (Zhou et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib109 "")), and Humanity’s Last Exam (HLE) (Phan et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib61 "")), each targeting distinct dimensions of agentic deep research. BrowseComp assesses an agent’s ability to conduct multi-step, open-ended web searches to retrieve non-trivial information, while BrowseComp-ZH extends this challenge to the Chinese web, introducing additional linguistic complexity. In contrast, HLE focuses on presenting expert-level questions across diverse academic domains that cannot be solved through naive retrieval alone. These tasks require agents to synthesize evidence from obscure or fragmented sources (e.g., identifying policy changes from regional Chinese documents or resolving historical ambiguities) or to reason through abstract academic problems, where more details can be found in Appendix [A](https://arxiv.org/html/2506.18959v2#A1 "Appendix A Deep ReSearch Benchmarks ‣ From Web Search towards Agentic Deep Research: Incentivizing Search with Reasoning Agents"). As shown in Figure 2, standard LLMs perform poorly across these benchmarks—typically below 10% on BrowseComp datasets and under 20% on HLE. In comparison, the OpenAI Deep Research agent achieves significantly higher scores—51.5% on BrowseComp, 42.9% on BrowseComp-ZH, and 26.6% on HLE—demonstrating the effectiveness of reasoning-integrated search in advancing the frontier of intelligent information-seeking systems.
+
+#### Open-Source Implementations
+
+To empirically ground the rising momentum behind Agentic Deep Research, we examine GitHub star trajectories for recent open-source implementations within this paradigm and we provide detailed information in Appendix [B](https://arxiv.org/html/2506.18959v2#A2 "Appendix B Open-Source Deep Research Implementations ‣ From Web Search towards Agentic Deep Research: Incentivizing Search with Reasoning Agents"). After excluding the two most-starred repositories (to mitigate skew from viral or legacy projects) and the two least-starred (to reduce statistical noise), we observe a clear upward trajectory across nearly all remaining projects since early 2025. Notably, deep-searcher and deer-flow experienced rapid surges, reaching thousands of stars within weeks. Even smaller-scale efforts, including DeepResearcher and R1-Searcher, display a consistent upward trend, highlighting the breadth of innovation within the agentic search space. These patterns, along with the average Github star trends, indicate not only a technical transition but also a broader cultural and developmental shift: the open-source community is increasingly converging around reasoning-driven, agentic deep research as a leading framework for information seekin. This empirical momentum reinforces our position statement—that Agentic Deep Research LLM-cored Agentic Deep Research framework will inevitable become the dominant paradigm for future information search.
+
+https://arxiv.org/html/extracted/6574156/Figures/star_history.png  
+(a)GitHub star trend for open-source repositories.
+
+https://arxiv.org/html/x2.png  
+(b)Test-time scaling law for agentic deep research.
+
+Figure 3: (a) Open-source star trend for agentic deep research. (star counts recorded up to 22 May 2025). (b) Test-time scaling (TTS) law for agentic deep research, where data before performance normalization for reasoning TTS is from S1 on AIME24 (Muennighoff et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib56 "")) and for search TTS is from IterDRAG on MuSiQue (Yue et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib98 "")). The TTS is measured in inference tokens.
+
+## 4 Test-Time Scaling Law for Deep Research
+
+Building upon the stated position, we introduce the Test-Time Scaling (TTS) law for Agentic Deep Research, an hypothesis predicting the performance improvements achievable through extended computational resources during inference. Figure [3(b)](https://arxiv.org/html/2506.18959v2#S3.F3.sf2 "In Figure 3 ‣ Open-Source Implementations ‣ 3.2 Benchmarks and Open-Source Implementations: ‣ 3 Towards Agentic Deep Research ‣ From Web Search towards Agentic Deep Research: Incentivizing Search with Reasoning Agents") illustrates this hypothesis, normalized performance improve linearly through scaling of internal reasoning depth and external knowledge exploration. Data supporting this observation comes from two representative evaluations: S1 on the AIME24 dataset (Muennighoff et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib56 "")), which tests reasoning-based scaling on advanced multi-step mathematical reasoning problems, and IterDRAG on MuSiQue (Yue et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib98 "")), which focuses on search-based scaling via multi-hop retrieval tasks. As in Figure [3(b)](https://arxiv.org/html/2506.18959v2#S3.F3.sf2 "In Figure 3 ‣ Open-Source Implementations ‣ 3.2 Benchmarks and Open-Source Implementations: ‣ 3 Towards Agentic Deep Research ‣ From Web Search towards Agentic Deep Research: Incentivizing Search with Reasoning Agents"), the diagonal plane connecting empirical data points interpolated in the three-dimensional plot represents our hypothetical TTS for Agentic Deep Research. Tasks requiring deeper internal knowledge utilization (reasoning), such as solving complex math problems and logic puzzles, are better aligned with the green plane, whereas tasks demanding extensive external knowledge exploration (search), like medical QA, will align more closely with the red plane. Here, we illustrate the TTS law and trade-offs along the search and reasoning axes.
+
+### 4.1 Reasoning — TTS of Internal Knowledge Utilization
+
+Recent studies have shown that LLMs do more than recall memorized facts or patterns. When given extra computational resource to “think”, they can also perform deeper reasoning steps. This pattern, known as the test-time scaling law for reasoning, indicates that as a model takes more inference steps, including building longer chains of thought ( [Chen et al., 2025c,](https://arxiv.org/html/2506.18959v2#bib.bib18 "")), iterative self-refinement (Madaan et al.,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib52 "")), or self-consistency decoding (Hao et al.,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib26 "")), its accuracy in complex tasks steadily improves.
+This phenomenon also suggests that the internal knowledge embedded in LLMs is not fully exposed in a single forward pass. Instead, deeper understanding can be progressively uncovered through extended inference.
+In the context of Agentic Deep Research, this highlights a key shift from producing one-shot answers to engaging in active, multi-step reasoning. Instead of relying solely on external retrieval or prompting tricks, the model’s internal knowledge becomes a reusable and expandable resource. This inference-time flexibility is crucial for handling complex, open-ended queries, and positions reasoning as a core axis of scalable capability in LLM-based research agents (Huang et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib29 "")).
+
+### 4.2 Search — TTS of External Knowledge Exploration
+
+In addition to making full use of the internal knowledge of LLMs, exploring abundant external knowledge effectively is another key to achieving TTS in Agentic Deep Research systems. When performing external knowledge search, it is often difficult to obtain all the important information in a single-step retrieval (Shao et al.,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib68 ""); Jiang et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib33 "")). To overcome this bottleneck, consistent with the agentic RAG insights, existing work mainly explores the scaling potential of the search phase through iterative search and long-context RAG. Representatively, many works have explored improving the test-time retrieval performance through iterative RAG/search, which introduces a dynamic and multi-step retrieval to knowledge search via task decomposition (Trivedi et al.,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib79 ""); Asai et al.,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib6 ""); Xiong et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib92 "")). They generally show that iterative multi-step retrieval under a proper number of iterations can also enhance RAG’s performance. Yue et al., ( [2025](https://arxiv.org/html/2506.18959v2#bib.bib98 "")) recently further observed an important experimental phenomenon that under optimal inference parameters, the performance improves nearly linearly with increasing test-time computation.
+The gradual expansion of knowledge retrieval from split local text chunks towards an increasingly precise retrieval executed within nearly global external knowledge bases would become a more powerful development trend in the test-time search process.
+
+### 4.3 TTS Trade-offs for Search and Reasoning
+
+Agentic Deep Research systems integrate both search and reasoning, each consuming part of a limited token budget. Under such constraints, a natural trade-off emerges: allocating more tokens to search (e.g., issuing broader or more detailed queries) reduces the capacity available for reasoning (e.g., multi-hop inference or synthesis), and vice versa. This balance is task-dependent. Search-heavy tasks such as multi-hop RAG (Xiong et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib92 ""); Shao et al.,, [2023](https://arxiv.org/html/2506.18959v2#bib.bib68 "")) or literature surveys prioritize broader content access, while reasoning-heavy tasks like causal analysis or math verification (Snell et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib71 "")) require deeper internal processing. Building systems that adaptively allocate token budgets between search and reasoning based on task characteristics is critical for maximizing effectiveness and efficiency in Agentic Deep Research. We anticipate the emergence of a test-time scaling law that governs the optimal balance between search and reasoning under different task conditions. Furthermore, training models that can dynamically allocate and manage budget across these two components is a defining capability of next-generation deep research systems.
+
+## 5 Alternative View and Discussions
+
+#### Retaining Human Primacy in Search
+
+In contrast to the position advanced in this paper that the future of information seeking paradigm is LLM-driven Agentic Deep Research. An alternative viewpoint contends that search should remain fundamentally a human-led activity, with artificial intelligence systems serving primarily as assistive, not autonomous, tools. This counter-position emphasizes that human with primary involvement is indispensable for ensuring trust, interpretability, and epistemic responsibility in open-ended inquiry tasks (Mehrotra et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib54 "")).
+First, despite the recent progress in agentic reasoning capabilities, autonomous systems still lack robust models of user intent, contextual nuance, and domain-specific ethics. These elements are often essential in complex or high-stakes search scenarios such as scientific research, legal interpretation, or public policy analysis. Advocates of human-led search argue that delegating the full pipeline (from information retrieval to reasoning and synthesis) to LLM agents risks introducing misaligned conclusions, opaque decision paths, and reduced user oversight.
+In addition, from a trust and accountability perspective, human-directed systems afford greater transparency and traceability. While autonomous agents can produce fluent and plausible outputs, they also introduce increased risk of hallucinations, spurious correlations, or unjustified reasoning steps. Maintaining human control over search allows users to apply critical judgment, verify information provenance, and assume responsibility for downstream decisions, a particularly salient concern in regulated or high-risk domains  ( [Zou et al., 2025b,](https://arxiv.org/html/2506.18959v2#bib.bib114 ""); [Zou et al., 2025c,](https://arxiv.org/html/2506.18959v2#bib.bib115 "")).
+
+## 6 Open Problems and Future Opportunities
+
+#### Human-in-Loop and Trustworthy
+
+This suggests that progress in AI search systems should prioritize augmenting human capabilities rather than replacing them. This includes building interfaces that support iterative refinement, expose intermediate reasoning steps, and enable meaningful user feedback. In this framing, AI functions less as an autonomous researcher and more as a powerful assistant embedded within a human-centered workflow (Shneiderman,, [2022](https://arxiv.org/html/2506.18959v2#bib.bib69 "")).
+To build trustworthy Deep Research systems, human interactions play an important role. Several important research questions need to be solved.
+(1) Search Content Access Control. Implementing fine-grained access control mechanisms ensures that users can only access information appropriate to their roles and permissions. This is particularly important in domains where role-based access to information is essential for privacy, regulatory compliance, or competitive confidentiality.
+(2) Human Verification and Feedback Mechanisms. Incorporating human oversight at critical stages of the AI search process can significantly improve the accuracy and reliability of the system ( [Zou et al., 2025b,](https://arxiv.org/html/2506.18959v2#bib.bib114 ""); [Zou et al., 2025c,](https://arxiv.org/html/2506.18959v2#bib.bib115 "")). Designing systems that facilitate user feedback enables continuous learning and adaptation, aligning AI outputs more closely with user expectations (Zhong et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib108 ""); [Zou et al., 2025c,](https://arxiv.org/html/2506.18959v2#bib.bib115 "")) and user-specific requirements ( [Zhang et al., 2025b,](https://arxiv.org/html/2506.18959v2#bib.bib104 "")).
+
+#### In-Domain Expert-Level Deep Research
+
+Deep Research is emerging as the new internet traffic entrance and current Deep Research systems focus on general-purpose domains. However, in highly specialized fields such as medicine, law, and biology, in-domain expert-level deep research is essential to ensure accuracy, relevance, and usability. Domain-specific research poses unique challenges that general-purpose agents cannot meet. We highlight three key research directions:
+(1) Domain-Specific Database Construction.
+In many fields, data is scattered across fragmented databases with inconsistent coverage and interfaces—e.g., in bioinformatics (Benson et al.,, [2012](https://arxiv.org/html/2506.18959v2#bib.bib9 ""); UniProt Consortium,, [2018](https://arxiv.org/html/2506.18959v2#bib.bib80 ""); Dyer et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib20 "")) or medicine (Knox et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib38 ""); Landrum et al.,, [2018](https://arxiv.org/html/2506.18959v2#bib.bib39 "")). This fragmentation hampers retrieval and reasoning. Future systems must build unified, structured, and queryable domain-specific databases to enable effective deep research.
+(2) Domain-Grounded Reasoning.
+Reasoning paradigms vary by field: legal reasoning relies on precedent, medical reasoning on diagnostic codes, scientific reasoning on hypothesis testing. Agentic systems must align with these paradigms, adapting their planning and inference mechanisms to domain-specific logic and workflows.
+
+#### Structure-Organized Deep Research Systems
+
+Structured (graph) data, composed of nodes (representing entities) and edges (representing relationships), offers an intuitive and systematic way to represent complex relationships and knowledge associations (Hamilton et al.,, [2017](https://arxiv.org/html/2506.18959v2#bib.bib25 ""); Veličković et al.,, [2018](https://arxiv.org/html/2506.18959v2#bib.bib81 "")). This structured organization can significantly enhance the deep research process in the following ways: (1) Iterative Data Organization: There are many intermediate searching and reasoning contents during agentic retrieval and reasoning. Structuring these iterative contents helps agents maintain coherence and relevance in the long context (Li et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib42 "")). As structured data clarifies knowledge relationships, agents can follow these links effectively when generating answers. This allows them to find relevant content more clearly and avoid contradictions or illogical situations. (2) Multi-Agent Deep Research: Effective task allocation and coordination are essential in multi-agent collaboration. Graph structure helps agents understand task requirements based on their roles and relationships (Zhuge et al.,, [2024](https://arxiv.org/html/2506.18959v2#bib.bib112 ""); [Zhang et al., 2024b,](https://arxiv.org/html/2506.18959v2#bib.bib101 "")).
+Further, in multi-agent collaboration, timely and accurate information exchange is vital. Graph data serves as an effective information carrier, allowing agents to structure complex information.
+Learning (message passing) from this structured data enhances efficient information sharing among agents based on their relationships.
+
+#### From Textual Space to Multi-Modality
+
+For Agentic Deep Research systems to truly emulate human research capabilities, they must transcend textual limitations and integrate diverse information modalities including images, audio-visual content, and structured data. Different modalities inherently encode distinct knowledge types: text conveys abstract concepts and logical relationships, images provide visual instances and spatial information, while videos capture temporal dynamics and sequential processes. This evolution requires a qualitative cognitive leap in knowledge integration rather than merely expanding input channels. Critical research directions include: (1) Cross-modal Semantic Alignment: deep cross-modal semantic alignment within unified representational spaces that support context-aware reasoning across modalities ( [Li et al., 2025a,](https://arxiv.org/html/2506.18959v2#bib.bib41 "")); (2) Information Fusion and Conflict Resolution: robust information fusion with sophisticated conflict resolution mechanisms when modalities present inconsistent information (Bi et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib10 "")); and (3) Multi-modal Knowledge Acquisition: efficient multi-modal knowledge retrieval and comprehension from heterogeneous, large-scale data repositories (Abootorabi et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib1 "")).
+
+#### Efficient Test-Time Scaling
+
+As Agentic Deep Research systems advance, operational efficiency and cost management become critical scaling determinants. Optimization must target both reasoning and search: (1) Reasoning Efficiency, balancing computational depth against resource utilization through techniques like capability transfer to smaller models or latent reasoning approaches (Sui et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib73 "")). Such efficiency improvements potentially extend beyond mere compression of reasoning chains to manifest as higher-order intelligence through resource self-management( [Li et al., 2025d,](https://arxiv.org/html/2506.18959v2#bib.bib46 "")).
+(2) Search Efficiency: Optimizing search beyond naive retrieval requires addressing scalable retrieval from massive heterogeneous sources, efficient long-context processing (Luo et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib50 "")), and iterative search with intelligent query refinement and adaptive stopping criteria (Singh et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib70 "")). Future systems must implement budget-aware strategies that dynamically adjust search workflows.
+
+## 7 Conclusion
+
+This paper has articulated a compelling trajectory from traditional web search paradigms towards the inevitable ascendancy of Agentic Deep Research. By systematically addressing the limitations of prior search engine systems and emphasizing the transformative potential of iterative reasoning and search enabled through advanced reinforcement learning frameworks, we demonstrate that agentic systems significantly outperform traditional models across complex benchmarks. The empirical trends observed in both academic evaluations and open-source implementations reinforce this shift, indicating broad recognition and adoption within different communities. Nevertheless, recognizing legitimate concerns regarding human oversight and transparency, future developments must incorporate hybrid frameworks that optimize both autonomous agentic capabilities and human-in-the-loop interactions. In proposing multiple open challenges and opportunities, we foresee Agentic Deep Research as not only the dominant paradigm but also a profoundly human-centered LLM-driven advancement in knowledge acquisition and synthesis.
+
+## Appendix A Deep ReSearch Benchmarks
+
+#### BrowseComp
+
+( [Wei et al., 2025a,](https://arxiv.org/html/2506.18959v2#bib.bib88 ""))
+is a benchmark introduced by OpenAI to evaluate the capabilities of AI agents in conducting complex web searches. Comprising 1,266 challenging questions, it assesses an agent’s ability to persistently navigate the internet to locate hard-to-find, entangled information. Unlike traditional benchmarks that focus on retrieving easily accessible facts, BrowseComp emphasizes tasks where answers are deliberately obscured, requiring agents to demonstrate advanced reasoning, strategic search planning, and adaptability. The benchmark’s design ensures that while answers are difficult to discover, they are straightforward to verify, facilitating reliable evaluation of agent performance. BrowseComp serves as a critical tool for advancing research in developing AI systems capable of sophisticated information retrieval and reasoning across the web.
+
+#### BrowseComp-ZH
+
+(Zhou et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib109 ""))
+is a high-difficulty benchmark developed to evaluate the web browsing and reasoning capabilities of large language models (LLMs) within the Chinese information ecosystem. Recognizing that existing benchmarks like BrowseComp focus primarily on English-language contexts, BrowseComp-ZH addresses the unique challenges posed by the Chinese web, including linguistic complexity, fragmented information across diverse platforms, and varying search engine infrastructures.
+The benchmark comprises 289 multi-hop questions spanning 11 diverse domains such as film, art, medicine, geography, history, and technology. Each question is meticulously reverse-engineered from a concise, objective, and easily verifiable answer (e.g., a date, number, or proper noun). A two-stage quality control protocol ensures high question difficulty and answer uniqueness. Notably, the questions are designed so that answers are not readily retrievable via standard search engines, requiring models to engage in complex reasoning and information synthesis.
+
+#### Humanity’s Last Exam (HLE)
+
+(Phan et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib61 "")) is a multi-modal benchmark designed to evaluate the reasoning and problem-solving capabilities of large language models (LLMs) across a broad spectrum of academic disciplines. Developed collaboratively by the Center for AI Safety and Scale AI, HLE comprises 3,000 expert-crafted questions spanning mathematics, humanities, natural sciences, and more.
+Unlike BrowseComp and BrowseComp-ZH, where agents can locate and answer questions by analyzing information retrieved from the web, HLE presents ’closed-book’ academic challenges (the answers aren’t directly available online) that demand deep reasoning and specialized domain expertise, going well beyond what surface-level online searches can support. Each question in HLE is designed to be unambiguous and verifiable, yet not readily answerable through internet search, thereby testing the intrinsic reasoning abilities of LLMs.
+
+## Appendix B Open-Source Deep Research Implementations
+
+| Name | Base Model | Optimization | Training Data | Evaluation Data | Link |
+| --- | --- | --- | --- | --- | --- |
+| Agentic Reasoning (Wu et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib91 "")) | N/A | Prompt | N/A | GPQA | [Link](https://github.com/theworldofagents/Agentic-Reasoning "") |
+| Search-o1 ( [Li et al., 2025b,](https://arxiv.org/html/2506.18959v2#bib.bib43 "")) | Qwen | Prompt | N/A | GPQA, MATH500, AMC2023, AIME2024, LiveCodeBench, Natural Questions, TriviaQA, HotpotQA, 2Wiki, MuSiQue, Bamboogle | [Link](https://github.com/sunnynexus/Search-o1 "") |
+| Open Deep Search (Alzubi et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib3 "")) | DeepSeek, Llama | Prompt | N/A | SimpleQA, FRAME | [Link](https://github.com/sentient-agi/OpenDeepSearch "") |
+| Search-R1 (Jin et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib35 "")) | Llama, Qwen | RL | NQ, HotpotQA | NQ, TriviaQA, PopQA, HotpotQA, 2WikiMultiHopQA, MuSiQue, Bamboogle | [Link](https://github.com/PeterGriffinJin/Search-R1 "") |
+| DeepResearcher ( [Zheng et al., 2025a,](https://arxiv.org/html/2506.18959v2#bib.bib106 "")) | Qwen | RL | NQ, TQ, HotpotQA, 2WikiMultiHopQA | MuSiQue, Bamboogle, PopQA, NQ, TQ, HotpotQA, 2WikiMultiHopQA | [Link](https://github.com/GAIR-NLP/DeepResearcher "") |
+| R1-Searcher (Song et al.,, [2025](https://arxiv.org/html/2506.18959v2#bib.bib72 "")) | Llama, Qwen | RL | HotpotQA, 2WikiMultiHopQA | HotpotQA, 2WikiMultiHopQA, MuSiQue, Bamboogle | [Link](https://github.com/RUCAIBox/R1-Searcher "") |
+| ReSearch ( [Chen et al., 2025a,](https://arxiv.org/html/2506.18959v2#bib.bib16 "")) | Qwen | RL | MuSiQue | HotpotQA, 2WikiMultiHopQA, MuSiQue, Bamboogle | [Link](https://github.com/Agent-RL/ReSearch "") |
+| ZeroSearch ( [Sun et al., 2025a,](https://arxiv.org/html/2506.18959v2#bib.bib74 "")) | Llama, Qwen | RL | NQ, HotpotQA | NQ, TriviaQA, PopQA, HotpotQA, 2WikiMultiHopQA, MuSiQue, Bamboogle | [Link](https://github.com/Alibaba-NLP/ZeroSearch "") |
+| IKEA ( [Huang et al., 2025b,](https://arxiv.org/html/2506.18959v2#bib.bib30 "")) | Qwen | RL | NQ, HotpotQA | NQ, HotpotQA, PopQA, 2Wikimultihopqa | [Link](https://github.com/hzy312/knowledge-r1 "") |
+| Webthinker ( [Li et al., 2025c,](https://arxiv.org/html/2506.18959v2#bib.bib44 "")) | Qwen | RL | SuperGPQA, WebWalkerQA, OpenThoughts, NaturalReasoning, NuminaMath | GPQA, GAIA, WebWalkerQA, Humanity’s Last Exam | [Link](https://github.com/RUC-NLPIR/WebThinker "") |
+| gpt-researcher | OpenAI Series | Prompt | N/A | N/A | [Link](https://github.com/assafelovic/gpt-researcher "") |
+| deep-searcher | DeepSeek, OpenAI Series, Claude, Gemini, Grok, Qwen, Llama, GLM | Prompt | N/A | N/A | [Link](https://github.com/zilliztech/deep-searcher "") |
+| nanoDeepResearch | OpenAI Series, Claude | Prompt | N/A | N/A | [Link](https://github.com/liyuan24/nanoDeepResearch "") |
+| DeerFlow | OpenAI Series, Qwen | Prompt | N/A | N/A | [Link](https://github.com/bytedance/deer-flow "") |
+| deep-research | DeepSeek, OpenAI Series | Prompt | N/A | N/A | [Link](https://github.com/dzhng/deep-research "") |
+| open-deep-research | OpenAI Series, DeepSeek, Claude, Gemini | Prompt | N/A | N/A | [Link](https://github.com/btahir/open-deep-research "") |
+| r1-reasoning-rag | DeepSeek | Prompt | N/A | N/A | [Link](https://github.com/deansaco/r1-reasoning-rag "") |
+| node-DeepResearch | Gemini, OpenAI Series | Prompt | N/A | N/A | [Link](https://github.com/jina-ai/node-DeepResearch "") |
+| deep-research | Gemini, OpenAI Series, DeepSeek, Claude, Grok | Prompt | N/A | N/A | [Link](https://github.com/u14app/deep-research "") |
+
 </details>
 
----
 <details>
-<summary>Agentic LLM Architecture: How It Works, Types, Key Applications | SaM Solutions</summary>
+<summary>Large Language Models (LLMs) have shown impressive performance on various language processing tasks, but often struggle with complex, multi-step tasks such as travel planning. To address this challenge, extensions like LLM-modulo systems and agentic approaches have been proposed, each with its own strengths and limitations. This paper examines the unique strengths and limitations of these approaches, using the Travel Planner benchmark as a case study. We analyze the results and propose a new hybrid task planner approach to address the challenges of solving multi-step tasks with LLMs, highlighting implications for future research in this area.</summary>
 
-# Agentic LLM Architecture: A Comprehensive Guide
+Large Language Models (LLMs) have shown impressive performance on various language processing tasks, but often struggle with complex, multi-step tasks such as travel planning. To address this challenge, extensions like LLM-modulo systems and agentic approaches have been proposed, each with its own strengths and limitations. This paper examines the unique strengths and limitations of these approaches, using the Travel Planner benchmark as a case study. We analyze the results and propose a new hybrid task planner approach to address the challenges of solving multi-step tasks with LLMs, highlighting implications for future research in this area.
 
-[Anastasiya Paharelskaya](https://sam-solutions.com/author/a-paharelskaya/)
+Large Language Models (LLMs) have emerged as a powerful tool for solving a variety of complex tasks. Currently, there is a growing interest in applying LLMs towards solving multi-step tasks such as travel planning or mission planning. However, LLMs have frequently shown disappointing results on these multi-step tasks. In benchmarks such as Travel Planner (Xie et al. 2024), even GPT-4 only achieves a $0 . 6 %$ success rate for solving a user request.
 
-Updated May 27, 2025
+To improve the performance of LLMs on multi-step tasks, extensions to LLMs have been proposed such as LLMmodulo systems (Kambhampati et al. 2024b; Gundawar et al. 2024) and other agentic approaches (Yao et al. 2022; Fourney et al. 2024). Many of these approaches couple LLM(s) with external verifiers in order to provide guarantees on their accuracy. In this paper, we explore some of the challenges encountered by these approaches. Using the Travel Planner benchmark, we find that many LLM approaches lack an ability to generate a model of the problem they are solving and are unable to do planning about the solving process. Without explicit human guidance, this deficiency reduces the likelihood that LLM can successfully complete a given multi-step task.
 
-[AI & Machine Learning](https://sam-solutions.com/blog/category/ai-ml/)
+To address this, we propose a new approach that provides additional planning guidance to the LLM. Our approach separates the task into Planning and Acting phases that mirror recent developments in planning (e.g., (Ghallab, Nau, and Traverso 2016)(Ghallab, Nau, and Traverso to appear)1):
 
-Large Language Models (LLMs) have revolutionized AI by enabling natural language interactions and content generation. Now, a new paradigm is emerging: agentic LLM architectures, which transform static models into dynamic AI agents capable of autonomously planning and executing tasks. Instead of simply responding to a single prompt, an _agentic_ LLM can proactively break down complex problems, call on external tools or data sources, and iterate towards a goal with minimal human intervention.
+• Planning phase: A Hierarchical Task Network planner provides guidance, via a plan, to an LLM that describes what needs to be done. • Acting phase: An agentic LLM operationalizes the plan by determining how to accomplish each action in it.
 
-In this comprehensive guide, we will explore what agentic LLM architecture means, how it works under the hood, and what components are needed to build these advanced [AI systems](https://sam-solutions.com/services/ai-software-development/).
+Together, these approaches limit the kinds of hallucination errors that an LLM typically produces.
 
-**Get AI software built for your business** by SaM Solutions — and start seeing results.
+We present preliminary results of our new approach showing that it more than doubles the success rate of an agentic LLM system in completing the initial steps of the Travel Planning task. We then provide a detailed analysis of the results and discuss the implications for future research in this area.
 
-[Explore services](https://sam-solutions.com/services/ai-software-development/?utm_source=blog&utm_medium=post_ID_18087&utm_campaign=cta_post_content_16272)
+LLMs for planning: There is a large debate on whether LLMs are capable of classical planning tasks. There are many papers that directly apply LLMs toward planning tasks with varied success (Silver et al. 2024). There also exist survey papers of LLM-based agents planning that categorizing recent works into Task Decomposition, Plan Selection, External Module, Reflection, and Memory (Huang et al. 2024). On the other hand, there are also many other papers that suggest that LLMs lack the capability to plan (Verma, Bhambri, and Kambhampati 2024; Kambhampati 2024).
 
-## **What Is Agentic LLM Architecture**
+Beyond applying LLMs directly to planning, there have also been indirect approaches that couple an LLM with a classical planner in a similar manner to the HaoTP approach (Hao et al. 2024) discussed in this paper. One approach is to have the LLM translate a given planning problem into a PDDL specification and then use a classical planner to generate a solution (Liu et al. 2023). Other than this end-toend approach, LLMs have been applied to many domains to generate various planning representations such as temporal logic (Chen et al. 2023), task decompositions (Zhang et al. 2021), and PDDL (Guan et al. 2023).
 
-Agentic LLM architecture is the structured design approach that enables an LLM to function as an autonomous intelligent module rather than a passive model. In a traditional setup, an LLM takes input text and generates an output text – it has no true “agency” beyond that one-shot response. By contrast, an _agentic_ architecture gives the LLM a degree of agency, meaning it can make decisions, take actions, and adjust its behavior to achieve a goal. Practically, this involves surrounding the LLM with additional modules and a workflow that allow it to plan, remember, and interact with its environment.
+Reasoning with LLMs: The advent of ChatGPT-o1 model changes the landscape of LLM reasoning capabilities. (Valmeekam et al. 2024) evaluate the planning capabilities of the o1-preview and o1-mini models on both planning and scheduling benchmarks. The “LLM as a Mastermind” paper (Zhang et al. 2024a) surveys the use of Large Language Models (LLMs) in strategic reasoning, a form of reasoning requiring understanding and predicting adversary actions in multi-agent settings, highlighting scopes, applications, methodologies, and evaluation metrics.
 
-## **How Agentic LLM Architecture Works**
+Agentic LLMs: Agentic LLMs are a compound or hybrid system to accomplish tasks. There has been growing interest in incorporating LLMs into agentic workflows. One of the first approaches in this area was the ReAct framework (Yao et al. 2022) where agent reasoning choices are interleaved with action selection in order to interact with external environments. Another paper introduced ExpeL (Zhao et al. 2024), an agent that learns from experiences and natural language to make informed decisions without requiring parametric updates, addressing the challenges of resourceintensive fine-tuning and limited access to state-of-the-art LLMs.
 
-Agentic LLM systems work by orchestrating a continuous cycle of **planning, action, observation, and reflection** around the LLM.  Agent based LLM architecture works by giving the LLM a structured way to **act autonomously**: it can set goals (intentional planning), carry out tasks step by step (action with self-monitoring), and adapt based on the outcomes (reflection). This stands in contrast to a non-agentic LLM which would have stopped at producing a single answer with no follow-up.
+LLM Tool Use: To supplement capabilities in domains where LLMs have poor performance, it is common to allow LLMs to interface with external tools. These tools enhance the LLMs with capabilities that they might otherwise not have (Wang et al. 2024) and there are numerous papers covering various aspects of this field of research (Huang et al. 2024; Li et al. 2024).
 
-![](https://sam-solutions.com/wp-content/uploads/infographic-1@2x-3.webp)
+LLMs and memory: One way to enhance the performance of language models on domain-specific tasks is known as Retrieval-Augmented Generation (RAG) (Izacard et al. 2023; Lewis et al. 2020). In this approach, the LLM is combined with a non-parametric memory index (e.g. a vector index) and retrieved data is fed back into the LLM context when needed. There are various mechanisms for enhancing LLMs with memory (Zhang et al. 2024b) including the notetaking method described in this paper.
 
-## **Core Components of Agentic LLM Systems**
+Before we discuss how to solve multi-task problems, we need to describe them generally, and travel planner specifically. A multi-step task differs from a planning problem in classical planning.
 
-There are multiple core components working together, each handling a critical aspect of agency. Below are the key building blocks that typically make up an agentic LLM system:
+In classical planning, a planning problem consists of a description (or model) of the problem, an initial condition of the world, a set of actions that can be used to change the state of the world, and a goal condition. In contrast, in a multi-step task, we assume that the problem description (or model) is not directly given (or fully provided) to the system. Instead, portions of the problem description are located in external databases. A solution to a multi-step task includes actions taken (e.g. API requests) to acquire necessary external data.
 
-### LLM backbone
+In the case of the Travel Planner benchmark, we can formulate a travel planning problem as multi-step task that contains a planning problem. Specifically, the Travel Planner task can be broken up into two model building problems (information gathering and external tool use) followed by a classical planning problem:
 
-The base large language model that drives understanding and generation (e.g. GPT-4, an open-source LLM, etc.).
+1. Information Gathering: The first step of the task is to gather information such as the user request, the constraints that need to be satisfied, and what tools are necessary and how to use them.
 
-### Agent orchestration layer
+https://openreview.net/images/04c7239844d485ab5a81d9b0d513f2a7d1ddb1016fbd5f89cef7fffc329ca32f.jpg
 
-The control logic that sequences the LLM’s actions and manages the workflow (essentially, the “agent loop” manager).
+Figure 1: Example JSON translation of an NL request
 
-### Memory modules
+2. External Tool Use: The second step is to determine what calls to the external tools/APIs are necessary to solve a given user request. We assume that there are a set of external tools that are necessary to interact with to solve the problem (e.g. a flight search tool). The LLM could choose not to obey this step, but then it would be impossible to solve the problem.
+3. Planning: After obtaining the data from external tools, the next step of the task is to combine the data into a viable travel plan.
 
-Systems for storing and retrieving information so the intelligent module can remember context, including both short-term conversation context and long-term knowledge.
+In Xie et al. (2024), GPT4 was shown to achieve a $0 . 6 %$ success rate on the benchmark when applied to the travel planner task as an end-to-end system. In Hao et al. (2024), a success rate of $9 3 . 9 %$ (with limitations on its generalizability) was achieved when the LLM was used to solve the external tool use sub-problem and the $z 3$ library was used to solve the planning sub-problem.
 
-### Planning & reasoning engine
+In this paper, we will investigate the challenges of designing an LLM system that can solve a multi-step task. A system designed to solve multi-step tasks should satisfy the following criteria:
 
-The mechanism that allows the intelligent module to reason through tasks and formulate multi-step solutions (often leveraging the LLM for chain-of-thought planning).
+1. Generalizability: The system should not require the existence of a pre-built solution.
+2. End-to-end: The system should solve both the model building and planning subproblems of a multi-step task.
 
-### Tool integration
+We will first study the system from Hao et al. (2024), which we will term HaoTP to understand what parts of a multistep task LLMs are currently able to perform. HaoTP does not satisfy the two aforementioned criteria, so following this initial study, we will propose an agentic system designed as an end-to-end solution for multi-step tasks. For our implementations, we will employ Codestral-22b as the LLM.
 
-Interfaces that let the intelligent module use external tools or APIs – extending its capabilities beyond what the LLM knows or can do alone.
+To start off, we give a brief description of the approach from Hao et al. (2024) with respect to each of the three subproblems in Travel Planner.
 
-### Feedback & learning mechanisms
+1. Information Gathering: The first step of the approach is to take a Natural Language (NL) request and convert the request into a JavaScript Object Notation (JSON) request. An example output of this step can be seen in Fig. 1 which is the output of the system for a travel planning request for a trip from Detroit to San Diego from March 5th to Marth 7th, 2022 on a budget of $$ 3,000$ .
 
-Components that provide the AI system with feedback on its actions (from the environment or a critic) and enable it to adjust or improve (which can include self-evaluation loops).
+|     |     |     |     |     |     |
+| --- | --- | --- | --- | --- | --- |
+| m Method |  | Process Step | Implementation |
+| Information Gathering | Tool Use | Planning |
+|  | End-to-End ReAct | LLM | LLM | LLM | (Xie et al. 2024) |
+|  | LLM for constraint models | LLM | Few shot LLM | SMT solver | (Hao et al. 2024) |
+| 45 | Agentic LLM system | LLM | LLM via Python | LLM via Python | This paper |
+| 6 | Task Planner LLM | Guided | LLM via Python | LLM via Python | ； |
 
-### Task decomposition module
+Table 1: LLM approaches and their solutions for Travel Planner subtasks
 
-A specialized function that breaks complex tasks into smaller sub-tasks, helping the AI system tackle problems step by step.
+https://openreview.net/images/e3a53b099b2575d714e4726f4a6481cfb94573ec6dfb6b3d17ae9aab9405825e.jpg
 
-### Communication protocols
+Figure 2: Forward pass LLM system for Travel Planning
 
-The defined methods by which LLM-based entities communicate, either with other LLM-based entities (in a multi-intelligent module system) or with external systems, ensuring information is exchanged in a structured way.
+2. External Tool Use: The second step of the pipeline (JSON-Steps) involves feeding the JSON request from the previous step back into the LLM and asking for ”steps” or pseudo-code. The prompt for this step includes several examples of the pseudo-code. In this case, the tool use problem is selecting the correct python statements to make calls to the tool APIs.
 
-## **Agentic vs Non-Agentic LLM Architectures**
+The third step of the pipeline (Steps-Code) is also part of the tool use task where pseudo-code from the previous step is translated into actual python code that defines a constraint model using the z3 library. Like in the (JSONSteps) part of the pipeline, examples of python code are provided for the LLM to use as few-shot examples.
 
-Agentic vs non-agentic isn’t a binary good/bad choice, but rather a question of the right tool for the task. Many enterprise solutions might start with a non-agentic approach (for simplicity) and only graduate to an agentic approach if needed for greater capability.
+3. Planning: After the final python code is written, the entire file is executed, which calls an SMT solver (the z3 library) that returns a final solution to the travel planning request.
 
-## **Types of Agentic LLM Architectures**
+The pipeline can be seen in Fig. 2 where the LLM is used to generate each of the white boxes in the flow that start from the NL request.
 
-Within agentic architectures themselves, there are different structural patterns. The main distinction is between single-agent architectures and multi-agent architectures.
+Kambhampati et al. (2024a) found that LLMs are capable of implementing functions for checking the validity of individual constraints. Thus, it may be possible to directly generate the code or the constraints for an SMT solver without relying on prior examples. To test this hypothesis, we attempt to replicate the system from Hao et al. (2024) but without the few shot examples that are provided during the tool use task. For example, instead of an explicit example of the pseudocode we want to generate, we provide an explanation of the coding process as in Fig. 3.
 
-### Single-agent LLM architectures
+Fig. 4 gives an example where this replication is successful. In the example, a flight time preference for flights that depart before 5PM is added to the original request. We can observe in the generated code that the LLM correctly adds additional constraints so that the chosen flights do not have DepTime after 1700 (5PM). In this case, the LLM is capable of adding simple constraints without any prior code examples. However, while testing this more general approach, we ran into several issues.
 
-A single-agent architecture involves just one autonomous intelligent module handling the tasks at hand. This one intelligent module is responsible for all planning, tool use, and interactions with the environment. It makes decisions in a centralized way.
+Lack of a world model One of the issues we noticed when we implemented this approach is that the LLM often overlooked certain constraints, particularly commonsense spatio-temporal ones that are implicit in the TravelPlanner benchmark. For example, consider a travel plan that involves traveling from city A to city B on day 1 with a flight from $1 0 \\mathrm { A M }$ to 2 PM. In this scenario, the LLM should logically infer that breakfast should take place in city A and dinner in city B. However, this type of spatio-temporal reasoning can be challenging for LLMs, and often they fail to maintain this constraint, even when explicitly instructed to do so.
 
-### Multi-agent LLM architectures
+A valid solution to a spatio-temporal constraint is quite complex compared to the free-form generated constraint in Fig. 4. To properly encode the constraint, it is necessary to calculate a temporal model of where the travel group is during the trip and the LLM is unable to reason that producing this model is necessary.
 
-Multi-agent architectures involve multiple AI systems working either collaboratively or in a coordinated fashion to achieve a goal. This design can mirror a team of humans: each intelligent module might have a role or specialty, and they communicate with one another as needed.
+Higher order (meta) considerations The implementation of a constraint model can have a dramatic impact on the tractability of solving the model. In our experiments, we observed that the LLM does not take this principle into account at all. In Hao et al. (2024), the solution is constructed with backbone code such that for a travel plan with a destination of multiple cities, there is a loop that iterates through possible solution city selections (and will exit if one of these city selections results in a satisfiable problem). However, without this guidance, the LLM will choose to write a brute force constraint model where city assignments are also included as variables to solve for. The resulting model can easily end up being intractable.
 
-![](https://sam-solutions.com/wp-content/uploads/infographic-2@2x-3.webp)
+Repair looping It is reasonable to assume that the code generated by an LLM does not compile or has runtime issues during the first generation pass (as is the case in most code that humans write). This could be due to a variety of reasons (such as hallucinating function names). We can ask the LLM to fix this issue using an LLM-modulo approach (Kambhampati et al. 2024a) where the code that is generated is then executed and the error message (if any) is then sent as a
 
-## **Key Frameworks for Agentic LLM Architectures**
+The general outline for each section is:
 
-In the realm of agent design, researchers often speak of different frameworks or paradigms for how LLM-based entities operate. Three broad categories are commonly referenced: Reactive, Deliberative, and Cognitive architectures. While these originated in classical AI agent theory, they map well onto LLM agent designs.
+1. Get data from tool if necessary.
+2. Create z3 Arrays for necessary data column(s) from tool.
+3. Create z3 Int variables to index the data.
+4. Add constraints discussed above (there can be other constraints even $\\mathrm { i } +$ local constraint is null).
+5. Calculate quantities needed for later sections.
 
-### Reactive LLM agents
+Figure 3: An example of coding process instructions that would be given to an LLM for how to code a solution to the Trave Planning.
 
-A reactive agent is one that maps situations directly to actions, without any deeper reasoning or internal planning. Reactive LLM-based entities operate on a stimulus-response basis: given an input or an environmental trigger, the intelligent module produces an immediate output or action. There is no concept of an explicit memory of past events or an explicit consideration of future consequences in the agent’s decision process.
+# add constraint: no evening flights after 5PM
 
-### Deliberative LLM agents
+for i, flight in enumerate(flights\_detroit\_to\_sandiego\['DepTime'\].values): s.add(If(variables\['flight\_index\_0'\] $\\scriptstyle = =$ i，Int(flight.split $( \\because )$ \[e\]) $<$ 17，True))
 
-A deliberative intelligent module goes a step further by incorporating internal modeling, reasoning, and planning. Deliberative LLM-based entities are what we mostly describe when we talk about agentic LLMs: they consider the broader context, they think through the problem (often via chain-of-thought reasoning), and they plan a course of action rather than just reacting.
+for i， flight in enumerate(flights\_sandiego\_to\_detroit\['DepTime'\].values): s.add(If(variables\['flight\_index\_2'\] $\\mathbf { \\Psi } = = \\mathbf { \\Psi } \\dot { \\mathbf { 1 } }$ ,Int(flight.split(':')\[0\]) $\\angle <$ 17，True))
 
-### Cognitive LLM agents
+Figure 4: An example of free form coding. The LLM is allowed the flexibility to generate arbitrary code to write constraints for unseen requests preferences (in this case for evening flights before 5PM)
 
-Cognitive agent architectures are the most advanced category, aiming to emulate human-like cognition, including not just reasoning and planning but also learning, memory consolidation, and adaptation over time. Cognitive LLM AI systems incorporate elements of perception, memory, learning, and meta-reasoning. They are deliberative at their core, but also capable of evolving their behavior and knowledge.
+https://openreview.net/images/b733d65944a9f54efaaa79f3e43b99eb5d4c139ae7bbdbddea8742ef82368797.jpg
 
-## **Planning in Agentic LLM Systems**
+Figure 5: Example LLM-modulo approach for code-repair.
 
-Planning is at the core of agentic behavior, but not all planning approaches are the same. One key distinction is whether the agent’s plan is fixed upfront or whether it evolves with feedback from the environment as the intelligent module operates. We can think of these as two modes: planning without feedback and planning with feedback.
+back-prompt to the LLM to fix any code generation issues (see Fig. 5).
 
-### Planning without feedback
+This process can be iterated until the code can pass through the code verifier. We have observed that this LLMmodulo approach is capable of fixing small errors and can sometimes address the problem of hallucinating functions. However, this approach does not work all of the time. Occasionally, the LLM will modify an error in generated code into another error and then in the subsequent pass modifying it back into the initial error. This creates a repair loop where the generated code will alternate between two erroneous solutions.
 
-In a “plan then act” approach, an agent formulates a complete or partial plan at the beginning of its task and then executes it step by step without revisiting the plan after every action. Essentially, the agent isn’t checking intermediate results to alter the overall plan unless something goes seriously wrong.
+Although one can imagine that simply extending the context of the LLM may solve this issue, there is no reason to assume that the length of the repair loop has any limit. In more complex code, it could be the case that changing code in one location breaks functionality in a different location, and an iterative repair approach could loop through the steps of this cycle endlessly.
 
-### Planning with feedback
+To design an end-to-end system to solve a multi-step task, we will investigate agentic LLM approaches.
 
-Most sophisticated autonomous LLM systems incorporate feedback into their planning loop. This means after each action (or after a group of actions), the agent looks at what happened and updates its plan or strategy accordingly. It’s an iterative sense–plan–act cycle.
+In this paper, we define agentic LLMs as systems that are designed to interact with external tools (such as Wikipedia or other local databases) and incorporate LLMs as drivers of acting, planning, and/or evaluation; external here references anything that is external to the LLM model. For this section, we will study the capabilities and limitations of the agentic LLM system we developed that is displayed in Fig. 6. In this system, an agent LLM is responsible for giving orders to three other LLMs (coding, code repair, and verifier) in order to solve an overarching task. The agent LLM is prompted with a task specification and a list of actions and asked to choose an action. It is also allowed access to a note file which it can use to store short term memory. The goal of the agent LLM is to build a model of the problem in its short-term memory file and then use this model to instruct the other LLMs/system components to solve the problem. To the best of our knowledge, this is the first investigation into having the LLM determine by itself what to write down in a provided notes file.
 
-**Leverage AI to transform your business** with custom solutions from SaM Solutions’ expert developers.
+https://openreview.net/images/f466fa011233c196bbed98d5be3dfa1f3426f095edc428c1d2bfff153e75fcfe.jpg
 
-[View offer](https://sam-solutions.com/services/ai-software-development/?utm_source=blog&utm_medium=post_ID_18087&utm_campaign=cta_post_content_16263)
+Figure 6: Simple agentic LLM approach
 
-## **Memory and Tools in Agentic LLMs**
+For this system, we define the following actions:
 
-Memory and tool use are two pillars that significantly enhance an LLM agent’s capabilities. Memory allows the agent to retain and recall information, while tools let it interact with the world and acquire new information or perform actions. We’ll differentiate short-term vs long-term memory and then discuss the essential tools that empower LLM AI systems.
+1. Read: open and read any of the permissible files (red and yellow boxes in Fig. 6).
+2. Write: overwrite the text in any of the write-able files (yellow boxes in Fig. 6)
+3. Code: send a coding request for a secondary coding LLM to produce code according to the contents of instructions.txt.
+4. Execute: execute the Python script written by the coding LLM to solver.py.
+5. Repair: send a request to a code repair LLM to attempt to fix the current working Python script.
+6. Verify: send a request to a verifier LLM to check if the solution provided in output.txt is valid.
 
-### Short-term vs long-term memory
+At each iteration of the agentic system, the agent LLM will respond with one of the above actions which is then processed accordingly by the external environment.
 
-The difference in practice: short-term memory is everything the agent juggles right now, whereas long-term memory is an archive it can draw upon when needed. Agentic architectures typically use STM to maintain coherence within a single task or conversation, and LTM to carry knowledge across tasks or provide a large knowledge base to draw from.
+Like with the system from (Hao et al. 2024), we provide a description of how this agentic system solves each part of the Travel Planning problem.
 
-An illustrative analogy: When writing an article, your short-term memory is the outline and the paragraphs you’re working on – immediately visible and editable. Your long-term memory is the library of information you’ve read about the topic, which you might go back to for reference. Likewise, an agent might keep its current plan and recent results in short-term memory, but if it needs a piece of info it saw earlier (like “What was the user’s request yesterday?” or “Where did I save that intermediate calculation?”), it turns to long-term memory storage to retrieve it.
+1. Information Gathering: The first step of the approach is to read each of the relevant files in the files provided (e.g. problem specification, tool specification, user request) and summarize their contents in the notes file.
+2. External Tool Use: The second step of the approach is to use the information recorded in the notes file and write python code for the tool calls. The LLM then needs to record the output of the tool calls for the subsequent planning step.
+3. Planning: The last step is to solve the planning problem. The LLM can attempt to do this by itself (i.e. like in the ReAct approch) or can write a solver that plans over the data obtained from the tool calls in the previous step.
 
-### Essential tools for LLM agents
+The agentic approach is capable of synthesizing information from multiple documents. An example of this capability can be seen in Fig. 8, where the LLM reads three independent files as its first three actions and subsequently summarizes the important points of these files in its short-term memory file.
 
-Just as a human uses tools (calculator, web browser, software applications) to augment their abilities, LLM-based entities rely on tools to extend beyond what they can do with text alone. Here are some essential categories of tools commonly integrated into LLM AI systems:
+The LLM is also capable of writing well-formed instructions for a coding LLM to execute as can be seen in Fig. 7. In the example shown in the figure, the LLM reads the Python source code for the Flights tool and correctly conveys the proper arguments to use the tool to the coding LLM.
 
-- **Search and information retrieval:** Perhaps the most common tool is a web search engine or a document retrieval system. This gives the agent access to fresh information and data outside its training corpus. For example, an agent can use a search tool to fetch the latest news or look up a specific fact (like “current stock price of X” or “the population of Sweden”). In enterprise settings, retrieval might mean querying an internal knowledge base or SharePoint repository.
+While this is certainly a step in the right direction, the agentic LLM is not consistent in producing these results. For example, instead of choosing to record relevant facts about the problem in its short-term memory as in Fig. 8, the LLM could choose to only record a history of its goals. Although this record can be helpful for assisting the LLM in planning its next course of action, it is not helpful for solving the actual problem.
 
-- **Databases and query engines:** Many tasks require retrieving structured data (sales figures, inventory levels, patient records, etc.). LLM-based entities are equipped with database connectors or query tools (SQL query interface, ElasticSearch queries, etc.) as tools. The agent might translate a natural language question into a database query, execute it, and then work with the result.
+Another limitation is that the agent LLM does not always give the coding LLM enough information to work with. For example, the agent LLM could send an instruction “use the Flights tool to search for flights from Detroit to San Diego” without specifying how exactly to use the tool.
 
-- **Calculators and code interpreters:** LLMs are not great at exact math or running complex logical procedures internally (they can approximate small math, but they make mistakes). So, a fundamental tool is a calculator or the ability to execute code. Platforms like OpenAI have introduced “code interpreter” functionalities which essentially let the agent write and run code (Python, for example) to solve problems. This means if the agent needs to do number crunching, parse a CSV file, or any algorithmic task, it can offload that to a sandboxed code execution environment. Even a simple arithmetic tool to multiply or do date calculations is extremely useful to avoid arithmetic errors.
+Unknown Unknowns A major recurring theme is that LLMs are unable to determine what information they lack when attempting to perform a task. In the dialogue between the agent LLM and the coding LLM, it is common that the agent LLM does not know that the coding LLM does not know how to use a given tool. Furthermore, it is even difficult to get a coding LLM to determine that it does not have enough information to provide a solution. This is true even if we directly prompt the coding LLM to reject coding requests that do not provide enough information. Instead of rejecting the instruction given by the agent LLM, it is more common for the coding LLM to hallucinate an answer to the instruction such as writing code to call erroneous functions (e.g. calling an erroneous search flights method instead of the correct run method).
 
-## **Applications of Agentic LLM Architectures**
+We propose that a recurring theme throughout the limitations that we have discussed so far is that LLMs lack what we would term a recipe for solving multi-step problems. Beyond the direct problem of planning a given travel itinerary, we must also consider how the LLM chooses to solve a given problem.
 
-The concepts of autonomous LLMs come to life in various real-world applications. Here we’ll explore a few key areas where these architectures are being applied or have strong potential:
+In the hybrid approach from Hao et al. (2024), a major limitation is that the LLMs follow a strict structure for what they are allowed to generate. To support this, significant human effort is required to engineer a structural backbone which can make these two approaches impractical in many situations. In this case the LLM does not have a choice of how to solve the problem. This choice was already provided by the supporting code and prompts.
 
-### Enterprise AI agents
+In our experiments on modifications to HaoTP, there is less of a supporting structure which allows for less human input required as well as greater solution creativity but also increases the likelihood of issues such as constraint blindness. Without knowing the exact steps to take to solve the
 
-In an enterprise environment, AI LLM-based entities can act as intelligent assistants or autonomous process executors across a range of business functions. The autonomous architecture is particularly valuable here because enterprise tasks often involve multiple steps, complex decision-making, and interaction with various data sources.
+Use the Flights class to search for flights from the origin city to the destination city on the departure date.
 
-### Autonomous research agents
+- The Flights class provides a 'run' method that takes three arguments: origin， destination， and departure\_date
+- Use the 'run' method to search for flights based on the traveler's preferences.
+- For example, to search for flights from Detroit to San Diego on March 5，2022，use the following code:
 
-Another exciting application area is using autonomous LLMs for research and analysis tasks that traditionally require significant human effort. Autonomous research LLM-based entities are systems that can investigate a topic, gather information, and produce findings or recommendations with minimal human input.
+  ``` python
 
-### Multi-modal agent systems
+  flights $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ Flights()
 
-While much of our discussion has focused on text-based inputs and outputs (since LLMs are fundamentally text-based), the autonomous approach extends to multi-modal LLM-based entities – agents that can process and generate multiple types of data, such as images, audio, video, or even actions in a physical environment (robotics).
+  results $\\mathbf { \\tau } = \\mathbf { \\tau }$ flights.run("Detroit"，"San Diego"，"2022-03-05")
 
-![](https://sam-solutions.com/wp-content/uploads/infographic-3@2x-4.webp)
+  -Theresults willbeaDataFramecontaininginformationabouttheflights，suchasflightnumber，price，departuretimearivaltimeand distance.
+- If no flights are found, the results will be a message saying so.
 
-## **Challenges in Agentic LLM Development**
+  Action number 0: \['Read files/request.txt'\]
 
-While agentic LLM architectures unlock impressive capabilities, they also introduce a host of challenges. When designing and deploying these systems, enterprise teams must be aware of potential issues and plan how to mitigate them. Here are some of the key challenges:
+  Action number 1:\['Read files/problem\_specification.txt'\]
 
-### Scalability issues
+  Action number 2: \['Read files/tool\_specification.txt'\]
 
-Agentic systems can be resource-intensive. Unlike a single LLM query which might take a few seconds and one model call, an autonomous agent might perform dozens of model calls and tool invocations to accomplish a single complex task. This raises several scalability considerations.
+  User Preferences:
+- Solo traveller
+- Destination: Detroit to San Diego
+- Duration:3 days (March 5th to March 7th，2022)
+- Budget: $3,000
+- Preference: No evening flights departing after 5PM
+- Problem specification constraints: - Destination cities should not be repeated - Three restaurants per day (breakfast，lunch，dinner) - All specified cuisine types must be visited - Attraction choices should not be repeated - All specified attraction types must be visited - Accommodation minimum nights constraint - Budget constraint
+- Tools available:
 
-### Hallucination and reliability
+be decomposed, $p r e \_ { m }$ is a list of preconditions that specifies whether a method is applicable given a state $s$ and $s u b \_ { m }$ is a (possibly ordered) list of subtasks (primitive or compound). Planning proceeds by using the methods to recursively decompose tasks into smaller and smaller subtasks until primitive tasks are reached.
 
-Hallucination – the tendency of LLMs to produce incorrect or fabricated information – is a well-known issue. Hallucinations can undermine trust quickly. If a CEO asks the agent for a report and it fabricates a statistic confidently, that’s problematic. Building reliability is thus as important as building capability: sometimes it means dialing back the agent’s “creativity” in favor of correctness, and being transparent about uncertainty (training the agent to say it’s unsure or needs help when appropriate, rather than guessing).
+Using Fig. 10 as our task network, we can look at the method for decomposing choose flights:
 
-### Security and ethical concerns
+• Task name: the task to decompose is choose flights
 
-When giving an AI agent autonomy, even within a bounded environment, ensuring security and ethical behavior is paramount. An agent connected to tools could, if not properly constrained, attempt actions it shouldn’t. For instance, if integrated with an IT system, you wouldn’t want the agent arbitrarily reading confidential files or executing transactions it wasn’t meant to. Strong permissioning is needed. Each tool should enforce authentication and authorization – essentially, the agent’s identity should be tied to a role that only allows what’s intended. If the agent is supposed to only read data, the [API](https://sam-solutions.com/services/software-engineering/api-development-services/) it uses should not allow deletion or modification unless explicitly allowed.
+• Precondition: the preconditions are that the origin, destination(s), and dates of the travel plan are present in the notes.
 
-## **Future of Agentic LLM Architectures**
+• Subtasks: understand flights tool, choose departing flight, choose returning flight
 
-The field of agentic AI, especially with LLMs at the core, is evolving at breakneck speed. Looking ahead, we can anticipate several trends and advancements that will shape the future of these architectures:
+In our planning domain, the state of the world consists of the contents of the files in the agentic LLM system (e.g. red and orange boxes Fig. 6). The preconditions and effects consist of arbitrary natural language statements (and their conjunctions, disjunctions, negations, etc.). To determine whether a given effect is satisfied, we will use an LLM verifier LLM evaluate the state of the world (e.g. the system files) with respect to the given effect.
 
-- **More powerful and specialized LLMs:** As base models continue to improve (with GPT-4, GPT-5, and equivalents from other providers or open source), LLM-based entities will inherently become more capable. We’ll see models with even larger context windows and better reasoning abilities, which means LLM-based entities can consider more information at once and make more nuanced decisions. Specialized LLMs fine-tuned for being LLM-based entities (rather than just chat or text completion) might emerge – ones that inherently “know” how to use tools or follow multi-step instructions out of the box.
+problem, the LLM can miss important constraints such as spatio-temporal consistency.
 
-- **Better integration of symbolic reasoning:** A likely direction is combining the neural capabilities of LLMs with more traditional symbolic AI components. This could mean agents that use logic engines or knowledge graphs alongside LLMs. For example, an agent could consult a knowledge graph of company policies to ensure compliance while using the LLM for language understanding. Such hybrid systems could curb hallucinations and enforce consistency (by using a deterministic reasoning module for parts of the task). Early research is indicating that blending rules-based reasoning with LLM creativity yields more reliable outcomes.
+In the agentic approach, there is the least supporting structure, but in return there is the greatest chance of process derailment. The LLM does not commit to a consistent process for gathering information, storing it, and conveying it. Consequently, it is easy for such systems to get stuck or hallucinate answers that they have not yet obtained sufficient information to provide.
 
+To address the issues, we will combine the agentic LLM approach with a task planning subsystem. Specifically, we will employ a component based on Hierarchical Task Network (HTN) planning.
 
-## **Why partner with SaM Solutions?**
+Formally, we define an HTN planning domain as $( S , A , T , M )$ where $S$ is the possible states of the world, $A$ is a set of primitive tasks, $T$ is a set of compound tasks, and $M$ is a set of decomposition methods that describe how a task can be decomposed into subtasks. Specifically, a method $m \\in M$ is $( t \_ { m } \\in T , p r e \_ { m } , s u b \_ { m } )$ , where $t \_ { m }$ is the task to
 
-Implementing an autonomous LLM architecture from the ground up can be a complex endeavor. It involves cutting-edge AI expertise, [software engineering](https://sam-solutions.com/services/software-engineering/) for integration, and careful consideration of security and ethics. For many enterprises, collaborating with an experienced technology partner is a pragmatic way to accelerate this journey and reduce risk. SaM Solutions is one such company that offers expertise in AI and software development, and partnering with a firm like them can provide several benefits.
+A task planning subsystem will contain a repository of recipes (i.e. Hierarchical Task Networks ) that describe how to solve problems. We leverage the two-pronged planning and acting approach of Ghallab, Nau, and Traverso (2016, to appear). The task planner creates a set of descriptive actions of what the LLM needs to do, as shown in Figure 10. At each iteration of the system, the LLM uses these descriptions to decide how to do the action; we use the approach from $\ S 5$ .
 
-Specialized partners stay up-to-date with the latest AI research and best practices. SaM Solutions, for example, would bring a team that understands how to tailor LLM prompts, fine-tune models if necessary, and design robust agent loops. They have likely seen what works and what doesn’t across different scenarios. This expertise can help avoid common pitfalls in agent development (such as misconfigured memory or inefficient planning logic) and implement state-of-the-art techniques that an internal team might not be aware of.
+The general flow of this subsystem can be seen in Fig. 9. The agent LLM sends a verification request to the verifier LLM, which checks the completion of the current task with respect to the current state of the file system. If the check is successful, the current task is updated and the result of the verification request is sent back to the agent LLM.
 
-**Ready to implement AI into your digital strategy?** Let SaM Solutions guide your journey.
+For our subsystem we will use a hierarchical task network (HTN) to represent the recipes for how to solve problems. An example of such a task network for the Travel Planner problem can be seen in Fig. 10. The HTN breaks down the overarching planning task into smaller subtasks for the LLM to follow.
 
-[Get in touch](https://sam-solutions.com/services/ai-software-development/?utm_source=blog&utm_medium=post_ID_18087&utm_campaign=cta_post_content_16276#feedback)
+https://openreview.net/images/c86ac8b2275e1607dfb86d79089e2be4bd46f931957673465c0093016898e200.jpg
 
-## Conclusion
+Figure 9: Task planning subsystem
 
-In closing, autonomous LLM architecture is a powerful concept that, when implemented thoughtfully, can transform the way businesses leverage AI. It’s an exciting journey of turning what used to be static AI models into lively, task-oriented LLM-based entities that can collaborate with us. With solid strategy, strong technical foundations, and a commitment to responsibility, enterprise leaders can unlock the full potential of this technology in the years ahead.
+https://openreview.net/images/b0cc3640476c6195890d683735f68be51facfc876bcf6ff00d19c9dd82092d52.jpg
 
-## FAQ
+Figure 10: An example task network for the Travel Planner problem
 
-How does agentic LLM architecture improve over traditional fine-tuning?
+As an example, consider the understand user request task that the LLM needs to accomplish at the start of generating a travel plan. To successfully complete this task, the LLM needs to read the file that has the relevant user request and take notes on any information needed to generate a travel plan. A representation of this task node in JSON format can be seen in Fig. 11.
 
-Traditional fine-tuning involves training an LLM on a specific task so it can perform that task better. However, a fine-tuned model still generally operates in a single-step, static manner – you give it an input and it gives an output, specialized to that one task. Agentic LLM architecture, on the other hand, doesn’t require training a new model for every task; instead it uses a base LLM and orchestrates it through a series of steps to handle complex tasks dynamically. The improvements are in flexibility and autonomy: an agentic LLM can tackle multi-step problems, use tools to get up-to-date information, and adapt its approach on the fly.
+During the verification request, the verifier LLM is asked whether the information contained in the effect files satisfy the intended effect of the task. In this example, the intended effect of the understand user request task is that the agent LLM’s short term memory file contains information that matches the user request file.
 
-What programming languages are best for developing agentic LLM systems?
+https://openreview.net/images/7e6d47676ca299ff3b98c4296fbe8d086664ffe5f8e89c75d191ba3c94bbac45.jpg
 
-Python is currently the most popular language for developing agentic LLM systems. The reason is Python has a rich ecosystem of AI libraries (PyTorch, TensorFlow), natural language processing tools, and frameworks like LangChain or Haystack that support building these kinds of multi-step AI pipelines. Many pre-built integrations for things like vector databases, APIs, and model inference are available as Python packages, which accelerates development. That said, you’re not limited to Python. JavaScript/TypeScript is another language seeing increased usage, especially for LLM-based entities that need to run in web environments or use Node.js-based infrastructure (there are JS libraries for using LLMs and some agent frameworks in development).
+Figure 11: Example of a primitive task node
 
-How do agentic LLMs handle real-time data processing compared to static models?
+For this work, we employ an LLM as the primary verifier, but we could also use external verifiers with guarantees for certain subtasks. The primary advantage of this setup is that the task network can guide the LLM towards a consistent process when solving problems.
 
-Agentic LLMs are much better suited for real-time data or streaming information than static models. A static model (non-agentic) works on a fixed input – for example, it won’t automatically fetch new data once it’s given a prompt. If you want it to process new information, you have to manually include that info in its prompt. An agentic LLM, by design, can incorporate real-time data fetches as part of its operation.
+To study the effectiveness of this additional task network component, we perform a ablation study on a modified version of the Travel Planner task which includes the information gathering step not evaluated in past work. The general task is as follows:
 
-Rate this item:0.501.001.502.002.503.003.504.004.505.00Submit Rating
+• Direct Prompt Information: The LLM agent is provided information about a list of accessible files and what their overarching goal is (e.g., to generate a travel plan) but none of the specific details of how to accomplish it. • Accessible Information: The LLM can access descriptions and the source code of various tools (e.g., FlightSearch) in the list of accessible files. We emphasize that this information is not provided in the prompt but only in files that the LLM can choose to read. • Metrics: Since it is computationally intensive to generate a full travel plan using an agentic LLM architecture, we limit the maximum number of system steps (where each step is a prompt to the agent LLM for an action to take) to 20. To evaluate the methods, we check whether the LLMs have successfully booked departing and returning flights between the origin and destination(s) in the user request.
 
-Rating: **4.8**/5\. From 3 votes.
-[Show votes.](https://sam-solutions.com/blog/llm-agent-architecture/#)
+To simplify our verification, we use requests from the train set from the Travel Planner benchmark that are coupled with ground truth annotated plans. The results on this limited set can be seen in Fig. 12.
 
-Please wait...
+Using the task planner helps avoid a common kind of hallucinations and eliminates the need for repair loops.
 
-- **5** Stars
+For example, the LLM needs a specification of what a tool does in its short term memory before trying to write code for that tool. Adding an explicit task to do this allows the task planner to facilitates such knowledge retrieval (rather than rely on the LLM), which reduces the occurrence of function name hallucinations, such as calling an erroneous search flights method instead of the correct run method. The reduction of these hallucinations in turn reduces the probability that the agentic LLM initializes an infinite repair loop which will prevent it from making further progress.
 
+In our experiments with agentic LLMs, one concerning behavior we noticed was execution of out-of-scope code in Python. To sandbox our agent LLM, we set up the environment that processes agent commands to allow the LLM to only read and write to a pre-specified list of approved files (this list is also given to the LLM). However, we did not limit the corresponding code generation capabilities (to allow for greater problem solving creativity). This lack of limitations led to two critical unseen side effects:
 
+https://openreview.net/images/8db6c8a8bd86e0fba4b96030a5f5fc99ab8bdc4b3d929ba5bb1c9f9c473feb89.jpg
 
-100.00%
+Figure 12: Success rate of LLM, with and without a task planner, on the first steps of solving a task in the travel planner benchmark.
 
+• Attempted code installation: In one instance, our agentic LLM generated code that depended on python libraries that were not installed in the development environment it was running in. Instead of changing the code to some supported library, it attempted to programmatically install the python library within the python script being written.
 
+• File writing bypass: In several instances, in order to save the results from tool calls, the agent LLM will tell the coder LLM to save the retrieved data into a local text file. This file may not necessarily be on the list of approved files.
 
-3 votes
+It is important to emphasize that prompt restrictions are not a sufficient guard against unintended agent behavior. In particular, the prompt for the agent LLM specifically mentions that it only has read/write access to the pre-approved file list and the prompt for the coding LLM includes an instruction to ignore requests to write to any other file.
 
-- **4** Stars
+In conclusion, we have discussed several distinct approaches to utilizing Large Language Models (LLMs) for various tasks. Our findings indicate that while LLMs can be successfully employed as form fillers and code editors (e.g., Hao et al. (2024)), their reliance on an existing codebase limits their applicability to other domains. The use of LLMs for free-form coding offers flexibility in handling user requests without a pre-existing codebase, but this flexibility also introduces challenges. Adjusting the structure of the response addresses some of these issues, but LLMs can still generate erroneous results.
 
+A large number of errors when using an LLM for planning seem to be a failure to incorporate a world model into formulating problem solving process. Some problem solving paths for a given multi-step task are not sufficient or efficient computationally. To address these challenges, we propose an hybrid task planner agentic LLM system that interacts with external information gathering tools to construct a model of the task to be solved. The steps that the LLM takes are guided via planning on a Hierarchical Task Network. The task planning constrains the possible problem solving paths to be more limited thus increasing the likelihood that the LLM can successfully complete the multi-step task. By standardizing these steps and adding intermediate verification, we reduce several common errors such as hallucinating tool types or data that has not yet been seen. We plan to do more work on benchmarking the behavior of these hybrid systems on more domains and with stronger models (beyond Codestral-22b), especially on their ability to prevent error cascading that is frequently present in multi-step tasks.
 
+The task networks in the hybrid task planner system are currently handwritten by a human. This can run into similar issues with portability as the approach from Hao et al. (2024). As mentioned in the related work section, there is a great deal of work for generating planning models such as PDDL from text descriptions using LLMs. It is conceivable that given documentation on the processes to solve multistep problems such as travel planner, an LLM could be used to generate these task networks. To increase the effectiveness this approach, we can borrow techniques from curriculum learning where the LLM can first start off by building task networks for simple tasks before gradually building up to more complex and longer tasks (e.g., growing the task network node by node). There are also alternative approaches such as LLM-based optimization which could be used to optimize over candidate task networks.
 
-0.00%
+$#$ Add constraints: restaurants must be acesible based on arrival times and city list (asume restaurants are open 24/7).
 
+# This constraint is already satisfied as we are searching for restaurants in the city where we arrive.
 
+# If there are additional constraints， please specify them.
 
-0 votes
+Figure A.1: LLM constraint generation error: the top comment line is the pseudo-code input and bottom two comment lines are the LLM’s response.
 
-- **3** Stars
+Sure,theerrorisbecauseyou'retryingtocalltheevaluate'methodnanArithRefobject,whichisnotcorect.Since‘m.evaluate (city\_Q\_index)o)wietuanitefectichadsfanithiceesinsoer，itdestaedirect methodslike‘evaluate'. Instead，you need to get the value by using the ‘eval’ method of the model $\\cdot \_ { m ^ { \\ast } }$ and then get the ‘as\_long^ value from the result.
 
+Here is the modification you need to make:
 
+Replace:
 
-0.00%
+destinations\_for\_flights $\\mathbf { \\Psi } = \\mathbf { \\Psi }$ \[destinations\[m.evaluate(city\_0\_index).as\_long()\],destinations\[m.evaluate(city\_1\_index).as\_long()\],destinatiosm.evaluate(city\_1\_index).as\_long()\],destinations\[m.evaluate(city\_2\_index).as\_long()\]\]
 
+with:
 
+destinations\_for\_flights $\\mathbf { \\lambda } = \\mathbf { \\lambda }$ \[destinations\[m.eval(city\_0\_index).as\_long()\],destinations\[m.eval(city\_1\_index).as\_long()\],destinationsm.eval(city\_1\_index).as\_long()\], destinations\[m.eval(city\_2\_index).as\_long()\]\]
 
-0 votes
+LINE START:86
 
-- **2** Stars
+LINE END:87
 
+Sure,theerorisbecauseyou'retryingtocalltheeval methodonanrithRefbject,whichdoesn'thavethatatribute.Instead,you should use the‘as\_long()’ method to convert the‘Int’object into a python integer.
 
+Replace the line:
 
-0.00%
+``` python
 
+destinations\_for\_flights $\\mathbf { \\Sigma } = \\mathbf { \\Sigma }$ \[destinations\[m.eval(city0\_index).as\_long()\],destinations\[m.eval(city\_1\_index).as\_long()\],destinationsmeal\
+\
+(city\_1\_index).as\_long()\],destinations\[m.eval(city\_2\_index).as\_long()\]\]
 
+with:
 
-0 votes
+\`python
 
-- **1** Star
+destinations\_for\_flights $\\mathbf { \\tau } = \\mathbf { \\tau }$ \[destinations\[m.evaluate(city\_index).as\_long()\],destinations\[m.evaluate(city\_1\_index).as\_long()\],destinatiosm\
+\
+evaluate(city\_1\_index).as\_long()\],destinations\[m.evaluate(city\_2\_index).as\_long()\]\]
 
+Line Start:86
 
+Line End:87
 
-0.00%
+Figure A.2: LLM repair looping error. The LLM corrects the code from m.evaluate (green) to m.eval (yellow) (top) and then on the subsequent editing pass from m.eval (yellow) to m.evaluate (green) (bottom).
 
+I'1lnedtounderstandteuser'stravelpreferences，incdingthecitiestovisitattractions，iningpreferences，andadaion requirements.I\*1l also need to understand the constraints and requirements of the problem specification document.
 
+Ilnedtounderstandthecostraintsandrequirementsoftheproblemspecificationdocuent，aswellastheforatandcapabiitiesofthe tools provided in the tool specification document.
 
-0 votes
+I'll needtounderstandtheformatandcapabilitiesoftheFlightstoolbeforeusingittofindflightsfortheuser'stravelplan. I'lneetouderstandteforatandapabitiesoftheomdtiotolbeforeusingittofidacoodatiosfortheer'stravel plan .
 
+I1l ned tounderstandtheformatandcapabiitiesoftheAtractionstolbeforeusingittofindatractionsfortheuser'stravelplan. I'1l nedtounderstandtheformatandcapabilitiesoftheRestaurantstoolbeforeusingittofindrestaurantsfortheuser'stravelplan. I'lneedtounderstandtheformatandcapabiitiesoftheDistancestolbeforeusingittocalculatedistancesfortheuser'stravelplan.
 
-About the Author
+Figure A.3: LLM generated goal history. Instead of generating a summary of document contents in its short term memory as i Fig. 8, the LLM could instead choose to populate its short term memory with a history of its goals.
 
-![Anastasiya](https://sam-solutions.com/wp-content/uploads/fly-images/9051/photo_2024-10-22_17-39-16-225x300-1-200x200-c.jpg)
+You are a coding LLM tasked with following the instructions written to flies/instructions.txt that are given by a leader LLM.The leader LLM does not know what information you need.Do not make any
 
-Anastasiya Paharelskaya
+assumptions on what information you need and ask for more information if you do not have it.For example, if the leader LLM tells you to:
 
-Since 2021, Anastasiya has been diving deep into SAP Commerce Cloud, interviewing hundreds of SAP experts. She loves sharing what she learns and making complex topics easy to understand. While SAP Commerce is a big focus, Anastasiya is always excited to explore new tech areas such as AI, AR, and more, bringing fresh, valuable insights to her readers.
+- Use the Flights tool to search for Flights
 
-[View all posts](https://sam-solutions.com/author/a-paharelskaya/)
+  Then you should respond with:
 
-Leave a Comment
+  $\\ast \\ast \\ast \_ { \\mathsf { N O T } }$ ENOUGH INFORMATION\*\*\*
 
-[Cancel reply](https://sam-solutions.com/blog/llm-agent-architecture/#respond)
+  Not enough information provided in files/instructions.txt，please specify import path,method parameters, and method output format.
 
-Your email address will not be published.Required fields are marked \*
+Figure A.4: Instructions for a coding LLM in the agentic system to reject instructions with insufficient information. We attempt to encourage the coding LLM to reject orders from the leader LLM in cases where it does not have enough information to generate correct code. However, this is not sufficient and the coding LLM can choose to follow the instructions regardless of this constraint.
 
-Name \*
-
-Email \*
-
-Comment \*
-
-You may use these HTML tags and attributes: `<a href="" title=""> <abbr title=""> <acronym title=""> <b> <blockquote cite=""> <cite> <code> <del datetime=""> <em> <i> <q cite=""> <s> <strike> <strong> `
-
-## Related Posts
-
-[![Mixture-of-Experts (MoE) LLMs: The Future of Efficient AI Models](https://sam-solutions.com/wp-content/uploads/fly-images/19718/title-4-366x235-c.webp)\\
-\\
-AI & Machine Learning, Digital Transformation\\
-\\
-Mixture-of-Experts (MoE) LLMs: The Future of Efficient AI Models](https://sam-solutions.com/blog/moe-llm-architecture/)
-
-[![AI Agents in Retail and Ecommerce: Transforming the Shopping Experience](https://sam-solutions.com/wp-content/uploads/fly-images/19602/AI-agents-in-retail-and-ecommerce-2x-366x235-c.webp)\\
-\\
-AI & Machine Learning, E-Commerce & CX, Retail & Wholesale\\
-\\
-AI Agents in Retail and Ecommerce: Transforming the Shopping Experience](https://sam-solutions.com/blog/ai-agents-in-retail/)
-
-[![AI Agents in Healthcare: Revolutionizing Patient Care and Medical Innovation](https://sam-solutions.com/wp-content/uploads/fly-images/19315/AI-agent-development-for-healthcare@2x-366x235-c.webp)\\
-\\
-AI & Machine Learning, Healthcare\\
-\\
-AI Agents in Healthcare: Revolutionizing Patient Care and Medical Innovation](https://sam-solutions.com/blog/ai-agents-in-healthcare/)
-
-[![Mamba LLM Architecture: A Breakthrough in Efficient AI Modeling](https://sam-solutions.com/wp-content/uploads/fly-images/19105/Mamba-LLM-architecture@2x-366x235-c.webp)\\
-\\
-AI & Machine Learning\\
-\\
-Mamba LLM Architecture: A Breakthrough in Efficient AI Modeling](https://sam-solutions.com/blog/mamba-llm-architecture/)
-
-[![Model Context Protocol (MCP): Unlocking Smarter AI Integration for Your Business](https://sam-solutions.com/wp-content/uploads/fly-images/18742/Model-Context-Protocol-MCP-@2x-366x235-c.webp)\\
-\\
-AI & Machine Learning\\
-\\
-Model Context Protocol (MCP): Unlocking Smarter AI Integration for Your Business](https://sam-solutions.com/blog/model-context-protocol/)
-
-[![15 Best AI Tools for Java Developers in 2025 [with Internal Survey Results]](https://sam-solutions.com/wp-content/uploads/fly-images/18712/title@2x-6-366x235-c.webp)\\
-\\
-AI & Machine Learning, Software Development, Technologies & Tools\\
-\\
-15 Best AI Tools for Java Developers in 2025 \[with Internal Survey Results\]](https://sam-solutions.com/blog/ai-tools-for-java-developers/)
-
-[AI & Machine Learning, Digital Transformation, Technologies & Tools\\
-\\
-LLM Multi-Agent Architecture: The Future of AI Collaboration](https://sam-solutions.com/blog/llm-multi-agent-architecture/)
-
-[AI & Machine Learning, Digital Transformation, Technologies & Tools\\
-\\
-LLM Transformer Architecture: Everything You Need to Know](https://sam-solutions.com/blog/llm-transformer-architecture/)
-
-[AI & Machine Learning, Software Development, Technologies & Tools\\
-\\
-How to Implement AI in Java: A Step-by-Step Guide](https://sam-solutions.com/blog/how-to-implement-ai-in-java/)
-
-[AI & Machine Learning, Digital Transformation, Technologies & Tools\\
-\\
-AI and Decision Making: Transforming Choices in the Digital Age](https://sam-solutions.com/blog/ai-decision-making/)
-
-[AI & Machine Learning, Software Development\\
-\\
-LLM Architecture: A Comprehensive Guide](https://sam-solutions.com/blog/llm-architecture/)
-
-[AI & Machine Learning, Digital Transformation\\
-\\
-Pattern Recognition in AI: A Comprehensive Guide](https://sam-solutions.com/blog/pattern-recognition-in-ai/)
-
-‹›
-
-### Original URL
-https://sam-solutions.com/blog/llm-agent-architecture/
 </details>
 
----
+
+## Code Sources
+
+_No code sources found._
+
+
+## YouTube Video Transcripts
+
 <details>
-<summary>Compare Top 11 LLM Orchestration Frameworks in 2025</summary>
+<summary>[00:00] Please welcome former Director of AI at Tesla, Andrej Karpathy.</summary>
+
+[00:00] Please welcome former Director of AI at Tesla, Andrej Karpathy.
+
+[00:18] Wow, a lot of people here. Hello.
+
+[00:23] Um, okay, yeah, so I'm excited to be here today to talk to you about software in the era of AI.
+[00:30] And I'm told that many of you are students, like bachelor's, master's, PhD and so on, and you're about to enter the industry. And I think it's actually like an extremely unique and very interesting time to enter the industry right now. And I think fundamentally the reason for that is that, uh, software is changing again.
+[00:48] And I say again because I actually gave this talk already, um, but the problem is that software keeps changing, so I actually have a lot of material to create new talks.
+[00:57] And I think it's changing quite fundamentally. I think roughly speaking,
+[01:00] software has not changed much on such a fundamental level for 70 years, and then it's changed, I think about twice quite rapidly in the last few years. And so there's just a huge amount of work to do, a huge amount of software to write and rewrite.
+[01:12] So let's take a look at maybe the realm of software. So if we kind of think of this as like the map of software, this is a really cool tool called Map of GitHub.
+[01:21] Um, this is kind of like all the software that's written. Uh these are instructions to the computer for carrying out tasks in the digital space.
+[01:26] So if you zoom in here, these are all different kinds of repositories, and this is all the code that has been written.
+[01:31] And a few years ago, I kind of observed that um software was kind of changing and there was kind of like a new new type of software around, and I called this software 2.0 at the time.
+[01:41] And the idea here was that software 1.0 is the code you write for the computer. Software 2.0 are basically neural networks, and in particular the weights of a neural network.
+[01:52] You're not writing this code directly. You are most you are more kind of like tuning the data sets and then you're running an optimizer to create to create the parameters of this neural net.
+[02:01] And I think at the time, neural nets were kind of seen as like just a different kind of classifier, like a decision tree or something like that. And so I think, uh, it was kind of like, um, I I think this framing was a lot more appropriate.
+[02:11] And now actually what we have is kind of like an equivalent of GitHub in the realm of software 2.0. And I think the Hugging Face, uh, is basically equivalent of GitHub in software 2.0. And there's also model atlas and you can visualize all the code written there.
+[02:24] In case you're curious, by the way, the giant circle, the the point in the middle, uh, these are the parameters of flux, the image generator.
+[02:32] And anytime someone tunes a Lora on top of a flux model, you basically create a git commit uh, in this space and uh, you create a different kind of a image generator.
+[02:41] So basically what we have is software 1.0 is the computer code that programs a computer.
+[02:45] Software 2.0 are the weights, which program neural networks.
+[02:50] Uh, and here's an example of AlexNet image recognizer neural network. Now, so far, all of the neural networks that we've been familiar with until recently, were kind of like fixed function computers.
+[03:00] Image to uh, categories or something like that. And what's changed, and I think as a quite fundamental change is that neural networks became programmable with large language models.
+[03:11] And so I I see this as quite new, unique. It's new kind of a computer and uh so in my mind, it's uh worth giving it a new designation of software 3.0.
+[03:20] And basically your prompts are now programs that program the LLM. And uh remarkably, uh, these uh prompts are written in English.
+[03:30] So it's kind of like a very interesting programming language. Um, so maybe uh, to, uh, summarize the difference, if you're doing sentiment classification, for example, you can imagine uh, writing some uh, amount of Python to to basically do sentiment classification, or you can train a neural net, or you can prompt a large language model.
+[03:48] Uh, so here I'm this is a few shot prompt and you can imagine changing it and programming the computer in a slightly different way.
+[03:54] So basically we have software 1.0, software 2.0, and I think we're seeing uh maybe you've seen a lot of GitHub code is not just like code anymore, there's a bunch of like English interspersed with code.
+[04:04] And so I think kind of there's a growing category of new kind of code. So not only is it a new programming paradigm, it's also remarkable to me that it's in our native language of English.
+[04:14] And so when this blew my mind uh a few, uh, I guess years ago now, uh I tweeted this and um I think it captured the attention of a lot of people and this is my currently pinned tweet.
+[04:24] Uh, is that remarkably we're now programming computers in English. Now, when I was at uh Tesla, um, we were working on the uh autopilot and uh we were trying to get the car to drive.
+[04:37] And I sort of showed this slide at the time, where you can imagine that the inputs to the car are on the bottom, and they're going through a software stack to produce the steering and acceleration.
+[04:47] And I made the observation at the time that there was a ton of C++ code around in the autopilot, which was the software 1.0 code, and then there was some neural nets in there doing image recognition.
+[04:57] And uh I kind of observed that over time as we made the autopilot better, basically the neural network grew in capability and size.
+[05:04] And in addition to that, all the C++ code was being deleted and kind of like was um, and a lot of the kind of capabilities and functionality that was originally written in 1.0 was migrated to 2.0.
+[05:17] So as an example, a lot of the stitching up of information across images from the different cameras and across time was done by a neural network and we were able to delete a lot of code.
+[05:27] And so the software 2.0 stack literally ate through the software stack of the autopilot. So I thought this was really remarkable at the time.
+[05:36] And I think we're seeing the same thing again where uh basically we have a new kind of software and it's eating through the stack. We have three completely different programming paradigms.
+[05:44] And I think if you're entering the industry, it's a very good idea to be fluent in all of them because they all have slight pros and cons and you may want to program some functionality in 1.0 or 2.0 or 3.0.
+[05:54] Are you going to train a neural net, are you going to just prompt an LLM? Should this be a piece of code that's explicit, etc. So we'll have to make these decisions and actually potentially, uh, fluidly transition between these paradigms.
+[06:05] So, what I wanted to get into now is first, I want to in the first part, talk about LLMs and how to kind of like think of this new paradigm and the ecosystem and what that looks like.
+[06:16] Like what are, what is this new computer? What does it look like? And what does the ecosystem look like?
+[06:22] Um, I was struck by this quote from Andrew actually, uh many years ago now, I think. And I think Andrew is going to be speaking right after me.
+[06:29] Uh, but he said at the time, AI is the new electricity. And I do think that it, um, kind of captures something very interesting in that LLMs certainly feel like they have properties of utilities right now.
+[06:41] So, um, LLM labs like OpenAI, Gemini, Anthropics, etc, they spend CAPEX to train the LLMs, and this is kind of equivalent to building out a grid.
+[06:51] And then there's OPEX to serve that intelligence over APIs to all of us. And this is done through metered access, where we pay per million tokens or something like that.
+[07:01] And we have a lot of demands that are very utility-like demands out of this API. We demand low latency, high uptime, consistent quality, etc.
+[07:09] In electricity, you would have a transfer switch, so you can transfer your electricity source from like grid and solar or battery or generator.
+[07:16] In LLMs, we have maybe OpenRouter and easily switch between the different types of LLMs that exist. Because the LLMs are software, they don't compete for physical space, so it's okay to have basically like six electricity providers and you can switch between them, right, uh because they don't compete in such a direct way.
+[07:31] And I think what's also really fascinating and we saw this in the last few days actually, a lot of the LLMs went down and people were kind of like stuck and unable to work.
+[07:41] And I think it's kind of fascinating to me that when the state of the art LLMs go down, it's actually kind of like an intelligence brownout in the world. It's kind of like when the voltage is unreliable in the grid and uh the planet just gets dumber, the more reliance we have on these models, which already is like really dramatic and I think we'll continue to grow.
+[08:00] But LLMs don't only have properties of utilities. I think it's also fair to say that they have some properties of fabs. And the reason for this is that the CAPEX required for building LLMs is actually quite large. Uh it's not just like building some uh power station or something like that, right?
+[08:16] You're investing a huge amount of money, and I think the tech tree and uh for the technology is growing quite rapidly.
+[08:23] So we're in a world where we have sort of deep tech trees, research and development, secrets that are centralizing inside the LLM labs.
+[08:32] Uh and I think the analogy muddies a little bit also because as I mentioned, this is software. And software is a bit less defensible because it is so malleable.
+[08:41] And so, um I think it's just an interesting kind of thing to think about potentially. There's many analogies you can make like a 4 nanometer process node may be something like a cluster with certain max flops.
+[08:52] You can think about when you're when you're using NVIDIA GPUs and you're only doing the software and you're not doing the hardware, that's kind of like the fabless model.
+[08:59] But if you're actually also building your own hardware and you're training on CPUs if you're Google, that's kind of like the Intel model where you own your fab.
+[09:05] So I think there's some analogies here that make sense. But actually I think the analogy that makes the most sense perhaps is that in my mind, LLMs have very strong, um, kind of analogies to operating systems.
+[09:16] Uh, in that this is not just electricity or water. It's not something that comes out of the tap as a commodity. Uh this is these are now increasingly complex software ecosystems.
+[09:26] Right? So they're not just like simple commodities like electricity. It's kind of interesting to me that the ecosystem is shaping in a very similar kind of way where you have a few closed source providers like Windows or Mac OS, and then you have an open source alternative like Linux.
+[09:41] And I think for uh, neural for LLMs as well, we have a kind of a few competing closed source uh providers, and then maybe the Llama ecosystem is currently like maybe a close approximation to something that may grow into something like Linux.
+[09:55] Again, I think it's still very early because these are just simple LLMs, but we're starting to see that these are going to get increasingly complex.
+[10:01] It's not just about the LLM itself, it's about all the tool use and the multimodalities and how all of that works. And so when I sort of had this realization a while back, I tried to sketch it out.
+[10:10] And it kind of seemed to me like LLMs are kind of like a new operating system, right? So the LLM is a new kind of a computer, it's sitting, it's kind of like the CPU equivalent.
+[10:19] Uh, the context windows are kind of like the memory. And then the LLM is orchestrating memory and compute, uh, for problem solving, um, using all of these uh abilities.
+[10:31] And so definitely, if you look at it, looks very much like software operating system from that perspective. Um, a few more analogies.
+[10:38] For example, if you want to download an app, say I go to VS code and I go to download, you can download VS code and you can run it on Windows, Linux, or Mac.
+[10:49] In the same way, as you can take an LLM app like Cursor and you can run it on GPT or Claud or Gemini series, right? It's just a drop down.
+[10:58] So it's kind of like similar in that way as well. More analogies that I think strike me is that we're kind of like in this 1960s-ish era where LLM compute is still very expensive for this new kind of a computer.
+[11:11] And that forces the LLMs to be centralized in the cloud and we're all just uh sort of thin clients that interact with it over the network.
+[11:20] And none of us have full utilization of these computers and therefore, it makes sense to use time sharing where we're all just, you know, a dimension of the batch when they're running the computer in the cloud.
+[11:31] And this is very much what computers used to look like at during this time. The operating systems were in the cloud, everything was streamed around, and there was batching.
+[11:39] And so the the personal computing revolution hasn't happened yet because it's just not economical, it doesn't make sense, but I think some people are trying.
+[11:46] And it turns out that Mac Minis, for example, are a very good fit for some of the LLMs because it's all, if you're doing batch one inference, this is all super memory bound, so this actually works.
+[11:57] And uh I think these are some early indications maybe of personal computing V2, but this hasn't happened yet. It's not clear what this looks like. Maybe some of you get to invent what what this is or how it works or what this should what it should be.
+[12:11] Maybe one more analogy that I'll mention is whenever I talk to Chat GPT or some LLM directly in text, I feel like I'm talking to an operating system through the terminal.
+[12:19] Like it just it's it's text, it's direct access to the operating system, and I think a GUI hasn't yet really been invented in like a general way.
+[12:28] Like should ChaPT have a GUI, what different than just the tech bubbles? Uh certainly some of the apps that we're going to get into in a bit have GUI, but there's no like GUI across all the tasks at that makes sense.
+[12:42] Uh there are some ways in which LLMs are different from kind of operating systems in some fairly unique way and from early computing. And I wrote about uh, this one particular property that strikes me as very different uh, this time around.
+[12:56] It's that LLMs like flip, they flip the direction of technology diffusion that is usually uh, present in technology.
+[13:05] So, for example, with electricity, cryptography, computing, flight, internet, GPS, lots of new transformative technologies that have not been around. Typically, it is the governments and corporations that are the first users because it's new and expensive, etc.
+[13:18] And it only later diffuses to consumer. Uh but I feel like LLMs are kind of like flipped around. So maybe with early computers, it was all about ballistics and military use, but with LLMs, it's all about how do you boil an egg or something like that.
+[13:31] This is certainly like a lot of my use. And so it's really fascinating to me that we have a new magical computer and it's like helping me boil an egg. It's not helping the government do something really crazy like some military ballistics or some special technology.
+[13:43] Indeed, corporations and governments are lagging behind the adoption of all of us, of all of these technologies. So it's just backwards, and I think it informs maybe some of the uses of how we want to use this technology or like what are some of the first apps and so on.
+[13:56] So, in summary so far, LLM labs fab LLMs. I think it's accurate language to use.
+[14:03] But LLMs are complicated operating systems. They're circa 1960s in computing and we're redoing computing all over again.
+[14:10] And they're currently available via time sharing, distributed like utility. What is new and unprecedented is that they're not in the hands of a few governments and corporations, they're in the hands of all of us because we all have a computer and it's all just software and ChatGPT was beamed down to our computers like to billions of people like instantly and overnight and this is insane.
+[14:28] Uh, and it's kind of insane to me that this is the case. And now it is our time to enter the industry and program these computers. This is crazy. So, I think this is quite remarkable.
+[14:39] Before we program LLMs, we have to kind of like spend some time to think about what these things are and I especially like to kind of talk about their psychology.
+[14:48] So, the way I like to think about LLMs is that they're kind of like people spirits. Uh they are stochastic simulations of people.
+[14:55] Um and the simulator in this case happens to be an autoregressive transformer. So transformer is a neural net. Uh it's and it just kind of like goes on the level of tokens, it goes chunk, chunk, chunk, chunk, chunk.
+[15:07] And there's an almost equal amount of compute for every single chunk. Um, and um this simulator of course is is just it's basically there's some weights involved and we fit it to all of text that we have on the internet and so on.
+[15:21] And you end up with this kind of a simulator. And because it is trained on humans, it's got this emergent psychology that is human-like.
+[15:28] So the first thing you'll notice is of course, uh LLMs have encyclopedic knowledge and memory. Uh and they can remember lots of things, a lot more than any single individual human can because they've read so many things.
+[15:39] It's, it actually kind of reminds me of this movie Rain Man, which I actually really recommend people watch, it's an amazing movie. I love this movie.
+[15:45] Um, and Dustin Hoffman here is an autistic savant who has almost perfect memory. So he can read a, he can read like a phonebook and remember all of the names and uh phone numbers.
+[15:55] And I kind of feel like LLMs are kind of like very similar. They can remember SHA hashes and lots of different things very very easily.
+[16:02] So, they certainly have superpowers in some in some respects, but they also have a bunch of, I would say, cognitive uh deficits.
+[16:09] So, they hallucinate quite a bit, um, and they kind of make up stuff and don't have a very good uh sort of internal model of self knowledge, or not sufficient at least.
+[16:18] And this has gotten better, but not perfect. They display jagged intelligence. So they're going to be superhuman in some problem solving domains, and then they're going to make mistakes that basically no human will make.
+[16:27] Like, you know, they will insist that 9.11 is greater than 9.9 or that there are two R's in strawberry. These are some famous examples.
+[16:35] But basically, there are rough edges that you can trip on. So that's kind of I think also kind of unique. Uh they also kind of suffer from anterograde amnesia.
+[16:44] Um so uh and I think I'm alluding to the fact that if you have a coworker who joins your organization, this coworker will over time learn your organization and uh they will understand and gain like a huge amount of context on the organization.
+[16:58] And they go home and they sleep and they consolidate knowledge and they develop expertise over time. LLMs don't natively do this. And this is not something that has really been solved in the R&D of LLMs, I think.
+[17:08] Um, and so context windows are really kind of like working memory and you have to sort of program the working memory quite directly because they don't just kind of like get smarter by by default.
+[17:16] And I think a lot of people get tripped up by the analogies um, in this way. In popular culture, I recommend people watch these two movies, uh Memento and 50 First Dates.
+[17:25] In both of these movies, the protagonists, their weights are fixed and their context window gets wiped every single morning. And it's really problematic to go to work or have relationships when this happens and this happens to all of them all the time.
+[17:39] I guess one more thing I would point to is uh security kind of related limitations of the use of LLMs. So for example, LLMs are quite gullible.
+[17:46] Uh, they are susceptible to prompt injection risks, they might leak your data, etc. And so um, and there's many other considerations security related. So, so basically long story short, you have to simultaneously think through this superhuman thing that has a bunch of cognitive deficits and issues.
+[18:04] How do we and yet, they are extremely like useful. And so how do we program them? And how do we work around their deficits and enjoy their superhuman powers.
+[18:16] So what I want to switch to now is talk about the opportunities of how do we use these models and what are some of the biggest opportunities? This is not a comprehensive list, just some of the things that I thought were interesting for this talk.
+[18:26] The first thing I'm kind of excited about is what I would call partial autonomy apps. So for example, let's work with the example of coding.
+[18:34] You can certainly go to ChatGPT directly and you can start copy pasting code around and copy pasting bug reports and stuff around and getting code and copy pasting everything around.
+[18:43] Why would you, why would you do that? Why would you go directly to the operating system? It makes a lot more sense to have an app dedicated for this.
+[18:50] And so I think many of you uh use uh Cursor. I do as well. Uh and uh Cursor is kind of like the thing you want instead.
+[18:58] You don't want to just directly go to the ChatGPT. And I think Cursor is a very good example of an early LLM app that has a bunch of properties that I think are um useful across all the LLM apps.
+[19:08] So in particular, you will notice that we have a traditional interface that allows a human to go in and do all the work manually, just as before.
+[19:16] But in addition to that, we now have this LLM integration that allows us to go in bigger chunks. And so some of the properties of LLM apps that I think are shared and useful to point out.
+[19:25] Number one, the LLMs basically do a ton of the context management.
+[19:31] Uh number two, they orchestrate multiple calls to LLMs, right? So in the case of Cursor, there's under the hood embedding models for all your files, the actual chat models, models that apply diffs to the code, and this is all orchestrated for you.
+[19:44] A really big one that uh I think also maybe not fully appreciated always is application specific uh GUI and the importance of it.
+[19:52] Um, because you don't just want to talk to the operating system directly in text. Text is very hard to read, interpret, understand, and also like you don't want to take some of these actions natively in text.
+[20:03] So, it's much better to just see a diff as like red and green change and you can see what's being added and subtracted.
+[20:08] It's much easier to just do command Y to accept or command N to reject. I shouldn't have to type it in text, right? So a GUI allows a human to audit the work of these fallible systems and to go faster.
+[20:19] I'm going to come back to this point a little bit later as well. And the last kind of feature I want to point out is that there's what I call the autonomy slider.
+[20:27] So for example, in Cursor, you can just do tab completion, you're mostly in charge. You can select a chunk of code and command K to change just that chunk of code.
+[20:36] You can do command L to change the entire file, or you can do command I, which just, you know, letter rip do whatever you want in the entire repo.
+[20:43] And that's the sort of full autonomy agentic version. And so you are in charge of the autonomy slider, and depending on the complexity of the task at hand, you can uh tune the amount of autonomy that you're willing to give up uh for that task.
+[20:57] Maybe to show one more example of a fairly successful LLM app, uh Perplexity. Uh it it also has very similar features to what I've just pointed out in Cursor.
+[21:07] Uh it packages up a lot of the information, it orchestrates multiple LLMs, it's got a GUI that allows you to audit some of its work. So, for example, it will, uh, cite sources and you can imagine inspecting them.
+[21:18] And it's got an autonomy slider. You can either just do a quick search or you can do research, or you can do deep research and come back 10 minutes later.
+[21:24] So this is all just varying levels of autonomy that you give up to the tool. So I guess my question is, I feel like a lot of software will become partially autonomous.
+[21:33] And I'm trying to think through like what does that look like? And for many of you who maintain products and services, how are you going to make your products and services partially autonomous?
+[21:41] Can an LLM see everything that a human can see? Can an LLM act in all the ways that a human could act? And can humans supervise and stay in the loop of this activity?
+[21:50] Because again, these are fallible systems that aren't yet perfect. And what does a diff look like in Photoshop or something like that, you know?
+[21:58] And also a lot of the traditional software right now, it has all these switches and all this kind of stuff that's all designed for human. All of this has to change and become accessible to LLMs.
+[22:08] So, one thing I want to stress with a lot of these LLM apps that I'm not sure gets uh as much attention as it should is, um we're now kind of like cooperating with AIs.
+[22:17] And usually they are doing the generation and we as humans are doing the verification. It is in our interest to make this loop go as fast as possible so we're getting a lot of work done.
+[22:27] There are two major ways that I think uh this can be done. Number one, you can speed up verification a lot, and I think GUI, for example, are extremely important to this because a GUI utilizes your computer vision GPU in all of our head.
+[22:40] Reading text is effortful and it's not fun, but looking at stuff is fun and it's it's just a kind of like a highway to your brain.
+[22:47] So I think GUI are very useful for auditing systems and visual representations in general.
+[22:53] And number two, I would say is, we have to keep the AI on the leash. We can't, I think a lot of people are getting way over excited with AI agents.
+[23:02] And uh, it's not useful to me to get a diff of 1,000 lines of code to my repo. Like, I have to, I'm still the bottleneck, right? Even though the 1,000 lines come out instantly, I have to make sure that this thing is not introducing bugs.
+[23:14] It's just like, and that it's doing the correct thing, right? And that there's no security issues and so on.
+[23:19] So, I think that um, yeah, basically, you have to sort of like, it's in our interest to make the the flow of these two go very, very fast.
+[23:30] And we have to somehow keep the AI on the leash because it gets way too overreactive. It's uh, it's kind of like this. This is how I feel when I do AI-assisted coding.
+[23:38] If I'm just vibe coding, everything is nice and great, but if I'm actually trying to get work done, uh it's not so great to have an overreactive uh agent doing all this kind of stuff.
+[23:46] So, this slide is not very good, I'm sorry, but I guess I'm trying to develop like many of you, some ways of utilizing these agents in my coding workflow and to do AI assisted coding.
+[23:57] And in my own work, I'm always scared to get way too big diffs. I always go in small incremental chunks. I want to make sure that everything is good.
+[24:05] I want to spin this loop very, very fast and uh, I sort of work on small chunks of single concrete thing. Uh and so I think uh many of you are probably developing similar ways of working with the with LLMs.
+[24:17] Um, I also saw a number of blog posts that try to develop these best practices for working with LLMs. And here's one that I read recently and I thought was quite good.
+[24:26] And it kind of discussed some techniques and some of them have to do with how you keep the AI on the leash. And so as an example, if you are prompting, if your prompt is vague, then uh the AI might not do exactly what you wanted.
+[24:38] And in that case, verification will fail. You're going to ask for something else. If verification fails, then you're going to start spinning. So it makes a lot more sense to spend a bit more time to be more concrete in your prompts, which increases the probability of successful verification and you can move forward.
+[24:51] And so I think a lot of us are going to end up finding, um, kind of techniques like this. I think in my own work as well, I'm currently interested in uh, what education looks like in um, together with kind of like now that we have AI, uh and LLMs, what does education look like?
+[25:05] And I think a a large amount of thought for me goes into how we keep AI on the leash. I don't think it just works to go to ChatGPT and be like, hey, teach me physics.
+[25:14] I don't think this works because the AI is like, gets lost in the woods. And so for me, this is actually two separate apps for example.
+[25:21] There's an app for a teacher that creates courses, and then there's an app that takes courses and serves them to students.
+[25:27] And in both cases, we now have this intermediate artifact of a course that is auditable and we can make sure it's good, we can make sure it's consistent, and the AI is kept on the leash with respect to a certain syllabus, a certain like um, progression of projects, and so on.
+[25:41] And so this is one way of keeping the AI on the leash and I think has a much higher likelihood of working. And the AI is not getting lost in the woods.
+[25:49] One more kind of analogy I wanted to allude to is I'm not I'm no stranger to partial autonomy and I've kind of worked on this, I think for five years at Tesla.
+[25:58] And this is also a partial autonomy product and it shares a lot of the features. Like, for example, right there in the instrument panel is the GUI of the autopilot.
+[26:06] So it's showing me what the what the neural network sees and so on. And we have the autonomy slider where over the course of my tenure there, we did more and more autonomous tasks for the user.
+[26:17] And maybe the story that I wanted to tell very briefly is, uh, actually the first time I drove a self-driving vehicle was in 2013.
+[26:25] And I had a friend who worked at Waymo and uh he offered to give me a drive around Palo Alto. I took this picture using Google Glass at the time.
+[26:33] And many of you are so young that you might not even know what that is. Uh but uh, yeah, this was like all the rage at the time.
+[26:39] And we got into this car and we went for about a 30-minute drive around Palo Alto, highways, uh streets, and so on. And this drive was perfect. There was zero interventions.
+[26:48] And this was in 2013, which is now 12 years ago. And it's kind of struck me because at the time when I had this perfect drive, this perfect demo, I felt like, wow, self-driving is imminent because this just works.
+[27:01] This is incredible. Um, but here we are 12 years later and we are still working on autonomy. Um we are still working on driving agents.
+[27:08] And even now, we haven't actually like fully solved the problem. Like you may see Waymos going around and they look driverless, but you know, there's still a lot of teleoperation and a lot of human in the loop of a lot of this driving.
+[27:20] So we still haven't even like declared success, but I think it's definitely like going to succeed at this point, but it just took a long time.
+[27:26] And so I think like like this is software is really tricky, I think in the same way that driving is tricky.
+[27:33] And so when I see things like, oh, 2025 is the year of agents, I get very concerned and I kind of feel like, you know, this is the decade of agents.
+[27:42] And this is going to be quite some time. We need humans in the loop, we need to do this carefully. This is software. Let's be serious here.
+[27:50] One more uh kind of analogy that I always think through is the Iron Man suit. Uh I think this is I always loved Iron Man. I think it's like so um correct in a bunch of ways with respect to technology and how it will play out.
+[28:04] And what I love about the Iron Man suit is that it's both an augmentation and Tony Stark can drive it, and it's also an agent.
+[28:10] and in some of the movies, the Iron Man suit is quite autonomous and can fly around and find Tony and all this kind of stuff.
+[28:15] And so this is the autonomy slider is we can be, we can build augmentations or we can build agents. And we kind of want to do a bit of both, but at this stage, I would say working with fallible LLMs and so on, I would say, you know, it's less Iron Man robots and more Iron Man suits that you want to build.
+[28:33] It's less like building flashy demos of autonomous agents and more building partial autonomy products. And these products have custom GUIs and UI/UX, and we're trying to um, and this is done so that the generation verification loop with the human is very, very fast.
+[28:47] And we're not losing the sight of the fact that it is in principle possible to automate this work. And there should be an autonomy slider in your product and you should be thinking about how you can slide that autonomy slider and make your product uh sort of um more autonomous over time.
+[29:01] But this is kind of how I think there's lots of opportunities in these kinds of products. I want to now switch gears a little bit and talk about one other dimension that I think is very unique.
+[29:09] Not only is there a new type of programming language that allows for autonomy in software, but also as I mentioned, it's programmed in English, which is this natural interface.
+[29:18] And this is suddenly, everyone is a programmer because everyone speaks natural language like English. So this is extremely bullish and very interesting to me and also completely unprecedented, I would say.
+[29:28] It it used to be the case that you need to spend 5 to 10 years studying something to be able to do something in software. This is not the case anymore.
+[29:35] So I don't know if by any chance anyone has heard of vibe coding.
+[29:41] This is the tweet that kind of like introduced this. But I'm told that this is now like a major meme.
+[29:47] Fun story about this is that I've been on Twitter for like 15 years or something like that at this point, and I still have no clue which tweet will become viral and which tweet like fizzles and no one cares.
+[29:58] And I thought that this tweet was going to be the ladder. I don't know, it's just like a shower of thoughts, but this became like a total meme and I really just can't tell, but I guess like it struck a chord and it gave a name to something that everyone was feeling but couldn't quite say in words.
+[30:13] So now there's a Wikipedia page and everything.
+[30:18] So it's like.
+[30:24] Yeah, this is like a major contribution now or something like that. So.
+[30:31] Uh Tom Wolf from Hugging Face shared this beautiful video that I really love.
+[30:42] And I find that this is such a wholesome video. Like I love this video.
+[30:46] Like how can you look at this video and feel bad about the future? The future is great.
+[30:52] I think this will end up being like a gateway drug to software development.
+[30:57] I'm not a doomer about the future of the generation and I think, yeah, I love this video.
+[31:04] I tried vibe coding a little bit as well because it's so fun. Uh so vibe coding is so great when you want to build something super duper custom that doesn't appear to exist and you just want to wing it because it's a Saturday or something like that.
+[31:14] So, I built this uh iOS app and I don't I can't actually program in Swift, but I was really shocked that I was able to build like a super basic app and I'm not going to explain it, that's really uh dumb.
+[31:26] But uh I kind of like this was just like a day of work and this was running on my phone like later that day and I was like, wow, this is amazing.
+[31:33] I didn't have to like read through Swift for like five days or something like that to like get started.
+[31:37] I also vibe coded this app called MenuGen. And this is live, you can try it in menugen.app. And I basically had this problem where I show up at a restaurant and I read through the menu and I have no idea what any of the things are.
+[31:48] And I need pictures. So this doesn't exist, so I was like, hey, I'm going to vibe code it. So, um, this is what it looks like.
+[31:55] You go to menugen.app.
+[31:59] Um, and uh, you take a picture of a of a menu and then menu gen generates the images.
+[32:05] And everyone gets $5 in credits for free when you sign up. And therefore, this is a major cost center in my life. So, this is at negative negative uh revenue app for me right now.
+[32:17] I've lost a huge amount of money on MenuGen.
+[32:21] Okay. But the fascinating thing about MenuGen for me is that the code of the the vibe coding part, the code was the easiest part of of uh vibe coding menu gen.
+[32:33] And most of it actually was when I tried to make it real so that you can actually have authentication and payments and a domain name and a vercel deployment.
+[32:41] This was really hard and all of this was not code. All of this DevOps stuff was in me in the browser clicking things.
+[32:48] And this was an extreme slog and took another week. So it was really fascinating that I had the MenuGen um basically demo working on my laptop in a few hours, and then it took me a week because I was trying to make it real.
+[33:01] And the reason for this is this was just really annoying. Um, so for example, if you try to add Google login to your web page, I know this is very small, but just a huge amount of instructions of this uh Clerk library telling me how to integrate this.
+[33:14] And this is crazy, like it's telling me, go to this URL, click on this drop down, choose this, go to this and click on that.
+[33:21] And it's like telling me what to do. Like a computer is telling me the actions I should be taking. Like you do it. Why am I doing this?
+[33:29] What the hell?
+[33:31] I had to follow all these instructions. This was crazy. So I think the last part of my talk, therefore, focuses on, can we just build for agents?
+[33:41] I don't want to do this work. Can agents do this? Thank you.
+[33:47] Okay. So roughly speaking, I think there's a new category of consumer and manipulator of digital information.
+[33:53] It used to be just humans through GUIs or computers through APIs. And now we have a completely new thing.
+[33:59] And agents, they're computers, but they are human-like kind of, right? They're people spirits. There's people spirits on the internet and they need to interact with our software infrastructure.
+[34:08] Like can we build for them? It's a new thing. So as an example, you can have robots.txt on your domain and you can instruct uh or like advise I suppose, um, web crawlers on how to behave on your website.
+[34:19] In the same way you can have maybe LLMs.txt file, which is just a simple markdown that's telling LLMs what this domain is about.
+[34:26] And this is very readable to to an LLM. If it had to instead get the HTML of your web page and try to parse it, this is very error prone and difficult and will screw it up and it's not going to work.
+[34:36] So we can just directly speak to the LLM. It's worth it.
+[34:39] Um a huge amount of documentation is currently written for people. So you will see things like lists and bold and pictures.
+[34:46] And this is not directly accessible by an LLM. So I see some of the services now are transitioning a lot of their docs to be specifically for LLMs.
+[34:55] So, Vercel and Stripe, as an example, are early movers here. Uh but there are uh a few more that I've seen already.
+[35:02] And they offer their documentation in markdown. Markdown is super easy for LLMs to understand. This is great.
+[35:10] Maybe one simple example from from uh my experience as well. Maybe some of you know 3Blue1Brown, he makes beautiful animation videos on YouTube.
+[35:23] Yeah, I love this library, uh so that he wrote the uh Manim. And I wanted to make my own.
+[35:28] And uh there's extensive documentation on how to use Manim, and so I didn't want to actually read through it.
+[35:34] So I copy pasted the whole thing to an LLM and I described what I wanted and it just worked out of the box. Like LLM just vibe coded me an animation exactly what I wanted.
+[35:42] And I was like, wow, this is amazing. So if we can make docs legible to LLMs, it's going to unlock a huge amount of um kind of use.
+[35:50] And um I think this is wonderful and should should happen more. The other thing I wanted to point out is that you do unfortunately have to, it's not just about taking your docs and making them appear in markdown.
+[36:01] That's the easy part. You actually have to change the docs because anytime your docs say click, this is bad. An LLM will not be able to natively take this action uh right now.
+[36:10] So, Vercel for example is replacing every occurrence of click with the equivalent curl command that your LLM agent could take on your behalf.
+[36:18] Um, and so I think this is very interesting. And then of course, there's a model context protocol from Anthropics and this is also another way, it's a protocol of speaking directly to agents as this new consumer and manipulator of digital information.
+[36:29] So I'm very bullish on these ideas. The other thing I really like is a number of little tools here and there that are helping ingest data in like very LLM friendly formats.
+[36:39] So for example, when I go to a GitHub repo like my Nano GPT repo, I can't feed this to an LLM and ask questions about it, uh because it's, you know, this is a human interface on GitHub.
+[36:48] So when you just change the URL from GitHub to Gitingest, then uh this will actually concatenate all the files into a single giant text and it will create a directory structure, etc.
+[36:57] And this is ready to be copy pasted into your favorite LLM and you can do stuff.
+[37:02] Maybe even more a dramatic example of this is Deepwiki, where it's not just the raw content of these files, uh, this is from Devon, but also like they have Devon basically do analysis of the GitHub repo and Devon basically builds up a whole docs uh pages just for your repo.
+[37:18] And you can imagine that this is even more helpful to copy paste into your LLM. So I love all the little tools that basically where you just change the URL and it makes something accessible to an LLM.
+[37:27] So this is all well and great and uh, I think there should be a lot more of it.
+[37:31] One more note I wanted to make is that it is absolutely possible that in the future, LLMs, it's not even future, this is today, they'll be able to go around and they'll be able to click stuff and so on.
+[37:42] But I still think it's very worth uh basically meeting LLM halfway, LLMs halfway and making it easier for them to access all this information.
+[37:51] Because this is still fairly expensive, I would say to use and uh a lot more difficult.
+[37:56] And so I do think that lots of software, there will be a long tail where it won't uh like adapt because these are not like live player sort of repositories or digital infrastructure.
+[38:05] And we will need these tools. Uh but I think for everyone else, I think it's very worth kind of like meeting in some middle point.
+[38:11] So I'm bullish on both, if that makes sense.
+[38:14] So in summary, what an amazing time to get into the industry. We need to rewrite a ton of code. A ton of code will be written by professionals and vibe coders.
+[38:24] These LLMs are kind of like utilities, kind of like fabs, but they're kind of especially like operating systems, but it's so early. It's like 1960s of operating systems.
+[38:34] And uh, and I think a lot of the analogies cross over. Um, and these LLMs are kind of like these fallible uh, you know, people spirits that we have to learn to work with.
+[38:44] And in order to do that properly, we need to adjust our infrastructure towards it. So when you're building these LLM apps, I described some of the ways of working effectively with these LLMs and some of the tools that make that uh, kind of uh possible, and how you can spin this loop very, very quickly.
+[38:58] And basically, uh, create partial autonomy products. And then, um, yeah, a lot of code has to also be written for the agents more directly.
+[39:07] But in any case, going back to the Iron Man suit analogy, I think what we'll see over the next decade roughly is we're going to take this slider from left to right.
+[39:15] And I'm very interesting, it's going to be very interesting to see what that looks like and I can't wait to build it with all of you.
+[39:22] Thank you.
+[39:24] Thank you
 
-Leveraging multiple LLMs concurrently demands significant computational resources, driving up costs and introducing latency challenges. In the evolving landscape of AI, efficient LLM orchestration is essential for optimizing performance while minimizing expenses.
-
-Explore key strategies and tools for managing multiple LLMs effectively. Here is a list of LLM orchestration tools sorted according to the number of GitHub stars:
-
-Updated at 02-06-2025
-
-| Framework | Github Stars | Supported languages | Best for |
-| --- | --- | --- | --- |
-| LangChain | 83.8k | Python <br> Javascript | Complex AI workflows |
-| AutoGen | 38.7k | Python | Multi-agent coordination |
-| LlamaIndex | 31.2k | Python <br> Typescript | Data integration |
-| crewAI | 25.9k | Python | Role-based agent orchestration |
-| Semantic kernel by Microsoft | 22.9k | C#<br> Python | Azure environment |
-| Haystack by Deepset AI | 19k | Python | Custom NLP pipelines |
-| TaskWeaver | 5.5k | Python | Agent-based task automation |
-| Agency Swarm | 3.2k | Python | AI agent networks |
-| Microchain | 282 | Python | Lightweight AI microservices |
-| Loft | 10 | Python | No-code/low-code AI automatio |
-| IBM watsonx orchestrate | Not open-source | Java<br> Javascript | Enterprise use |
-
-## What is orchestration in LLM?
-
-LLM Orchestration involves managing and integrating multiple [Large Language Models (LLMs](https://research.aimultiple.com/large-language-models/)) to perform complex tasks efficiently. It ensures smooth interaction between models, workflows, data sources, and pipelines, optimizing performance as a unified system. Organizations use LLM Orchestration for tasks like natural language generation, machine translation, decision-making, and chatbots.
-
-While LLMs possess strong foundational capabilities, they are limited in real-time learning, retaining context, and solving multistep problems. Also, managing multiple LLMs across various provider APIs adds orchestration complexity.
-
-LLM orchestration frameworks address these challenges by streamlining prompt engineering, API interactions, data retrieval, and state management. These frameworks enable LLMs to collaborate efficiently, enhancing their ability to generate accurate and context-aware outputs.
-
-## What is the best platform for LLM orchestration?
-
-LLM orchestration frameworks are tools designed to manage, coordinate, and optimize the use of Large Language Models (LLMs) in various applications. An LLM orchestration system enables seamless integration with different AI components, facilitate prompt engineering, manage workflows, and enhance performance monitoring.
-
-They are particularly useful for applications involving multi-agent systems, [retrieval-augmented generation (RAG)](https://research.aimultiple.com/retrieval-augmented-generation/), [conversational AI](https://research.aimultiple.com/conversational-ai-platforms/), and autonomous decision-making.
-
-The tools that are explained below are listed based on the alphabetical order:
-
-### Agency Swarm
-
-Agency Swarm is a scalable Multi-Agent System (MAS) framework that provides tools for building distributed AI environments.
-
-**Key features:**
-
-- **Supports large-scale multi-agent coordination** that enables many AI agents to work together efficiently.
-- **Includes simulation and visualization tools**  that helps test and monitor agent interactions in a simulated environment.
-- **Enables environment-based AI interactions** as AI agents can dynamically respond to changing conditions.
-
-### AutoGen
-
-AutoGen, developed by Microsoft, is an open-source multi-agent orchestration framework that simplifies AI task automation using conversational agents.
-
-![The image shows AutoGen architecture, one of the top LLM orchestration tools.](https://research.aimultiple.com/wp-content/uploads/2025/02/AutoGen-architecture-1224x670.png.webp)Figure 1: AutoGen Architecture[1](https://research.aimultiple.com/llm-orchestration/#easy-footnote-bottom-1-1296361 "AutoGen LinkedIn")
-
-**Key features:**
-
-- **Multi-agent conversation framework** that allows AI agents to communicate and coordinate tasks.
-- **Supports various AI models (OpenAI, Azure, custom models)**  that works with different LLM providers.
-- **Modular and easy-to-configure system** referring to a customizable setup for various AI applications.
-
-### crewAI
-
-crewAI is an open-source multi-agent framework built on LangChain. It enables role-playing AI agents to collaborate on structured tasks.
-
-**Key features:**
-
-- **Agent-based workflow automation** that assigns AI agents specific roles in task execution.
-- **Supports both technical and non-technical users**
-- **Enterprise version (crewAI+) available**
-
-### **Haystack**
-
-Haystack is an open-source Python framework that allows for flexible AI pipeline creation using a component-based approach. It supports information retrieval and Q&A applications.
-
-**Key features:**
-
-- **Component-based AI system design**  which is a modular approach for assembling AI functions.
-- **Integration with vector databases and LLM providers** enabling to work with various data storage and AI models.
-- **Supports semantic search and information extraction**, enabling advanced search and knowledge retrieval.
-
-### **IBM watsonx orchestrate**
-
-IBM watsonx orchestrate is a proprietary AI orchestration framework that leverages natural language processing (NLP) to automate enterprise workflows. It includes prebuilt AI applications and tools designed for HR, procurement, and sales operations.
-
-![The image shows a major enterprise LLM orchestrator that can be deployed on AWS: IBM Watsonx orchestrator](https://images.surferseo.art/3cb93e91-13d4-48fd-8253-4e611a804553.png)Figure 2: IBM watsonx orchestrator [2](https://research.aimultiple.com/llm-orchestration/#easy-footnote-bottom-2-1296362 "IBM Watsonx")
-
-**Key features:**
-
-- **AI-powered workflow automation** that can automate repetitive business processes using AI.
-- **Prebuilt applications and skill sets**, providing ready-to-use AI tools for different industries.
-- **Enterprise-focused integration**, connecting with existing enterprise software and workflows.
-
-### **LangChain**
-
-LangChain is an open-source Python framework for building LLM applications, focusing on tool augmentation and agent orchestration. It provides interfaces for embedding models, LLMs, and vector stores.
-
-**Key features:**
-
-- **RAG** **support**
-- **Integration with multiple LLM components**
-- **ReAct framework for** reasoning and action
-
-### **LlamaIndex**
-
-LlamaIndex is an open-source data integration framework designed for building context-augmented LLM applications. It enables easy retrieval of data from multiple sources.
-
-**Key features:**
-
-- **Data connectors for over 160 sources**, allowing AI to access diverse structured and unstructured data.
-- **Retrieval-Augmented Generation (RAG) support**
-- **Suite of evaluation modules for performance tracking**
-
-### LOFT
-
-LOFT, developed by Master of Code Global, is a Large Language Model-Orchestrator Framework designed to optimize AI-driven customer interactions. Its queue-based architecture ensures high throughput and scalability, making it suitable for large-scale deployments.
-
-![The architecture of LOFT, an LLM orchestration framework among the top LLM orchestration tools](https://research.aimultiple.com/wp-content/uploads/2025/02/Loft-llm-orchestration-architecture-1224x876.png.webp)
-
-**Key features:**
-
-- **Framework agnostic:** Integrates into any backend system without dependencies on HTTP frameworks.
-- **Dynamically computed prompts:** Supports custom-generated prompts for personalized user interactions.
-- **Event detection & handling:** Advanced capabilities for detecting and managing chat-based events, including handling hallucinations.
-
-### Microchain
-
-Microchain is a lightweight, open-source LLM orchestration framework known for its simplicity but is not actively maintained.
-
-**Key features:**
-
-- **Chain-of-thought reasoning support** that helps AI break down complex problems step by step.
-- **Minimalist approach to AI orchestration**
-
-### Semantic Kernel
-
-Semantic Kernel (SK) is an open-source AI orchestration framework by Microsoft. It helps developers integrate large language models (LLMs) like OpenAI’s GPT with traditional programming to create AI-powered applications.
-
-**Key features:**
-
-- **Memory & context handling:** SK allows storage and retrieval of past interactions, helping maintain context over conversations.
-- **Embeddings & vector search:** Supports embedding-based searches, making it great for retrieval-augmented generation (RAG) use cases.
-- **Multi-modal support:** Works with text, code, images, and more.
-
-### **TaskWeaver**
-
-TaskWeaver is an experimental open-source framework designed for coding-based task execution in AI applications. It prioritizes modular task decomposition.
-
-**Key features**
-
-- **Modular design for decomposing tasks** that breaks down complex processes into manageable AI-driven steps.
-- **Declarative task specification**, allowing tasks to be defined in a structured format.
-- **Context-aware decision-making**, allowing AI to adapt its actions based on changing inputs.
-
-## How do LLM orchestration tools work?
-
-LLM orchestration frameworks manage the interaction between different components of LLM-driven applications, ensuring structured workflows and efficient execution. The orchestration layer plays a central role in coordinating processes such as prompt management, resource allocation, data preprocessing, and model interactions.
-
-### Orchestration Layer
-
-The orchestration layer acts as the central control system within an LLM-powered application. It manages interactions between various components, including LLMs, prompt templates, vector databases, and AI agents. By overseeing these elements, orchestration ensures cohesive performance across different tasks and environments.
-
-### Key Orchestration Tasks
-
-#### Prompt chain management
-
-- The framework structures and manages LLM inputs (prompts) to optimize output.
-- It provides a repository of prompt templates, allowing for dynamic selection based on context and user inputs.
-- It sequences prompts logically to maintain structured conversation flows.
-- It evaluates responses to refine output quality, detect inconsistencies, and ensure adherence to guidelines.
-- Fact-checking mechanisms can be implemented to reduce inaccuracies, with flagged responses directed for human review.
-
-#### LLM resource and performance management
-
-- Orchestration frameworks monitor LLM performance through benchmark tests and real-time dashboards.
-- They provide diagnostic tools for root cause analysis (RCA) to facilitate debugging.
-- They allocate computational resources efficiently to optimize performance.
-
-#### Data management and preprocessing
-
-- The orchestrator retrieves data from specified sources using connectors or APIs.
-- Preprocessing converts raw data into a format compatible with LLMs, ensuring data quality and relevance.
-- It refines and structures data to enhance its suitability for processing by different algorithms.
-
-#### LLM integration and interaction
-
-- The orchestrator initiates LLM operations, processes the generated output, and routes it to the appropriate destination.
-- It maintains memory stores that enhance contextual understanding by preserving previous interactions.
-- Feedback mechanisms assess output quality and refine responses based on historical data.
-
-#### Observability and security measures
-
-- The orchestrator supports monitoring tools to track model behavior and ensure output reliability.
-- It implements security frameworks to mitigate risks associated with unverified or inaccurate outputs.
-
-### Additional Enhancements
-
-#### Workflow integration
-
-- Embeds tools, technologies, or processes into existing operational systems to improve efficiency, consistency, and productivity.
-- Ensures smooth transitions between different model providers while maintaining prompt and output quality.
-
-#### Changing model providers
-
-- Some frameworks allow switching model providers with minimal changes, reducing operational friction.
-- Updating provider imports, adjusting model parameters, and modifying class references facilitate seamless transitions.
-
-#### Prompt management
-
-- Maintains consistency in prompting while helping users iterate and experiment more productively.
-- Integrates with CI/CD pipelines to streamline collaboration and automate change tracking.
-- Some systems automatically track prompt modifications, helping catch unexpected impacts on prompt quality.
-
-## Why is LLM orchestration important in real-time applications?
-
-LM Orchestration enhances the efficiency, scalability, and reliability of AI-driven language solutions by optimizing resource utilization, automating workflows, and improving system performance. Key benefits include:
-
-- **Better decision-making**: Aggregates insights from multiple LLMs, leading to more informed and strategic decision-making.
-- **Cost efficiency**: Optimizes costs by dynamically allocating resources based on workload demand.
-- **Enhanced efficiency**: Streamlines LLM interactions and workflows, reducing redundancy, minimizing manual effort, and improving overall operational efficiency.
-- **Fault tolerance**: Detects failures and automatically redirects traffic to healthy LLM instances, minimizing downtime and maintaining service availability.
-- **Improved accuracy**: Leverages multiple LLMs to enhance language understanding and generation, leading to more precise and context-aware outputs.
-- **Load balancing**: Distributes requests across multiple LLM instances to prevent overload, ensuring reliability and improving response times.
-- **Lowered technical barriers**: Enables easy implementation without requiring AI expertise, with user-friendly tools like LangFlow simplifying orchestration.
-- **Dynamic resource allocation:** Allocates CPU, GPU, memory, and storage efficiently, ensuring optimal model performance and cost-effective operation.
-- **Risk mitigation**: Reduces failure risks by ensuring redundancy, allowing multiple LLMs to back up one another.
-- **Scalability**: Dynamically manages and integrates LLMs, allowing AI systems to scale up or down based on demand without performance degradation.
-- **Seamless integration**: Supports interoperability with external services, including data storage, logging, monitoring, and analytics.
-- **Security & compliance**: Centralized control and monitoring ensure adherence to regulatory standards, enhancing sensitive data security and privacy.
-- **Version control & updates**: Facilitates seamless model updates and version management without disrupting operations.
-- **Workflow automation**: Automates complex processes such as data preprocessing, model training, inference, and postprocessing, reducing developer workload.
-
-Explore [process KPIs](https://research.aimultiple.com/process-kpis/) to understand how to streamline them with LLM orchestration.
-
-### Original URL
-https://research.aimultiple.com/llm-orchestration/
 </details>
 
----
 <details>
-<summary>GenAI paradox: exploring AI use cases | McKinsey</summary>
+<summary>[00:00] (music) Hey everyone.</summary>
+
+[00:00] (music) Hey everyone.
+[00:15] Uh my name is Jerry, co-founder and CEO of LlamaIndex and today we'll be talking about how to build production ready RAG applications.
+[00:21] Um, I think there's still time for a raffle for the bucket hat, so if you guys stop by our booth, uh please fill out the Google form.
+[00:27] Okay.
+[00:28] Let's get started. So, everybody knows that there's been a ton of amazing use cases in GenAI recently.
+[00:34] You know, um, knowledge search and QA, conversational agents, uh workflow automation, document processing.
+[00:40] These are all things that you can build uh especially using the reason capabilities of LLMs uh over your data.
+[00:47] So, if we just do a quick refresher in terms of like paradigms for how do you actually get language models to understand data that hasn't been trained over.
+[00:55] There's really like two main paradigms.
+[00:58] One is retrieval augmentation where you you like fix the model and you basically create a data pipeline to put context into the prompt from some data source into the input prompt of the language model.
+[01:09] Um, so like a vector database, uh you know, like unstructured text, SQL database, etc.
+[01:14] The next paradigm here is fine-tuning.
+[01:17] How can we bake knowledge into the weights of the network by actually updating the weights of the model itself, some adapter on top of the model, but basically some sort of training process over some new data to actually incorporate knowledge.
+[01:30] We'll probably talk a little bit more about retrieval augmentation, but this is just like to help you get uh started and really understand the mission statement of of the company.
+[01:39] Okay.
+[01:40] Let's talk about RAG, retrieval augmented generation.
+[01:44] Um, it's become kind of a buzzword recently, but we'll first walk through the current RAG stack for building a QA system.
+[01:51] This really consists of two main components, uh data ingestion as well as data querying, which contains retrieval and synthesis.
+[01:58] Uh if you're just getting started in LlamaIndex, you can basically do this in around like five-ish lines of code, uh so you don't really need to think about it.
+[02:04] But if you do want to learn some of the lower level components, and I do encourage like every engineer, uh AI engineer to basically just like learn how these components work under the hood.
+[02:13] Um I would encourage you to check out some of our docs to really understand how do you actually do data ingestion uh and data querying. Like how do you actually retrieve from a vector database and how do you synthesize that with an LLM.
+[02:24] So, that's basically the key stack that's kind of emerging these days like for every sort of like chatbot, like you know, chat over your PDF, like over your unstructured data.
+[02:35] Um a lot of these things are basically using the same principles of like how do you actually load data from some data source and actually, you know, um retrieve and query over it.
+[02:45] But I think as developers are actually developing these applications, they're realizing that this isn't quite enough.
+[02:51] Uh like there's there's certain issues that you're running into that are blockers for actually being able to productionize these applications.
+[02:58] And so what are these challenges with naive RAG?
+[03:02] One aspect here is just like uh the response and and this is the key thing that we're focused on, like the the response quality is not very good.
+[03:08] You run into for instance like bad retrieval issues.
+[03:11] Like uh during the retrieval stage from your vector database, if you're not actually returning the relevant chunks from your vector database, you're not going to be able to have the correct context actually put into the LLM.
+[03:22] So this includes certain issues like low precision, not all chunks in the retrieved set are relevant.
+[03:26] Uh this leads to like hallucination, like loss in the middle problems. You have a lot of fluff in the return response.
+[03:32] This could mean low recall. like your top K isn't high enough or basically like the the the set of like information that you need to actually answer the question is just not there.
+[03:40] Um and of course there's other issues too, like outdated information.
+[03:43] And many of you who are building apps these days might be familiar with some of like key concepts of like why the LLM isn't always, you know, uh guaranteed to give you a correct answer.
+[03:52] There's hallucination, irrelevance, like toxicity bias.
+[03:55] There's a lot of issues on the LLM side as well.
+[03:58] So, what can we do?
+[04:01] Um what can we actually do to try to improve the performance of a retrieval augmented generation application?
+[04:07] Um and and for many of you like you might be running into certain issues and it really runs the gamut across like the entire pipeline.
+[04:14] There's stuff you can do on the data.
+[04:16] Like, can we store additional information beyond just like the raw text chunks, right? That that you're putting in the vector database? Can you optimize that data pipeline somehow? Play around with chunk sizes, that type of thing.
+[04:26] Can you optimize the embedding representation itself?
+[04:29] A lot of times when you're using a pre-trained embedding model, it's not really optimal for giving you the best performance.
+[04:35] Um there's the retrieval algorithm.
+[04:36] You know, the default thing you do is just look up the top K most similar elements from your vector database to return to the LLM.
+[04:44] Um many times that's not enough and and what are kind of like both simple things you can do as well as hard things.
+[04:48] Uh and there's also synthesis.
+[04:50] Like, uh why is there Yeah, there's like a V in the. Anyways, so so can we use LLMs for more than generation?
+[04:55] Um and so basically like you can um use the LLM to actually help you with like reasoning as opposed to just like pure um uh pure uh just like uh just pure generation, right?
+[05:06] You can actually use it to try to reason over, given a question, can you break it down into simpler questions, route to different data sources and kind of like uh have uh a more sophisticated way of like querying your data.
+[05:18] Um, of course, like if you've kind of been around some of my recent talks, like I always say before you actually try any of these techniques, you need to be pretty task specific and make sure that you need a way to that you actually have a way to measure performance.
+[05:31] So, I'll probably spend like two minutes talking about evaluation.
+[05:35] Um Simon, my co-founder, just ran a workshop yesterday on really just like how do you evaluate, uh build a data set, evaluate RAG systems and help iterate on that.
+[05:43] Uh if you missed the workshop, don't worry.
+[05:44] I'll we'll have the slides and and materials uh available online so that you can take a look.
+[05:49] Um, at a very high level, in terms of evaluation, it's important because you basically need to define a benchmark for your system to understand how are you going to iterate on and improve it.
+[05:58] Uh and there's like a few different ways you can try to do evaluation.
+[06:01] I think Anton from from Chroma was was just saying some of this, but like you basically need a way to um evaluate both the end-to-end solution.
+[06:09] Like you have your input query as well as the output response.
+[06:12] You also want to probably be able to evaluate like specific components.
+[06:15] Like if you've diagnosed that the retrieval is is like the portion that needs improving, you need like retrieval metrics to really understand how can you improve your retrieval system.
+[06:25] Um so there's retrieval and there's synthesis.
+[06:28] Let's talk a little bit, just like 30 seconds on each one.
+[06:31] Um evaluation on retrieval, what does this look like?
+[06:34] You basically want to make sure that the stuff that's returned actually answers the query and that you're kind of, you know, not returning a bunch of fluff, uh and that the stuff that you're returned is relevant to the question.
+[06:46] So, first you need an evaluation dataset.
+[06:48] A lot of people uh have like human labeled data sets.
+[06:50] If you're in uh building stuff in prod, you might have like user feedback as well.
+[06:54] If not, you can synthetically generate a data set.
+[06:56] This data set is input like query and output the IDs of like the returned documents are relevant to the query.
+[07:03] So you need that somehow.
+[07:04] Once you have that, you can measure stuff with ranking metrics, right?
+[07:08] You can measure stuff like success rate, hit rate, MRR, NDCG, a variety of these things.
+[07:13] And and so like once you are able to evaluate this, like this really isn't uh kind of like an LLM problem.
+[07:19] This is like a IR problem. And this has been around for at least like a decade or two.
+[07:23] Um but a lot of this is becoming like, you know, it's it's still very relevant in the face of actually building these LLM apps.
+[07:31] The next piece here is um there's a retrieve portion, right, but then you generate a response from it.
+[07:36] And then how do you actually evaluate the whole thing end to end?
+[07:38] So evaluation of the final response uh given the input.
+[07:42] You still want to generate some sort of data set.
+[07:44] So you could do that through like human annotations, user feedback, you could have like ground truth reference answers given the query that really indicates like, hey, this is the proper answer to this question.
+[07:54] Um and you can also just like, you know, synthetically generate it with like GPT-4.
+[07:58] Uh you run this through the full RAG pipeline that you built, the retrieval and synthesis, uh and you can run like LLM-based evals.
+[08:04] Um so label free evals with label evals, there's a lot of uh projects these days uh going on about how do you actually properly evaluate the outputs, predicted outputs of a language model.
+[08:15] Once you've defined your eval benchmark, now you want to think about how do you actually optimize your RAG systems?
+[08:21] So, I sent a teaser on this slide uh a few, like yesterday, but the way I think about this is that when you want to actually improve your system, there's like a million things that you can do to try to actually improve your RAG system.
+[08:34] Uh and like you probably don't want to start with the hard stuff first, uh just because like, you know, part of the value of language models is how it's kind of democratized access to every developer.
+[08:42] It's really just made it easier for people to get up and running.
+[08:45] And so if for instance you're running into some performance issues with RAG, I'd probably start with the basics.
+[08:50] Like, I call it like table stakes RAG techniques, uh better parsing, um so that you don't just split by even chunks, uh like adjusting your chunk sizes, trying out stuff that's already integrated with the vector database like hybrid search, as well as like metadata filters.
+[09:04] There's also like advanced retrieval methods uh that you could try.
+[09:07] This is like a little bit more advanced, some of it pulls from like traditional IR, some of it's more like kind of uh really like uh new in in this age of LLM based apps.
+[09:16] There's like uh reranking, um that's a traditional concept.
+[09:19] There's also concepts in LlamaIndex like recursive retrieval, like dealing with embedded tables, like uh small to big retrieval, and a lot of other stuff that we have that help you potentially improve the performance of your application.
+[09:31] Uh and then the last bit, like this kind of gets into more expressive stuff that might be harder to implement, might incur a higher latency and cost, but is potentially more powerful and forward looking, is like agents.
+[09:40] Like how do you incorporate agents towards better like RAG pipelines to better answer different types of questions and synthesize information? And how do you actually fine-tune stuff?
+[09:50] Let's talk a little bit about the table stakes first.
+[09:53] So, chunk sizes. Tuning your chunk size can have outsize impacts on performance, right?
+[09:58] Uh if you've kind of like played around with RAG systems, uh this may or may not be obvious to you.
+[10:03] What's interesting though is that like more retrieved tokens does not always equate to higher performance and that if you do like reranking of your retrieved tokens, it doesn't necessarily mean that your final generation response is going to be better.
+[10:15] And this is again due to stuff like lost in the middle problems where stuff in the middle of the LLM context window tends to get lost whereas stuff at the end uh tends to be a little bit uh uh more well remembered by the LLM.
+[10:27] Um and so I think we did a workshop with like Arize a few a week ago where we showed, you know, uh there is kind of like an optimal chunk size given your data set.
+[10:35] And a lot of times when you try out stuff like reranking, it actually increases your error metrics.
+[10:40] Metadata filtering.
+[10:41] Uh this is another like very table stakes thing that I think everybody should look into.
+[10:46] And I think vector databases, like, you know, Chroma, Pinecone, Re.AI, like the these uh vector databases are all implementing these uh capabilities under the hood.
+[10:54] Metadata filtering is basically just like, how can you add structured context uh to your your chunks, like your text chunks.
+[11:01] And you can use this for both like embeddings as well as synthesis, but it also integrates with the metadata, the metadata filter capabilities of a vector database.
+[11:09] Um so metadata is just like, again, structured JSON dictionary.
+[11:12] It could be like page number, it could be the document title, it could be the summary of adjacent chunks, you can get creative with it too.
+[11:17] You could hallucinate like questions uh that the chunk answers.
+[11:21] Um, and it can help retrieval, it can help augment your response quality, it also integrates with the vector database filters.
+[11:28] As an example, um let's say the question uh is over like the SEC uh like 10Q document and like, can you tell me the risk factors in 2021?
+[11:36] If you just do raw semantic search, typically it's very low precision.
+[11:39] You're going to return a bunch of stuff that may or may not match this.
+[11:42] You might even return stuff from like other years if you have a bunch of documents from different years in the same vector collection.
+[11:47] And so like you're kind of like rolling the dice a little bit.
+[11:53] But one idea here is basically, you know, if you have access to the metadata of the documents, um and you ask a question like this, you basically combine structured query capabilities by inferring the metadata filters, like a where clause in a SQL statement, like a year equals 2021, and you combine that with semantic search to return the most relevant candidates given your query.
+[12:12] And this improves the precision of your uh of your results.
+[12:17] Moving on to stuff that's maybe a bit more advanced, like advanced retrieval is one thing that we found generally helps is this idea of like small to big retrieval.
+[12:27] Um so what does that mean?
+[12:28] Basically, right now, when you embed a big text chunk, you also synthesize over that text chunk.
+[12:34] And so it's a little suboptimal because what if like the embedding representations like biased because, you know, there's a bunch of fluff in that text chunk that contains a bunch of irrelevant information, you're not actually optimizing your retrieval quality.
+[12:45] So, embedding a big text chunk sometimes feels a little suboptimal.
+[12:49] One thing that you could do is basically embed text at the sentence level or on a smaller level, and then expand that window during synthesis time.
+[12:56] And so this is contained in a variety of like LlamaIndex abstractions, but the idea is that you return, you retrieve on more granular pieces of information, so smaller chunks.
+[13:05] This makes it so that these chunks are more likely to be retrieved when you actually ask a query over these specific pieces of context.
+[13:11] But then you want to make sure that the LLM actually has access to more information to actually synthesize a proper result.
+[13:18] So this leads to like more precise retrieval, right?
+[13:20] So um we we tried this out.
+[13:23] It it helps avoid like some lost in the middle problems.
+[13:26] You can set a smaller top K value like K equals 2, uh whereas like, uh over this data set, if you set like K equals 5 for naive retrieval over big text chunks, you basically start returning a lot of context and that kind of leads into issues where, uh you know, maybe the relevant context is in the middle but you're not able to find out or or you're like the the LLM is is is not able to kind of uh synthesize over that information.
+[13:51] A very related idea here is just like embedding a reference to the parent chunk, um as opposed to the actual text chunk itself.
+[13:59] So for instance, if you want to embed like not just the raw text chunk or not the text chunk, but actually like a smaller chunk, um or a summary or questions that answer the chunk, we have found that that actually helps to improve retrieval performance a decent amount.
+[14:12] Um and it's it kind of again, goes along with this idea like a lot of times you want to embed something that's more amenable for embedding based retrieval.
+[14:19] Uh but then you want to return enough context so that the LLM can actually synthesize over that information.
+[14:28] The next piece here is actually kind of even more advanced stuff, right?
+[14:33] This goes on into agents and this goes on into that last pillar that I I mentioned, which is how can you use LLMs for for reasoning as opposed to just synthesis.
+[14:42] The intuition here is that like for a lot of RAG, if you're just using the LLM at the end, you're one constrained by the quality of your retriever.
+[14:49] And you're really only able to do stuff like question answering.
+[14:52] And there's certain types of questions or more advanced analysis that you might want to launch that like top-K RAG can't really answer.
+[14:58] Like it's not necessarily just a one-off question.
+[15:01] You might need to have like an entire sequence of reasoning steps to actually pull together a piece of information or you might want to like summarize a document and compare it with like other documents.
+[15:10] So, one kind of architecture we're we're exploring right now is this idea of like multi-document agents.
+[15:15] What if like instead of just like RAG, we moved a little bit more into agent territory.
+[15:20] We modeled each document not just as a sequence of text chunks, but actually as a set of tools that contains the ability to both like summarize that document as well as to do QA over that document over specific facts.
+[15:31] Um and of course if you want to scale to like, you know, hundreds or thousands or millions of documents, um typically an agent can only have access to a limited window of tools.
+[15:40] So you probably want to do some sort of retrieval on these tools similar to how you want to retrieve like text chunks from a document.
+[15:47] The main difference is that because these are tools, you actually want to act upon them, you want to use them as opposed to just like taking the raw text and plugging it into the context window.
+[15:55] So blending this combination of like um embedding based retrieval or any sort of retrieval as well as like agent tool use is a very interesting paradigm that I think is really only possible with this age of LLMs and hasn't really existed uh before this.
+[16:13] Another kind of advanced concept is this idea of fine-tuning.
+[16:17] Um and so fine-tuning, you know, so some other presenters have talked about this as well, but the idea of like fine-tuning in a RAG system is that it really optimizes specific pieces of this RAG pipeline for you to kind of better um improve the performance of either retrieval or synthesis capabilities.
+[16:35] So one thing you can do is fine-tune your embeddings.
+[16:37] I think uh Anton was talking about this as well.
+[16:39] Like if you just use a pre-trained model, the embedding representations are not going to be optimized over your specific data.
+[16:44] So sometimes you're just going to retrieve the wrong, wrong information.
+[16:48] Um if you can somehow tune these embeddings so that given any sort of like relevant question that the user might ask that you're actually returning the relevant response, then you're going to have like better performance.
+[17:00] So, the idea here, right, is to generate a synthetic query dataset from raw text chunks using LLMs and use this to fine-tune an embedding model.
+[17:08] Um and you can do this, like..."
+[17:10] Uh if we go back really quick actually, uh you can do this by basically, um kind of fine-tuning the base model itself.
+[17:16] You can also fine-tune an adapter on top of the model.
+[17:19] And fine-tuning an adapter on top of the model has a few advantages in that it you don't require the base model's weights to actually fine-tune stuff.
+[17:26] And if you just fine-tune the query, you don't have to re-index your entire document corpus.
+[17:33] There's also fine-tuning LLMs which, of course, like a lot of people are very interested in doing these days.
+[17:39] Um an intuition here specifically for RAG is that if you have a weaker LLM, like 3.5 Turbo, like Llama 2 7B, like these weaker LLMs are bad at, are, are not bad at like, um, are, wait, yeah, weaker LLMs are are maybe a little bit worse at like response synthesis, reasoning, structured outputs, etc., um compared to like bigger models.
+[17:59] So a solution here is what if you can generate a synthetic dataset using a bigger model like GPT-4, something we're exploring, and you actually distill that into 3.5 Turbo.
+[18:08] So it gets better at chain of thought, longer response quality, um better structured outputs, and a lot of other possibilities as well.
+[18:15] So, all these things are in our docs.
+[18:17] There's production RAG, uh there's fine-tuning and I have two seconds left.
+[18:20] So thank you very much.
+[18:21] (audience applauding) (music)
 
-[iframe](javascript:void(0))GenAI paradox: exploring AI use cases \| McKinsey
-
-[Skip to main content](https://www.mckinsey.com/capabilities/quantumblack/our-insights/seizing-the-agentic-ai-advantage#skipToMain)
-
-![AskMck-button-logo](<Base64-Image-Removed>)
-
-Seizing the agentic AI advantage
-
-Share
-
-[Print](https://www.mckinsey.com/capabilities/quantumblack/our-insights/seizing-the-agentic-ai-advantage#/print)
-
-Download
-
-[Save](https://www.mckinsey.com/capabilities/quantumblack/our-insights/seizing-the-agentic-ai-advantage#/save)
-
-# Seizing the agentic AI advantage
-
-June 13, 2025 \| Report
-
-Share
-
-[Print](https://www.mckinsey.com/capabilities/quantumblack/our-insights/seizing-the-agentic-ai-advantage#/print)
-
-Download
-
-[Save](https://www.mckinsey.com/capabilities/quantumblack/our-insights/seizing-the-agentic-ai-advantage#/save)
-
-A CEO playbook to solve the gen AI paradox and unlock scalable impact with AI agents.
-
-### DOWNLOADS
-
-[Full Report (28 pages)](https://www.mckinsey.com/capabilities/quantumblack/our-insights/seizing-the-agentic-ai-advantage#/download/%2F~%2Fmedia%2Fmckinsey%2Fbusiness%20functions%2Fquantumblack%2Four%20insights%2Fseizing%20the%20agentic%20ai%20advantage%2Fseizing-the-agentic-ai-advantage.pdf%3FshouldIndex%3Dfalse)
-
-### At a glance
-
-- Nearly eight in ten companies report using gen AI—yet just as many report no significant bottom-line impact.1“ [The state of AI: How organizations are rewiring to capture value](https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai),” McKinsey, March 12, 2025. Think of it as the “gen AI paradox.”
-
-Byline
-
-## About the authors
-
-This report is a collaborative effort by [Alexander Sukharevsky](https://www.mckinsey.com/our-people/alexander-sukharevsky), [Dave Kerr](https://www.mckinsey.com/our-people/dave-kerr), [Klemens Hjartar](https://www.mckinsey.com/our-people/klemens-hjartar), [Lari Hämäläinen](https://www.mckinsey.com/our-people/lari-hamalainen), [Stéphane Bout](https://www.mckinsey.com/our-people/stephane-bout), and [Vito Di Leo](https://www.mckinsey.com/our-people/vito-di-leo), with Guillaume Dagorret, representing views from QuantumBlack, AI by McKinsey and McKinsey Technology.
-
-- At the heart of this paradox is an imbalance between “horizontal” (enterprise-wide) copilots and chatbots—which have scaled quickly but deliver diffuse, hard-to-measure gains—and more transformative “vertical” (function-specific) use cases—about 90 percent of which remain stuck in pilot mode.
-- AI agents offer a way to break out of the gen AI paradox. That’s because agents have the potential to automate complex business processes—combining autonomy, planning, memory, and integration—to shift gen AI from a reactive tool to a proactive, goal-driven virtual collaborator.
-- This shift enables far more than efficiency. Agents supercharge operational agility and create new revenue opportunities.
-- But unlocking the full potential of agentic AI requires more than plugging agents into existing workflows. It calls for reimagining those workflows from the ground up—with agents at the core.
-
-Share
-
-Sidebar
-
-## Foreword
-
-_by Arthur Mensch, CEO of Mistral AI_
-
-We’re at a moment when gen AI has entered every boardroom, but for many enterprises, it still lingers at the edges of actual impact. Many CEOs have greenlit experiments, spun up copilots, and created promising prototypes, but only a handful have seen the needle move on revenue or impact. This report gets to the heart of that paradox: broad adoption with limited return.
-
-The current diagnosis is this: Today, AI is bolted on. But to deliver real impact, it must be integrated into core processes, becoming a catalyst for business transformation rather than a sidecar tool. Most deployments today use AI in a shallow way—as an assistant that sits alongside existing workflows and processes—rather than as a deeply integrated, engaged, and powerful agent of transformation.
-
-Agentic AI is the catalyst that can make this transition possible, but doing so requires a strategy and a plan to successfully power that transformation. Agents are not simply magical plug-n-play pieces. They must work across systems, reason through ambiguity, and interact with people—not just as tools, but as collaborators. That means CEOs must ask different questions: not “How do we add AI?” but “How do we want decisions to be made, work to flow, and humans to engage in an environment where software can act?”
-
-Redefining how decisions are made, how work is done, and how humans engage with technology requires alignment across goals, tools, and people. That alignment can only happen when openness, transparency, and control are central to your technology and implementation—when builders have an open, extensible, and observable infrastructure and users can easily craft and use agents with the confidence that the work of agents is safe, reliable, and under their control. That alignment creates the trust and effectiveness that is the currency of scalable transformation that delivers results rather than regrets.
-
-The technology to build powerful agents is already here. The opportunity now is to deploy agents in ways that are deeply tied to how value is created and how people work. That requires an architecture that is modular and resilient and, more importantly, an operating model that centers on humans—not just as users but as co-architects of the systems they will be living and working with.
-
-This report lays out the playbook not for tinkering but for reinvention. ROI comes from strong intent: define the outcomes, embed agents deep in core workflows, and redesign operating models around them. Organizations that win will pair a clear strategy with tight feedback loops and disciplined governance, using agents to rethink how decisions are made and how work gets done—and turning novelty into measurable value.
-
-- A new AI architecture paradigm—the agentic AI mesh—is needed to govern the rapidly evolving organizational AI landscape and enable teams to blend custom-built and off-the-shelf agents while managing mounting technical debt and new classes of risk. But the bigger challenge won’t be technical. It will be human: earning trust, driving adoption, and establishing the right governance to manage agent autonomy and prevent uncontrolled sprawl.
-- To scale impact in the agentic era, organizations must reset their AI transformation approaches from scattered initiatives to strategic programs; from use cases to business processes; from siloed AI teams to cross-functional transformation squads; and from experimentation to industrialized, scalable delivery.
-- Organizations will also need to set up the foundation to effectively operate in the agentic era. They will need to upskill the workforce, adapt the technology infrastructure, accelerate data productization, and deploy agent-specific governance mechanisms. The moment has come to bring the gen AI experimentation chapter to a close—a pivot only the CEO can make.
-
-Chapter 1
-
-## The gen AI paradox: Widespread deployment, minimal impact [The gen AI paradox: Widespread deployment, minimal impact](https://www.mckinsey.com/capabilities/quantumblack/our-insights/seizing-the-agentic-ai-advantage\#)
-
-## Key Points
-
-Continue to next section
-
-Share
-
-- **_Nearly eight in ten companies have deployed gen AI in some form, but roughly the same percentage report no material impact on earnings._** 1“ [The state of AI: How organizations are rewiring to capture value](https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai),” McKinsey, March 12, 2025. **_We call this the “gen AI paradox.”_**
-- **_The main issue is an imbalance between “horizontal” and “vertical” use cases. The former, such as employee copilots and chatbots, have been widely deployed but deliver diffuse benefits, while higher-impact vertical, or function-specific, use cases seldom make it out of the pilot phase because of technical, organizational, data, and cultural barriers._**
-- **_Unless companies address these barriers, the transformational promise of gen AI will remain largely untapped._**
-
-## Gen AI is everywhere—except in company P&L
-
-Share
-
-Sidebar
-
-## About QuantumBlack, AI by McKinsey
-
-QuantumBlack, McKinsey’s AI arm, has been helping businesses create value from AI since 2009, expanding on McKinsey’s technology work over the past 30 years. QuantumBlack combines an industry-leading tech stack with the strength of McKinsey’s 7,000 technologists, designers, and product managers serving clients in more than 50 countries. With innovations fueled by QuantumBlack Labs—its center for R&D and software development—QuantumBlack delivers the organizational rewiring that businesses need to build, adopt, and scale AI capabilities.
-
-Even before the advent of gen AI, artificial intelligence had already carved out a key place in the enterprise, powering advanced prediction, classification, and optimization capabilities. And the technology’s estimated value potential was already immense— [between $11 trillion and $18 trillion globally](https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/the-economic-potential-of-generative-ai-the-next-productivity-frontier) 2“ [The economic potential of generative AI: The next productivity frontier](https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/the-economic-potential-of-generative-ai-the-next-productivity-frontier),” McKinsey, June 14, 2023.—mainly in the fields of marketing (powering capabilities such as personalized email targeting and customer segmentation), sales (lead scoring), and supply chain (inventory optimization and demand forecasting). Yet AI was largely the domain of experts. As a result, adoption across the rank and file tended to be slow. From 2018 to 2022, for example, AI adoption remained relatively stagnant, with about 50 percent of companies deploying the technology in just one business function, according to McKinsey research (Exhibit 1).
-
-Exhibit 1
-
-![Gen AI has accelerated AI deployment overall.](https://www.mckinsey.com/~/media/mckinsey/business%20functions/quantumblack/our%20insights/seizing%20the%20agentic%20ai%20advantage/svgz-seizing-agentic-ai_ex1-v6.svgz?cq=50&cpy=Center)
-
-We strive to provide individuals with disabilities equal access to our website. If you would like information about this content we will be happy to work with you. Please email us at: [McKinsey\_Website\_Accessibility@mckinsey.com](mailto:McKinsey_Website_Accessibility@mckinsey.com)
-
-Gen AI has extended the reach of traditional AI in three breakthrough areas: information synthesis, content generation, and communication in human language. McKinsey estimates that the technology has the potential to unlock [$2.6 trillion to $4.4 trillion in additional value](https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/the-economic-potential-of-generative-ai-the-next-productivity-frontier) on top of the value potential of traditional analytical AI.3“ [The economic potential of generative AI: The next productivity frontier](https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/the-economic-potential-of-generative-ai-the-next-productivity-frontier),” McKinsey, June 14, 2023.
-
-Two and a half years after the launch of ChatGPT, gen AI has reshaped how enterprises engage with AI. Its potentially transformative power lies not only in the new capabilities gen AI introduces but also in its ability to democratize access to advanced AI technologies across organizations. This democratization has led to widespread growth in awareness of, and experimentation with, AI: According to [McKinsey’s most recent Global Survey on AI](https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai),4“ [The state of AI: How organizations are rewiring to capture value](https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai),” McKinsey, March 12, 2025. more than 78 percent of companies are now using gen AI in at least one business function (up from 55 percent a year earlier).
-
-However, this enthusiasm has yet to translate into tangible economic results. [More than 80 percent of companies still report no material contribution to earnings](https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai) from their gen AI initiatives.5“ [The state of AI: How organizations are rewiring to capture value](https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai),” McKinsey, March 12, 2025. What’s more, only [1 percent of enterprises we surveyed view their gen AI strategies as mature](https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/superagency-in-the-workplace-empowering-people-to-unlock-ais-full-potential-at-work).6Hannah Mayer, Lareina Yee, Michael Chui, and Roger Roberts, “ [Superagency in the workplace: Empowering people to unlock AI’s full potential](https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/superagency-in-the-workplace-empowering-people-to-unlock-ais-full-potential-at-work),” McKinsey, January 28, 2025. Call it the “gen AI paradox”: For all the energy, investment, and potential surrounding the technology, at-scale impact has yet to materialize for most organizations.
-
-## At the heart of the gen AI paradox lies an imbalance between horizontal and vertical use cases
-
-Many organizations have deployed horizontal use cases, such as enterprise-wide copilots and chatbots; nearly 70 percent of Fortune 500 companies, for example, use Microsoft 365 Copilot.7Satya Nadella, “Microsoft Fiscal Year 2025 First Quarter Earnings Conference Call,” Microsoft, October 30, 2024. These tools are widely seen as levers to enhance individual productivity by helping employees save time on routine tasks and access and synthesize information more efficiently. But these improvements, while real, tend to be spread thinly across employees. As a result, they are not easily visible in terms of top- or bottom-line results.
-
-By contrast, vertical use cases—those embedded into specific business functions and processes—have seen limited scaling in most companies despite their higher potential for direct economic impact (Exhibit 2). [Fewer than 10 percent of use cases deployed ever make it past the pilot stage](https://www.mckinsey.com/about-us/new-at-mckinsey-blog/mckinsey-alliances-bring-the-power-of-generative-ai-to-clients), according to McKinsey research.8_New at McKinsey Blog_, “ [McKinsey’s ecosystem of strategic alliances brings the power of generative AI to clients](https://www.mckinsey.com/about-us/new-at-mckinsey-blog/mckinsey-alliances-bring-the-power-of-generative-ai-to-clients),” April 2, 2024. Even when they have been fully deployed, these use cases typically have supported only isolated steps of a business process and operated in a reactive mode when prompted by a human, rather than functioning proactively or autonomously. As a result, their impact on business performance also has been limited.
-
-Exhibit 2
-
-![Across business functions, gen AI use cases tend to fall into two categories: horizontal and vertical.](https://www.mckinsey.com/~/media/mckinsey/business%20functions/quantumblack/our%20insights/seizing%20the%20agentic%20ai%20advantage/svgz-seizing-agentic-ai_ex2-v5.svgz?cq=50&cpy=Center)
-
-We strive to provide individuals with disabilities equal access to our website. If you would like information about this content we will be happy to work with you. Please email us at: [McKinsey\_Website\_Accessibility@mckinsey.com](mailto:McKinsey_Website_Accessibility@mckinsey.com)
-
-What accounts for this imbalance? For one thing, horizontally deployed copilots such as Microsoft Copilot or Google AI Workspace are accessible, off-the-shelf solutions that are relatively easy to implement. (In many cases, enabling Microsoft Copilot is as simple as activating an extension to an existing Office 365 contract, requiring no redesign of workflows or major change management efforts.) Rapid deployment of enterprise chatbots also has been driven by risk mitigation concerns. As employees began experimenting with external large language models (LLMs) such as ChatGPT, many organizations implemented internal, secure alternatives to limit data leakage and ensure compliance with corporate security policies.
-
-The limited deployment and narrow scope of vertical use cases can in turn be attributed to six primary factors:
-
-- **Fragmented initiatives.** At many companies, vertical use cases have been identified through a bottom-up, highly granular approach within individual functions. In fact, [fewer than 30 percent of companies report that their CEOs sponsor their AI agenda directly](https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai).9“ [The state of AI: How organizations are rewiring to capture value](https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai),” McKinsey, March 12, 2025. This has led to a proliferation of disconnected micro-initiatives and a dispersion of AI investments, with limited coordination at the enterprise level.
-- **Lack of mature, packaged solutions.** Unlike off-the-shelf horizontal applications, such as copilots, vertical use cases often require custom development. As a result, teams are frequently forced to build from scratch, using emerging, fast-evolving technologies they have limited experience with. While many companies have invested in data scientists to develop AI models, they often lack MLOps engineers, who are critical to industrialize, deploy, and maintain those models in production environments.
-- **Technological limitations of LLMs.** Despite their impressive capabilities, the first generation of LLMs faced limitations that significantly constrained their deployment at enterprise scale. First, LLMs can produce inaccurate outputs, which makes them difficult to trust in environments where precision and repeatability are essential. What’s more, despite their power, LLMs are fundamentally passive; they do not act unless prompted and cannot independently drive workflows or make decisions without human initiation. LLMs also have struggled to handle complex workflows involving multiple steps, decision points, or branching logic. Finally, many current LLMs have limited persistent memory, making it difficult to track context over time or operate coherently across extended interactions.
-- **Siloed AI teams.** AI centers of excellence have played a crucial role in accelerating awareness and experimentation across many organizations. However, in many cases, these teams have operated in silos—developing AI models independently from core IT, data, or business functions. This autonomy, while useful for rapid prototyping, has often made solutions difficult to scale because of poor integration with enterprise systems, fragmented data pipelines, or a lack of operational alignment.
-- **Data accessibility and quality gaps.** These gaps tend to exist for both structured and unstructured data, with unstructured material remaining largely ungoverned in most organizations.
-- **Cultural apprehension and organizational inertia.** In many organizations, AI deployments have encountered implicit resistance from business teams and middle management due to fear of disruption, uncertainty around job impact, and lack of familiarity with the technology.
-
-Despite its limited bottom-line impact so far, the first wave of gen AI has been far from wasted. It has enriched employee capabilities, enabled broad experimentation, accelerated AI familiarity across functions, and helped organizations build essential capabilities in prompt engineering, model evaluation, and governance. All of this has laid the groundwork for a more integrated and transformative second phase— [the emerging age of AI agents](https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/why-agents-are-the-next-frontier-of-generative-ai).10Lareina Yee, Michael Chui, Roger Roberts, and Stephen Xu, “ [Why agents are the next frontier of generative AI](https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/why-agents-are-the-next-frontier-of-generative-ai),” _McKinsey Quarterly_, July 24, 2024.
-
-Chapter 2
-
-## From paradox to payoff: How agents can scale AI [From paradox to payoff: How agents can scale AI](https://www.mckinsey.com/capabilities/quantumblack/our-insights/seizing-the-agentic-ai-advantage\#)
-
-## Key Points
-
-Continue to next section
-
-Share
-
-- **_By automating complex business workflows, agents unlock the full potential of vertical use cases. Forward-looking companies are already harnessing the power of agents to transform core processes._**
-- **_To realize the potential of agents, companies must reinvent the way work gets done—changing task flows, redefining human roles, and building agent-centric processes from the ground up._**
-- **_Accomplishing this will require a new paradigm for AI architecture—the agentic AI mesh—capable of integrating both custom-built and off-the-shelf agents. But the bigger challenge will not be technical. It will be human: earning trust to drive adoption and establishing the proper governance protocols._**
-
-## The breakthrough: Automating complex business workflows unlocks the full potential of vertical use cases
-
-LLMs have revolutionized how organizations interact with data—enabling information synthesis, content generation, and natural language interaction. But despite their power, LLMs have been fundamentally reactive and isolated from enterprise systems, largely unable to retain memory of past interactions or context across sessions or queries. Their role has been largely limited to enhancing individual productivity through isolated tasks. AI agents mark a major evolution in enterprise AI—extending gen AI from reactive content generation to autonomous, goal-driven execution. Agents can understand goals, break them into subtasks, interact with both humans and systems, execute actions, and adapt in real time—all with minimal human intervention. They do so by combining LLMs with additional technology components providing memory, planning, orchestration, and integration capabilities.
-
-With these new capabilities, AI agents expand the potential of horizontal solutions, upgrading general-purpose copilots from passive tools into proactive teammates that don’t just respond to prompts but also monitor dashboards, trigger workflows, follow up on open actions, and deliver relevant insights in real time. But the real breakthrough comes in the vertical realm, where agentic AI enables the automation of complex business workflows involving multiple steps, actors, and systems—processes that were previously beyond the capabilities of first-generation gen AI tools.
-
-## Agents deliver more than efficiency—they supercharge operational agility and unlock new revenue opportunities
-
-On the operations side, agents take on routine, data-heavy tasks so humans can focus on higher-value work. But they go further, transforming processes in five ways:
-
-- **Agents accelerate execution by eliminating delays between tasks and by enabling parallel processing.** Unlike in traditional workflows that rely on sequential handoffs, agents can coordinate and execute multiple steps simultaneously, reducing cycle time and boosting responsiveness.
-- **Agents bring adaptability.** By continuously ingesting data, agents can adjust process flows on the fly, reshuffling task sequences, reassigning priorities, or flagging anomalies before they cascade into failures. This makes workflows not only faster but smarter.
-- **Agents enable personalization.** By tailoring interactions and decisions to individual customer profiles or behaviors, agents can adapt the process dynamically to maximize satisfaction and outcomes.
-- **Agents bring elasticity to operations.** Because agents are digital, their execution capacity can expand or contract in real time depending on workload, business seasonality, or unexpected surges—something difficult to achieve with fixed human resource models.
-- **Agents also make operations more resilient.** By monitoring disruptions, rerouting operations, and escalating only when needed, they keep processes running—whether it’s supply chains navigating port delays or service workflows adapting to system outages.
-
-In a complex supply chain environment, for example, an AI agent could act as an autonomous orchestration layer across sourcing, warehousing, and distribution operations. Connected to internal systems (such as the supply chain planning system or the warehouse management system) and external data sources (such as weather forecasts, supplier feeds, and demand signals), the agent could continuously forecast demand. It could then identify risks, such as delays or disruptions, and dynamically replan transport and inventory flows. Selecting the optimal transport mode based on cost, lead time, and environmental impact, the agent could reallocate stock across warehouses, negotiate directly with external systems, and escalate decisions requiring strategic input. The result: improved service levels, reduced logistics costs, and lower emissions.
-
-Agents can also help spur top-line growth by amplifying existing revenue streams and unlocking entirely new ones:
-
-- **Amplifying existing revenues.** In e-commerce, agents embedded into online stores or apps could proactively analyze user behavior, cart content, and context (for example, seasonality or purchase history) to surface real-time upselling and cross-selling offers. In finance, agents might help customers discover suitable financial products such as loans, insurance plans, or investment portfolios, providing tailored guidance based on financial profiles, life events, and user behavior.
-- **Creating new revenue streams.** For industrial companies, agents embedded in connected products or equipment could monitor usage, detect performance thresholds, and autonomously unlock features or trigger maintenance actions—enabling pay-per-use, subscription, or performance-based models of creating revenue. Similarly, service organizations could encapsulate internal expertise—legal reasoning, tax interpretation, and procurement best practices—into AI agents offered as software-as-a-service tools or APIs to clients, partners, or smaller businesses lacking in-house expertise.
-
-In short, agentic AI doesn’t just automate. It redefines how organizations operate, adapt, and create value.
-
-## No longer science fiction: Forward-looking companies are harnessing the power of agents
-
-The following case studies demonstrate how QuantumBlack helps organizations build agent workforces—with outcomes that extend far beyond efficiency gains.
-
-### Case study 1: How a bank used hybrid ‘digital factories’ for legacy app modernization
-
-**The problem:** A large bank needed to modernize its legacy core system, which consisted of 400 pieces of software—a massive undertaking budgeted at more than $600 million. Large teams of coders tackled the project using manual, repetitive tasks, which resulted in difficulty coordinating across silos. They also relied on often slow, error-prone documentation and coding. While first-generation gen AI tools helped accelerate individual tasks, progress remained slow and laborious.
-
-**The agentic approach:** Human workers were elevated to supervisory roles, overseeing squads of AI agents, each contributing to a shared objective in a defined sequence (Exhibit 3). These squads retroactively document the legacy application, write new code, review the code of other agents, and integrate code into features that are later tested by other agents prior to delivery of the end product. Freed from repetitive, manual tasks, human supervisors guide each stage of the process, enhancing the quality of deliverables and reducing the number of sprints required to implement new features.
-
-**Impact:** More than 50 percent reduction in time and effort in the early adopter teams
-
-Exhibit 3
-
-![A large bank upgraded its legacy tech stack with a hybrid AI-human digital factory.](https://www.mckinsey.com/~/media/mckinsey/business%20functions/quantumblack/our%20insights/seizing%20the%20agentic%20ai%20advantage/svgz-seizing-agentic-ai_ex3-v8.svgz?cq=50&cpy=Center)
-
-We strive to provide individuals with disabilities equal access to our website. If you would like information about this content we will be happy to work with you. Please email us at: [McKinsey\_Website\_Accessibility@mckinsey.com](mailto:McKinsey_Website_Accessibility@mckinsey.com)
-
-### Case study 2: How a research firm boosted data quality to derive deeper market insights
-
-**The problem:** A market research and intelligence firm was devoting substantial resources to ensure data quality, relying on a team of more than 500 people whose responsibilities included gathering data, structuring and codifying it, and generating tailored insights for clients. The process, conducted manually, was prone to error, with a staggering 80 percent of mistakes identified by the clients themselves.
-
-**The agentic approach:** A multiagent solution autonomously identifies data anomalies and explains shifts in sales or market share. It analyzes internal signals, such as changes in product taxonomy, and external events identified via web searches, including product recalls or severe weather. The most influential drivers are synthesized, ranked, and prepared for decision-makers. With advanced search and contextual reasoning, the agents often surface insights that would be difficult for human analysts to uncover manually. While not yet in production, the system is fully functional and has demonstrated strong potential to free up analysts for more strategic work.
-
-**Impact:** More than 60 percent potential productivity gain and expected savings of more than $3 million annually.
-
-### Case study 3: How a bank reimagined the way it creates credit-risk memos
-
-**The problem:** Relationship managers (RMs) at a retail bank were spending weeks writing and iterating credit-risk memos to help make credit decisions and fulfill regulatory requirements (Exhibit 4). This process required RMs to manually review and extract information from at least ten different data sources and develop complex nuanced reasoning across interdependent sections—for instance, loan, revenue, and cash joint evolution.
-
-**The agentic approach:** In close collaboration with the bank’s credit-risk experts and RMs, a proof of concept was developed to transform the credit memo workflow using AI agents. The agents assist RMs by extracting data, drafting memo sections, generating confidence scores to prioritize review, and suggesting relevant follow-up questions. In this model, the analyst’s role shifts from manual drafting to strategic oversight and exception handling.
-
-**Impact:** A potential 20 to 60 percent increase in productivity, including a 30 percent improvement in credit turnaround
-
-Exhibit 4
-
-![A retail bank used AI agents to reinvent the process of creating credit-risk memos.](https://www.mckinsey.com/~/media/mckinsey/business%20functions/quantumblack/our%20insights/seizing%20the%20agentic%20ai%20advantage/svgz-seizing-agentic-ai_ex4-v5.svgz?cq=50&cpy=Center)
-
-We strive to provide individuals with disabilities equal access to our website. If you would like information about this content we will be happy to work with you. Please email us at: [McKinsey\_Website\_Accessibility@mckinsey.com](mailto:McKinsey_Website_Accessibility@mckinsey.com)
-
-## Maximizing value from AI agents requires process reinvention
-
-Realizing AI’s full potential in the vertical realm requires more than simply inserting agents into legacy workflows. It instead calls for a shift in design mindset—from automating tasks within an existing process to reinventing the entire process with human and agentic coworkers. That’s because when agents are embedded into a legacy process without redesign, they typically serve as faster assistants—generating content, retrieving data, or executing predefined steps. But the process itself remains sequential, rule bound, and shaped by human constraints.
-
-Reinventing a process around agents means more than layering automation on top of existing workflows—it involves rearchitecting the entire task flow from the ground up. That includes reordering steps, reallocating responsibilities between humans and agents, and designing the process to fully exploit the strengths of agentic AI: parallel execution that collapses cycle time, real-time adaptability that reacts to changing conditions, deep personalization at scale, and elastic capacity that flexes instantly with demand.
-
-Consider a hypothetical customer call center. Before introducing AI agents, the facility was using gen AI tools to assist human support staff by retrieving articles from knowledge bases, summarizing ticket histories, and helping draft responses. While this assistance improved speed and reduced cognitive load, the process itself remained entirely manual and reactive, with human agents still managing every step of diagnosis, coordination, and resolution. The productivity improvement potential was modest, typically boosting resolution time and productivity between 5 and 10 percent.
-
-Now imagine that the call center introduces AI agents but largely preserves the existing workflow—agents are added to assist at specific steps without reconfiguring how work is routed, tracked, or resolved end-to-end. Agents can classify tickets, suggest likely root causes, propose resolution paths, and even autonomously resolve frequent, low-complexity issues (such as password resets). While the impact here can be increased—an estimated 20 to 40 percent savings in time and a 30 to 50 percent reduction in backlog—coordination friction and limited adaptability prevent true breakthrough gains.
-
-But the real shift occurs at the third level, when the call center’s process is reimagined around agent autonomy. In this model, AI agents don’t just respond—they proactively detect common customer issues (such as delayed shipments, failed payments, or service outages) by monitoring patterns across channels, anticipate likely needs, initiate resolution steps automatically (such as issuing refunds, reordering items, or updating account details), and communicate directly with customers via chat or email. Human agents are repositioned as escalation managers and service quality overseers, who are brought in only when agents detect uncertainty or exceptions to typical patterns. Impact at this level is transformative. This could allow a radical improvement of customer service desk productivity. Up to 80 percent of common incidents could be resolved autonomously, with a reduction in time to resolution of 60 to 90 percent (Exhibit 5).
-
-Exhibit 5
-
-![Agents hold the key to breaking through--if processes are reinvented, not just optimized.](https://www.mckinsey.com/~/media/mckinsey/business%20functions/quantumblack/our%20insights/seizing%20the%20agentic%20ai%20advantage/svgz-seizing-agentic-ai_ex5-v6.svgz?cq=50&cpy=Center)
-
-We strive to provide individuals with disabilities equal access to our website. If you would like information about this content we will be happy to work with you. Please email us at: [McKinsey\_Website\_Accessibility@mckinsey.com](mailto:McKinsey_Website_Accessibility@mckinsey.com)
-
-Of course, not every business process requires full reinvention. Simple task automation is sufficient for highly standard, repetitive workflows with limited variability—such as payroll processing, travel expense approvals, or password resets—where gains come primarily from reducing manual effort. In contrast, processes that are complex, cross-functional, prone to exceptions, or tightly linked to business performance often warrant full redesign. Key indicators that call for reinvention include high coordination overhead, rigid sequences that delay responsiveness, frequent human intervention for decisions that could be data driven, and opportunities for dynamic adaptation or personalization. In these cases, redesigning the process around the agent’s ability to orchestrate, adapt, and learn delivers far greater value than simply speeding up existing workflows.
-
-## A new AI architecture paradigm—the agentic AI mesh—is required to orchestrate value in the agentic era
-
-To scale agents, companies will need to overcome a threefold challenge: handling the newfound risks that AI agents bring, blending custom and off-the-shelf agentic systems, and staying agile amid fast-evolving tech (while avoiding lock-ins).
-
-- **Managing a new wave of risks.** Agents introduce a new class of systemic risks that traditional gen AI architectures, designed primarily for isolated LLM-centric use cases, were never built to handle: uncontrolled autonomy, fragmented system access, lack of observability and traceability, expanding surface of attack, and agent sprawl and duplication. What starts as intelligent automation can quickly become operational chaos—unless it is built on a foundation that prioritizes control, scalability, and trust.
-- **Blending custom and off-the-shelf agents.** To fully capture the transformative potential of AI agents, organizations must go beyond simply activating agents embedded in software suites. These off-the-shelf agents may streamline routine workflows, but they rarely unlock strategic advantage. Realizing the full potential of agentic AI will require the development of custom-built agents for high-impact processes, such as end-to-end customer resolution, adaptive supply chain orchestration, or complex decision-making. These agents must be deeply aligned with the company’s logic, data flows, and value creation levers—making them difficult to replicate and uniquely powerful.
-- **Staying agile amid fast-evolving tech.** Agentic AI is a new technology area, and solutions are evolving very rapidly. Agents will have to support workflows across multiple systems and should not be hardwired within a specific platform. An evolutive and vendor-agnostic architecture is therefore needed.
-
-These challenges cannot be addressed by merely bolting new components, such as memory stores or orchestration engines, on top of existing gen AI stacks. While such capabilities are necessary, they are not sufficient. What’s needed is a fundamental architectural shift: from static, LLM-centric infrastructure to a dynamic, modular, and governed environment built specifically for agent-based intelligence—the agentic AI mesh.
-
-The agentic AI mesh is a composable, distributed, and vendor-agnostic architectural paradigm that enables multiple agents to reason, collaborate, and act autonomously across a wide array of systems, tools, and language models—securely, at scale, and built to evolve with the technology. At the heart of this paradigm are five mutually reinforcing design principles:
-
-- **Composability.** Any agent, tool, or LLM can be plugged into the mesh without system rework.
-- **Distributed intelligence.** Tasks can be decomposed and resolved by networks of cooperating agents.
-- **Layered decoupling.** Logic, memory, orchestration, and interface functions are decoupled to maximize modularity.
-- **Vendor neutrality.** All components can be independently updated or replaced as technology advances, avoiding vendor lock-in and future-proofing the architecture. In particular, open standards such as the Model Context Protocol (MCP) and Agent2Agent (A2A) are preferred to proprietary protocols.
-- **Governed autonomy.** Agent behavior is proactively controlled via embedded policies, permissions, and escalation mechanisms that ensure safe, transparent operation.
-
-Share
-
-Sidebar
-
-## Seven interconnected capabilities of the AI agentic mesh
-
-The emerging architecture for agentic AI relies on seven interconnected capabilities:
-
-1. **Agent and workflow discovery** maintains a dynamic catalog of all organizational agents and workflows, enabling reuse across teams and enforcing policies on agent use.
-2. **AI asset registry** centralizes governance of system prompts, agent instructions, large-language-model (LLM) configurations, tool definitions, and golden records while creating policies about version control and access.
-3. **Observability** provides end-to-end tracing of workflows spanning agentic and procedural systems through standardized metrics, audit logs, and diagnostic capabilities.
-4. **Authentication and authorization** enforce fine-grain access controls for communication among agentic systems, procedural systems, and LLMs, enforcing security policies and limiting the “blast radius” of compromised systems or agents.
-5. **Evaluations** deliver comprehensive testing of agent pipelines to ensure accuracy and compliance over time.
-6. **Feedback management** enables continuous improvement through automated feedback loops that capture performance metrics to evolve agent configurations.
-7. **Compliance and risk management** embed policy controls, compliance agents, and ethical guardrails to ensure workflows meet regulatory and institutional standards.
-
-The agentic AI mesh acts as the connective and orchestration layer that enables large-scale, intelligent agent ecosystems to operate safely and efficiently, and continuously evolve. It allows companies to coordinate custom-built and off-the-shelf agents within a unified framework, support multiagent collaboration by allowing agents to share context and delegate tasks, and mitigate key risks such as agent sprawl, autonomy drift, and lack of observability—all while preserving the agility required for a rapid technology evolution (see sidebar “Seven interconnected capabilities of the AI agentic mesh”).
-
-Share
-
-Sidebar
-
-## Foundation models for agents: Five new requirements
-
-For LLMs to function properly in the agentic age, they will need to evolve in a number of critical ways:
-
-1. **Low-latency inference for real-time responsiveness.** Agents embedded in workflows (such as service operations or IT alerts) require subsecond response times with predictable latency, even under compute constraints. Illustrative examples of relevant models include Mistral Small (Mistral AI), Llama 3 8B (Meta), Gemini Nano (Google), and Claude Haiku (Anthropic).
-2. **Fine-tuning and controllability for domain-specific agents.** Agents operating in regulated or knowledge-intensive domains (such as finance, legal, and healthcare) need large language models (LLMs) that can be fine-tuned, grounded in enterprise knowledge, and instrumented with external tools (such as RAG and APIs). Illustrative examples of relevant models are Mistral Small and Mistral 8x7B (open weight and fine-tunable, Mistral AI), and Llama 3 8B and 70B (fine-tunable, Meta).
-3. **Lightweight deployment for embedded and edge agents.** In cases such as the Internet of Things, field devices, or privacy-sensitive environments, agents must be embedded directly into software or hardware, with minimal compute and memory footprint. Illustrative examples of relevant models include Mistral Small (Mistral AI), Gemini Nano (Google), Llama 3 8B (Meta), and Phi-2 (Microsoft).
-4. **Scalable multiagent orchestration across the enterprise.** Enterprises deploying hundreds or thousands of agents require LLMs that can scale efficiently and cost-effectively, ideally using sparse architectures or a mixture of experts. Illustrative examples of relevant models include Mixtral (Mistral AI), Grok-1 (xAI), GPT-3.5 Turbo (OpenAI), and Command R+ (Cohere).
-5. **Sovereignty, auditability, and geopolitical resilience for autonomous agents.** Agents embedded in core operations—particularly in public, financial, and critical-infrastructure sectors—must ensure compliance, data sovereignty, traceability, and geopolitical autonomy. This includes avoiding reliance on APIs that are hosted abroad, ensuring data residency, and resisting extraterritorial legal exposure (for example, OpenAI or Anthropic subject to US subpoenas). Illustrative examples of relevant models include Mistral Small/Mixtral (Mistral AI), Falcon 180B (TII UAE), and BloomZ/Bloom (BigScience).
-
-Beyond this architectural evolution, organizations will also have to revisit their LLM strategies. At the core of every custom agent lies a foundation model—the reasoning engine that powers perception, decision-making, and interaction. In the agentic era, the requirements placed on LLMs evolve significantly. Agents are not passive copilots—they are autonomous, persistent, embedded systems. This creates five critical categories of LLM requirements, each aligned with specific deployment contexts, for which different kinds of models will be relevant (see sidebar “Foundational models for agents: Five new requirements”).
-
-Finally, to truly scale agent deployment across the enterprise, the enterprise systems themselves must also evolve.
-
-In the short term, APIs—protocols that allow different software applications to communicate and exchange data—will remain the primary interface for agents to interact with enterprise systems. But in the long term, APIs alone will not suffice. Organizations must begin reimagining their IT architectures around an agent-first model—one in which user interfaces, logic, and data access layers are natively designed for machine interaction rather than human navigation. In such a model, systems are no longer organized around screens and forms but around machine-readable interfaces, autonomous workflows, and agent-led decision flows.
-
-This shift is already underway. Microsoft is embedding agents into the core of Dynamics 365 and Microsoft 365 via Copilot Studio; Salesforce is expanding Agentforce into a multiagent orchestration layer; SAP is rearchitecting its Business Technology Platform (BTP) to support agent integration through Joule. These changes signal a broader transition: The future of enterprise software is not just AI-augmented—it is agent-native.
-
-## The main challenge won’t be technical—it will be human
-
-As agents evolve from passive copilots to proactive actors—and scale across the enterprise—the complexity they introduce will be not only technical but mostly organizational. The real challenge lies in coordination, judgment, and trust. This organizational complexity will play out most visibly across three dimensions: how humans and agents cohabit day-to-day workflows; how organizations establish governance over systems that can act autonomously; and how they prevent unchecked sprawl as agent creation becomes increasingly democratized.
-
-- **Human–agent cohabitation.** Agents won’t just assist humans—they’ll act alongside them. This raises nuanced questions about interaction and coexistence: When should an agent take initiative? When should it defer? How do we maintain human agency and oversight without slowing down the very benefits agents bring? Building clarity around these roles will take time, experimentation, and cultural adjustment. Trust won’t come from technical performance alone—it will hinge on how transparently agents communicate, how predictably they behave, and how intuitively they integrate into daily workflows.
-- **Autonomy control.** What makes agents powerful—their ability to act independently—also introduces ambiguity. Unlike traditional tools, agents don’t wait to be instructed. They respond, adapt, and sometimes surprise. Navigating this new reality means confronting edge cases: What if an agent executes too aggressively? Or fails to escalate a subtle issue? The challenge is not to eliminate autonomy but to make it intelligible and aligned with organizational expectations. That alignment won’t be static. It will need to evolve as agents learn, systems shift, and trust deepens. Control mechanisms must also address the risk of hallucinations, or plausible but inaccurate outputs agents may produce.
-- **Sprawl containment.** As in the early days of robotic process automation, there’s a real risk of agent sprawl—the uncontrolled proliferation of redundant, fragmented, and ungoverned agents across teams and functions. As low-code and no-code platforms make agent creation accessible to anyone, organizations risk a new kind of shadow IT: agents that multiply across teams, duplicate efforts, or operate without oversight. How do we avoid fragmentation? Who decides what gets built—and what gets retired? Without structured governance, design standards, and life cycle management, agent ecosystems can quickly become fragile, redundant, and unscalable.
-
-Agents unlock the full potential of vertical use cases, offering companies a path to generate value well beyond efficiency gains. But realizing that potential requires a reimagined approach to AI transformation—one tailored to the unique nature of agents and capable of addressing the lingering limitations they alone cannot resolve. This approach is the subject of our next chapter.
-
-Chapter 3
-
-## AI transformation at a tipping point: The CEO mandate in the agentic era [AI transformation at a tipping point: The CEO mandate in the agentic era](https://www.mckinsey.com/capabilities/quantumblack/our-insights/seizing-the-agentic-ai-advantage\#)
-
-## Key Points
-
-Continue to next section
-
-Share
-
-- **_Generating impact in the agentic era requires organizations to shift from scattered initiatives to strategic programs; from use cases to business processes; from siloed AI teams to cross-functional transformation squads; and from experimentation to industrialized, scalable delivery._**
-- **_To scale agents, organizations will also need to set a new foundation by upskilling the workforce, adapting the technology infrastructure, and developing new governance structures for agents._**
-- **_The time has come to bring the gen AI experimentation phase to an end—a pivot only the CEO can make._**
-
-## Scaling impact in the agentic era requires a reset of the AI transformation approach
-
-Unlike gen AI tools that could be easily plugged into existing workflows, AI agents demand a more foundational shift, one that requires rethinking business processes and enabling deep integration with enterprise systems. McKinsey has a [proven Rewired playbook for AI-driven transformations](https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/rewired-to-outcompete).11Eric Lamarre, Kate Smaje, and Rodney Zemmel, “ [Rewired to outcompete](https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/rewired-to-outcompete),” _McKinsey Quarterly_, June 20, 2023. To capitalize on the agentic opportunity, organizations must build on that, fundamentally reshaping their AI transformation approach across four dimensions:
-
-## Four critical enablers are required to effectively operate in the agentic era
-
-Redesigning the approach to AI transformation is an important step, but it is not enough. To unlock their full potential at scale, organizations must also activate a robust set of enablers that support the structural, cultural, and technical shifts required to integrate agents into day-to-day operations. These enablers span four dimensions—people, governance, technology architecture, and data—each of which is a foundation for scalable, secure, and high-impact deployment of agents across the enterprise.
-
-- **People: Equip the workforce and introduce new roles.** The workforce must be equipped for new ways of working driven by human–agent collaboration. This involves fostering a “human + agent” mindset through cultural change, targeted training, and supporting early adopters as internal champions. New roles must also be introduced, such as prompt engineers to refine interactions, agent orchestrators to manage agent workflows, and human-in-the-loop designers to handle exceptions and build trust.
-- **Governance: Ensure autonomy control and prevent agent sprawl.** With the rise of autonomous agents comes the need for strong governance to avoid risk and uncontrolled sprawl. Enterprises should define governance frameworks that establish agent autonomy levels, decision boundaries, behavior monitoring, and audit mechanisms. Policies for development, deployment, and usage must also be formalized, along with classification systems that group agents by function (such as task automators, domain orchestrators, and virtual collaborators), each with an appropriate oversight model.
-- **Technology architecture: Build a foundation for interoperability and scale.** Agents, whether custom-built or off-the-shelf, must operate across a fragmented ecosystem of systems, data, and workflows. In the short term, organizations must evolve their AI architecture from LLM-centric setups to an agentic AI mesh. Beyond this first step, organizations should start preparing for their next-generation architecture, in which all enterprise systems will be reshuffled around agents in terms of user interface, business logic, and day-to-day operations.
-- **Data: Accelerate data productization and address quality gaps in unstructured data.** Finally, agents depend on the quality and accessibility of enterprise data. Organizations must transition from use-case-specific data pipelines to reusable data products and extend data governance to unstructured data.
-- **Strategy: From scattered tactical initiatives to strategic programs.** With agentic AI set to reshape the foundations of competition, organizations must move beyond bottom-up use case identification and directly align AI initiatives with their most critical strategic priorities. This means not only translating existing goals—such as enhancing operational efficiency, improving customer intimacy, or strengthening compliance—into AI-addressable transformation domains, but also adopting a forward-looking lens. Executives must challenge their organizations to look beyond the boundaries of today’s operating model and explore how AI can be used to reimagine entire segments of the business, create new revenue streams, and build competitive moats that will define leadership in the next decade.
-- **Unit of transformation: From use case to business processes.** In the early wave of gen AI adoption, most vertical initiatives focused on plugging a solution into a specific step of an existing process—which tended to deliver narrow gains without changing the overall structure of how work is done. With AI agents, the paradigm shifts entirely. Opportunity now lies not in optimizing isolated tasks but in transforming entire business processes by embedding agents throughout the value chain. As a result, AI initiatives should no longer be scoped around a single use case, but instead around the end-to-end reinvention of a full process or persona journey. In vertical domains, this means moving from the question, “Where can I use AI in this function?” to “What would this function look like if agents ran 60 percent of it?” It involves rethinking workflows, decision logic, human–system interactions, and performance metrics across the board.
-- **Delivery model: From siloed AI teams to cross-functional transformation squads.** AI centers of excellence have played a key role in accelerating AI awareness and experimentation across organizations. However, this model reaches its limits in the agentic era—in which agents are deeply embedded into enterprise systems, operate across complex business processes, and rely on high-quality data as their primary fuel. In this context, AI initiatives can no longer be delivered by isolated, specialized AI teams. To succeed at scale, organizations must shift to a cross-functional delivery model, anchored in durable transformation squads composed of business domain experts, process designers, AI and MLOps engineers, IT architects, software engineers, and data engineers.
-- **Implementation process: From experimentation to industrialized, scalable delivery.** While the previous phase rightly focused on exploring the potential of gen AI, organizations must now shift to an industrialized delivery model, in which solutions are designed from the outset to scale, both technically and financially. This requires organizations to anticipate the full set of technical prerequisites for enterprise deployment—notably in terms of system integration, day-to-day monitoring, and release management, but also to rigorously estimate future running costs and design a solution to minimize them. Unlike traditional IT systems—for which [annual run costs typically represent 10 to 20 percent of initial build costs](https://www.mckinsey.com/industries/technology-media-and-telecommunications/our-insights/transforming-infrastructure-operations-for-a-hybrid-cloud-world) 12Aykut Atali, Chandra Gnanasambandam, and Bhargs Srivathsan, “ [Transforming infrastructure operations for a hybrid-cloud world](https://www.mckinsey.com/industries/technology-media-and-telecommunications/our-insights/transforming-infrastructure-operations-for-a-hybrid-cloud-world),” McKinsey, October 9, 2019.—gen AI solutions, especially at scale, can incur recurring costs that exceed the initial build investment. Designing for scalability must therefore include not just technical robustness but also economic sustainability, especially for high-volume applications.
-
-## CEOs have a leadership challenge: Bringing the gen AI experimentation phase to a close
-
-The rise of AI agents is more than just a technological shift. Agents represent a strategic inflection point that will redefine how companies operate, compete, and create value. To navigate this transition successfully, organizations must move beyond experimentation and pilot programs and enter a new phase of scaled, enterprise-wide transformation.
-
-This pivot cannot be delegated—it must be initiated and led by the CEO. It will rely on three key actions:
-
-- **Action 1: Conclude the experimentation phase and realign AI priorities.** Conduct a structured review to capture lessons learned, retire unscalable pilots, and formally close the exploratory phase. Refocus efforts on strategic AI programs targeting high-impact domains and processes.
-- **Action 2: Redesign the AI governance and operating model.** Set up a strategic AI council involving business leaders, the chief human resources officer, the chief data officer, and the chief information officer. This council should oversee AI direction-setting; coordinate AI, IT, and data investments; and implement rigorous value-tracking mechanisms based on KPIs tied to business outcomes.
-- **Action 3: Launch a first lighthouse transformation project and simultaneously initialize the agentic AI tech foundation.** Kick off a select number of high-impact agentic AI–driven workflow transformations in core business areas. In parallel, lay the groundwork for an agentic AI technology foundation by investing in key enablers—technology infrastructure, data quality, governance frameworks, and workforce readiness.
-
-## Conclusion [Conclusion](https://www.mckinsey.com/capabilities/quantumblack/our-insights/seizing-the-agentic-ai-advantage\#)
-
-Like any truly disruptive technology, AI agents have the power to reshuffle the deck. Done right, they offer laggards a leapfrog opportunity to rewire their competitiveness. Done wrong—or not at all—they risk accelerating the decline of today’s market leaders. This is a moment of strategic divergence.
-
-While the technology will continue to evolve, it is already mature enough to drive real, transformative change across industries. But to realize the full promise of agentic AI, CEOs must rethink their approach to AI transformation—not as a series of scattered pilots but as focused, end-to-end reinvention efforts. That means identifying a few business domains with the highest potential and pulling every lever: from reimagining workflows to redistributing tasks between humans and machines to rewiring the organization based on new operating models.
-
-Some leaders are already moving—not just by deploying fleets of agents but by rewiring their organizations to harness their full disruptive potential. (Moderna, for example, merged its HR and IT leadership13Julien Dupont-Calbo, “L’IA n’est plus un outil, c’est un collègue”: Moderna fusionne sa DRH et sa DSI, \[“AI is no longer a tool, it’s a colleague”: Moderna merges its HR and IT departments\], _Les Echos,_ May 15, 2025.—signaling that AI is not just a technical tool but a workforce-shaping force.) This is a structural move toward a new kind of enterprise. Agentic AI is not an incremental step—it is the foundation of the next-generation operating model. CEOs who act now won’t just gain a performance edge. They will redefine how their organizations think, decide, and execute.
-
-The time for exploration is ending. The time for transformation is now.
-
-##### How relevant and useful is this article for you?
-
-##### About the author(s)
-
-**[Alexander Sukharevsky](https://www.mckinsey.com/our-people/alexander-sukharevsky)** is a senior partner in McKinsey’s London office, where **[Dave Kerr](https://www.mckinsey.com/our-people/dave-kerr)** is a partner; **[Klemens Hjartar](https://www.mckinsey.com/our-people/klemens-hjartar)** is a senior partner in the Copenhagen office; **[Lari Hämäläinen](https://www.mckinsey.com/our-people/lari-hamalainen)** is a senior partner in the Seattle office; **[Stéphane Bout](https://www.mckinsey.com/our-people/stephane-bout)** is a senior partner in the Lyon office; **[Vito Di Leo](https://www.mckinsey.com/our-people/vito-di-leo)** is a partner in the Zurich office; and **Guillaume Dagorret** is a senior fellow with the McKinsey Global Institute and is based in the Paris office.
-
-The authors wish to thank Alena Fedorenko, Annie David, Clarisse Magnin, Lareina Yee, Larry Kanter, Michael Chui, Roger Roberts, Sarah Mulligan, Thomas Vlot, and Timo Mauerhoefer for their contributions to this report.
-
-Talk to us
-
-##### Explore a career with us
-
-[Search openings](https://www.mckinsey.com/careers/search-jobs)
-
-##### Related Articles
-
-[![ Delicate blue and purple tendrils constantly expanding. These tendrils bear a resemblance to neurons, with luminous buds at their tips.](https://www.mckinsey.com/~/media/mckinsey/business%20functions/quantumblack/our%20insights/the%20state%20of%20ai/2025/the%20state%20of%20ai-2155840292-thumb-1536x1536.jpg?cq=50&mw=767&car=16:9&cpy=Center)](https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai)
-
-Survey
-
-###### [The state of AI: How organizations are rewiring to capture value](https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai)
-
-[![Abstract image of colorful digital lines coming down and spreading forward like a highway.](https://www.mckinsey.com/~/media/mckinsey/business%20functions/quantumblack/our%20insights/superagency%20in%20the%20workplace%20empowering%20people%20to%20unlock%20ais%20full%20potential%20at%20work/superagency-report-1309018746-thumb-1536x1536.jpg?cq=50&mw=767&car=16:9&cpy=Center)](https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/superagency-in-the-workplace-empowering-people-to-unlock-ais-full-potential-at-work)
-
-Report
-
-###### [Superagency in the workplace: Empowering people to unlock AI’s full potential](https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/superagency-in-the-workplace-empowering-people-to-unlock-ais-full-potential-at-work)
-
-[![Image of a hand tracing a light circle in the air](https://www.mckinsey.com/~/media/mckinsey/business%20functions/mckinsey%20digital/our%20insights/why%20agents%20are%20the%20next%20frontier%20of%20generative%20ai/genai-smart-agents-1207090508_1536x1536.png?cq=50&mw=767&car=16:9&cpy=Center)](https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/why-agents-are-the-next-frontier-of-generative-ai)
-
-Article - _McKinsey Quarterly_
-
-###### [Why agents are the next frontier of generative AI](https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/why-agents-are-the-next-frontier-of-generative-ai)
-
-##### Sign up for emails on new Artificial Intelligence articles
-
-Never miss an insight. We'll email you when new articles are published on this topic.
-
-Subscribe
-
-Sign up for emails on new Artificial Intelligence articles
-
-[iframe](https://www.recaptcha.net/recaptcha/api2/anchor?ar=1&k=6LcWCs0UAAAAAEik2NaGkfGH8mGHo1ThxIt-qUoE&co=aHR0cHM6Ly93d3cubWNraW5zZXkuY29tOjQ0Mw..&hl=en&v=GUGrl5YkSwpBsxsF3eY665Ye&size=invisible&cb=phv4dxnqa7bt)
-
-### Original URL
-https://www.mckinsey.com/capabilities/quantumblack/our-insights/seizing-the-agentic-ai-advantage
 </details>
 
----
+<details>
+<summary>[00:00] What most people call agents aren't agents. I've never really liked the term agent. Until I saw this recent article by Anthropic, where I totally agree and now see how we can call something an agent. The vast majority is simply API calls to a language model. This is this. A few lines of code and a prompt. This cannot act independently, make decisions, or do anything. It's simply replies to your users. Still, we call them agents.</summary>
+
+[00:00] What most people call agents aren't agents. I've never really liked the term agent. Until I saw this recent article by Anthropic, where I totally agree and now see how we can call something an agent. The vast majority is simply API calls to a language model. This is this. A few lines of code and a prompt. This cannot act independently, make decisions, or do anything. It's simply replies to your users. Still, we call them agents.
+
+[00:29] But this isn't what we need. We need real agents. But what is a real agent? Before we dive into serious agentic stuff, if you are a student, writer, blogger, or content creator like me, or would like help becoming one, you will love the sponsor of today's video with a clever name, originality.ai.
+
+[00:47] Originality.ai is an awesome tool designed to detect AI generated content, check for plagiarism, grammar, readability, and even fact check your work. Everything you need to publish with integrity. Simply upload a document. In seconds, it flags any AI generated text, highlights plagiarism, and even checks grammar and readability with many useful tips and suggestions. I really love this feature. It also offers fact checking, ensuring every claim in your content stands up to scrutiny. Pretty cool when you work on important or technical work.
+
+[01:19] All based on the most state-of-the-art language models and systems. Try originality.ai today with the first link in the description. So let's start over. We have an LLM accessed programmatically, which is through an API or accessed locally in your own server or machine. And then what? Well, we need it to take action or do something more than just generate text. How? By giving it access to tools and their documentation. We give them access to a tool like the ability to execute SQL queries in a database to access private knowledge. Specifically, we code all that ourselves to have our LLM generate SQL queries.
+
+[02:00] And then our code will send and execute the query automatically in our database. We then send back the outputs so that it uses them to answer the user. This is what another great proportion of people call agents. They are still not agents. This is simply a process hardcoded or with small variations like routers that we discuss in the course. Of course, it's useful and it's super powerful. Yet, it's not an intelligent being or something independent. It's not an agent acting on our behalf. It's simply a program we made and control, or as Anthropic calls it, a workflow.
+
+[02:36] Don't get me wrong. A workflow is pretty damn useful and it can be quite complex and advanced. We can implement intelligent routers to decide what tool to use and when to give it access to various databases. Have it decide which one to query and when. Have it execute tasks through action tools, through code, and more. Plus, you can have as many workflows as you wish.
+
+[02:58] Yet, I simply want to state how different it is than a real agent. The type of agent we dream of and the type Ilya mentioned at a recent talk I attended at NeurIPS.
+
+[03:08] So right now we have our incredible language models and the unbelievable chatbots and they can even do things, but they're also kind of strangely unreliable and they get confused when while also having dramatically superhuman performance on evals. So it's really unclear how to reconcile this. But eventually, sooner or later, the following will be achieved. Those systems are actually going to be agentic in a real ways, whereas right now the systems are not agents in any meaningful sense. Just very that might be too strong. They're very, very slightly agentic, just beginning.
+
+[03:46] The next natural question might be, what exactly is a real agent? In simple terms, a real agent is something that functions independently. More specifically, it's something capable of employing processes like our system two thinking, able to genuinely reason, reflect, and recognize when it lacks knowledge. This is almost the opposite of our system one thinking, which is fast, automatic, and based purely on patterns and learned responses, like reflexes when you need to catch a dropping glass.
+
+[04:16] By contrast, system two thinking might involve deciding whether to prevent the glass from falling in the first place, perhaps by using a nearby tool like a tray or moving the fragile object out of the way. A real agent then will not only know how to use tools, but also decide when and why to use them based on deliberate reasoning. OpenAI's new o1 and o3 series exemplify this shift, as they begin exploring system two-like approaches and try to make models reason by first discussing with themselves internally, mimicking a human-like approach to reasoning before speaking.
+
+[04:52] Unlike traditional language models that rely on next-word or next-token prediction, essentially a system-one, instant thinking mechanism, purely based on what it knows and learned to guess the next instant thing to go with no plan, these new models aim to incorporate deeper reasoning capabilities, making a move toward the deliberate, reflective thinking associated with system two. Something required for a true agent to be.
+
+[05:20] But we are diverging a bit too much with this Kahneman parenthesis. Let me clarify what I mean by a real agent by going back to workflows and what they really are. Workflows follow specific code lines and integrations and, other than the LLM's outputs, are pretty predictable. They are responsible for most of the advanced applications you see and use today, and for a reason. They are consistent, more predictable, and incredibly powerful when leveraged properly. As Anthropic wrote, "Workflows are systems where LLMs and tools are orchestrated through predefined code paths."
+
+[05:55] Here's what a workflow looks like. We have our LLM, some tools or memory to retrieve for additional context, iterate a bit with multiple calls to the LLM, and then an output sent back to the user. As we discussed, when a system needs to sometimes do a task and sometimes another, depending on conditions, workflows can use a router with various conditions to select the right tool or the right prompt to use. They can even work in parallel to be more efficient.
+
+[06:22] Better, we can have some sort of main model, which we refer to as an orchestrator, that selects all the different fellow models to call for specific tasks and synthesize the results, such as our SQL example, where we'd have the main orchestrator getting the user query and could decide if it needs to query a dataset or not. And if it does, ask the SQL agent to generate the SQL query and query the dataset and get it back and synthesize the final answer thanks to all the information provided. This is a workflow.
+
+[06:54] Just like ChatGPT is a workflow, sometimes using canvas and sometimes just straight up answering your question. Even if complex and advanced, it is still all hardcoded.
+
+[07:06] If you know what you need your system to do, you need a workflow. However advanced it may be. For instance, what CrewAI calls agents function like predefined workflows assigned to specific tasks. While Anthropic envisions an agent as a single system capable of reasoning through any task independently. Both approaches have merit. One is predictable and intuitive, while the other aims for flexibility and adaptability. However, the latter is far harder to achieve with current models and better fits an agent definition to me.
+
+[07:39] So about those real agents. Agents are systems where LLMs dynamically direct their own processes and tool usage, maintaining control over how they accomplish tasks themselves. This is what Anthropic wrote, and it is what I agree the most with. Real agents make a plan by exchanging with you and understanding your needs, iterating at a reasoning level to decide on the steps to take to solve the problem or query. Ideally, it will even ask you if it needs more information or clarification instead of hallucinating as with current LLMs.
+
+[08:14] Still, they cannot be simply built. They require a very powerful LLM, better than those we have now, and an environment to evolve in, like a discussion with you and some extra powers like tools that they can use themselves whenever they see fit and iterate. In short, you can see agents almost as replacing someone or a role, and a workflow replacing a task one would do. There is no hardcoded path. The agentic system will make its decisions. They are much more advanced and complex things that we still haven't built very successfully yet.
+
+[08:49] This independence and trust in your system obviously makes it more susceptible of failures, more expensive to run and use, add latency, and worst of all, the results aren't that exciting now. When they are, they are completely inconsistent. So what is an actual good example of an agent?
+
+[09:06] Two examples that quickly come to my mind are Devin's and Anthropic's computer use. Yet, they are for now disappointing agents. If you're curious about Devin, there's a really good blog from Hamel Husain sharing his experience using it. Devin offers an intriguing glimpse into the promise and challenges of agent-based systems. It's designed as a fully autonomous software engineer with its own computing environment and independently handles tasks like API integrations and real-time problem solving.
+
+[09:37] However, as Hamel's extensive testing demonstrated, while Devin excelled at simpler, well-defined tasks, things that we can usually do quite easily, it struggled with complex or autonomous ones, often providing over-complicated solutions and pursuing unfeasible paths, whereas advanced workflows like Cursor don't have as many issues.
+
+[09:58] These limitations reflect the broader challenges of building reliable, context-aware agents with current LLMs, even if you raise millions and millions. Here, Devin aligns more with Anthropic's vision, showcasing the promise and challenges of a reasoning agent. It can autonomously tackle complex problems but struggle with inconsistency. By contrast, workflows like those inspired by CrewAI are simpler and more robust for specific tasks, but lack the flexibility of true reasoning systems. Similarly, we have Anthropic's ambitious attempt at creating an autonomous agent having access to our computer, Anthropic computer use, which had lots of hype when it first came out and has since been quite forgotten.
+
+[10:35] The system was undeniably complex and embodied the characteristics of a true agent: autonomous decision-making, dynamic tool usage, and the ability to interact with its environment. Its goal was also to replace anyone on a computer. Quite promising, or scary. Still, its decline also serves as a reminder of the challenges in creating practical agentic systems that not only work as intended, but do so systematically.
+
+[11:09] In short, LLMs are simply not ready yet for becoming true agents, but it may be the case soon. For now, as with all things code related, we should always aim to find a solution to our problem that is as simple as possible. One that we can iterate easily and debug easily. Simple LLM calls are often the way to go. And it is often what people and companies sell as being an agent, but you won't be fooled anymore.
+
+[11:36] You may want to complement LLMs with some external knowledge through the use of retrieval systems or light fine-tuning, but your money and time aiming for true agents should be saved for really complex problems that cannot be solved otherwise.
+
+[11:51] I hope this video helped you understand the difference between workflows and a real agent and when to use both. If you found it useful, please share it with a friend in the AI community and don't forget to subscribe for more in-depth AI content. Thank you for watching.
+
+[12:07] X @whats_ai. Let me know what you think in the comments! www.louisbouchard.ai
+
+</details>
+
 
 ## Additional Sources Scraped
 
----
 <details>
-<summary>Building Effective AI Agents \ Anthropic</summary>
+<summary>a-developer-s-guide-to-building-scalable-ai-workflows-vs-age</summary>
 
-# Building effective agents
+# A Developer’s Guide to Building Scalable AI: Workflows vs Agents
 
-Published Dec 19, 2024
+Understanding the architectural trade-offs between autonomous agents and orchestrated workflows — because someone needs to make this decision, and it might as well be you
 
-We've worked with dozens of teams building LLM agents across industries. Consistently, the most successful implementations use simple, composable patterns rather than complex frameworks.
+https://towardsdatascience.com/wp-content/uploads/2025/06/agent-vs-workflow.jpegImage by author
 
-Over the past year, we've worked with dozens of teams building large language model (LLM) agents across industries. Consistently, the most successful implementations weren't using complex frameworks or specialized libraries. Instead, they were building with simple, composable patterns.
+There was a time not long ago — okay, like three months ago — when I fell deep into the agent rabbit hole.
 
-In this post, we share what we’ve learned from working with our customers and building agents ourselves, and give practical advice for developers on building effective agents.
+I had just started experimenting with CrewAI and LangGraph, and it felt like I’d unlocked a whole new dimension of building. Suddenly, I didn’t just have tools and pipelines — I had _crews_. I could spin up agents that could reason, plan, talk to tools, and talk to each other. Multi-agent systems! Agents that summon other agents! I was practically architecting the AI version of a startup team.
 
-## What are agents?
+Every use case became a candidate for a crew. Meeting prep? Crew. Slide generation? Crew. Lab report review? Crew.
 
-"Agent" can be defined in several ways. Some customers define agents as fully autonomous systems that operate independently over extended periods, using various tools to accomplish complex tasks. Others use the term to describe more prescriptive implementations that follow predefined workflows. At Anthropic, we categorize all these variations as **agentic systems**, but draw an important architectural distinction between **workflows** and **agents**:
+It was exciting — until it wasn’t.
 
-- **Workflows** are systems where LLMs and tools are orchestrated through predefined code paths.
-- **Agents**, on the other hand, are systems where LLMs dynamically direct their own processes and tool usage, maintaining control over how they accomplish tasks.
+The more I built, the more I ran into questions I hadn’t thought through: _How do I monitor this? How do I debug a loop where the agent just keeps “thinking”? What happens when something breaks? Can anyone else even maintain this with me?_
 
-Below, we will explore both types of agentic systems in detail. In Appendix 1 (“Agents in Practice”), we describe two domains where customers have found particular value in using these kinds of systems.
+That’s when I realized I had skipped a crucial question: _Did this really need to be agentic?_ Or was I just excited to use the shiny new thing?
 
-## When (and when not) to use agents
+Since then, I’ve become a lot more cautious — and a lot more practical. Because there’s a big difference (according to [Anthropic](https://www.anthropic.com/engineering/building-effective-agents)) between:
 
-When building applications with LLMs, we recommend finding the simplest solution possible, and only increasing complexity when needed. This might mean not building agentic systems at all. Agentic systems often trade latency and cost for better task performance, and you should consider when this tradeoff makes sense.
+- A **workflow**: a structured LLM pipeline with clear control flow, where you define the steps — use a tool, retrieve context, call the model, handle the output.
+- And an **agent**: an autonomous system where the LLM decides what to do next, which tools to use, and when it’s “done.”
 
-When more complexity is warranted, workflows offer predictability and consistency for well-defined tasks, whereas agents are the better option when flexibility and model-driven decision-making are needed at scale. For many applications, however, optimizing single LLM calls with retrieval and in-context examples is usually enough.
+Workflows are more like you calling the shots and the LLM following your lead. Agents are more like hiring a brilliant, slightly chaotic intern who figures things out on their own — sometimes beautifully, sometimes in terrifyingly expensive ways.
 
-## When and how to use frameworks
+This article is for anyone who’s ever felt that same temptation to build a multi-agent empire before thinking through what it takes to maintain it. It’s not a warning, it’s a reality check — and a field guide. Because there _are_ times when agents are exactly what you need. But most of the time? You just need a solid workflow.
 
-There are many frameworks that make agentic systems easier to implement, including:
+* * *
 
-- [LangGraph](https://langchain-ai.github.io/langgraph/) from LangChain;
-- Amazon Bedrock's [AI Agent framework](https://aws.amazon.com/bedrock/agents/);
-- [Rivet](https://rivet.ironcladapp.com/), a drag and drop GUI LLM workflow builder; and
-- [Vellum](https://www.vellum.ai/), another GUI tool for building and testing complex workflows.
+## The State of AI Agents: Everyone’s Doing It, Nobody Knows Why
 
-These frameworks make it easy to get started by simplifying standard low-level tasks like calling LLMs, defining and parsing tools, and chaining calls together. However, they often create extra layers of abstraction that can obscure the underlying prompts ​​and responses, making them harder to debug. They can also make it tempting to add complexity when a simpler setup would suffice.
+You’ve probably seen the stats. [95% of companies are now using generative AI, with 79% specifically implementing AI agents](https://www.bain.com/insights/survey-generative-ai-uptake-is-unprecedented-despite-roadblocks/), according to Bain’s 2024 survey. That sounds impressive — until you look a little closer and find out only _1%_ of them consider those implementations “mature.”
 
-We suggest that developers start by using LLM APIs directly: many patterns can be implemented in a few lines of code. If you do use a framework, ensure you understand the underlying code. Incorrect assumptions about what's under the hood are a common source of customer error.
+Translation: most teams are duct-taping something together and hoping it doesn’t explode in production.
 
-See our [cookbook](https://github.com/anthropics/anthropic-cookbook/tree/main/patterns/agents) for some sample implementations.
+I say this with love — I was one of them.
 
-## Building blocks, workflows, and agents
+There’s this moment when you first build an agent system that works — even a small one — and it _feels like magic_. The LLM decides what to do, picks tools, loops through steps, and comes back with an answer like it just went on a mini journey. You think: “Why would I ever write rigid pipelines again when I can just let the model figure it out?”
 
-In this section, we’ll explore the common patterns for agentic systems we’ve seen in production. We'll start with our foundational building block—the augmented LLM—and progressively increase complexity, from simple compositional workflows to autonomous agents.
+And then the complexity creeps in.
 
-### Building block: The augmented LLM
+You go from a clean pipeline to a network of tool-wielding LLMs reasoning in circles. You start writing logic to correct the logic of the agent. You build an agent to supervise the other agents. Before you know it, you’re maintaining a distributed system of interns with anxiety and no sense of cost.
 
-The basic building block of agentic systems is an LLM enhanced with augmentations such as retrieval, tools, and memory. Our current models can actively use these capabilities—generating their own search queries, selecting appropriate tools, and determining what information to retain.
+Yes, there are real success stories. [Klarna’s agent handles the workload of 700 customer service reps](https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/). [BCG built a multi-agent design system that cut shipbuilding engineering time by nearly half.](https://www.bcg.com/publications/2025/how-ai-can-be-the-new-all-star-on-your-team) These are not demos — these are production systems, saving companies real time and money.
 
-We recommend focusing on two key aspects of the implementation: tailoring these capabilities to your specific use case and ensuring they provide an easy, well-documented interface for your LLM. While there are many ways to implement these augmentations, one approach is through our recently released [Model Context Protocol](https://www.anthropic.com/news/model-context-protocol), which allows developers to integrate with a growing ecosystem of third-party tools with a simple [client implementation](https://modelcontextprotocol.io/tutorials/building-a-client#building-mcp-clients).
+But those companies didn’t get there by accident. Behind the scenes, they invested in infrastructure, observability, fallback systems, budget controls, and teams who could debug prompt chains at 3 AM without crying.
 
-For the remainder of this post, we'll assume each LLM call has access to these augmented capabilities.
+For most of us? We’re not Klarna. We’re trying to get something working that’s reliable, cost-effective, and doesn’t eat up 20x more tokens than a well-structured pipeline.
 
-### Workflow: Prompt chaining
+So yes, agents _can_ be amazing. But we have to stop pretending they’re a default. Just because the model _can_ decide what to do next doesn’t mean it _should_. Just because the flow is dynamic doesn’t mean the system is smart. And just because everyone’s doing it doesn’t mean you need to follow.
 
-Prompt chaining decomposes a task into a sequence of steps, where each LLM call processes the output of the previous one. You can add programmatic checks (see "gate” in the diagram below) on any intermediate steps to ensure that the process is still on track.
+Sometimes, using an agent is like replacing a microwave with a sous chef — more flexible, but also more expensive, harder to manage, and occasionally makes decisions you didn’t ask for.
 
-**When to use this workflow:** This workflow is ideal for situations where the task can be easily and cleanly decomposed into fixed subtasks. The main goal is to trade off latency for higher accuracy, by making each LLM call an easier task.
+Let’s figure out when it actually makes sense to go that route — and when you should just stick with something that works.
 
-**Examples where prompt chaining is useful:**
+## Technical Reality Check: What You’re Actually Choosing Between
 
-- Generating Marketing copy, then translating it into a different language.
-- Writing an outline of a document, checking that the outline meets certain criteria, then writing the document based on the outline.
+Before we dive into the existential crisis of choosing between agents and workflows, let’s get our definitions straight. Because in typical tech fashion, everyone uses these terms to mean slightly different things.
 
-### Workflow: Routing
+https://contributor.insightmediagroup.io/wp-content/uploads/2025/06/image-115.pngimage by author
 
-Routing classifies an input and directs it to a specialized followup task. This workflow allows for separation of concerns, and building more specialized prompts. Without this workflow, optimizing for one kind of input can hurt performance on other inputs.
+### Workflows: The Reliable Friend Who Shows Up On Time
 
-**When to use this workflow:** Routing works well for complex tasks where there are distinct categories that are better handled separately, and where classification can be handled accurately, either by an LLM or a more traditional classification model/algorithm.
+Workflows are orchestrated. You write the logic: maybe retrieve context with a vector store, call a toolchain, then use the LLM to summarize the results. Each step is explicit. It’s like a recipe. If it breaks, you know exactly where it happened — and probably how to fix it.
 
-**Examples where routing is useful:**
+This is what most “RAG pipelines” or prompt chains are. Controlled. Testable. Cost-predictable.
 
-- Directing different types of customer service queries (general questions, refund requests, technical support) into different downstream processes, prompts, and tools.
-- Routing easy/common questions to smaller models like Claude 3.5 Haiku and hard/unusual questions to more capable models like Claude 3.5 Sonnet to optimize cost and speed.
+The beauty? You can debug them the same way you debug any other software. Stack traces, logs, fallback logic. If the vector search fails, you catch it. If the model response is weird, you reroute it.
 
-### Workflow: Parallelization
+Workflows are your dependable friend who shows up on time, sticks to the plan, and doesn’t start rewriting your entire database schema because it felt “inefficient.”
 
-LLMs can sometimes work simultaneously on a task and have their outputs aggregated programmatically. This workflow, parallelization, manifests in two key variations:
+https://contributor.insightmediagroup.io/wp-content/uploads/2025/06/image-112.pngImage by author, inspired by [Anthropic](https://www.anthropic.com/engineering/building-effective-agents)
 
-- **Sectioning**: Breaking a task into independent subtasks run in parallel.
-- **Voting:** Running the same task multiple times to get diverse outputs.
+In this example of a simple customer support task, this workflow always follows the same classify → route → respond → log pattern. It’s predictable, debuggable, and performs consistently.
 
-**When to use this workflow:** Parallelization is effective when the divided subtasks can be parallelized for speed, or when multiple perspectives or attempts are needed for higher confidence results. For complex tasks with multiple considerations, LLMs generally perform better when each consideration is handled by a separate LLM call, allowing focused attention on each specific aspect.
+```python
+def customer_support_workflow(customer_message, customer_id):
+    """Predefined workflow with explicit control flow"""
 
-**Examples where parallelization is useful:**
+    # Step 1: Classify the message type
+    classification_prompt = f"Classify this message: {customer_message}\nOptions: billing, technical, general"
+    message_type = llm_call(classification_prompt)
 
-- **Sectioning**:
-  - Implementing guardrails where one model instance processes user queries while another screens them for inappropriate content or requests. This tends to perform better than having the same LLM call handle both guardrails and the core response.
-  - Automating evals for evaluating LLM performance, where each LLM call evaluates a different aspect of the model’s performance on a given prompt.
-- **Voting**:
-  - Reviewing a piece of code for vulnerabilities, where several different prompts review and flag the code if they find a problem.
-  - Evaluating whether a given piece of content is inappropriate, with multiple prompts evaluating different aspects or requiring different vote thresholds to balance false positives and negatives.
+    # Step 2: Route based on classification (explicit paths)
+    if message_type == "billing":
+        # Get customer billing info
+        billing_data = get_customer_billing(customer_id)
+        response_prompt = f"Answer this billing question: {customer_message}\nBilling data: {billing_data}"
 
-### Workflow: Orchestrator-workers
+    elif message_type == "technical":
+        # Get product info
+        product_data = get_product_info(customer_id)
+        response_prompt = f"Answer this technical question: {customer_message}\nProduct info: {product_data}"
 
-In the orchestrator-workers workflow, a central LLM dynamically breaks down tasks, delegates them to worker LLMs, and synthesizes their results.
+    else:  # general
+        response_prompt = f"Provide a helpful general response to: {customer_message}"
 
-**When to use this workflow:** This workflow is well-suited for complex tasks where you can’t predict the subtasks needed (in coding, for example, the number of files that need to be changed and the nature of the change in each file likely depend on the task). Whereas it’s topographically similar, the key difference from parallelization is its flexibility—subtasks aren't pre-defined, but determined by the orchestrator based on the specific input.
+    # Step 3: Generate response
+    response = llm_call(response_prompt)
 
-**Example where orchestrator-workers is useful:**
+    # Step 4: Log interaction (explicit)
+    log_interaction(customer_id, message_type, response)
 
-- Coding products that make complex changes to multiple files each time.
-- Search tasks that involve gathering and analyzing information from multiple sources for possible relevant information.
+    return response
+```
 
-### Workflow: Evaluator-optimizer
+The deterministic approach provides:
 
-In the evaluator-optimizer workflow, one LLM call generates a response while another provides evaluation and feedback in a loop.
+- **Predictable execution**: Input A always leads to Process B, then Result C
+- **Explicit error handling**: “If this breaks, do that specific thing”
+- **Transparent debugging**: You can literally trace through the code to find problems
+- **Resource optimization**: You know exactly how much everything will cost
 
-**When to use this workflow:** This workflow is particularly effective when we have clear evaluation criteria, and when iterative refinement provides measurable value. The two signs of good fit are, first, that LLM responses can be demonstrably improved when a human articulates their feedback; and second, that the LLM can provide such feedback. This is analogous to the iterative writing process a human writer might go through when producing a polished document.
+[Workflow implementations deliver consistent business value](https://ascendix.com/blog/salesforce-success-stories/): OneUnited Bank achieved 89% credit card conversion rates, while Sequoia Financial Group saved 700 hours annually per user. Not as sexy as “autonomous AI,” but your operations team will love you.
 
-**Examples where evaluator-optimizer is useful:**
+### Agents: The Smart Kid Who Sometimes Goes Rogue
 
-- Literary translation where there are nuances that the translator LLM might not capture initially, but where an evaluator LLM can provide useful critiques.
-- Complex search tasks that require multiple rounds of searching and analysis to gather comprehensive information, where the evaluator decides whether further searches are warranted.
+Agents, on the other hand, are built around loops. The LLM gets a goal and starts reasoning about how to achieve it. It picks tools, takes actions, evaluates outcomes, and decides what to do next — all inside a recursive decision-making loop.
 
-### Agents
+This is where things get… fun.
 
-Agents are emerging in production as LLMs mature in key capabilities—understanding complex inputs, engaging in reasoning and planning, using tools reliably, and recovering from errors. Agents begin their work with either a command from, or interactive discussion with, the human user. Once the task is clear, agents plan and operate independently, potentially returning to the human for further information or judgement. During execution, it's crucial for the agents to gain “ground truth” from the environment at each step (such as tool call results or code execution) to assess its progress. Agents can then pause for human feedback at checkpoints or when encountering blockers. The task often terminates upon completion, but it’s also common to include stopping conditions (such as a maximum number of iterations) to maintain control.
+https://contributor.insightmediagroup.io/wp-content/uploads/2025/06/image-111.pngImage by author, inspired by [Anthropic](https://www.anthropic.com/engineering/building-effective-agents)
 
-Agents can handle sophisticated tasks, but their implementation is often straightforward. They are typically just LLMs using tools based on environmental feedback in a loop. It is therefore crucial to design toolsets and their documentation clearly and thoughtfully. We expand on best practices for tool development in Appendix 2 ("Prompt Engineering your Tools").
+The architecture enables some genuinely impressive capabilities:
 
-**When to use agents:** Agents can be used for open-ended problems where it’s difficult or impossible to predict the required number of steps, and where you can’t hardcode a fixed path. The LLM will potentially operate for many turns, and you must have some level of trust in its decision-making. Agents' autonomy makes them ideal for scaling tasks in trusted environments.
+- **Dynamic tool selection**: “Should I query the database or call the API? Let me think…”
+- **Adaptive reasoning**: Learning from mistakes within the same conversation
+- **Self-correction**: “That didn’t work, let me try a different approach”
+- **Complex state management**: Keeping track of what happened three steps ago
 
-The autonomous nature of agents means higher costs, and the potential for compounding errors. We recommend extensive testing in sandboxed environments, along with the appropriate guardrails.
+In the same example, the agent might decide to search the knowledge base first, then get billing info, then ask clarifying questions — all based on its interpretation of the customer’s needs. The execution path varies depending on what the agent discovers during its reasoning process:
 
-**Examples where agents are useful:**
+```python
+def customer_support_agent(customer_message, customer_id):
+    """Agent with dynamic tool selection and reasoning"""
 
-The following examples are from our own implementations:
+    # Available tools for the agent
+    tools = {
+        "get_billing_info": lambda: get_customer_billing(customer_id),
+        "get_product_info": lambda: get_product_info(customer_id),
+        "search_knowledge_base": lambda query: search_kb(query),
+        "escalate_to_human": lambda: create_escalation(customer_id),
+    }
 
-- A coding Agent to resolve [SWE-bench tasks](https://www.anthropic.com/research/swe-bench-sonnet), which involve edits to many files based on a task description;
-- Our [“computer use” reference implementation](https://github.com/anthropics/anthropic-quickstarts/tree/main/computer-use-demo), where Claude uses a computer to accomplish tasks.
+    # Agent prompt with tool descriptions
+    agent_prompt = f"""
+    You are a customer support agent. Help with this message: "{customer_message}"
 
-## Combining and customizing these patterns
+    Available tools: {list(tools.keys())}
 
-These building blocks aren't prescriptive. They're common patterns that developers can shape and combine to fit different use cases. The key to success, as with any LLM features, is measuring performance and iterating on implementations. To repeat: you should consider adding complexity _only_ when it demonstrably improves outcomes.
+    Think step by step:
+    1. What type of question is this?
+    2. What information do I need?
+    3. Which tools should I use and in what order?
+    4. How should I respond?
 
-## Summary
+    Use tools dynamically based on what you discover.
+    """
 
-Success in the LLM space isn't about building the most sophisticated system. It's about building the _right_ system for your needs. Start with simple prompts, optimize them with comprehensive evaluation, and add multi-step agentic systems only when simpler solutions fall short.
+    # Agent decides what to do (dynamic reasoning)
+    agent_response = llm_agent_call(agent_prompt, tools)
 
-When implementing agents, we try to follow three core principles:
+    return agent_response
+```
 
-1. Maintain **simplicity** in your agent's design.
-2. Prioritize **transparency** by explicitly showing the agent’s planning steps.
-3. Carefully craft your agent-computer interface (ACI) through thorough tool **documentation and testing**.
+Yes, that autonomy is what makes agents powerful. It’s also what makes them hard to control.
 
-Frameworks can help you get started quickly, but don't hesitate to reduce abstraction layers and build with basic components as you move to production. By following these principles, you can create agents that are not only powerful but also reliable, maintainable, and trusted by their users.
+Your agent might:
 
-## Appendix 1: Agents in practice
+- decide to try a new strategy mid-way
+- forget what it already tried
+- or call a tool 15 times in a row trying to “figure things out”
 
-Our work with customers has revealed two particularly promising applications for AI agents that demonstrate the practical value of the patterns discussed above. Both applications illustrate how agents add the most value for tasks that require both conversation and action, have clear success criteria, enable feedback loops, and integrate meaningful human oversight.
+You can’t just set a breakpoint and inspect the stack. The “stack” is inside the model’s context window, and the “variables” are fuzzy thoughts shaped by your prompts.
 
-### A. Customer support
+When something goes wrong — and it will — you don’t get a nice red error message. You get a token bill that looks like someone mistyped a loop condition and summoned the OpenAI API 600 times. (I know, because I did this at least once where I forgot to cap the loop, and the agent just kept thinking… and thinking… until the entire system crashed with an “out of token” error).
 
-Customer support combines familiar chatbot interfaces with enhanced capabilities through tool integration. This is a natural fit for more open-ended agents because:
+* * *
 
-- Support interactions naturally follow a conversation flow while requiring access to external information and actions;
-- Tools can be integrated to pull customer data, order history, and knowledge base articles;
-- Actions such as issuing refunds or updating tickets can be handled programmatically; and
-- Success can be clearly measured through user-defined resolutions.
+To put it in simpler terms, you can think of it like this:
 
-Several companies have demonstrated the viability of this approach through usage-based pricing models that charge only for successful resolutions, showing confidence in their agents' effectiveness.
+A **workflow** is a GPS.
 
-### B. Coding agents
+You know the destination. You follow clear instructions. “Turn left. Merge here. You’ve arrived.” It’s structured, predictable, and you almost always get where you’re going — unless you ignore it on purpose.
 
-The software development space has shown remarkable potential for LLM features, with capabilities evolving from code completion to autonomous problem-solving. Agents are particularly effective because:
+An **agent** is different. It’s like handing someone a map, a smartphone, a credit card, and saying:
 
-- Code solutions are verifiable through automated tests;
-- Agents can iterate on solutions using test results as feedback;
-- The problem space is well-defined and structured; and
-- Output quality can be measured objectively.
+> “Figure out how to get to the airport. You can walk, call a cab, take a detour if needed — just make it work.”
 
-In our own implementation, agents can now solve real GitHub issues in the [SWE-bench Verified](https://www.anthropic.com/research/swe-bench-sonnet) benchmark based on the pull request description alone. However, whereas automated testing helps verify functionality, human review remains crucial for ensuring solutions align with broader system requirements.
+They might arrive faster. Or they might end up arguing with a rideshare app, taking a scenic detour, and arriving an hour later with a $18 smoothie. (We all know someone like that).
 
-## Appendix 2: Prompt engineering your tools
+**Both approaches can work**, but the real question is:
 
-No matter which agentic system you're building, tools will likely be an important part of your agent. [Tools](https://www.anthropic.com/news/tool-use-ga) enable Claude to interact with external services and APIs by specifying their exact structure and definition in our API. When Claude responds, it will include a [tool use block](https://docs.anthropic.com/en/docs/build-with-claude/tool-use#example-api-response-with-a-tool-use-content-block) in the API response if it plans to invoke a tool. Tool definitions and specifications should be given just as much prompt engineering attention as your overall prompts. In this brief appendix, we describe how to prompt engineer your tools.
+> **Do you actually need autonomy here, or just a reliable set of instructions?**
 
-There are often several ways to specify the same action. For instance, you can specify a file edit by writing a diff, or by rewriting the entire file. For structured output, you can return code inside markdown or inside JSON. In software engineering, differences like these are cosmetic and can be converted losslessly from one to the other. However, some formats are much more difficult for an LLM to write than others. Writing a diff requires knowing how many lines are changing in the chunk header before the new code is written. Writing code inside JSON (compared to markdown) requires extra escaping of newlines and quotes.
+Because here’s the thing — agents _sound_ amazing. And they are, in theory. You’ve probably seen the headlines:
 
-Our suggestions for deciding on tool formats are the following:
+- “Deploy an agent to handle your entire support pipeline!”
+- “Let AI manage your tasks while you sleep!”
+- “Revolutionary multi-agent systems — your personal consulting firm in the cloud!”
 
-- Give the model enough tokens to "think" before it writes itself into a corner.
-- Keep the format close to what the model has seen naturally occurring in text on the internet.
-- Make sure there's no formatting "overhead" such as having to keep an accurate count of thousands of lines of code, or string-escaping any code it writes.
+These case studies are everywhere. And some of them are real. But most of them?
 
-One rule of thumb is to think about how much effort goes into human-computer interfaces (HCI), and plan to invest just as much effort in creating good _agent_-computer interfaces (ACI). Here are some thoughts on how to do so:
+They’re like travel photos on Instagram. You see the glowing sunset, the perfect skyline. You don’t see the six hours of layovers, the missed train, the $25 airport sandwich, or the three-day stomach bug from the street tacos.
 
-- Put yourself in the model's shoes. Is it obvious how to use this tool, based on the description and parameters, or would you need to think carefully about it? If so, then it’s probably also true for the model. A good tool definition often includes example usage, edge cases, input format requirements, and clear boundaries from other tools.
-- How can you change parameter names or descriptions to make things more obvious? Think of this as writing a great docstring for a junior developer on your team. This is especially important when using many similar tools.
-- Test how the model uses your tools: Run many example inputs in our [workbench](https://console.anthropic.com/workbench) to see what mistakes the model makes, and iterate.
-- [Poka-yoke](https://en.wikipedia.org/wiki/Poka-yoke) your tools. Change the arguments so that it is harder to make mistakes.
+That’s what agent success stories often leave out: **the operational complexity, the debugging pain, the spiraling token bill**.
 
-While building our agent for [SWE-bench](https://www.anthropic.com/research/swe-bench-sonnet), we actually spent more time optimizing our tools than the overall prompt. For example, we found that the model would make mistakes with tools using relative filepaths after the agent had moved out of the root directory. To fix this, we changed the tool to always require absolute filepaths—and we found that the model used this method flawlessly.
+So yeah, agents _can_ take you places. But before you hand over the keys, make sure you’re okay with the route they might choose. And that you can afford the tolls.
 
-### Original URL
-https://www.anthropic.com/engineering/building-effective-agents
+## The Hidden Costs Nobody Talks About
+
+On paper, agents seem magical. You give them a goal, and they figure out how to achieve it. No need to hardcode control flow. Just define a task and let the system handle the rest.
+
+In theory, it’s elegant. In practice, it’s chaos in a trench coat.
+
+Let’s talk about what it _really_ costs to go agentic — not just in dollars, but in complexity, failure modes, and emotional wear-and-tear on your engineering team.
+
+### Token Costs Multiply — Fast
+
+[According to Anthropic’s research](https://www.anthropic.com/engineering/built-multi-agent-research-system), agents consume 4x more tokens than simple chat interactions. Multi-agent systems? Try 15x more tokens. This isn’t a bug — it’s the whole point. They loop, reason, re-evaluate, and often talk to themselves several times before arriving at a decision.
+
+Here’s how that math breaks down:
+
+- **Basic workflows**: $500/month for 100k interactions
+- **Single agent systems**: $2,000/month for the same volume
+- **Multi-agent systems**: $7,500/month (assuming $0.005 per 1K tokens)
+
+And that’s if everything is working as intended.
+
+If the agent gets stuck in a tool call loop or misinterprets instructions? You’ll see spikes that make your billing dashboard look like a crypto pump-and-dump chart.
+
+### Debugging Feels Like AI Archaeology
+
+With workflows, debugging is like walking through a well-lit house. You can trace input → function → output. Easy.
+
+With agents? It’s more like wandering through an unmapped forest where the trees occasionally rearrange themselves. You don’t get traditional logs. You get _reasoning traces_, full of model-generated thoughts like:
+
+> “Hmm, that didn’t work. I’ll try another approach.”
+
+That’s not a stack trace. That’s an AI diary entry. It’s poetic, but not helpful when things break in production.
+
+The really “fun” part? **Error propagation in agent systems can cascade in completely unpredictable ways.** One incorrect decision early in the reasoning chain can lead the agent down a rabbit hole of increasingly wrong conclusions, like a game of telephone where each player is also trying to solve a math problem. Traditional debugging approaches — setting breakpoints, tracing execution paths, checking variable states — become much less helpful when the “bug” is that your AI decided to interpret your instructions creatively.
+
+https://contributor.insightmediagroup.io/wp-content/uploads/2025/06/image-113.pngImage by author, generated by GPT-4o
+
+### New Failure Modes You’ve Never Had to Think About
+
+[Microsoft’s research has identified](https://www.microsoft.com/en-us/security/blog/2025/04/24/new-whitepaper-outlines-the-taxonomy-of-failure-modes-in-ai-agents/) entirely **new failure modes that didn’t exist before agents**. Here are just a few that aren’t common in traditional pipelines:
+
+- **Agent Injection**: Prompt-based exploits that hijack the agent’s reasoning
+- **Multi-Agent Jailbreaks**: Agents colluding in unintended ways
+- **Memory Poisoning**: One agent corrupts shared memory with hallucinated nonsense
+
+These aren’t edge cases anymore — they’re becoming common enough that entire subfields of “LLMOps” now exist just to handle them.
+
+If your monitoring stack doesn’t track token drift, tool spam, or emergent agent behavior, you’re flying blind.
+
+### You’ll Need Infra You Probably Don’t Have
+
+Agent-based systems don’t just need compute — they need new layers of tooling.
+
+You’ll probably end up cobbling together some combo of:
+
+- **LangFuse**, **Arize**, or **Phoenix** for observability
+- **AgentOps** for cost and behavior monitoring
+- Custom token guards and fallback strategies to stop runaway loops
+
+This tooling stack _isn’t optional_. It’s required to keep your system stable.
+
+And if you’re not already doing this? You’re not ready for agents in production — at least, not ones that impact real users or money.
+
+* * *
+
+So yeah. It’s not that agents are “bad.” They’re just a lot more expensive — financially, technically, and emotionally — than most people realize when they first start playing with them.
+
+The tricky part is that none of this shows up in the demo. In the demo, it looks clean. Controlled. Impressive.
+
+But in production, things leak. Systems loop. Context windows overflow. And you’re left explaining to your boss why your AI system spent $5,000 calculating the best time to send an email.
+
+## When Agents Actually Make Sense
+
+_\[Before we dive into agent success stories, a quick reality check: these are patterns observed from analyzing current implementations, not universal laws of software architecture. Your mileage may vary, and there are plenty of organizations successfully using workflows for scenarios where agents might theoretically excel. Consider these informed observations rather than divine commandments carved in silicon.\]_
+
+Alright. I’ve thrown a lot of caution tape around agent systems so far — but I’m not here to scare you off forever.
+
+Because sometimes, agents are _exactly_ what you need. They’re brilliant in ways that rigid workflows simply can’t be.
+
+The trick is knowing the difference between “I want to try agents because they’re cool” and “this use case actually needs autonomy.”
+
+Here are a few scenarios where agents genuinely earn their keep.
+
+### Dynamic Conversations With High Stakes
+
+Let’s say you’re building a customer support system. Some queries are straightforward — refund status, password reset, etc. A simple workflow handles those perfectly.
+
+But other conversations? They require adaptation. Back-and-forth reasoning. Real-time prioritization of what to ask next based on what the user says.
+
+That’s where agents shine.
+
+In these contexts, you’re not just filling out a form — you’re navigating a situation. Personalized troubleshooting, product recommendations, contract negotiations — things where the next step depends entirely on what just happened.
+
+Companies implementing agent-based customer support systems have reported wild ROI — we’re talking [112% to 457%](https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai) increases in efficiency and conversions, depending on the industry. Because when done right, agentic systems _feel_ smarter. And that leads to trust.
+
+### High-Value, Low-Volume Decision-Making
+
+Agents are expensive. But sometimes, the decisions they’re helping with are _more_ expensive.
+
+BCG helped a shipbuilding firm cut 45% of its engineering effort using a multi-agent design system. That’s worth it — because those decisions were tied to multi-million dollar outcomes.
+
+If you’re optimizing how to lay fiber optic cable across a continent or analyzing legal risks in a contract that affects your entire company — burning a few extra dollars on compute isn’t the problem. The _wrong_ decision is.
+
+Agents work here because the _cost of being wrong_ is way higher than the _cost of computing_.
+
+https://contributor.insightmediagroup.io/wp-content/uploads/2025/06/when-agents-win-683x1024.jpegImage by author
+
+### Open-Ended Research and Exploration
+
+There are problems where you literally can’t define a flowchart upfront — because you don’t know what the “right steps” are.
+
+Agents are great at diving into ambiguous tasks, breaking them down, iterating on what they find, and adapting in real-time.
+
+Think:
+
+- Technical research assistants that read, summarize, and compare papers
+- Product analysis bots that explore competitors and synthesize insights
+- Research agents that investigate edge cases and suggest hypotheses
+
+These aren’t problems with known procedures. They’re open loops by nature — and agents thrive in those.
+
+### **Multi-Step, Unpredictable Workflows**
+
+Some tasks have too many branches to hardcode — the kind where writing out all the “if this, then that” conditions becomes a full-time job.
+
+This is where agent loops can actually _simplify_ things, because the LLM handles the flow dynamically based on context, not pre-written logic.
+
+Think diagnostics, planning tools, or systems that need to factor in dozens of unpredictable variables.
+
+If your logic tree is starting to look like a spaghetti diagram made by a caffeinated octopus — yeah, maybe it’s time to let the model take the wheel.
+
+* * *
+
+So no, I’m not anti-agent (I actually love them!) I’m pro-alignment — matching the tool to the task.
+
+When the use case _needs_ flexibility, adaptation, and autonomy, then yes — bring in the agents. But only after you’re honest with yourself about whether you’re solving a real complexity… or just chasing a shiny abstraction.
+
+## When Workflows Are Obviously Better (But Less Exciting)
+
+_\[Again, these are observations drawn from industry analysis rather than ironclad rules. There are undoubtedly companies out there successfully using agents for regulated processes or cost-sensitive applications — possibly because they have specific requirements, exceptional expertise, or business models that change the economics. Think of these as strong starting recommendations, not limitations on what’s possible.\]_
+
+Let’s step back for a second.
+
+A lot of AI architecture conversations get stuck in hype loops — “Agents are the future!” “AutoGPT can build companies!” — but in actual production environments, most systems don’t need agents.
+
+They need something that works.
+
+That’s where workflows come in. And while they may not feel as futuristic, they are **incredibly effective** in the environments that most of us are building for.
+
+### Repeatable Operational Tasks
+
+If your use case involves clearly defined steps that rarely change — like sending follow-ups, tagging data, validating form inputs — a workflow will outshine an agent every time.
+
+It’s not just about cost. It’s about stability.
+
+You don’t want creative reasoning in your payroll system. You want the same result, every time, with no surprises. A well-structured pipeline gives you that.
+
+There’s nothing sexy about “process reliability” — until your agent-based system forgets what year it is and flags every employee as a minor.
+
+### Regulated, Auditable Environments
+
+Workflows are deterministic. That means they’re traceable. Which means if something goes wrong, you can show exactly what happened — step-by-step — with logs, fallbacks, and structured output.
+
+If you’re working in healthcare, finance, law, or government — places where **“we think the AI decided to try something new”** is not an acceptable answer — this matters.
+
+You can’t build a safe AI system without transparency. Workflows give you that by default.
+
+https://contributor.insightmediagroup.io/wp-content/uploads/2025/06/when-workflows-win-683x1024.jpegImage by author
+
+### High-Frequency, Low-Complexity Scenarios
+
+There are entire categories of tasks where the **cost per request** matters more than the sophistication of reasoning. Think:
+
+- Fetching info from a database
+- Parsing emails
+- Responding to FAQ-style queries
+
+A workflow can handle thousands of these requests per minute, at predictable costs and latency, with zero risk of runaway behavior.
+
+If you’re scaling fast and need to stay lean, a structured pipeline beats a clever agent.
+
+### Startups, MVPs, and Just-Get-It-Done Projects
+
+Agents require infrastructure. Monitoring. Observability. Cost tracking. Prompt architecture. Fallback planning. Memory design.
+
+If you’re not ready to invest in all of that — and most early-stage teams aren’t — agents are probably too much, too soon.
+
+Workflows let you move fast and learn how LLMs behave before you get into recursive reasoning and emergent behavior debugging.
+
+Think of it this way: workflows are how you **get to production**. Agents are how you scale specific use cases once you understand your system deeply.
+
+* * *
+
+One of the best mental models I’ve seen (shoutout to [Anthropic’s engineering blog](https://www.anthropic.com/engineering/building-effective-agents)) is this:
+
+> **Use workflows to build structure around the predictable. Use agents to explore the unpredictable.**
+
+Most real-world AI systems are a mix — and many of them lean heavily on workflows because **production doesn’t reward cleverness**. It rewards **resilience**.
+
+## A Decision Framework That Actually Works
+
+Here’s something I’ve learned (the hard way, of course): most bad architecture decisions don’t come from a lack of knowledge — they come from moving too fast.
+
+You’re in a sync. Someone says, “This feels a bit too dynamic for a workflow — maybe we just go with agents?”
+
+Everyone nods. It sounds reasonable. Agents are flexible, right?
+
+Fast forward three months: the system’s looping in weird places, the logs are unreadable, costs are spiking, and no one remembers who suggested using agents in the first place. You’re just trying to figure out why an LLM decided to summarize a refund request by booking a flight to Peru.
+
+So, let’s slow down for a second.
+
+This isn’t about picking the trendiest option — it’s about building something you can explain, scale, and actually maintain.
+
+The framework below is designed to make you pause and think clearly before the token bills stack up and your nice prototype turns into a very expensive choose-your-own-adventure story.
+
+https://contributor.insightmediagroup.io/wp-content/uploads/2025/06/Mediamodifier-Design1.svgImage by author
+
+### The Scoring Process: Because Single-Factor Decisions Are How Projects Die
+
+This isn’t a decision tree that bails out at the first “sounds good.” It’s a structured evaluation. You go through **five dimensions**, score each one, and see what the system is really asking for — not just what sounds fun.
+
+**Here’s how it works:**
+
+> - Each dimension gives **+2 points** to either workflow or agents.
+> - One question gives **+1 point** (reliability).
+> - Add it all up at the end — and trust the result more than your agent hype cravings.
+
+* * *
+
+### Complexity of the Task (2 points)
+
+Evaluate whether your use case has well-defined procedures. Can you write down steps that handle 80% of your scenarios without resorting to hand-waving?
+
+- Yes → +2 for **workflows**
+- No, there’s ambiguity or dynamic branching → +2 for **agents**
+
+If your instructions involve phrases like “and then the system figures it out” — you’re probably in agent territory.
+
+### Business Value vs. Volume (2 points)
+
+Assess the cold, hard economics of your use case. Is this a high-volume, cost-sensitive operation — or a low-volume, high-value scenario?
+
+- High-volume and predictable → +2 for **workflows**
+- Low-volume but high-impact decisions → +2 for **agents**
+
+Basically: if compute cost is more painful than getting something slightly wrong, workflows win. If being wrong is expensive and being slow loses money, agents might be worth it.
+
+### Reliability Requirements (1 point)
+
+Determine your tolerance for output variability — and be honest about what your business actually needs, not what sounds flexible and modern. How much output variability can your system tolerate?
+
+- Needs to be consistent and traceable (audits, reports, clinical workflows) → +1 for **workflows**
+- Can handle some variation (creative tasks, customer support, exploration) → +1 for **agents**
+
+This one’s often overlooked — but it directly affects how much guardrail logic you’ll need to write (and maintain).
+
+### Technical Readiness (2 points)
+
+Evaluate your current capabilities without the rose-colored glasses of “we’ll figure it out later.” What’s your current engineering setup and comfort level?
+
+- You’ve got logging, traditional monitoring, and a dev team that hasn’t yet built agentic infra → +2 for **workflows**
+- You already have observability, fallback plans, token tracking, and a team that understands emergent AI behavior → +2 for **agents**
+
+This is your system maturity check. Be honest with yourself. Hope is not a debugging strategy.
+
+### Organizational Maturity (2 points)
+
+Assess your team’s AI expertise with brutal honesty — this isn’t about intelligence, it’s about experience with the specific weirdness of AI systems. How experienced is your team with prompt engineering, tool orchestration, and LLM weirdness?
+
+- Still learning prompt design and LLM behavior → +2 for **workflows**
+- Comfortable with distributed systems, LLM loops, and dynamic reasoning → +2 for **agents**
+
+You’re not evaluating intelligence here — just experience with a specific class of problems. Agents demand a deeper familiarity with AI-specific failure patterns.
+
+* * *
+
+### Add Up Your Score
+
+After completing all five evaluations, calculate your total scores.
+
+- **Workflow score ≥ 6** → Stick with workflows. You’ll thank yourself later.
+- **Agent score ≥ 6** → Agents might be viable — _if_ there are no workflow-critical blockers.
+
+**Important**: This framework doesn’t tell you what’s coolest. It tells you what’s sustainable.
+
+A lot of use cases will lean workflow-heavy. That’s not because agents are bad — it’s because true agent readiness involves _many_ systems working in harmony: infrastructure, ops maturity, team knowledge, failure handling, and cost controls.
+
+And if any one of those is missing, it’s usually not worth the risk — yet.
+
+## The Plot Twist: You Don’t Have to Choose
+
+Here’s a realization I wish I’d had earlier: you don’t have to pick sides. The magic often comes from **hybrid systems** — where workflows provide stability, and agents offer flexibility. It’s the best of both worlds.
+
+Let’s explore how that actually works.
+
+### Why Hybrid Makes Sense
+
+Think of it as layering:
+
+1. **Reactive layer** (your workflow): handles predictable, high-volume tasks
+2. **Deliberative layer** (your agent): steps in for complex, ambiguous decisions
+
+This is exactly how many real systems are built. The workflow handles the 80% of predictable work, while the agent jumps in for the 20% that needs creative reasoning or planning
+
+### Building Hybrid Systems Step by Step
+
+Here’s a refined approach I’ve used (and borrowed from hybrid best practices):
+
+1. **Define the core workflow.**
+
+Map out your predictable tasks — data retrieval, vector search, tool calls, response synthesis.
+2. **Identify decision points.**
+
+Where might you _need_ an agent to decide things dynamically?
+3. **Wrap those steps with lightweight agents.**
+
+Think of them as scoped decision engines — they plan, act, reflect, then return answers to the workflow .
+4. **Use memory and plan loops wisely.**
+
+Give the agent just enough context to make smart choices without letting it go rogue.
+5. **Monitor and fail gracefully.**
+
+If the agent goes wild or costs spike, fall back to a default workflow branch. Keep logs and token meters running.
+6. **Human-in-the-loop checkpoint.**
+
+Especially in regulated or high-stakes flows, pause for human validation before agent-critical actions
+
+### When to Use Hybrid Approach
+
+| Scenario | Why Hybrid Works |
+| --- | --- |
+| Customer support | Workflow does easy stuff, agents adapt when conversations get messy |
+| Content generation | Workflow handles format and publishing; agent writes the body |
+| Data analysis/reporting | Agents summarize & interpret; workflows aggregate & deliver |
+| High-stakes decisions | Use agent for exploration, workflow for execution and compliance |
+
+When to use hybrid approach
+
+This aligns with how systems like WorkflowGen, n8n, and Anthropic’s own tooling advise building — stable pipelines with scoped autonomy.
+
+### Real Examples: Hybrid in Action
+
+#### A Minimal Hybrid Example
+
+Here’s a scenario I used with LangChain and LangGraph:
+
+- **Workflow stage**: fetch support tickets, embed & search
+- **Agent cell**: decide whether it’s a refund question, a complaint, or a bug report
+- **Workflow**: run the correct branch based on agent’s tag
+- **Agent stage**: if it’s a complaint, summarize sentiment and suggest next steps
+- **Workflow**: format and send response; log everything
+
+The result? Most tickets flow through without agents, saving cost and complexity. But when ambiguity hits, the agent steps in and adds real value. No runaway token bills. Clear traceability. Automatic fallbacks.
+
+This pattern splits the logic between a structured workflow and a scoped agent. ( **Note: this is a high-level demonstration**)
+
+```python
+from langchain.chat_models import init_chat_model
+from langchain_community.vectorstores.faiss import FAISS
+from langchain_openai import OpenAIEmbeddings
+from langchain.chains import create_retrieval_chain
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain_core.prompts import ChatPromptTemplate
+from langgraph.prebuilt import create_react_agent
+from langchain_community.tools.tavily_search import TavilySearchResults
+
+# 1. Workflow: set up RAG pipeline
+embeddings = OpenAIEmbeddings()
+vectordb = FAISS.load_local(
+    "docs_index",
+    embeddings,
+    allow_dangerous_deserialization=True
+)
+retriever = vectordb.as_retriever()
+
+system_prompt = (
+    "Use the given context to answer the question. "
+    "If you don't know the answer, say you don't know. "
+    "Use three sentences maximum and keep the answer concise.\n\n"
+    "Context: {context}"
+)
+prompt = ChatPromptTemplate.from_messages([\
+    ("system", system_prompt),\
+    ("human", "{input}"),\
+])
+
+llm = init_chat_model("openai:gpt-4.1", temperature=0)
+qa_chain = create_retrieval_chain(
+    retriever,
+    create_stuff_documents_chain(llm, prompt)
+)
+
+# 2. Agent: Set up agent with Tavily search
+search = TavilySearchResults(max_results=2)
+agent_llm = init_chat_model("anthropic:claude-3-7-sonnet-latest", temperature=0)
+agent = create_react_agent(
+    model=agent_llm,
+    tools=[search]
+)
+
+# Uncertainty heuristic
+def is_answer_uncertain(answer: str) -> bool:
+    keywords = [\
+        "i don't know", "i'm not sure", "unclear",\
+        "unable to answer", "insufficient information",\
+        "no information", "cannot determine"\
+    ]
+    return any(k in answer.lower() for k in keywords)
+
+def hybrid_pipeline(query: str) -> str:
+    # RAG attempt
+    rag_out = qa_chain.invoke({"input": query})
+    rag_answer = rag_out.get("answer", "")
+
+    if is_answer_uncertain(rag_answer):
+        # Fallback to agent search
+        agent_out = agent.invoke({
+            "messages": [{"role": "user", "content": query}]
+        })
+        return agent_out["messages"][-1].content
+
+    return rag_answer
+
+if __name__ == "__main__":
+    result = hybrid_pipeline("What are the latest developments in AI?")
+    print(result)
+
+```
+
+**What’s happening here:**
+
+- The workflow takes the first shot.
+- If the result seems weak or uncertain, the agent takes over.
+- You only pay the agent cost when you really need to.
+
+Simple. Controlled. Scalable.
+
+#### Advanced: Workflow-Controlled Multi-Agent Execution
+
+If your problem _really_ calls for multiple agents — say, in a research or planning task — structure the system as a **graph**, not a soup of recursive loops. ( **Note: this is a high level demonstration**)
+
+```python
+from typing import TypedDict
+from langgraph.graph import StateGraph, START, END
+from langchain.chat_models import init_chat_model
+from langgraph.prebuilt import ToolNode
+from langchain_core.messages import AnyMessage
+
+# 1. Define your graph's state
+class TaskState(TypedDict):
+    input: str
+    label: str
+    output: str
+
+# 2. Build the graph
+graph = StateGraph(TaskState)
+
+# 3. Add your classifier node
+def classify(state: TaskState) -> TaskState:
+    # example stub:
+    state["label"] = "research" if "latest" in state["input"] else "summary"
+    return state
+
+graph.add_node("classify", classify)
+graph.add_edge(START, "classify")
+
+# 4. Define conditional transitions out of the classifier node
+graph.add_conditional_edges(
+    "classify",
+    lambda s: s["label"],
+    path_map={"research": "research_agent", "summary": "summarizer_agent"}
+)
+
+# 5. Define the agent nodes
+research_agent = ToolNode([create_react_agent(...tools...)])
+summarizer_agent = ToolNode([create_react_agent(...tools...)])
+
+# 6. Add the agent nodes to the graph
+graph.add_node("research_agent", research_agent)
+graph.add_node("summarizer_agent", summarizer_agent)
+
+# 7. Add edges. Each agent node leads directly to END, terminating the workflow
+graph.add_edge("research_agent", END)
+graph.add_edge("summarizer_agent", END)
+
+# 8. Compile and run the graph
+app = graph.compile()
+final = app.invoke({"input": "What are today's AI headlines?", "label": "", "output": ""})
+print(final["output"])
+
+```
+
+This pattern gives you:
+
+- **Workflow-level control** over routing and memory
+- **Agent-level reasoning** where appropriate
+- **Bounded loops** instead of infinite agent recursion
+
+This is how tools like LangGraph are designed to work: **structured autonomy**, not free-for-all reasoning.
+
+## Production Deployment — Where Theory Meets Reality
+
+All the architecture diagrams, decision trees, and whiteboard debates in the world won’t save you if your AI system falls apart the moment real users start using it.
+
+Because that’s where things get messy — the inputs are noisy, the edge cases are endless, and users have a magical ability to break things in ways you never imagined. Production traffic has a personality. It will test your system in ways your dev environment never could.
+
+And that’s where most AI projects stumble.
+
+The demo works. The prototype impresses the stakeholders. But then you go live — and suddenly the model starts hallucinating customer names, your token usage spikes without explanation, and you’re ankle-deep in logs trying to figure out why everything broke at 3:17 a.m. (True story!)
+
+This is the gap between a cool proof-of-concept and a system that actually holds up in the wild. It’s also where the difference between workflows and agents stops being philosophical and starts becoming very, very operational.
+
+Whether you’re using agents, workflows, or some hybrid in between — once you’re in production, it’s a different game.
+
+You’re no longer trying to prove that the AI _can_ work.
+
+You’re trying to make sure it works **reliably, affordably, and safely** — every time.
+
+So what does that actually take?
+
+Let’s break it down.
+
+### Monitoring (Because “It Works on My Machine” Doesn’t Scale)
+
+Monitoring an agent system isn’t just “nice to have” — it’s survival gear.
+
+You can’t treat agents like regular apps. Traditional APM tools won’t tell you why an LLM decided to loop through a tool call 14 times or why it burned 10,000 tokens to summarize a paragraph.
+
+You need observability tools that speak the agent’s language. That means tracking:
+
+- token usage patterns,
+- tool call frequency,
+- response latency distributions,
+- task completion outcomes,
+- and cost per interaction — **in real time**.
+
+This is where tools like **LangFuse**, **AgentOps**, and **Arize Phoenix** come in. They let you peek into the black box — see what decisions the agent is making, how often it’s retrying things, and what’s going off the rails before your budget does.
+
+Because when something breaks, “the AI made a weird choice” is not a helpful bug report. You need traceable reasoning paths and usage logs — not just vibes and token explosions.
+
+Workflows, by comparison, are way easier to monitor.
+
+You’ve got:
+
+- response times,
+- error rates,
+- CPU/memory usage,
+- and request throughput.
+
+All the usual stuff you already track with your standard APM stack — Datadog, Grafana, Prometheus, whatever. No surprises. No loops trying to plan their next move. Just clean, predictable execution paths.
+
+So yes — both need monitoring. But agent systems demand a whole new layer of visibility. If you’re not prepared for that, production will make sure you learn it the hard way.
+
+https://contributor.insightmediagroup.io/wp-content/uploads/2025/06/image-116.pngImage by author
+
+### Cost Management (Before Your CFO Stages an Intervention)
+
+Token consumption in production can spiral out of control faster than you can say “autonomous reasoning.”
+
+It starts small — a few extra tool calls here, a retry loop there — and before you know it, you’ve burned through half your monthly budget debugging a single conversation. Especially with agent systems, costs don’t just add up — they compound.
+
+That’s why smart teams treat **cost management like infrastructure**, not an afterthought.
+
+Some common (and necessary) strategies:
+
+- **Dynamic model routing** — Use lightweight models for simple tasks, save the expensive ones for when it actually matters.
+- **Caching** — If the same question comes up a hundred times, you shouldn’t pay to answer it a hundred times.
+- **Spending alerts** — Automated flags when usage gets weird, so you don’t learn about the problem from your CFO.
+
+With agents, this matters even more.
+
+Because once you hand over control to a reasoning loop, you lose visibility into how many steps it’ll take, how many tools it’ll call, and how long it’ll “think” before returning an answer.
+
+If you don’t have real-time cost tracking, per-agent budget limits, and graceful fallback paths — you’re just one prompt away from a very expensive mistake.
+
+Agents are smart. But they’re not cheap. Plan accordingly.
+
+Workflows need cost management too.
+
+If you’re calling an LLM for every user request, especially with retrieval, summarization, and chaining steps — the numbers add up. And if you’re using GPT-4 everywhere out of convenience? You’ll feel it on the invoice.
+
+But workflows are _predictable_. You know how many calls you’re making. You can precompute, batch, cache, or swap in smaller models without disrupting logic. Cost scales linearly — and predictably.
+
+### Security (Because Autonomous AI and Security Are Best Friends)
+
+AI security isn’t just about guarding endpoints anymore — it’s about preparing for systems that can make their own decisions.
+
+That’s where the concept of **shifting left** comes in — bringing security earlier into your development lifecycle.
+
+> Instead of bolting on security after your app “works,” shift-left means designing with security from day one: during prompt design, tool configuration, and pipeline setup.
+
+With **agent-based systems**, you’re not just securing a predictable app. You’re securing something that can autonomously decide to call an API, access private data, or trigger an external action — often in ways you didn’t explicitly program. That’s a very different threat surface.
+
+This means your security strategy needs to evolve. You’ll need:
+
+- **Role-based access control** for every tool an agent can access
+- **Least privilege enforcement** for external API calls
+- **Audit trails** to capture every step in the agent’s reasoning and behavior
+- **Threat modeling** for novel attacks like prompt injection, agent impersonation, and collaborative jailbreaking (yes, that’s a thing now)
+
+Most traditional app security frameworks assume the code defines the behavior. But with agents, the behavior is dynamic, shaped by prompts, tools, and user input. If you’re building with autonomy, you need **security controls designed for unpredictability**.
+
+* * *
+
+But what about **workflows**?
+
+They’re easier — but not risk-free.
+
+Workflows are deterministic. You define the path, you control the tools, and there’s no decision-making loop that can go rogue. That makes security simpler and more testable — especially in environments where compliance and auditability matter.
+
+Still, workflows touch sensitive data, integrate with third-party services, and output user-facing results. Which means:
+
+- Prompt injection is still a concern
+- Output sanitation is still essential
+- API keys, database access, and PII handling still need protection
+
+For workflows, “shifting left” means:
+
+- Validating input/output formats early
+- Running prompt tests for injection risk
+- Limiting what each component can access, even if it “seems safe”
+- Automating red-teaming and fuzz testing around user inputs
+
+It’s not about paranoia — it’s about protecting your system before things go live and real users start throwing unexpected inputs at it.
+
+* * *
+
+Whether you’re building agents, workflows, or hybrids, the rule is the same:
+
+> **If your system can generate actions or outputs, it can be exploited.**
+
+So build like someone _will_ try to break it — because eventually, someone probably will.
+
+### Testing Methodologies (Because “Trust but Verify” Applies to AI Too)
+
+Testing production AI systems is like quality-checking a very smart but slightly unpredictable intern.
+
+They mean well. They usually get it right. But every now and then, they surprise you — and not always in a good way.
+
+That’s why you need **layers of testing**, especially when dealing with agents.
+
+For **agent systems**, a single bug in reasoning can trigger a whole chain of weird decisions. One wrong judgment early on can snowball into broken tool calls, hallucinated outputs, or even data exposure. And because the logic lives inside a prompt, not a static flowchart, you can’t always catch these issues with traditional test cases.
+
+A solid testing strategy usually includes:
+
+- **Sandbox environments** with carefully designed mock data to stress-test edge cases
+- **Staged deployments** with limited real data to monitor behavior before full rollout
+- **Automated regression tests** to check for unexpected changes in output between model versions
+- **Human-in-the-loop reviews** — because some things, like tone or domain nuance, still need human judgment
+
+For agents, this isn’t optional. It’s the only way to stay ahead of unpredictable behavior.
+
+* * *
+
+But what about **workflows**?
+
+They’re easier to test — and honestly, that’s one of their biggest strengths.
+
+Because workflows follow a deterministic path, you can:
+
+- Write unit tests for each function or tool call
+- Mock external services cleanly
+- Snapshot expected inputs/outputs and test for consistency
+- Validate edge cases without worrying about recursive reasoning or planning loops
+
+You still want to test prompts, guard against prompt injection, and monitor outputs — but the surface area is smaller, and the behavior is traceable. You know what happens when Step 3 fails, because you wrote Step 4.
+
+**Workflows don’t remove the need for testing — they make it testable.**
+
+That’s a big deal when you’re trying to ship something that won’t fall apart the moment it hits real-world data.
+
+## The Honest Recommendation: Start Simple, Scale Intentionally
+
+If you’ve made it this far, you’re probably not looking for hype — you’re looking for a system that actually works.
+
+So here’s the honest, slightly unsexy advice:
+
+> **Start with workflows. Add agents only when you can clearly justify the need.**
+
+Workflows may not feel revolutionary, but they are reliable, testable, explainable, and cost-predictable. They teach you how your system behaves in production. They give you logs, fallback paths, and structure. And most importantly: **they scale.**
+
+That’s not a limitation. That’s maturity.
+
+It’s like learning to cook. You don’t start with molecular gastronomy — you start by learning how to not burn rice. Workflows are your rice. Agents are the foam.
+
+And when you do run into a problem that actually _needs_ dynamic planning, flexible reasoning, or autonomous decision-making — you’ll know. It won’t be because a tweet told you agents are the future. It’ll be because you hit a wall workflows can’t cross. And at that point, you’ll be ready for agents — and your infrastructure will be, too.
+
+Look at the Mayo Clinic. [They run **14 algorithms on every ECG**](https://newsnetwork.mayoclinic.org/discussion/mayo-clinic-launches-new-technology-platform-ventures-to-revolutionize-diagnostic-medicine/#:~:text=Mayo%20Clinic%20and%20AI%2Ddriven%20health%20technology%20company,to%20Mayo%27s%20deep%20repository%20of%20medical%20data.)— not because it’s trendy, but because it improves diagnostic accuracy at scale. Or take [Kaiser Permanente](https://healthinnovation.ucsd.edu/news/11-health-systems-leading-in-ai), which says its AI-powered clinical support systems have helped save _hundreds of lives each year_.
+
+These aren’t tech demos built to impress investors. These are real systems, in production, handling millions of cases — quietly, reliably, and with huge impact.
+
+The secret? It’s not about choosing agents or workflows.
+
+It’s about understanding the problem deeply, picking the right tools deliberately, and building for resilience — not for flash.
+
+Because in the real world, value comes from what works.
+
+Not what wows.
+
+* * *
+
 </details>
 
----
 <details>
-<summary>Real Agents vs. Workflows: The Truth Behind AI 'Agents'</summary>
-
-This video provides a detailed explanation differentiating between what most people currently call "AI agents" and what a "real agent" truly entails, drawing heavily on perspectives from Anthropic and others in the AI community.
-
-The video begins by stating that **what most people refer to as "agents" are often not true agents**. The speaker admits a change in perspective after seeing a recent article by Anthropic that aligns with a more rigorous definition.
-
-Here's a breakdown of the key points:
-
-### What is *Not* a Real Agent (Workflows)
-
-The vast majority of what is labeled an "agent" falls into the category of **"workflows"**. These are described as:
-
-*   **Simple API calls to a language model (LLM)**: This involves just a few lines of code and a prompt, allowing the system to reply to users but not act independently or make decisions.
-*   **LLMs with tool access**: This involves giving an LLM access to tools and their documentation, such as the ability to execute SQL queries in a database or access private knowledge. The code for these actions is pre-programmed, with the LLM generating queries that the code then executes, and outputs are sent back to the LLM to formulate an answer.
-*   **Hardcoded processes**: Workflows are essentially programs that are made and controlled by developers. They follow specific code lines and integrations, and their behavior is largely predictable, except for the LLM's outputs.
-*   **Highly useful and powerful**: Despite not being "agents," workflows are "pretty damn useful" and can be "quite complex and advanced". They are responsible for most advanced AI applications seen today because they are **consistent and predictable**.
-*   **Characteristics and Capabilities of Workflows**:
-    *   Can implement **intelligent routers** to decide which tool to use and when, or which prompt to employ based on conditions.
-    *   Can access various databases and decide which ones to query.
-    *   Can execute tasks through action tools via code.
-    *   Can work in parallel for efficiency.
-    *   Can feature a **main orchestrator model** that selects different "fellow models" for specific tasks and synthesizes results (e.g., deciding if a user query needs a dataset query and then using a "SQL agent" to execute it).
-*   **Examples of Workflows**:
-    *   **ChatGPT**: Described as a workflow that sometimes uses "canvases" (likely referring to specific tools or modes) and sometimes directly answers questions, even complex ones. It is still all hardcoded.
-    *   **Crew AI's "agents"**: These function like predefined workflows assigned to specific tasks.
-    *   **Cursor**: Advanced workflows like Cursor are noted for not having as many issues as early agentic systems.
-*   **When to use workflows**: If you know exactly what your system needs to do, even if it's advanced, a workflow is the appropriate solution.
-
-### What *Is* a Real Agent
-
-In contrast to workflows, a **real agent** is something much more sophisticated and independent.
-
-*   **Independent Functionality**: A real agent functions independently.
-*   **System 2 Thinking**: It is capable of **genuine reasoning, reflection, and recognizing when it lacks knowledge**. This is akin to "system 2 thinking," which is deliberate and reflective, as opposed to "system 1 thinking," which is fast, automatic, and purely based on patterns and learned responses. New models like OpenAI's new 01 and 03 series are beginning to explore system 2-like approaches by having models reason internally before generating responses.
-*   **Dynamic Tool Usage and Decision-Making**: A real agent not only knows how to use tools but also **decides when and why to use them** based on deliberate reasoning. It dynamically directs its own processes and tool usage, maintaining control over how it accomplishes tasks.
-*   **Planning and Interaction**: Real agents make a plan by exchanging information with the user, understanding their needs, and iterating at a reasoning level to decide on the steps to solve a problem. Ideally, they would even ask for more information or clarification instead of hallucinating.
-*   **Replacing a Role/Task**: Agents can be seen as almost **replacing someone or a role in a workflow**. There is no hardcoded path; the agentic system makes its own decisions.
-*   **Requirements**: Real agents require a **very powerful LLM**, better than current ones, and an environment in which to evolve, such as a discussion with a user, along with access to tools they can use whenever they see fit.
-
-### Challenges and Current Limitations of Real Agents
-
-Building true agents is significantly more difficult with current models, and the promise often outweighs the present capabilities.
-
-*   **Difficulty in Achievement**: The vision of a flexible, adaptable, independent agent is far harder to achieve with current models.
-*   **Reliability Issues**: Current language models are "strangely unreliable" and "get confused," despite showing "dramatically superhuman performance on evals".
-*   **Practical Drawbacks**: True agentic systems are:
-    *   More susceptible to failures.
-    *   More expensive to run and use.
-    *   Add latency.
-    *   Their results, when they work, are often **completely inconsistent** and "not that exciting now".
-
-### Examples of Agentic Systems and Their Shortcomings
-
-The video provides examples of systems that aim to be true agents but still face significant challenges:
-
-*   **Devin**: Positioned as a **fully autonomous software engineer** with its own computing environment, designed to handle tasks like API integrations and real-time problem-solving independently. While it "offers an intriguing glimpse" into agentic systems, extensive testing showed it **struggles with complex or autonomous tasks**, often providing overcomplicated solutions or pursuing unfeasible paths, despite excelling at simpler, well-defined tasks. Devin aligns with Anthropic's vision but struggles with inconsistency.
-*   **Anthropic's Computer Use**: This system aimed to create an autonomous agent with access to a computer, embodying characteristics of a true agent: autonomous decision-making, dynamic tool usage, and environmental interaction. Despite initial hype and promising goals (to replace anyone on a computer), its "decline also serves as a reminder of the challenges in creating practical agentic systems that not only work as intended but do so systematically".
-
-### Conclusion and Recommendations
-
-The overarching message is that **LLMs are simply not ready yet for becoming true agents**.
-
-*   For most problems, the recommendation is to **aim for the simplest possible solution** that can be easily iterated and debugged. This often means using simple LLM calls, perhaps complemented with external knowledge through retrieval systems or light fine-tuning.
-*   The effort, time, and money for pursuing true agents should be reserved for **"really complex problems that cannot be solved otherwise"**.
-
-### Sponsor Mention
-
-The video also includes a sponsor, **Originality.ai**, an "awesome tool" designed to detect AI-generated content, check for plagiarism, grammar, readability, and fact-check work, all based on state-of-the-art language models and systems.
-
-### Original URL
-https://www.youtube.com/watch?v=kQxr-uOxw2o&t=1s
-</details>
-
----
-<details>
-<summary>Build Production Agentic RAG With LLMOps at Its Core</summary>
+<summary>build-production-agentic-rag-with-llmops-at-its-core</summary>
 
 ## LLMOps for production agentic RAG
 
@@ -2016,17 +3108,29 @@ Next, we will move to our **observability pipeline,** which evaluates the agents
 **While going through this lesson, we will learn the following:**
 
 - Understand what an agent is, how it differs from workflows, and why it’s useful.
+
 - Architect the Agentic RAG module, understanding its components and data flow.
+
 - Build and monitor an agentic LLM application using SmolAgents and Opik.
+
 - Implement prompt monitoring pipelines to track input/output, latency, and metadata.
+
 - Explore RAG evaluation metrics like moderation, hallucination, and answer relevance.
+
 - Create custom evaluation metrics, integrating heuristics and LLM judges.
+
 - Automate observability, ensuring real-time performance tracking.
+
 - Interact with the Second Brain AI assistant via CLI or a beautiful Gradio UI.
+
+
+https://substackcdn.com/image/fetch/$s_!cdC1!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F936af09a-fd2d-4559-905f-4a42e1a3ce9a_1166x1082.png
+
+Let’s get started. Enjoy!
 
 ---
 
-## 1\. Understanding how LLM-powered agents work
+## 1. Understanding how LLM-powered agents work
 
 LLM-powered agents combine a **language model, tools, and memory** to process information and take action.
 
@@ -2035,6 +3139,8 @@ They don’t just generate text—they **reason, retrieve data, and interact wit
 At its core, an agent takes in an input, analyzes what needs to be done, and decides the best way to respond. Instead of working in isolation, it can tap into external tools like APIs, databases, or plugins to enhance its capabilities.
 
 With the reasoning power of LLMs, the agent doesn’t just react—it strategizes. It breaks down the task, plans the necessary steps, and takes action to get the job done efficiently.
+
+https://substackcdn.com/image/fetch/$s_!gLNT!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F67ffe267-55f2-4af7-9910-7410c7605550_1220x754.png
 
 The most popular way to design agents is by using the ReAct framework, which models the agent as follows:
 
@@ -2046,17 +3152,19 @@ Now, let’s understand how agents and RAG fit together.
 
 ---
 
-## 2\. Researching Agentic RAG
+## 2. Researching Agentic RAG
 
 Unlike a traditional RAG setup's linear, step-by-step nature, Agentic RAG puts an agent at the center of decision-making.
 
-Instead of passively retrieving and generating responses, the agent actively directs the process—deciding what to search for, how to refine queries, and when to use external tools, such as SQL, vector, or graph databases.
+Instead of passively retrieving and generating responses,the agent actively directs the process—deciding what to search for, how to refine queries, and when to use external tools, such as SQL, vector, or graph databases.
+
+https://substackcdn.com/image/fetch/$s_!ZnV_!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4c59d9df-d60f-47bc-81de-cfd4fdebf5f8_1210x704.png
 
 For example, instead of querying the vector database just once (what we usually do in a standard RAG workflow), the agent might decide that after its first query, it doesn’t have enough information to provide an answer, making another request to the vector database with a different query.
 
 ---
 
-## 3\. Exploring the difference between agents and workflows
+## 3. Exploring the difference between agents and workflows
 
 Now that we’ve explored LLM-powered agents and Agentic RAGs, let’s take a step back and look at a broader question: “ **How do agents differ from workflows?”** While both help automate tasks, they operate in fundamentally different ways.
 
@@ -2066,13 +3174,15 @@ In contrast, an agent **dynamically decides** what to do next **based on reasoni
 
 Think of a workflow as an assembly line, executing tasks in order, while an agent is like an intelligent assistant, capable of adjusting its approach in real time. This flexibility makes agents powerful for handling unstructured, complex problems that require dynamic decision-making.
 
+https://substackcdn.com/image/fetch/$s_!yBni!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5e64d5e0-7ef1-4e7f-b441-3bf1fef4ff9a_1276x818.png
+
 Therefore, the trade-off between reliability and adaptability is key—workflows offer stability but are rigid, while agents provide flexibility by making dynamic decisions at the cost of consistency.
 
 Now that we understand the basics of working with agents, let’s dive into the architecture of our Second Brain agent.
 
 ---
 
-## 4\. Architecting the Agentic RAG module
+## 4. Architecting the Agentic RAG module
 
 When architecting the Agentic RAG module, the goal is to build an intelligent system that efficiently combines retrieval, reasoning, and summarization to generate high-quality responses tailored to user queries.
 
@@ -2122,6 +3232,8 @@ The interface allows us to track how the agent selects and uses tools during int
 
 For instance, we can see when it calls the **[MongoDB vector search tool](https://www.mongodb.com/products/platform/atlas-vector-search?utm_campaign=ai-pilot&utm_medium=creator&utm_term=iusztin&utm_source=blog)** to retrieve relevant data and how it cycles between retrieving information and reasoning before generating a response.
 
+https://substackcdn.com/image/fetch/$s_!bqEU!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb30a1f89-0c60-4a28-b87a-5390262f1500_1170x1065.png
+
 The agentic inference pipeline is designed to handle user queries in real time, orchestrating a seamless data flow from input to response. To understand how information moves through the system, we break down the interaction between the user, the retrieval process, and the summarization mechanism.
 
 When a user submits a query through the **Gradio UI**, the **Agentic Layer**, an LLM-powered agent, dynamically determines the most suitable tool to process the request.
@@ -2140,7 +3252,7 @@ Now that we understand how the agent works, let’s dig into how we can evaluate
 
 ---
 
-## 5\. Understanding how to evaluate an agentic RAG application
+## 5. Understanding how to evaluate an agentic RAG application
 
 When evaluating an Agentic RAG application, it’s important to distinguish between two primary evaluation approaches: **LLM evaluation** and **Application/RAG evaluation**. Each serves a different purpose, and while LLM evaluation assesses the model in isolation, Application/RAG evaluation tests the entire application as a system.
 
@@ -2216,7 +3328,7 @@ Other proprietary alternatives include **Langfuse**, **Langsmith**, which is dee
 
 ---
 
-## 6\. Architecting the observability pipeline
+## 6. Architecting the observability pipeline
 
 ​In our observability pipeline, implemented with **[Opik](https://github.com/comet-ml/opik)**, we combine monitoring and evaluation to ensure our application runs smoothly. Monitoring tracks all activities, while evaluation assesses performance and correctness.
 
@@ -2242,6 +3354,24 @@ Opik enables us to monitor latency across every phase of the generation process�
 
 Latency is crucial to the user experience, as it includes multiple factors such as Time to First Token (TTFT), Time Between Tokens (TBT), Tokens Per Second (TPS), and Total Latency. Tracking these metrics helps us optimize response generation and manage hosting costs effectively.
 
+Figure 5 provides an overview of how **[Opik](https://www.comet.com/opik?utm_source=paul_2nd_brain_course&utm_campaign=opik&utm_medium=lessons)** logs and tracks prompt traces, helping us analyze inputs, outputs, and execution times for better performance monitoring.
+
+https://www.comet.com/opik?utm_source=paul_2nd_brain_course&utm_campaign=opik&utm_medium=lessons
+
+You can **[visualize](https://www.comet.com/opik?utm_source=paul_2nd_brain_course&utm_campaign=opik&utm_medium=lessons)** details of the execution flow of a prompt, including its input, output, and latency at each step, as displayed in Figure 6. It helps us track the steps taken during processing, analyze latency at each stage, and identify potential inefficiencies.
+
+https://substackcdn.com/image/fetch/$s_!qZDa!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F49ea5358-cfbd-4c22-80fb-e57555c9f5e4_2538x1356.png
+
+Finally, in Figure 7, we can also **[visualize](https://www.comet.com/opik?utm_source=paul_2nd_brain_course&utm_campaign=opik&utm_medium=lessons)** key metadata like retrieval parameters, system prompts, and model settings, providing deeper insights into prompt execution context:
+
+https://substackcdn.com/image/fetch/$s_!3qUW!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F06a65f34-04cd-4daf-9044-6ff24083ce35_2522x1726.png
+
+For more details on observability with Opik, check out their [documentation](https://www.comet.com/docs/opik/tracing/log_traces?utm_source=paul_2nd_brain_course&utm_campaign=opik&utm_medium=lessons):
+
+[MORE ON OBSERVABILITY WITH OPIK](https://www.comet.com/docs/opik/tracing/log_traces?utm_source=paul_2nd_brain_course&utm_campaign=opik&utm_medium=lessons)
+
+The last step is to understand the RAG evaluation pipeline.
+
 #### **The RAG evaluation pipeline**
 
 As previously mentioned, the RAG evaluation pipeline assesses the performance of our agentic RAG module, which performs application/RAG evaluation.
@@ -2252,13 +3382,19 @@ This flow can also run as an offline batch pipeline during development to assess
 
 Post-deployment, it can run on a schedule to evaluate random samples from production, maintaining consistent application performance. If metrics fall below a certain threshold, we can hook an alarm system that notifies us to address potential issues promptly.
 
-By implementing these components with Opik, we maintain a robust observability pipeline that ensures our application operates efficiently.
+Figure 8 illustrates the results of an evaluation experiment conducted on our RAG module. It displays both the built-in and the custom performance metrics configured by us.
 
-A final note is how similar a prompt management tool, such as Opik, is to more standard experiment tracking tools, such as Comet, W&B and MLFlow. But instead of being focused on simple metrics, it’s built around the prompts as their first-class citizen.
+https://substackcdn.com/image/fetch/$s_!S27v!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fddae553e-205c-4c68-98a4-e52a9281c7bc_2908x1096.png
+
+**[Opik](https://www.comet.com/opik?utm_source=paul_2nd_brain_course&utm_campaign=opik&utm_medium=lessons)** allows us to compare multiple experiments side by side. This comparison helps track performance trends over time, making refining and improving our models easier.
+
+https://substackcdn.com/image/fetch/$s_!Dj6n!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fca348d2f-f918-4c2e-9868-ad82b8f6bde1_2912x1064.png
+
+By implementing these components with Opik, we maintain a robust observability pipeline that ensures our application operates efficiently.
 
 ---
 
-## 7\. Implementing the agentic RAG module
+## 7. Implementing the agentic RAG module
 
 Now that we’ve understood what it takes to build the agentic RAG and observability pipelines, let’s start implementing them.
 
@@ -2270,7 +3406,7 @@ Since prompt monitoring is closely tied to agent execution, here we will also co
 
 The core of our agentic RAG module starts with `get_agent()`, a method responsible for initializing the agent:
 
-```
+```python
 def get_agent(retriever_config_path: Path) -> "AgentWrapper":
     agent = AgentWrapper.build_from_smolagents(
         retriever_config_path=retriever_config_path
@@ -2282,13 +3418,11 @@ This function builds an `AgentWrapper`, which is a custom class we implemented t
 
 Building the agent requires a retriever configuration to create the MongoDB retriever tool. As a reminder from Lesson 5, we support multiple retrieval strategies based on retriever type (e.g., parent or contextual), embedding models, and other parameters.
 
-> _**Note**: The retrieval setup is essentially copied from the offline Second Brain app in Lesson 5, ensuring consistency in document search and retrieval methods. This means the retriever is loaded exactly as it was implemented in the previous version, preserving the same retrieval logic and configurations._
-
 #### Wrapping the agent for monitoring
 
 The `AgentWrapper` class extends the base agent to incorporate metadata tracking with Opik. This ensures that every action taken by the agent is logged and traceable:
 
-```
+```python
 class AgentWrapper:
     def __init__(self, agent: MultiStepAgent) -> None:
         self.__agent = agent
@@ -2310,35 +3444,35 @@ We use composition to wrap the `MultiStepAgent` from SmolAgents and expose its p
 
 Next, we define a method to build the agent, specifying the retriever configuration and integrating the 3 tools necessary for execution:
 
-```
+```python
 @classmethod
-    def build_from_smolagents(cls, retriever_config_path: Path) -> "AgentWrapper":
-        retriever_tool = MongoDBRetrieverTool(config_path=retriever_config_path)
-        if settings.USE_HUGGINGFACE_DEDICATED_ENDPOINT:
-            logger.warning(
-                f"Using Hugging Face dedicated endpoint as the summarizer with URL: {settings.HUGGINGFACE_DEDICATED_ENDPOINT}"
-            )
-            summarizer_tool = HuggingFaceEndpointSummarizerTool()
-        else:
-            logger.warning(
-                f"Using OpenAI as the summarizer with model: {settings.OPENAI_MODEL_ID}"
-            )
-            summarizer_tool = OpenAISummarizerTool(stream=False)
-
-        model = LiteLLMModel(
-            model_id=settings.OPENAI_MODEL_ID,
-            api_base="https://api.openai.com/v1",
-            api_key=settings.OPENAI_API_KEY,
+def build_from_smolagents(cls, retriever_config_path: Path) -> "AgentWrapper":
+    retriever_tool = MongoDBRetrieverTool(config_path=retriever_config_path)
+    if settings.USE_HUGGINGFACE_DEDICATED_ENDPOINT:
+        logger.warning(
+            f"Using Hugging Face dedicated endpoint as the summarizer with URL: {settings.HUGGINGFACE_DEDICATED_ENDPOINT}"
         )
-
-        agent = ToolCallingAgent(
-            tools=[what_can_i_do, retriever_tool, summarizer_tool],
-            model=model,
-            max_steps=3,
-            verbosity_level=2,
+        summarizer_tool = HuggingFaceEndpointSummarizerTool()
+    else:
+        logger.warning(
+            f"Using OpenAI as the summarizer with model: {settings.OPENAI_MODEL_ID}"
         )
+        summarizer_tool = OpenAISummarizerTool(stream=False)
 
-        return cls(agent)
+    model = LiteLLMModel(
+        model_id=settings.OPENAI_MODEL_ID,
+        api_base="https://api.openai.com/v1",
+        api_key=settings.OPENAI_API_KEY,
+    )
+
+    agent = ToolCallingAgent(
+        tools=[what_can_i_do, retriever_tool, summarizer_tool],
+        model=model,
+        max_steps=3,
+        verbosity_level=2,
+    )
+
+    return cls(agent)
 ```
 
 This method builds the agent by selecting the retriever configuration, which defines how the MongoDB retriever tool is created and configured.
@@ -2353,30 +3487,30 @@ Finally, all tools, along with the LLM model, are wrapped inside a `ToolCallingA
 
 Now that our agent is built, we can define its run function:
 
-```
+```python
 @opik.track(name="Agent.run")
-    def run(self, task: str, **kwargs) -> Any:
-        result = self.__agent.run(task, **kwargs)
+def run(self, task: str, **kwargs) -> Any:
+    result = self.__agent.run(task, **kwargs)
 
-        model = self.__agent.model
-        metadata = {
-            "system_prompt": self.__agent.system_prompt,
-            "system_prompt_template": self.__agent.system_prompt_template,
-            "tool_description_template": self.__agent.tool_description_template,
-            "tools": self.__agent.tools,
-            "model_id": self.__agent.model.model_id,
-            "api_base": self.__agent.model.api_base,
-            "input_token_count": model.last_input_token_count,
-            "output_token_count": model.last_output_token_count,
-        }
-        if hasattr(self.__agent, "step_number"):
-            metadata["step_number"] = self.__agent.step_number
-        opik_context.update_current_trace(
-            tags=["agent"],
-            metadata=metadata,
-        )
+    model = self.__agent.model
+    metadata = {
+        "system_prompt": self.__agent.system_prompt,
+        "system_prompt_template": self.__agent.system_prompt_template,
+        "tool_description_template": self.__agent.tool_description_template,
+        "tools": self.__agent.tools,
+        "model_id": self.__agent.model.model_id,
+        "api_base": self.__agent.model.api_base,
+        "input_token_count": model.last_input_token_count,
+        "output_token_count": model.last_output_token_count,
+    }
+    if hasattr(self.__agent, "step_number"):
+        metadata["step_number"] = self.__agent.step_number
+    opik_context.update_current_trace(
+        tags=["agent"],
+        metadata=metadata,
+    )
 
-        return result
+    return result
 ```
 
 The `run` method tracks every execution of the agent using Opik’s `@track()` decorator. It logs key metadata, including the system prompt, tool descriptions, model details, and token counts within the current trace.
@@ -2391,7 +3525,7 @@ It matches a user query to the most relevant stored documents, helping the agent
 
 To integrate the tool with our agent, we must inherit from the `Tool ` class from SmolAgents. We also have to specify the name, description, inputs, and output type that the LLM uses to infer what the tool does and what its interface is. These are critical elements in integrating your tool with an LLM, as they are the only properties used to integrate the tool with the LLM:
 
-```
+```python
 class MongoDBRetrieverTool(Tool):
     name = "mongodb_vector_search_retriever"
     description = """Use this tool to search and retrieve relevant documents from a knowledge base using semantic search.
@@ -2428,85 +3562,65 @@ class MongoDBRetrieverTool(Tool):
             k=5,
             device=config["device"],
         )
-
 ```
 
 The retriever tool is initialized with parameters from one of the retriever config files defined in Lesson 5. The settings include essential parameters such as the embedding model and retrieval type.
 
 Now, we get to the core part of the tool, which is the `forward` method. This method is called when the AI agent uses the tool to search for information.
 
-The `forward` method takes a query from the agent, searches for relevant documents, and returns the results in a format the agent can use.
-
-The method is decorated with `@track`, which means its performance is being monitored with Opik. Before performing the actual search, the method first extracts important search parameters:
-
-```
+```python
 @track(name="MongoDBRetrieverTool.forward")
-    def forward(self, query: str) -> str:
-        if hasattr(self.retriever, "search_kwargs"):
-            search_kwargs = self.retriever.search_kwargs
-        else:
-            try:
-                search_kwargs = {
-                    "fulltext_penalty": self.retriever.fulltext_penalty,
-                    "vector_score_penalty": self.retriever.vector_penalty,
-                    "top_k": self.retriever.top_k,
-                }
-            except AttributeError:
-                logger.warning("Could not extract search kwargs from retriever.")
+def forward(self, query: str) -> str:
+    if hasattr(self.retriever, "search_kwargs"):
+        search_kwargs = self.retriever.search_kwargs
+    else:
+        try:
+            search_kwargs = {
+                "fulltext_penalty": self.retriever.fulltext_penalty,
+                "vector_score_penalty": self.retriever.vector_penalty,
+                "top_k": self.retriever.top_k,
+            }
+        except AttributeError:
+            logger.warning("Could not extract search kwargs from retriever.")
 
-                search_kwargs = {}
+            search_kwargs = {}
 
-        opik_context.update_current_trace(
-            tags=["agent"],
-            metadata={
-                "search": search_kwargs,
-                "embedding_model_id": self.retriever.vectorstore.embeddings.model,
-            },
-        )
+    opik_context.update_current_trace(
+        tags=["agent"],
+        metadata={
+            "search": search_kwargs,
+            "embedding_model_id": self.retriever.vectorstore.embeddings.model,
+        },
+    )
 
-```
+    try:
+        query = self.__parse_query(query)
+        relevant_docs = self.retriever.invoke(query)
 
-First, we check what type of retriever is used and extract the relevant search parameters. Different retrievers might have different ways of configuring searches, so this code handles various cases.
-
-The key parameters being extracted include:
-
-- `fulltext_penalty`: Adjusts how much weight is given to exact text matches
-- `vector_score_penalty`: Influences how semantic similarity affects the ranking
-- `top_k`: Determines how many search results to return
-
-These parameters significantly impact the search results. For example, a higher vector score penalty might prioritize results that match the semantic meaning of the query over those with exact keyword matches.
-
-After setting up tracking, the method parses the query, performs the actual search, and formats the results:
-
-```
- try:
-            query = self.__parse_query(query)
-            relevant_docs = self.retriever.invoke(query)
-
-            formatted_docs = []
-            for i, doc in enumerate(relevant_docs, 1):
-                formatted_docs.append(
-                    f"""
+        formatted_docs = []
+        for i, doc in enumerate(relevant_docs, 1):
+            formatted_docs.append(
+                f"""
 <document id="{i}">
 <title>{doc.metadata.get("title")}</title>
 <url>{doc.metadata.get("url")}</url>
 <content>{doc.page_content.strip()}</content>
 </document>
 """
-                )
+            )
 
-            result = "\n".join(formatted_docs)
-            result = f"""
+        result = "\n".join(formatted_docs)
+        result = f"""
 <search_results>
 {result}
 </search_results>
 When using context from any document, also include the document URL as reference, which is found in the <url> tag.
 """
-            return result
-        except Exception:
-            logger.opt(exception=True).debug("Error retrieving documents.")
+        return result
+    except Exception:
+        logger.opt(exception=True).debug("Error retrieving documents.")
 
-            return "Error retrieving documents."
+        return "Error retrieving documents."
 ```
 
 In this code snippet, we search for documents that match the query and format them in an XML-like structure. Each document includes a title, URL, and content. Additionally, the results are wrapped in tags to make them easy for the AI agent to read.
@@ -2517,9 +3631,7 @@ In our agentic RAG module, we provide two summarization options: one using Huggi
 
 The first option for summarization is the Hugging Face endpoint-based summarizer.
 
-This tool sends the text to an external Hugging Face model that generates a concise summary. The model deployed on Hugging Face is the one we trained in Lesson 4, which was explicitly fine-tuned for document summarization.
-
-```
+```python
 class HuggingFaceEndpointSummarizerTool(Tool):
     name = "huggingface_summarizer"
     description = """Use this tool to summarize a piece of text. Especially useful when you need to summarize a document."""
@@ -2557,33 +3669,27 @@ You are a helpful assistant specialized in summarizing documents. Generate a con
             base_url=settings.HUGGINGFACE_DEDICATED_ENDPOINT,
             api_key=settings.HUGGINGFACE_ACCESS_TOKEN,
         )
-```
 
-The code snippet above initializes the Hugging Face summarizer tool. It verifies that the necessary API credentials are available before setting up the client connection to Hugging Face’s inference endpoint.
-
-To generate a summary, we implement the `forward` method, which is tracked by Opik for monitoring:
-
-```
 @track
-    def forward(self, text: str) -> str:
-        result = self.__client.chat.completions.create(
-            model="tgi",
-            messages=[\
-                {\
-                    "role": "user",\
-                    "content": self.SYSTEM_PROMPT.format(content=text),\
-                },\
-            ],
-        )
+def forward(self, text: str) -> str:
+    result = self.__client.chat.completions.create(
+        model="tgi",
+        messages=[
+            {
+                "role": "user",
+                "content": self.SYSTEM_PROMPT.format(content=text),
+            },
+        ],
+    )
 
-        return result.choices[0].message.content
+    return result.choices[0].message.content
 ```
 
 This function sends the input text to the Hugging Face API, applying the predefined system prompt. The generated response is then returned, providing a structured summary.
 
-The second summarization option uses OpenAI’s models to generate summaries. It follows a similar structure to the Hugging Face summarizer but connects to OpenAI’s API instead.
+The second summarization option uses OpenAI’s models to generate summaries.
 
-```
+```python
 class OpenAISummarizerTool(Tool):
     name = "openai_summarizer"
     description = """Use this tool to summarize a piece of text. Especially useful when you need to summarize a document or a list of documents."""
@@ -2620,10 +3726,7 @@ Return the document in plain text format regardless of the original format.
             base_url="https://api.openai.com/v1",
             api_key=settings.OPENAI_API_KEY,
         )
-
 ```
-
-This summarizer connects to OpenAI’s API and uses a structured prompt to generate high-quality summaries.
 
 Note that because the Hugging Face model was fine-tuned on summarizing documents, it doesn't require careful prompt engineering for the desired results (it has the logic embedded into it), resulting in fewer tokens/requests, which translates to lower costs and better latencies.
 
@@ -2631,7 +3734,7 @@ Note that because the Hugging Face model was fine-tuned on summarizing documents
 
 The third and last integrated tool is the "What Can I Do" tool, which provides a list of available capabilities within the Second Brain assistant and helps users explore relevant topics.
 
-```
+```python
 @opik.track(name="what_can_i_do")
 @tool
 def what_can_i_do(question: str) -> str:
@@ -2692,9 +3795,15 @@ Learning Resources:
 
 This tool is useful when users are unsure about what they can ask or want to explore different capabilities within the system. Like other tools, it is tracked by Opik for monitoring and observability.
 
+https://substackcdn.com/image/fetch/$s_!77pD!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F224265c3-6fd2-4b64-ac1e-39630ab9df4a_2522x1726.png
+
+Here, we can see that the agent calls the MongoDB retriever tool, which in turn invokes the `forward` function. Each step is logged with latency values, providing insight into execution times at different stages.
+
+Furthermore, all metadata related to the trace—including the system prompt, tool configurations, and token usage—is captured to ensure complete observability.
+
 ---
 
-## 8\. Building the LLM evaluation pipeline
+## 8. Building the LLM evaluation pipeline
 
 Now that we have implemented the agentic RAG module, we need a structured way to evaluate its performance. This is where the **LLM evaluation pipeline** comes in, ensuring that our agentic RAG module consistently meets quality and reliability standards.
 
@@ -2706,8 +3815,8 @@ Before evaluating our agent, we first need to gather a suitable evaluation datas
 
 To evaluate the agent properly, we use a dataset of ~30 predefined prompts that cover various scenarios the agent might encounter. This dataset allows us to consistently test our agent’s performance across different iterations, ensuring that changes do not degrade its capabilities.
 
-```
-EVALUATION_PROMPTS: List[str] = [\
+```python
+EVALUATION_PROMPTS: List[str] = [
     """\
 Write me a paragraph on the feature/training/inference (FTI) pipelines architecture following the next structure:\
 \
@@ -2716,9 +3825,9 @@ Write me a paragraph on the feature/training/inference (FTI) pipelines architect
 - why it's powerful\
 \
 Retrieve the sources when compiling the answer. Also, return the sources you used as context.\
-""",\
-    "What is the feature/training/inference (FTI) pipelines architecture?",\
-    "What is the Tensorflow Recommenders Python package?",\
+""",
+    "What is the feature/training/inference (FTI) pipelines architecture?",
+    "What is the Tensorflow Recommenders Python package?",
     """How does RLHF: Reinforcement Learning from Human Feedback work?\
 \
 Explain to me:\
@@ -2727,18 +3836,18 @@ Explain to me:\
 - why it's important\
 - what are the main components\
 - what are the main challenges\
-""",\
-    "List 3 LLM frameworks for building LLM applications and why they are important.",\
-    "Explain how does Bidirectional Encoder Representations from Transformers (BERT) work. Focus on what architecture it uses, how it's different from other models and how they are trained.",\
-    "List 5 ways or tools to process PDFs for LLMs and RAG",\
+""",
+    "List 3 LLM frameworks for building LLM applications and why they are important.",
+    "Explain how does Bidirectional Encoder Representations from Transformers (BERT) work. Focus on what architecture it uses, how it's different from other models and how they are trained.",
+    "List 5 ways or tools to process PDFs for LLMs and RAG",
     """How can I optimize my LLMs during inference?\
 \
 Provide a list of top 3 best practices, while providing a short explanation for each, which contains why it's important.\
-""",\
-    "Explain to me in more detail how does an Agent memory work and why do we need it when building Agentic apps.",\
-    "What is the difference between a vector database and a vector index?",\
-    "Recommend me a course on LLMs and RAG",\
-    "How Document Chunk overlap affects a RAG pipeline and it's performance?",\
+""",
+    "Explain to me in more detail how does an Agent memory work and why do we need it when building Agentic apps.",
+    "What is the difference between a vector database and a vector index?",
+    "Recommend me a course on LLMs and RAG",
+    "How Document Chunk overlap affects a RAG pipeline and it's performance?",
     """What is the importance of reranking chunks for RAG?\
 Explain to me:\
 - what is reranking\
@@ -2746,9 +3855,9 @@ Explain to me:\
 - why it's important\
 - what are the main components\
 - what are the main trade-offs\
-""",\
-    "List the most popular advanced RAG techniques to optimize RAG performance and why they are important.",\
-    "List what are the main ways of evaluating a RAG pipeline and why they are important.",\
+""",
+    "List the most popular advanced RAG techniques to optimize RAG performance and why they are important.",
+    "List what are the main ways of evaluating a RAG pipeline and why they are important.",
 ]
 ```
 
@@ -2756,7 +3865,7 @@ We could have added more samples, but for the first iteration, having 30 samples
 
 We use Opik to store and manage the dataset, as shown in the following code:
 
-```
+```python
 def get_or_create_dataset(name: str, prompts: list[str]) -> opik.Dataset | None:
     client = opik.Opik()
     try:
@@ -2788,13 +3897,11 @@ def get_or_create_dataset(name: str, prompts: list[str]) -> opik.Dataset | None:
     return dataset
 ```
 
-This function ensures the dataset is created if it doesn’t exist, avoiding unnecessary duplication. It logs whether the dataset is new or previously stored and ensures that each prompt is properly formatted before evaluation.
-
 #### Evaluating the agent
 
 The core of the evaluation pipeline is the `evaluate_agent()` function. This function runs the set of predefined prompts through our agent and scores its responses using a combination of built-in and custom metrics.
 
-```
+```python
 def evaluate_agent(prompts: list[str], retriever_config_path: Path) -> None:
     assert settings.COMET_API_KEY, (
         "COMET_API_KEY is not set. We need it to track the experiment with Opik."
@@ -2822,46 +3929,38 @@ Then, we define the `evaluation_task()`, a method that retrieves an instance of 
 
 Before running the actual evaluation, we either fetch an existing dataset or create a new one to store our evaluation prompts:
 
-```
+```python
 # Get or create dataset
-    dataset_name = "second_brain_rag_agentic_app_evaluation_dataset"
-    dataset = opik_utils.get_or_create_dataset(name=dataset_name, prompts=prompts)
+dataset_name = "second_brain_rag_agentic_app_evaluation_dataset"
+dataset = opik_utils.get_or_create_dataset(name=dataset_name, prompts=prompts)
 ```
-
-Here, `opik_utils.get_or_create_dataset()` is used to manage the datasets dynamically, as detailed earlier in this section.
 
 Once the dataset is set up, we retrieve our agent instance and configure the experiment. The `experiment_config` dictionary defines key parameters for tracking and logging the evaluation:
 
-```
+```python
 # Evaluate
-    agent = agents.get_agent(retriever_config_path=retriever_config_path)
-    experiment_config = {
-        "model_id": settings.OPENAI_MODEL_ID,
-        "retriever_config_path": retriever_config_path,
-        "agent_config": {
-            "max_steps": agent.max_steps,
-            "agent_name": agent.agent_name,
-        },
-    }
+agent = agents.get_agent(retriever_config_path=retriever_config_path)
+experiment_config = {
+    "model_id": settings.OPENAI_MODEL_ID,
+    "retriever_config_path": retriever_config_path,
+    "agent_config": {
+        "max_steps": agent.max_steps,
+        "agent_name": agent.agent_name,
+    },
+}
 ```
 
 Next, we define the scoring metrics used to evaluate the agent's performance. Opik provides built-in evaluation metrics, but we also include custom ones for deeper analysis.
 
+```python
+scoring_metrics = [
+    Hallucination(),
+    AnswerRelevance(),
+    Moderation(),
+    SummaryDensityHeuristic(),
+    SummaryDensityJudge(),
+]
 ```
-scoring_metrics = [\
-        Hallucination(),\
-        AnswerRelevance(),\
-        Moderation(),\
-        SummaryDensityHeuristic(),\
-        SummaryDensityJudge(),\
-    ]
-```
-
-The scoring process evaluates the agent’s performance across multiple dimensions:
-
-- **Hallucination**: Measures whether the agent generates false or misleading information.
-- **Answer Relevance**: Scores the relevance of the agent's response to the given prompt.
-- **Moderation**: Detects potentially inappropriate or unsafe content in responses.
 
 > For **more details on the metrics above** or on how to build custom metrics, check out [Opik’s docs](https://www.comet.com/docs/opik/evaluation/metrics/overview?utm_source=paul_2nd_brain_course&utm_campaign=opik&utm_medium=lessons).
 
@@ -2872,24 +3971,26 @@ In addition to these built-in Opik metrics, we include two custom components. Bo
 
 Finally, we execute the evaluation process using the metrics defined and our evaluation dataset:
 
-```
+```python
 if dataset:
-        evaluate(
-            dataset=dataset,
-            task=evaluation_task,
-            scoring_metrics=scoring_metrics,
-            experiment_config=experiment_config,
-            task_threads=2,
-        )
-    else:
-        logger.error("Can't run the evaluation as the dataset items are empty.")
+    evaluate(
+        dataset=dataset,
+        task=evaluation_task,
+        scoring_metrics=scoring_metrics,
+        experiment_config=experiment_config,
+        task_threads=2,
+    )
+else:
+    logger.error("Can't run the evaluation as the dataset items are empty.")
 ```
 
 This code ensures that evaluation runs only when a dataset is available. The `evaluate()` function runs the agent using the `evaluation_task()` method on the evaluation dataset and measures the defined scoring metrics. The [results are then logged in Opik](https://www.comet.com/opik?utm_source=paul_2nd_brain_course&utm_campaign=opik&utm_medium=lessons) for further analysis and comparison.
 
+[MORE ON OPIK'S METRICS](https://www.comet.com/docs/opik/evaluation/metrics/overview?utm_source=paul_2nd_brain_course&utm_campaign=opik&utm_medium=lessons)
+
 ---
 
-## 9\. Running the code
+## 9. Running the code
 
 The best way to set up and run the code is through our **[GitHub repository](https://github.com/decodingml/second-brain-ai-assistant-course/tree/main)**, where we have documented everything you need. We will keep the end-to-end instructions only in our GitHub to avoid having the documentation scattered throughout too many places (which is a pain to maintain and use).
 
@@ -2899,7 +4000,7 @@ Next, you can run the agent through the command-line interface (CLI) for a quick
 
 To quickly test the Agentic RAG inference on a predefined query, you can run the following command from the CLI:
 
-```
+```bash
 make run_agent_query RETRIEVER_CONFIG=configs/compute_rag_vector_index_openai_parent.yaml
 ```
 
@@ -2907,14 +4008,13 @@ make run_agent_query RETRIEVER_CONFIG=configs/compute_rag_vector_index_openai_pa
 
 For a more interactive experience, you can launch the Gradio UI by executing:
 
-```
+```bash
 make run_agent_app RETRIEVER_CONFIG=configs/compute_rag_vector_index_openai_parent.yaml
-
 ```
 
 Additionally, if you want to evaluate the agent’s performance, run the evaluation pipeline using:
 
-```
+```bash
 make evaluate_agent RETRIEVER_CONFIG=configs/compute_rag_vector_index_openai_parent.yaml
 ```
 
@@ -2944,111 +4044,1140 @@ If you haven’t read all the lessons from the Second Brain AI Assistant open-so
 
 If you have questions or need clarification, **feel free to ask**. See you in the next session!
 
----
-
-## References
-
-Decodingml. (n.d.). _GitHub - decodingml/second-brain-ai-assistant-course_. GitHub. [https://github.com/decodingml/second-brain-ai-assistant-course](https://github.com/decodingml/second-brain-ai-assistant-course)
-
-Iusztin P., Labonne M. (2024, October 22). _LLM Engineer’s Handbook \| Data \| Book_. Packt. [https://www.packtpub.com/en-us/product/llm-engineers-handbook-9781836200062](https://www.packtpub.com/en-us/product/llm-engineers-handbook-9781836200062)
-
-Kuligin, L., Zaldívar, J., & Tschochohei, M. (n.d.). _Generative AI on Google Cloud with LangChain: Design scalable generative AI solutions with Python, LangChain, and Vertex AI on Google Cloud._ [https://www.amazon.com/Generative-Google-Cloud-LangChain-generative/dp/B0DKT8DCRT](https://www.amazon.com/Generative-Google-Cloud-LangChain-generative/dp/B0DKT8DCRT)
-
-_Log traces_. (n.d.). [https://www.comet.com/docs/opik/tracing/log\_traces](https://www.comet.com/docs/opik/tracing/log_traces?utm_source=paul_2nd_brain_course&utm_campaign=opik&utm_medium=lessons)
-
-Varshney, T. (2024, June 24). _Introduction to LLM Agents \| NVIDIA Technical Blog_. NVIDIA Technical Blog. [https://developer.nvidia.com/blog/introduction-to-llm-agents/](https://developer.nvidia.com/blog/introduction-to-llm-agents/)
-
-What’s AI by Louis-François Bouchard. (2025, February 2). _Real Agents vs. Workflows: The Truth Behind AI “Agents”_ \[Video\]. YouTube. [https://www.youtube.com/watch?v=kQxr-uOxw2o](https://www.youtube.com/watch?v=kQxr-uOxw2o)
-
-DecodingML. (n.d.). _The Ultimate Prompt Monitoring Pipeline._ Medium. [https://medium.com/decodingml/the-ultimate-prompt-monitoring-pipeline-886cbb75ae25](https://medium.com/decodingml/the-ultimate-prompt-monitoring-pipeline-886cbb75ae25)
-
-DecodingML. (n.d.). _The Engineer’s Framework for LLM RAG Evaluation._ Medium. [https://medium.com/decodingml/the-engineers-framework-for-llm-rag-evaluation-59897381c326](https://medium.com/decodingml/the-engineers-framework-for-llm-rag-evaluation-59897381c326)
-
-Cardenas, E., & Monigatti, L. (n.d.). _What is Agentic RAG?_ Weaviate Blog. [https://weaviate.io/blog/what-is-agentic-rag](https://weaviate.io/blog/what-is-agentic-rag)
-
----
-
-### Original URL
-https://decodingml.substack.com/p/llmops-for-production-agentic-rag
 </details>
 
----
 <details>
-<summary>Building Production-Ready RAG Applications: Jerry Liu</summary>
+<summary>building-effective-ai-agents-anthropic</summary>
 
-This video transcript, presented by Jerry Liu, co-founder and CEO of LlamaIndex, focuses on **building production-ready Retrieval Augmented Generation (RAG) applications**. The presentation highlights the transformative impact of large language models (LLMs) in various use cases like knowledge search, QA, conversational agents, workflow automation, and document processing, leveraging LLMs' reasoning capabilities over diverse data.
+# Building effective agents
 
-### Paradigms for LLMs to Understand Data
-The video outlines two primary paradigms for enabling language models to understand data they haven't been trained on:
-*   **Retrieval Augmentation (RAG)**: This involves creating a data pipeline to insert context from a data source (e.g., vector database, unstructured text, SQL database) directly into the LLM's input prompt.
-*   **Fine-tuning**: This method bakes knowledge directly into the network's weights by updating the model itself, or an adapter on top of it, through a training process over new data.
-The presentation primarily focuses on **retrieval augmentation**.
+Published Dec 19, 2024
 
-### The Current RAG Stack and Its Challenges
-For a typical QA system, the RAG stack consists of two main components:
-*   **Data Ingestion**: Loading data from various sources.
-*   **Data Querying**: This further breaks down into **retrieval** (fetching relevant information) and **synthesis** (generating a response using the retrieved context).
-While LlamaIndex simplifies building this stack (around five lines of code), understanding the underlying components is encouraged for AI engineers.
+We've worked with dozens of teams building LLM agents across industries. Consistently, the most successful implementations use simple, composable patterns rather than complex frameworks.
 
-However, developers deploying these applications in production often encounter significant **challenges with "naive RAG"**. The key issue is **poor response quality**.
-Common problems include:
-*   **Bad Retrieval Issues**:
-    *   **Low Precision**: Not all retrieved chunks are relevant, leading to **hallucination** or "lost in the middle" problems where relevant information is buried in fluff.
-    *   **Low Recall**: The system fails to retrieve all necessary information, meaning the "top K" retrieved items aren't sufficient to answer the question.
-    *   **Outdated Information**.
-*   **LLM-side Issues**: Even beyond retrieval, LLMs can exhibit issues like hallucination, irrelevance, toxicity, and bias.
+Over the past year, we've worked with dozens of teams building large language model (LLM) agents across industries. Consistently, the most successful implementations weren't using complex frameworks or specialized libraries. Instead, they were building with simple, composable patterns.
 
-### Strategies to Improve RAG Performance
-To enhance RAG application performance, improvements can be made across the entire pipeline:
-*   **Data Optimization**: Storing additional information beyond raw text chunks, optimizing the data pipeline, and experimenting with **chunk sizes**.
-*   **Embedding Representation**: Optimizing the embedding model, as pre-trained models might not be optimal for specific data.
-*   **Retrieval Algorithm**: Moving beyond simple "top K" similarity searches from a vector database.
-*   **Synthesis**: Using LLMs for more sophisticated reasoning, like breaking down complex questions or routing to different data sources, rather than just pure generation.
+In this post, we share what we’ve learned from working with our customers and building agents ourselves, and give practical advice for developers on building effective agents.
 
-Before implementing any of these techniques, it's crucial to be **task-specific and establish a way to measure performance through evaluation**.
+## What are agents?
 
-### Evaluating RAG Systems
-Evaluation is essential for defining a benchmark and iterating on system improvements. It involves evaluating both the **end-to-end solution** (input query to output response) and **specific components** like retrieval.
+"Agent" can be defined in several ways. Some customers define agents as fully autonomous systems that operate independently over extended periods, using various tools to accomplish complex tasks. Others use the term to describe more prescriptive implementations that follow predefined workflows. At Anthropic, we categorize all these variations as **agentic systems**, but draw an important architectural distinction between **workflows** and **agents**:
 
-*   **Evaluation on Retrieval**:
-    *   **Goal**: Ensure returned content answers the query, is relevant, and avoids fluff.
-    *   **Data Set**: Requires an evaluation dataset of input queries and relevant document IDs. This can be human-labeled, derived from user feedback, or synthetically generated.
-    *   **Metrics**: Ranking metrics like **success rate, hit rate, MRR (Mean Reciprocal Rank), and NDCG (Normalized Discounted Cumulative Gain)** are used, drawing from decades of Information Retrieval (IR) research.
+- **Workflows** are systems where LLMs and tools are orchestrated through predefined code paths.
+- **Agents**, on the other hand, are systems where LLMs dynamically direct their own processes and tool usage, maintaining control over how they accomplish tasks.
 
-*   **Evaluation of the Final Response (Synthesis)**:
-    *   **Goal**: Evaluate the overall end-to-end quality of the generated response.
-    *   **Data Set**: Similar to retrieval, this needs a dataset through human annotations, user feedback, or ground truth reference answers. It can also be synthetically generated using powerful models like GPT-4.
-    *   **Method**: Run the full RAG pipeline and use **LLM-based evaluations** (label-free or with labels) to assess predicted outputs.
+Below, we will explore both types of agentic systems in detail. In Appendix 1 (“Agents in Practice”), we describe two domains where customers have found particular value in using these kinds of systems.
 
-### Optimizing RAG Systems: Techniques
-Once an evaluation benchmark is defined, various optimization techniques can be applied, starting with simpler methods.
+## When (and when not) to use agents
 
-**1. Table Stakes RAG Techniques (Basics):**
-*   **Better Chunking**: Tuning **chunk size** can significantly impact performance. It's noted that **more retrieved tokens do not always lead to higher performance** due to "lost in the middle" problems, where information in the middle of the LLM's context window can be overlooked. Optimal chunk sizes are data-set dependent.
-*   **Metadata Filtering**: This involves adding **structured context** (e.g., page number, document title, summary of adjacent chunks, or even hallucinated questions a chunk answers) to text chunks.
-    *   **Benefit**: It allows combining **structured query capabilities** (like a SQL WHERE clause, e.g., filtering by `year = 2021`) with semantic search, significantly **improving the precision of retrieval results** by avoiding irrelevant matches.
-*   Hybrid search.
+When building applications with LLMs, we recommend finding the simplest solution possible, and only increasing complexity when needed. This might mean not building agentic systems at all. Agentic systems often trade latency and cost for better task performance, and you should consider when this tradeoff makes sense.
 
-**2. Advanced Retrieval Methods:**
-*   Reranking.
-*   LlamaIndex offers concepts like recursive retrieval and dealing with embedded tables.
-*   **Small to Big Retrieval**:
-    *   **Problem**: Embedding large text chunks can be suboptimal for retrieval because "fluff" in the chunk can bias the embedding representation.
-    *   **Solution**: **Embed text at a smaller, more granular level** (e.g., sentence level) for retrieval. Then, during synthesis, **expand the context window** to provide the LLM with more information for a proper response.
-    *   **Benefits**: Leads to **more precise retrieval** by making smaller chunks more likely to be retrieved. It also helps **avoid "lost in the middle" problems** and can allow for smaller `top K` values without sacrificing relevant context.
-    *   A related idea is **embedding a reference to the parent chunk**, a summary, or questions the chunk answers, rather than just the raw text chunk itself, which also improves retrieval performance.
+When more complexity is warranted, workflows offer predictability and consistency for well-defined tasks, whereas agents are the better option when flexibility and model-driven decision-making are needed at scale. For many applications, however, optimizing single LLM calls with retrieval and in-context examples is usually enough.
 
-**3. More Expressive and Advanced Concepts (Potentially Harder/Costlier):**
-*   **Agents**: These involve using LLMs for **reasoning beyond simple synthesis**, addressing limitations of basic RAG for complex, multi-step questions or comparative analyses.
-    *   **Multi-Document Agents**: An architecture where each document is modeled as a set of tools (e.g., a tool to summarize the document, another to perform QA over specific facts).
-    *   This paradigm involves retrieving relevant tools from potentially millions of documents and then acting upon them, blending embedding-based retrieval with agent tool use, which is a powerful new capability enabled by LLMs.
-*   **Fine-tuning**: This optimizes specific parts of the RAG pipeline for better performance.
-    *   **Fine-tuning Embeddings**: Improves the embedding representations for specific data, ensuring the retriever returns more relevant information given a user query. A method involves generating a **synthetic query dataset from raw text chunks using LLMs** to fine-tune the embedding model. Fine-tuning an adapter on top of the model has advantages, such as not requiring base model weights and avoiding re-indexing the entire document corpus if only the query is fine-tuned.
-    *   **Fine-tuning LLMs**: Especially useful for weaker LLMs (e.g., GPT-3.5 Turbo, Llama 2 7B) that might struggle with response synthesis, reasoning, or structured outputs compared to larger models. The solution proposed is to **generate a synthetic dataset using a stronger model like GPT-4 and distill that knowledge into the weaker model** to improve its train of thought, response quality, and structured outputs.
+## When and how to use frameworks
 
-All these advanced concepts and production RAG strategies are detailed in the LlamaIndex documentation .
+There are many frameworks that make agentic systems easier to implement, including:
 
-### Original URL
-https://www.youtube.com/watch?v=TRjq7t2Ms5I
+- [LangGraph](https://langchain-ai.github.io/langgraph/) from LangChain;
+- Amazon Bedrock's [AI Agent framework](https://aws.amazon.com/bedrock/agents/);
+- [Rivet](https://rivet.ironcladapp.com/), a drag and drop GUI LLM workflow builder; and
+- [Vellum](https://www.vellum.ai/), another GUI tool for building and testing complex workflows.
+
+These frameworks make it easy to get started by simplifying standard low-level tasks like calling LLMs, defining and parsing tools, and chaining calls together. However, they often create extra layers of abstraction that can obscure the underlying prompts ​​and responses, making them harder to debug. They can also make it tempting to add complexity when a simpler setup would suffice.
+
+We suggest that developers start by using LLM APIs directly: many patterns can be implemented in a few lines of code. If you do use a framework, ensure you understand the underlying code. Incorrect assumptions about what's under the hood are a common source of customer error.
+
+See our [cookbook](https://github.com/anthropics/anthropic-cookbook/tree/main/patterns/agents) for some sample implementations.
+
+## Building blocks, workflows, and agents
+
+In this section, we’ll explore the common patterns for agentic systems we’ve seen in production. We'll start with our foundational building block—the augmented LLM—and progressively increase complexity, from simple compositional workflows to autonomous agents.
+
+### Building block: The augmented LLM
+
+The basic building block of agentic systems is an LLM enhanced with augmentations such as retrieval, tools, and memory. Our current models can actively use these capabilities—generating their own search queries, selecting appropriate tools, and determining what information to retain.
+
+We recommend focusing on two key aspects of the implementation: tailoring these capabilities to your specific use case and ensuring they provide an easy, well-documented interface for your LLM. While there are many ways to implement these augmentations, one approach is through our recently released [Model Context Protocol](https://www.anthropic.com/news/model-context-protocol), which allows developers to integrate with a growing ecosystem of third-party tools with a simple [client implementation](https://modelcontextprotocol.io/tutorials/building-a-client#building-mcp-clients).
+
+For the remainder of this post, we'll assume each LLM call has access to these augmented capabilities.
+
+### Workflow: Prompt chaining
+
+Prompt chaining decomposes a task into a sequence of steps, where each LLM call processes the output of the previous one. You can add programmatic checks (see "gate” in the diagram below) on any intermediate steps to ensure that the process is still on track.
+
+**When to use this workflow:** This workflow is ideal for situations where the task can be easily and cleanly decomposed into fixed subtasks. The main goal is to trade off latency for higher accuracy, by making each LLM call an easier task.
+
+**Examples where prompt chaining is useful:**
+
+- Generating Marketing copy, then translating it into a different language.
+- Writing an outline of a document, checking that the outline meets certain criteria, then writing the document based on the outline.
+
+### Workflow: Routing
+
+Routing classifies an input and directs it to a specialized followup task. This workflow allows for separation of concerns, and building more specialized prompts. Without this workflow, optimizing for one kind of input can hurt performance on other inputs.
+
+**When to use this workflow:** Routing works well for complex tasks where there are distinct categories that are better handled separately, and where classification can be handled accurately, either by an LLM or a more traditional classification model/algorithm.
+
+**Examples where routing is useful:**
+
+- Directing different types of customer service queries (general questions, refund requests, technical support) into different downstream processes, prompts, and tools.
+- Routing easy/common questions to smaller models like Claude 3.5 Haiku and hard/unusual questions to more capable models like Claude 3.5 Sonnet to optimize cost and speed.
+
+### Workflow: Parallelization
+
+LLMs can sometimes work simultaneously on a task and have their outputs aggregated programmatically. This workflow, parallelization, manifests in two key variations:
+
+- **Sectioning**: Breaking a task into independent subtasks run in parallel.
+- **Voting:** Running the same task multiple times to get diverse outputs.
+
+**When to use this workflow:** Parallelization is effective when the divided subtasks can be parallelized for speed, or when multiple perspectives or attempts are needed for higher confidence results. For complex tasks with multiple considerations, LLMs generally perform better when each consideration is handled by a separate LLM call, allowing focused attention on each specific aspect.
+
+**Examples where parallelization is useful:**
+
+- **Sectioning**:
+  - Implementing guardrails where one model instance processes user queries while another screens them for inappropriate content or requests. This tends to perform better than having the same LLM call handle both guardrails and the core response.
+  - Automating evals for evaluating LLM performance, where each LLM call evaluates a different aspect of the model’s performance on a given prompt.
+- **Voting**:
+  - Reviewing a piece of code for vulnerabilities, where several different prompts review and flag the code if they find a problem.
+  - Evaluating whether a given piece of content is inappropriate, with multiple prompts evaluating different aspects or requiring different vote thresholds to balance false positives and negatives.
+
+### Workflow: Orchestrator-workers
+
+In the orchestrator-workers workflow, a central LLM dynamically breaks down tasks, delegates them to worker LLMs, and synthesizes their results.
+
+**When to use this workflow:** This workflow is well-suited for complex tasks where you can’t predict the subtasks needed (in coding, for example, the number of files that need to be changed and the nature of the change in each file likely depend on the task). Whereas it’s topographically similar, the key difference from parallelization is its flexibility—subtasks aren't pre-defined, but determined by the orchestrator based on the specific input.
+
+**Example where orchestrator-workers is useful:**
+
+- Coding products that make complex changes to multiple files each time.
+- Search tasks that involve gathering and analyzing information from multiple sources for possible relevant information.
+
+### Workflow: Evaluator-optimizer
+
+In the evaluator-optimizer workflow, one LLM call generates a response while another provides evaluation and feedback in a loop.
+
+**When to use this workflow:** This workflow is particularly effective when we have clear evaluation criteria, and when iterative refinement provides measurable value. The two signs of good fit are, first, that LLM responses can be demonstrably improved when a human articulates their feedback; and second, that the LLM can provide such feedback. This is analogous to the iterative writing process a human writer might go through when producing a polished document.
+
+**Examples where evaluator-optimizer is useful:**
+
+- Literary translation where there are nuances that the translator LLM might not capture initially, but where an evaluator LLM can provide useful critiques.
+- Complex search tasks that require multiple rounds of searching and analysis to gather comprehensive information, where the evaluator decides whether further searches are warranted.
+
+### Agents
+
+Agents are emerging in production as LLMs mature in key capabilities—understanding complex inputs, engaging in reasoning and planning, using tools reliably, and recovering from errors. Agents begin their work with either a command from, or interactive discussion with, the human user. Once the task is clear, agents plan and operate independently, potentially returning to the human for further information or judgement. During execution, it's crucial for the agents to gain “ground truth” from the environment at each step (such as tool call results or code execution) to assess its progress. Agents can then pause for human feedback at checkpoints or when encountering blockers. The task often terminates upon completion, but it’s also common to include stopping conditions (such as a maximum number of iterations) to maintain control.
+
+Agents can handle sophisticated tasks, but their implementation is often straightforward. They are typically just LLMs using tools based on environmental feedback in a loop. It is therefore crucial to design toolsets and their documentation clearly and thoughtfully. We expand on best practices for tool development in Appendix 2 ("Prompt Engineering your Tools").
+
+**When to use agents:** Agents can be used for open-ended problems where it’s difficult or impossible to predict the required number of steps, and where you can’t hardcode a fixed path. The LLM will potentially operate for many turns, and you must have some level of trust in its decision-making. Agents' autonomy makes them ideal for scaling tasks in trusted environments.
+
+The autonomous nature of agents means higher costs, and the potential for compounding errors. We recommend extensive testing in sandboxed environments, along with the appropriate guardrails.
+
+**Examples where agents are useful:**
+
+The following examples are from our own implementations:
+
+- A coding Agent to resolve [SWE-bench tasks](https://www.anthropic.com/research/swe-bench-sonnet), which involve edits to many files based on a task description;
+- Our [“computer use” reference implementation](https://github.com/anthropics/anthropic-quickstarts/tree/main/computer-use-demo), where Claude uses a computer to accomplish tasks.
+
+## Combining and customizing these patterns
+
+These building blocks aren't prescriptive. They're common patterns that developers can shape and combine to fit different use cases. The key to success, as with any LLM features, is measuring performance and iterating on implementations. To repeat: you should consider adding complexity _only_ when it demonstrably improves outcomes.
+
+## Summary
+
+Success in the LLM space isn't about building the most sophisticated system. It's about building the _right_ system for your needs. Start with simple prompts, optimize them with comprehensive evaluation, and add multi-step agentic systems only when simpler solutions fall short.
+
+When implementing agents, we try to follow three core principles:
+
+1. Maintain **simplicity** in your agent's design.
+2. Prioritize **transparency** by explicitly showing the agent’s planning steps.
+3. Carefully craft your agent-computer interface (ACI) through thorough tool **documentation and testing**.
+
+Frameworks can help you get started quickly, but don't hesitate to reduce abstraction layers and build with basic components as you move to production. By following these principles, you can create agents that are not only powerful but also reliable, maintainable, and trusted by their users.
+
+## Appendix 1: Agents in practice
+
+Our work with customers has revealed two particularly promising applications for AI agents that demonstrate the practical value of the patterns discussed above. Both applications illustrate how agents add the most value for tasks that require both conversation and action, have clear success criteria, enable feedback loops, and integrate meaningful human oversight.
+
+### A. Customer support
+
+Customer support combines familiar chatbot interfaces with enhanced capabilities through tool integration. This is a natural fit for more open-ended agents because:
+
+- Support interactions naturally follow a conversation flow while requiring access to external information and actions;
+- Tools can be integrated to pull customer data, order history, and knowledge base articles;
+- Actions such as issuing refunds or updating tickets can be handled programmatically; and
+- Success can be clearly measured through user-defined resolutions.
+
+Several companies have demonstrated the viability of this approach through usage-based pricing models that charge only for successful resolutions, showing confidence in their agents' effectiveness.
+
+### B. Coding agents
+
+The software development space has shown remarkable potential for LLM features, with capabilities evolving from code completion to autonomous problem-solving. Agents are particularly effective because:
+
+- Code solutions are verifiable through automated tests;
+- Agents can iterate on solutions using test results as feedback;
+- The problem space is well-defined and structured; and
+- Output quality can be measured objectively.
+
+In our own implementation, agents can now solve real GitHub issues in the [SWE-bench Verified](https://www.anthropic.com/research/swe-bench-sonnet) benchmark based on the pull request description alone. However, whereas automated testing helps verify functionality, human review remains crucial for ensuring solutions align with broader system requirements.
+
+## Appendix 2: Prompt engineering your tools
+
+No matter which agentic system you're building, tools will likely be an important part of your agent. [Tools](https://www.anthropic.com/news/tool-use-ga) enable Claude to interact with external services and APIs by specifying their exact structure and definition in our API. When Claude responds, it will include a [tool use block](https://docs.anthropic.com/en/docs/build-with-claude/tool-use#example-api-response-with-a-tool-use-content-block) in the API response if it plans to invoke a tool. Tool definitions and specifications should be given just as much prompt engineering attention as your overall prompts. In this brief appendix, we describe how to prompt engineer your tools.
+
+There are often several ways to specify the same action. For instance, you can specify a file edit by writing a diff, or by rewriting the entire file. For structured output, you can return code inside markdown or inside JSON. In software engineering, differences like these are cosmetic and can be converted losslessly from one to the other. However, some formats are much more difficult for an LLM to write than others. Writing a diff requires knowing how many lines are changing in the chunk header before the new code is written. Writing code inside JSON (compared to markdown) requires extra escaping of newlines and quotes.
+
+Our suggestions for deciding on tool formats are the following:
+
+- Give the model enough tokens to "think" before it writes itself into a corner.
+- Keep the format close to what the model has seen naturally occurring in text on the internet.
+- Make sure there's no formatting "overhead" such as having to keep an accurate count of thousands of lines of code, or string-escaping any code it writes.
+
+One rule of thumb is to think about how much effort goes into human-computer interfaces (HCI), and plan to invest just as much effort in creating good _agent_-computer interfaces (ACI). Here are some thoughts on how to do so:
+
+- Put yourself in the model's shoes. Is it obvious how to use this tool, based on the description and parameters, or would you need to think carefully about it? If so, then it’s probably also true for the model. A good tool definition often includes example usage, edge cases, input format requirements, and clear boundaries from other tools.
+- How can you change parameter names or descriptions to make things more obvious? Think of this as writing a great docstring for a junior developer on your team. This is especially important when using many similar tools.
+- Test how the model uses your tools: Run many example inputs in our [workbench](https://console.anthropic.com/workbench) to see what mistakes the model makes, and iterate.
+- [Poka-yoke](https://en.wikipedia.org/wiki/Poka-yoke) your tools. Change the arguments so that it is harder to make mistakes.
+
+While building our agent for [SWE-bench](https://www.anthropic.com/research/swe-bench-sonnet), we actually spent more time optimizing our tools than the overall prompt. For example, we found that the model would make mistakes with tools using relative filepaths after the agent had moved out of the root directory. To fix this, we changed the tool to always require absolute filepaths—and we found that the model used this method flawlessly.
+
 </details>
 
+<details>
+<summary>google-announces-gemini-cli-your-open-source-ai-agent</summary>
+
+# Gemini CLI: your open-source AI agent
+
+Jun 25, 2025
+
+Free and open source, Gemini CLI brings Gemini directly into developers’ terminals — with unmatched access for individuals.
+
+https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Gemini_CLI_Hero_Final.width-200.format-webp.webp
+
+Gemini CLI
+
+For developers, the command line interface (CLI) isn't just a tool; it's home. The terminal’s efficiency, ubiquity and portability make it the go-to utility for getting work done. And as developers' reliance on the terminal endures, so does the demand for integrated AI assistance.
+
+That’s why we’re introducing [Gemini CLI](http://github.com/google-gemini/gemini-cli), an open-source AI agent that brings the power of Gemini directly into your terminal. It provides lightweight access to Gemini, giving you the most direct path from your prompt to our model. While it excels at coding, we built Gemini CLI to do so much more. It’s a versatile, local utility you can use for a wide range of tasks, from content generation and problem solving to deep research and task management.
+
+We’ve also integrated Gemini CLI with Google’s AI coding assistant, [Gemini Code Assist](https://codeassist.google/), so that all developers — on free, Standard, and Enterprise Code Assist plans — get prompt-driven, AI-first coding in both VS Code and Gemini CLI.
+
+https://storage.googleapis.com/gweb-uniblog-publish-prod/original_images/Gemini_CLI_GIF.gif
+
+## Unmatched usage limits for individual developers
+
+To use Gemini CLI free-of-charge, simply login with a personal Google account to get a free Gemini Code Assist license. That free license gets you access to Gemini 2.5 Pro and its massive 1 million token context window. To ensure you rarely, if ever, hit a limit during this preview, we offer the industry’s largest allowance: 60 model requests per minute and 1,000 requests per day at no charge.
+
+If you’re a professional developer who needs to run multiple agents simultaneously, or if you prefer to use specific models, you can use a [Google AI Studio](https://aistudio.google.com/apikey) or [Vertex AI](https://console.cloud.google.com/vertex-ai/studio/multimodal) key for usage-based billing or get a Gemini Code Assist Standard or Enterprise license.
+
+https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Gemini_CLI_infographic.width-1000.format-webp.webp
+
+Gemini CLI offers the industry’s largest usage allowance at 60 model requests per minute and 1,000 model requests per day at no charge
+
+## Powerful models in your command line
+
+Now in preview, Gemini CLI provides powerful AI capabilities, from code understanding and file manipulation to command execution and dynamic troubleshooting. It offers a fundamental upgrade to your command line experience, enabling you to write code, debug issues and streamline your workflow with natural language.
+
+Its power comes from built-in tools allowing you to:
+
+- **Ground prompts with Google Search** so you can fetch web pages and provide real-time, external context to the model
+- **Extend Gemini CLI’s capabilities** through built-in support for the Model Context Protocol (MCP) or bundled extensions
+- **Customize prompts and instructions** to tailor Gemini for your specific needs and workflows
+- **Automate tasks and integrate with existing workflows** by invoking Gemini CLI non-interactively within your scripts
+
+Sorry, your browser doesn't support embedded videos, but don't worry, you can [download it](https://storage.googleapis.com/gweb-uniblog-publish-prod/original_videos/GenMedia_demo_keyword.mp4) and watch it with your favorite video player!
+
+Gemini CLI can be used for a wide variety of tasks, including making a short video showing the story of a ginger cat’s adventures around Australia with Veo and Imagen
+
+## Open and extensible
+
+Because Gemini CLI is fully [open source (Apache 2.0)](https://github.com/google-gemini/gemini-cli/blob/main/LICENSE), developers can inspect the code to understand how it works and verify its security implications. We fully expect (and welcome!) a global community of developers to [contribute to this project](https://github.com/google-gemini/gemini-cli/blob/main/CONTRIBUTING.md) by reporting bugs, suggesting features, continuously improving security practices and submitting code improvements. [Post your issues](http://github.com/google-gemini/gemini-cli/issues) or [submit your ideas](http://github.com/google-gemini/gemini-cli/discussions) in our GitHub repo.
+
+We also built Gemini CLI to be extensible, building on emerging standards like MCP, system prompts (via GEMINI.md) and settings for both personal and team configuration. We know the terminal is a personal space, and everyone deserves the autonomy to make theirs unique.
+
+## Shared technology with Gemini Code Assist
+
+Sometimes, an IDE is the right tool for the job. When that time comes, you want all the capabilities of a powerful AI agent by your side to iterate, learn and overcome issues quickly.
+
+[Gemini Code Assist](https://codeassist.google/), Google’s AI coding assistant for students, hobbyists and professional developers, now shares the same technology with Gemini CLI. In VS Code, you can place any prompt into the chat window using agent mode, and Code Assist will relentlessly work on your behalf to write tests, fix errors, build out features or even migrate your code. Based on your prompt, Code Assist’s agent will build a multi-step plan, auto-recover from failed implementation paths and recommend solutions you may not have even imagined.
+
+Sorry, your browser doesn't support embedded videos, but don't worry, you can [download it](https://storage.googleapis.com/gweb-uniblog-publish-prod/original_videos/gemini_cli_code_assist_demo_cut.mp4) and watch it with your favorite video player!
+
+Gemini Code Assist’s chat agent is a multi-step, collaborative, reasoning agent that expands the capabilities of simple-command response interactions
+
+Gemini Code Assist agent mode is available at no additional cost for all plans (free, Standard and Enterprise) through the [Insiders channel](https://developers.google.com/gemini-code-assist/docs/use-agentic-chat-pair-programmer#before-you-begin). If you aren’t already using Gemini Code Assist, give it a try. Its free tier has the highest usage limit in the market today, and only takes less than a minute to [get started](https://codeassist.google/).
+
+## Easy to get started
+
+So what are you waiting for? Upgrade your terminal experience with Gemini CLI today. Get [started by installing Gemini CLI.](http://github.com/google-gemini/gemini-cli) All you need is an email address to get Gemini practically unlimited in your terminal.
+
+</details>
+
+<details>
+<summary>introducing-operator-openai</summary>
+
+# Introducing Operator
+
+A research preview of an agent that can use its own browser to perform tasks for you. Available to Pro users in the U.S.
+
+Today we’re releasing [Operator⁠(opens in a new window)](https://operator.chatgpt.com/), an agent that can go to the web to perform tasks for you. Using its own browser, it can look at a webpage and interact with it by typing, clicking, and scrolling. **It is currently a research preview**, meaning it has limitations and will evolve based on user feedback. Operator is one of our first agents, which are AIs capable of doing work for you independently—you give it a task and it will execute it.
+
+Operator can be asked to handle a wide variety of repetitive browser tasks such as filling out forms, ordering groceries, and even creating memes. The ability to use the same interfaces and tools that humans interact with on a daily basis broadens the utility of AI, helping people save time on everyday tasks while opening up new engagement opportunities for businesses.
+
+To ensure a safe and iterative rollout, we are starting small. Starting today, Operator is available to [Pro](https://openai.com/chatgpt/pricing/) users in the U.S. at [operator.chatgpt.com⁠(opens in a new window)](https://operator.chatgpt.com/). This research preview allows us to learn from our users and the broader ecosystem, refining and improving as we go. Our plan is to expand to Plus, Team, and Enterprise users and integrate these capabilities into ChatGPT in the future.
+
+## How Operator works
+
+Operator is powered by a new model called [Computer-Using Agent (CUA)](https://openai.com/index/computer-using-agent/). Combining GPT‑4o's vision capabilities with advanced reasoning through reinforcement learning, CUA is trained to interact with graphical user interfaces (GUIs)—the buttons, menus, and text fields people see on a screen.
+
+Operator can “see” (through screenshots) and “interact” (using all the actions a mouse and keyboard allow) with a browser, enabling it to take action on the web without requiring custom API integrations.
+
+If it encounters challenges or makes mistakes, Operator can leverage its reasoning capabilities to self-correct. When it gets stuck and needs assistance, it simply hands control back to the user, ensuring a smooth and collaborative experience.
+
+While CUA is still in early stages and has limitations, it sets new state-of-the-art benchmark results in WebArena and WebVoyager, two key browser use benchmarks. Read more about evals and the research behind Operator in [our research blog post](https://openai.com/index/computer-using-agent/).
+
+## How to use
+
+To get started, simply describe the task you’d like done and Operator can handle the rest. Users can choose to take over control of the remote browser at any point, and Operator is trained to proactively ask the user to take over for tasks that require login, payment details, or when solving CAPTCHAs.
+
+Users can personalize their workflows in Operator by adding custom instructions, either for all sites or for specific ones, such as setting preferences for airlines on Booking.com. Operator lets users save prompts for quick access on the homepage, ideal for repeated tasks like restocking groceries on Instacart. Similar to using multiple tabs on a browser, users can have Operator run multiple tasks simultaneously by creating new conversations, like ordering a personalized enamel mug on Etsy while booking a campsite on Hipcamp.
+
+## Ecosystem & users
+
+[Operator⁠(opens in a new window)](https://operator.chatgpt.com/) transforms AI from a passive tool to an active participant in the digital ecosystem. It will streamline tasks for users and bring the benefits of agents to companies that want innovative customer experiences and desire higher rates of conversion. We’re collaborating with companies like DoorDash, Instacart, OpenTable, Priceline, StubHub, Thumbtack, Uber, and others to ensure Operator addresses real-world needs while respecting established norms. In addition to these collaborations, we see a lot of potential to improve the accessibility and efficiency of certain workflows, particularly in public sector applications. To explore these use cases further, we’re working with organizations like the [City of Stockton⁠(opens in a new window)](https://www.stocktonca.gov/) to make it easier to enroll in city services and programs.
+
+> “As we learn more about Operator during its research preview, we'll be better equipped to identify ways that AI can make civic engagement even easier for our residents.”
+
+Jamil Niazi, Director of Information Technology at City of Stockton
+
+By releasing Operator to a limited audience initially, we aim to learn quickly and refine its capabilities based on real-world feedback, ensuring we balance innovation with trust and safety. This collaborative approach helps ensure Operator delivers meaningful value to users, creators, businesses, and public sector organizations alike.
+
+> “OpenAI's Operator is a technological breakthrough that makes processes like ordering groceries incredibly easy.”
+
+Daniel Danker, Chief Product Officer at Instacart
+
+## Safety and privacy
+
+Ensuring Operator is safe to use is a top priority, with three layers of safeguards to prevent abuse and ensure users are firmly in control.
+
+First, Operator is trained to ensure that the person using it is always in control and asks for input at critical points.
+
+- **Takeover mode:** Operator asks the user to take over when inputting sensitive information into the browser, such as login credentials or payment information. When in takeover mode, Operator does not collect or screenshot information entered by the user.
+- **User confirmations**: Before finalizing any significant action, such as submitting an order or sending an email, Operator should ask for approval.
+- **Task limitations:** Operator is trained to decline certain sensitive tasks, such as banking transactions or those requiring high-stakes decisions, like making a decision on a job application.
+- **Watch mode**: On particularly sensitive sites, such as email or financial services, Operator requires close supervision of its actions, allowing users to directly catch any potential mistakes.
+
+Next, we’ve made it easy to manage data privacy in Operator.
+
+- **Training opt out:** Turning off ‘Improve the model for everyone’ in ChatGPT settings means data in Operator will also not be used to train our models.
+- **Transparent data management:** Users can delete all browsing data and log out of all sites with one click under the Privacy section of Operator settings. Past conversations in Operator can also be deleted with one click.
+
+Lastly, we’ve built defenses against adversarial websites that may try to mislead Operator through hidden prompts, malicious code, or phishing attempts:
+
+- **Cautious navigation**: Operator is designed to detect and ignore prompt injections.
+- **Monitoring**: A dedicated “monitor model” watches for suspicious behavior and can pause the task if something seems off.
+- **Detection pipeline**: Automated and human review processes continuously identify new threats and quickly update safeguards.
+
+We know bad actors may try to misuse this technology. That’s why we’ve designed Operator to refuse harmful requests and block disallowed content. Our moderation systems can issue warnings or even revoke access for repeated violations, and we’ve integrated additional review processes to detect and address misuse. We’re also providing [guidance](https://openai.com/policies/using-operator-in-line-with-our-policies/) on how to interact with Operator in compliance with our [Usage Policies](https://openai.com/policies/usage-policies/).
+
+While Operator is designed with these safeguards, no system is flawless and this is still a research preview; we are committed to continuous improvement through real-world feedback and rigorous testing. For more on our approach, [visit the safety section of the Operator research blog](https://openai.com/index/computer-using-agent/).
+
+## Limitations
+
+Operator is currently in an early research preview, and while it’s already capable of handling a wide range of tasks, it’s still learning, evolving and may make mistakes. For instance, it currently encounters challenges with complex interfaces like creating slideshows or managing calendars. Early user feedback will play a vital role in enhancing its accuracy, reliability, and safety, helping us make Operator better for everyone.
+
+## What's next
+
+**CUA in the API:** We plan to expose the model powering Operator, [CUA](https://openai.com/index/computer-using-agent/), in the API soon so that developers can use it to build their own computer-using agents.
+
+**Enhanced Capabilities:** We’ll continue to improve Operator’s ability to handle longer and more complex workflows.
+
+**Wider Access:** We plan to expand [Operator⁠(opens in a new window)](https://operator.chatgpt.com/) to Plus, Team, and Enterprise users and integrate its capabilities directly into ChatGPT in the future once we are confident in its safety and usability at scale, unlocking seamless real-time and asynchronous task execution.
+
+</details>
+
+<details>
+<summary>introducing-perplexity-deep-research</summary>
+
+# Introducing Perplexity Deep Research
+
+**Today we’re launching Deep Research** to save you hours of time by conducting in-depth research and analysis on your behalf. When you ask a Deep Research question, Perplexity performs dozens of searches, reads hundreds of sources, and reasons through the material to autonomously deliver a comprehensive report. It excels at a range of expert-level tasks—from finance and marketing to product research—and attains high benchmarks on Humanity’s Last Exam.
+
+We believe everyone should have access to powerful research tools. That’s why we’re making Deep Research free for all. Pro subscribers get unlimited Deep Research queries, while non-subscribers will have access to a limited number of answers per day. Deep Research is available on Web starting today and will soon be rolling out to iOS, Android, and Mac. (Be sure update your apps to the latest version.)
+
+To give it a try, go to [perplexity.ai and select “Deep Research”](https://www.perplexity.ai/?model_id=deep_research) from the mode selector in the search box before submitting your query.
+
+### How It Works
+
+Perplexity already excels at answering questions. Deep Research takes question answering to the next level by spending 2-4 minutes doing the work it would take a human expert many hours to perform. Here’s how it works:
+
+- **Research with reasoning** \- Equipped with search and coding capabilities, Perplexity’s Deep Research mode iteratively searches, reads documents, and reasons about what to do next, refining its research plan as it learns more about the subject areas. This is similar to how a human might research a new topic, refining one’s understanding throughout the process.
+
+- **Report writing** \- Once the source materials have been fully evaluated, the agent then synthesizes all the research into a clear and comprehensive report.
+
+- **Export & Share** \- You can then export the final report to a PDF or document, or convert it into a Perplexity Page and share it with colleagues or friends.
+
+
+https://framerusercontent.com/images/Lc0634aprN2JYuFLQ8VfKthJnAk.png
+
+### When to Use Deep Research
+
+We built Deep Research to empower everyone to conduct expert-level analysis across a range of complex subject matters. Deep Research excels at creating work artifacts in domains including finance, marketing, and technology, and is equally useful as a personal consultant in areas such as health, product research, and travel planning. Here are a a few examples of how you might use Deep Research on Perplexity.
+
+#### Finance
+
+https://framerusercontent.com/images/trzwsXtuC3j68cIGyUb6k2lLk.png
+
+#### Marketing
+
+https://framerusercontent.com/images/n8ptzcWQs7qIv7JiMDS1ZwJmKA.png
+
+#### Technology
+
+https://framerusercontent.com/images/wRBHkQ4dqR8tLeYql0DyOUdh78.png
+
+#### Current Affairs
+
+https://framerusercontent.com/images/wug2dVncsmdZqLMr6KElOCtglhc.png
+
+#### Health
+
+https://framerusercontent.com/images/Sqc4r85ACZIQZTzC2pJhe1BCQYc.png
+
+#### Biography
+
+https://framerusercontent.com/images/tQO9LIHgnWvalzwrgmmLCVzqT4.png
+
+#### Travel
+
+https://framerusercontent.com/images/ofWFPGvvrYQWaFAr6BOBwOIvpk.png
+
+### Humanity’s Last Exam
+
+Deep Research on Perplexity attains a 21.1% accuracy score on Humanity’s Last Exam, significantly higher than Gemini Thinking, o3-mini, o1, DeepSeek-R1, and many other leading models. [Humanity’s Last Exam⁠](https://lastexam.ai/) is a comprehensive benchmark for AI systems consisting of over 3,000 questions across 100+ subjects ranging from mathematics and science to history and literature.
+
+https://framerusercontent.com/images/hplibuiapLcxAxdbJQWfhnLmiJU.png
+
+### SimpleQA
+
+Scoring 93.9% accuracy on the [SimpleQA](https://arxiv.org/html/2411.04368v1) benchmark — a bank of several thousand questions that test for factuality — Perplexity Deep Research far exceeds the performance of leading models.
+
+https://framerusercontent.com/images/ttftsapj52NTVpjPcXVOj8JfKw.png
+
+### Runtime Stats
+
+Deep Research on Perplexity not only attains high scores on industry benchmarks, but it does so while completing most research tasks in under 3 minutes — which we’re working to make even faster in the future.
+
+https://framerusercontent.com/images/enepaQzuMoqWmDzgU6x5D9ydTqc.png
+
+</details>
+
+<details>
+<summary>real-world-gen-ai-use-cases-from-the-world-s-leading-organiz</summary>
+
+Exactly a year ago, we first published this list during Google Cloud Next 24. It numbered 101 entries.
+
+It felt like a lot at the time, and served as a showcase of how much momentum both Google and the industry were seeing around generative AI adoption. In the brief period of gen AI being widely available, organizations of all sizes had begun experimenting with it and putting it into production across their work and across the world, doing so at [a speed rarely seen with new technology](https://cloud.google.com/transform/the-prompt-prototype-to-production-gen-ai).
+
+What a difference a year makes. Our list has grown by 6X. And still, that’s just scratching the surface of what’s becoming possible with AI across the enterprise.
+
+Many of these use cases are coming to life this week at [Google Cloud Next 25](https://cloud.google.com/blog/topics/google-cloud-next/welcome-to-google-cloud-next25), as we join with these customers and partners and thousands more in Las Vegas and virtually around the globe.
+
+To name just a few: Wendy’s, Papa John’s pizza, and Uber are all managing orders faster, whether that’s at the drive-thru or through their app with predictive AI tools. Mercedes Benz and General Motors have enhanced in-vehicle services while Samsung’s newest phones and even its in-home robot, Ballie, have more responsive features thanks to AI. Financial institutions like Citi, Deutsche Bank, and Intesa Sanpaolo are providing new services securely, monitoring markets faster, and combatting fraud in novel ways.
+
+Given the incredible pace of innovation and progress we continue to see, we are confident that AI will grow beyond even our imagination as our customers continue to challenge us to design, build, deploy, and create value.
+
+Hopefully you find something here that will propel our own AI endeavors together.
+
+* * *
+
+The list is organized by 11 major industry groups, and within those, six agent types: Customer, Employee, Creative, Code, Data, and Security. There are 280 new entries, denoted with an asterisk (\*) before the organization’s name.
+
+Automotive & Logistics
+
+### **Customer Agents**
+
+- **Continental** is using Google's data and AI technologies to develop automotive solutions that are safe, efficient, and user-focused. One of the initial outcomes of this partnership is the integration of Google Cloud's conversational AI technologies into Continental's Smart Cockpit HPC, an in-vehicle speech-command solution.
+
+- **General Motors**’ OnStar has been augmented with new AI features, including a virtual assistant powered by Google Cloud’s conversational AI technologies that are better able to recognize the speaker’s intent.
+
+- \* **MercedesBenz** is providing conversational search and navigation in the new CLA series cars using Google Cloud’s industry-tuned Automotive AI Agent.
+
+- **Mercedes Benz** is infusing e-commerce capabilities into its online storefront with a gen AI-powered smart sales assistant.
+
+- **PODS** worked with the advertising agency Tombras to create the “World’s Smartest Billboard” using Gemini — a campaign on its trucks that could adapt to each neighborhood in New York City, changing in real-time based on data. It hit all 299 neighborhoods in just 29 hours, creating more than 6,000 unique headlines.
+
+- **UPS Capital** launched DeliveryDefense Address Confidence, which uses machine learning and UPS data to provide a confidence score for shippers to help them determine the likelihood of a successful delivery.
+
+- **Volkswagen of America** built a virtual assistant in the myVW app, where drivers can explore their owners’ manuals and ask questions, such as, “How do I change a flat tire?” or “What does this digital cockpit indicator light mean?” Users can also use Gemini’s multimodal capabilities to see helpful information and context on indicator lights simply by pointing their smartphone cameras at the dashboard.
+
+
+### **Employee Agents**
+
+- **704 Apps** creates applications serving the last-mile transportation segment, connecting thousands of drivers and passengers every day. During trips, the audio content of conversations between car occupants is sent to Gemini, which measures the emotional “temperature." Specific words such as “robbery”, “assault”, “kidnapping”, among others, can be classified as hostile by the tool, generating alerts to anticipate risky situations before they happen.
+
+- **Oxa**, a developer of software for autonomous vehicles, uses Gemini for Google Workspace to build campaign templates for metrics reporting, write social posts in order to make marketing processes more efficient, create job descriptions, and proofread content across all teams, saving time and resources.
+
+- \* **Rivian** uses Google Workspace with Gemini to enhance communication and collaboration across tech and marketing teams, resulting in faster, higher quality work.
+
+- **Toyota** implemented an AI platform using Google Cloud's AI infrastructure to enable factory workers to develop and deploy machine learning models. This led to a reduction of over 10,000 man-hours per year and increased efficiency and productivity.
+
+- **Uber** is using AI agents to help employees be more productive, save time, and be even more effective at work. For customer service representatives, the company launched new tools that summarize communications with users and can even surface context from previous interactions, so front-line staff can be more helpful and effective.
+
+- \*Uber also uses Google Workspace with Gemini to save time on repetitive tasks, free up developers for higher-value work, reduce their agency spending, and to enhance employee retention.
+
+
+### **Code Agents**
+
+- \* **Renault Group**’s **Ampere**, an EV and software subsidiary created in 2023, is using an enterprise version of Gemini Code Assist, built for teams of developers and able to understand a company’s code base, standards, and conventions.
+
+
+### **Data Agents**
+
+- **BMW Group**, in collaboration with Monkeyway, developed the AI solution SORDI.ai to optimize industrial planning processes and supply chains with gen AI. This involves scanning assets and using Vertex AI to create 3D models that act as digital twins that perform thousands of simulations to optimize distribution efficiency.
+
+- **Dematic** is using the multimodal features in Vertex AI and Gemini to build end-to-end fulfillment solutions for both ecommerce and omnichannel retailers.
+
+- **Geotab**, a global leader in telematics, uses BigQuery and Vertex AI to analyze billions of data points per day from over 4.6 million vehicles. This enables real-time insights for fleet optimization, driver safety, transportation decarbonization, and macro-scale transportation analytics to drive safer and more sustainable cities.
+
+- **Kinaxis** is building data-driven supply chain solutions to address logistics use cases including scenario modeling, planning, operations management, and automation.
+
+- \* **Nuro**, an autonomous driving company, uses vector search in AlloyDB to enable their vehicles to accurately classify objects encountered on the road.
+
+- \* **Picterra**, which calls itself a search engine for the physical world, adopted Google Kubernetes Engine to power its platform, providing the ability to quickly scale to meet the demands of geospatial AI workloads. With GKE, Picterra can model the terrain of entire countries quickly, even at ultra-high resolutions.
+
+- **Prewave**, a supply chain risk intelligence platform, utilizes Google Cloud's AI services to provide end-to-end risk monitoring and ESG risk detection for businesses. This enables companies to gain transparency deep into their supply chains, ensuring resilience, sustainability, and compliance with regulations like the European CSDDD.
+
+- \* **TruckHouse** specializes in expedition vehicles and speeds inventory tracking with Gemini in Sheets so they can spend more time in the great outdoors.
+
+- **UPS** is building a digital twin of its entire distribution network, so both workers and customers can see where their packages are at any time.
+
+- **Woven** – **Toyota**'s investment in the future of mobility — is partnering with Google to leverage vast amounts of data and AI to enable autonomous driving, supported by thousands of ML workloads on Google Cloud’s AI Hypercomputer. This has resulted in 50% total-cost-of-ownership savings to support automated driving.
+
+Business & Professional Services
+
+### **Customer Agents**
+
+- \* **Accenture** is transforming customer support at a major retailer by offering convenient self-service options through virtual assistants, enhancing the overall customer experience.
+
+- \* **Capgemini** is using Google Cloud to build AI agents that help optimize the ecommerce experience by helping retailers accept customer orders through new revenue channels and accelerate the order-to-cash process for digital stores.
+
+- \* **Deloitte** offers a “Care Finder” agent, built with Google Cloud, as part of its Agent Fleet. The agent helps care seekers find in-network providers — often in less than a minute — significantly faster than the average call time of five to eight minutes.
+
+- **Ferret.ai** uses AI to offer insights about the backgrounds of people in a user's personal and professional network, providing a curated relationship intelligence and monitoring solution for its users — increasingly important services in a world of growing reputational risks.
+
+- \* **Intuit**, the makers of TurboTax, integrated Google Cloud’s visual recognition platform, Doc AI, and Gemini models into Intuit’s proprietary GenOS. This will expand the capabilities of Intuit’s “done-for-you” autofill of tax returns across the ten most common U.S. tax forms (variations of the 1099 and 1040 forms), helping users save time and boosting accuracy.
+
+- \* **Stax AI**, which aims to revolutionize retirement planning with AI, uses MongoDB Atlas and Vertex AI to automate its manual processes and transform massive volumes of trust accounting data in minutes.
+
+- **Sutherland**, a leading digital transformation company, is focused on bringing together human expertise and AI, including boosting its client-facing teams by automatically surfacing suggested responses and automating insights in real time.
+
+- \* **Wagestream**, a financial wellbeing platform for employee benefits, is using Gemini models to handle more than 80% of its internal customer inquiries, including questions about payment dates, balances, and more.
+
+- \* **WealthAPI**, the leading provider of wealth management interfaces in Germany, uses Gemini and DataStax Astra DB to deliver next-gen financial insights in real time to millions of customers for personalized guidance at scale.
+
+
+### **Employee Agents**
+
+- **Allegis Group**, a global leader in talent solutions, partnered with TEKsystems to implement AI models to streamline its recruitment process, including automating tasks such as updating candidate profiles, generating job descriptions, and analyzing recruiter-candidate interactions. The implementation resulted in significant improvements in recruiter efficiency and a reduction in technical debt.
+
+- \* **BCG** uses Google Cloud to provide a sales optimization tool that improves the effectiveness and impact of insurance advisors.
+
+- **Cintas** is using Vertex AI Search to develop an internal knowledge center for customer service and sales teams to easily find key information.
+
+- \* **Beyond** is a technology consultancy that guides their clients through transformational journeys to unlock the potential of AI and cloud-based technology. Google Workspace with Gemini helps them reduce the time from project brief to project kickoff from months to weeks, and the time for first drafts of RFI responses from days to minutes.
+
+- **Dun & Bradstreet**, a business research and intelligence service, built an email-generation tool with Gemini that helps sellers create tailored, personalized communications to prospects and customers for its research services. The company also developed intelligent search capabilities to help users with complex queries like, "Find me all the companies in this area with a high ESG rating."
+
+- \* **Cognizant** used Vertex AI and Gemini built an AI agent to help legal teams draft contracts, assign risk scores and make recommendations for ways to optimize operational impact.
+
+- \* **Equifax** adopted Google Workspace, launching a strategic change management campaign to ensure a smooth transition across more than 20 countries in one weekend. Workspace’s suite of Gemini-powered tools for communication, collaboration, and productivity offered a comprehensive and user-friendly solution that could be easily embraced by Equifax employees at all levels.
+
+- \* **Finnt**, part of the Google for Startups Cloud AI Accelerator, provides AI automation solutions for corporate finance teams, helping to cut accounting procedures time by 90%, boost accuracy, and unlock unique insights.
+
+- **Flashpoint** is improving efficiency and productivity across its workforce, using Google Workspace to communicate and collaborate more effectively, maximize ROI, and increase employee satisfaction, so they can dedicate more time to keeping customers secure.
+
+- **Fluna**, a Brazilian digital services company, has automated the analysis and drafting of legal agreements using Vertex AI, Document AI, and Gemini 1.5 Pro, achieving an accuracy of 92% in data extraction while ensuring security and reliability for sensitive information.
+
+- \* **FreshFields**, a global law firm, will roll out Gemini with Google Workspace across its practice and will also create groundbreaking AI products and bespoke AI agents to transform processes in the highly regulated legal industry.
+
+- \* **Joe the Architect**, a 25-person architecture firm, catches up on long email chains with Gemini in Gmail to keep track of client needs across dozens of conversations.
+
+- \* **KPMG** is building Google AI into their newly formed KPMG Law firm, as well as driving AI transformation within the banking industry, and the company is also implementing Agentspace to enhance its own workplace operations.
+
+- **L+R**, a design and technology agency, leverages Gemini for Google Workspace Workspace to elevate performance and precision, streamlining workflows and empowering its team to achieve more impactful results.
+
+- **Monks** used Google Gemini to help Hatch build a personalized ad campaign. The campaign delivered an 80% improved click-through rate, 46% more engaged site visitors, and a 31% improved cost-per-purchase over other campaigns. On top of this, by using AI the team was able to deliver the campaign much more efficiently, reducing time to investment by 50% and costs by 97%.
+
+- **Own Your Brand** founder Lauren Magenta uses Google Workspace to run her business and Gemini for Google Workspace is transforming how she manages enrollment. Gemini helps her quickly draft personalized emails to potential clients in her own voice.
+
+- **Randstad**, a large HR services and talent provider, is using Gemini for Workspace across its organization to transform its work culture, leading to a more culturally diverse and inclusive workplace that’s seen a double-digit reduction in sick days.
+
+- \* **Sulamérica** adopted Google Workspace a decade ago to make collaboration among employees more agile, intuitive, and fluid. The insurance company recently started using Gemini in Workspace, making it available to 1,250 employees to increase operational efficiency, security, and productivity.
+
+- \* **UKG**, an HR and workforce management solutions provider, enhances the workplace experience with UKG Bryte AI, a trusted conversational agent built with Google Cloud that enables HR administrators and people managers to request information about company policies, business insights, and more.
+
+
+### **Creative Agents**
+
+- **Agoda** is a digital travel platform that helps travelers see the world for less with its great value deals on a global network of over 4.5M hotels and holiday properties worldwide, plus flights, activities, and more. They’re now testing Imagen and Veo on Vertex AI to create visuals, allowing Agoda teams to generate unique images of travel destinations which would then be used to generate videos.
+
+- \* **Kraft Heinz** is using Google’s media generation models, Imagen and Veo, on Vertex AI, speeding up campaign creations from eight weeks to eight hours.
+
+- \* **Quom**, a financial inclusion specialist in Mexico, has developed AI-powered conversational agents that optimize and personalize user and customer support.
+
+- \* **Salesrun**, the world’s first dedicated sales activity suite, sees Google Cloud gen AI as an alternative for analyzing information related to purchasing habits, enabling the optimization of cash flow and boosting sales for its retail customers.
+
+- \* **Thoughtworks** is a global technology consultancy that helps businesses use technology to solve problems and innovate. They use Google Workspace with Gemini to improve internal and external communication across their company, including in non-native languages — from emails to documents and blogs.
+
+- \* **Yazi** turns to Google Workspace with Gemini to accelerate marketing efforts so they can launch products faster; their dev teams also use it to write and deploy more code.
+
+
+### **Code Agents**
+
+- **Capgemini** has been using Code Assist to improve software engineering productivity, quality, security, and developer experience, with early results showing workload gains for coding and more stable code quality.
+
+- \* **Tata Consultancy Services** ( **TCS**) helps build persona-based AI agents on Google Cloud, contextualized with enterprise knowledge to accelerate software development.
+
+
+### **Data Agents**
+
+- \* **The Colombian Security Council** developed a generative AI-based chatbot to improve data analysis and its chemical emergency management processes, allowing for quick responses to urgent situations.
+
+- \* **Contraktor** developed a project to analyze contracts with AI. As a result, the company achieved a reduction of up to 75% in the time taken to analyze and review a contract, with the possibility of both reading and extracting relevant data from the documents.
+
+- **Gamuda Berhad**, a Malaysian infrastructure and property management company, has developed Bot Unify, a platform that democratizes generative AI to allow users access to Gemini models and RAG frameworks to provide faster information and insights during construction projects.
+
+- \* **Habi**, a Colombian real estate company, has implemented AI solutions to streamline and automate the management and verification of physical and digital documents. This improved validation operations and increased the efficiency and adaptability of employees.
+
+- \* **HCLTech**, an industry-leading global technology company, launched HCLTech Insight — a manufacturing quality AI agent that helps predict and eliminate different types of defects on manufacturing using Vertex AI, Google Cloud’s Cortex Framework, and the Manufacturing Data Engine platform.
+
+- **IPRally** built a custom machine-learning platform that uses natural language processing on the text of more than 120 million global patent documents, creating an accurate, easily searchable database that adds more than 200,000 new sources a week.
+
+- **Ipsos** built a data analysis tool for its teams of market researchers, eliminating the need for time-consuming requests to data analysts. The tool is powered by Gemini 1.5 Pro and Flash models, as well as Grounding with Google Search, to enhance real-world accuracy from contemporaneous search information.
+
+- **Juganu**, a SaaS provider for smart cities and smart stores, is working with Google Cloud to automate and digitize the physical store. The company has begun developing digital twins that give retailers virtual eyes in the store to help automate routine tasks, improve efficiency, and deliver better customer experiences.
+
+- \* **Nowports** is harnessing the power of AI to revolutionize logistics and stand out from the competition. By analyzing key operational information, they aim to accurately predict market behavior, optimizing their entire supply chain.
+
+- \* **Servicios** **Orienta**, a Mexican personal wellness and organizational efficiency company, has adopted AI-based solutions to analyze large volumes of data, interpret results, and provide recommendations that enhance the customer experience.
+
+- **Workday** is using natural language processing in Vertex AI Search and Conversation to make data insights more accessible for technical and non-technical users alike.
+
+- \* **Zenpli**, a digital identity partner for other businesses, leverages the multimodal capabilities of the models available in Vertex AI to provide its clients with a radically enhanced experience: a 90% faster onboarding process with contracts, a 50% reduction in costs thanks to AI-powered automation, and superior data quality that ensures regulatory compliance.
+
+[Content continues with similar sections for each industry and agent type]
+
+</details>
+
+<details>
+<summary>stop-building-ai-agents-use-smarter-llm-workflows</summary>
+
+**Hugo:** I've taught and advised dozens of teams building LLM-powered systems. There's a common pattern I keep seeing, and honestly, it's frustrating.
+
+Everyone reaches for agents first. They set up memory systems. They add routing logic. They create tool definitions and character backstories. It feels powerful and it feels like progress.
+
+Until everything breaks. And when things go wrong (which they always do), nobody can figure out why.
+
+**Was it the agent forgetting its task? Is the wrong tool getting selected? Too many moving parts to debug? Is the whole system fundamentally brittle?**
+
+I learned this the hard way. Six months ago, I built a "research crew" with CrewAI: three agents, five tools, perfect coordination on paper. But in practice? The researcher ignored the web scraper, the summarizer forgot to use the citation tool And the coordinator gave up entirely when processing longer documents. It was a beautiful plan falling apart in spectacular ways.
+
+This flowchart came from one of my lessons after debugging countless broken agent systems. Notice that tiny box at the end? That's how rarely you actually need agents. Yet everyone starts there.
+
+[https://substackcdn.com/image/fetch/$s_!ooRJ!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd63636a1-51a8-41cb-886c-63047728b055_1600x785.png](https://substackcdn.com/image/fetch/$s_!ooRJ!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd63636a1-51a8-41cb-886c-63047728b055_1600x785.png)
+
+This post is about what I learned from those failures, including how to avoid them entirely.
+
+The patterns I'll walk through are inspired by [Anthropic's Building Effective Agents post](https://www.anthropic.com/engineering/building-effective-agents). But these aren't theory. This is real code, real failures, and real decisions I've made while teaching these systems. Every example here comes from actual projects I've built or debugged.
+
+You'll discover why agents aren't the answer (most of the time). And more importantly, you'll learn what to build instead.
+
+**What You'll Learn:**
+
+- Why agents are usually not the right first step
+
+- Five LLM workflow patterns that solve most problems
+
+- When agents are the right tool and how to build them safely
+
+
+> 🔗 All examples come from [this GitHub notebook](https://github.com/hugobowne/building-with-ai/blob/main/notebooks/01-agentic-continuum.ipynb)
+
+## Don't Start with Agents
+
+Everyone thinks agents are where you start. It's not their fault: frameworks make it seem easy, demo videos are exciting, and tech Twitter loves the hype.
+
+But here's what I learned after building that CrewAI research crew: **most agent systems break down from too much complexity, not too little.**
+
+In my demo, I had three agents working together:
+
+- A researcher agent that could browse web pages
+
+- A summarizer agent with access to citation tools
+
+- A coordinator agent that managed task delegation
+
+
+Pretty standard stuff, right? Except in practice:
+
+- The researcher ignored the web scraper 70% of the time
+
+- The summarizer completely forgot to use citations when processing long documents
+
+- The coordinator threw up its hands when tasks weren't clearly defined
+
+
+So wait: _“What exactly is an agent?”_ To answer that, we need to look at 4 characteristics of LLM systems.
+
+1. **Memory:** Let the LLM remember past interactions
+
+2. **Information Retrieval:** Add RAG for context
+
+3. **Tool Usage:** Give the LLM access to functions and APIs
+
+4. **Workflow Control:** The LLM output controls which tools are used and when
+
+^ This makes an **agent**
+
+
+[https://substackcdn.com/image/fetch/$s_!hKEL!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F43169d77-56ed-4b9d-8a58-891a5a1039f8_847x480.png](https://substackcdn.com/image/fetch/$s_!hKEL!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F43169d77-56ed-4b9d-8a58-891a5a1039f8_847x480.png) The augmented LLM - Image from **[Building effective agents](https://www.anthropic.com/engineering/building-effective-agents)** by Anthropic
+
+When people say "agent," they mean that last step: the LLM output controls the workflow. Most people skip straight to letting the LLM control the workflow without realizing that **simpler patterns often work better**. Using an agent means handing control to the LLM. But unless your task is so dynamic that its flow can’t be defined upfront, that kind of freedom usually hurts more than it helps. Most of the time, simpler workflows with humans in charge still outperform full-blown agents.
+
+I've debugged this exact pattern with dozens of teams:
+
+1. We have multiple tasks that need automation
+
+2. Agents seem like the obvious solution
+
+3. We build complex systems with roles and memory
+
+4. Everything breaks because coordination is harder than we thought
+
+5. We realize simpler patterns would have worked better
+
+
+> **🔎 Takeaway:** Start with simpler workflows like chaining or routing unless you know you need memory, delegation, and planning.
+
+## Workflow patterns you should use
+
+These five patterns come from [Anthropic's taxonomy](https://www.anthropic.com/engineering/building-effective-agents) – [implemented, tested, and demoed in my notebook](https://github.com/hugobowne/building-with-ai/blob/main/notebooks/01-agentic-continuum.ipynb):
+
+### (1) Prompt Chaining
+
+_Use case: “Writing personalized outreach emails based on LinkedIn profiles.”_
+
+[https://substackcdn.com/image/fetch/$s_!f_-G!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8710a8d3-bcbd-4175-9a3a-f09bba75635d_2242x507.webp](https://substackcdn.com/image/fetch/$s_!f_-G!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8710a8d3-bcbd-4175-9a3a-f09bba75635d_2242x507.webp) The prompt chaining workflow - Image from **[Building effective agents](https://www.anthropic.com/engineering/building-effective-agents)** by Anthropic
+
+You want to reach out to people at companies you’re interested in. Start by extracting structured data from a LinkedIn profile (name, role, company), then generate a tailored outreach email to start a conversation.
+
+**Here are 3 simple steps:**
+
+1. Turn raw LinkedIn profile text into structured data (e.g., name, title, company):
+
+
+```
+linkedin_data = extract_structured_data(raw_profile)
+```
+
+2. Add relevant company context for personalization (e.g., mission, open roles):
+
+
+```
+company_context = enrich_with_context(linkedin_data)
+```
+
+3. Generate a personalized outreach email using the structured profile + company context:
+
+
+```
+email = generate_outreach_email(linkedin_data, company_context)
+```
+
+#### Guidelines:
+
+✅ Use when: Tasks flow sequentially
+
+⚠️ Failure mode: Chain breaks if one step fails
+
+💡 Simple to debug, predictable flow
+
+### (2) Parallelization
+
+_Use case: Extracting structured data from profiles_
+
+Now that chaining works, you want to process many profiles at once and speed up the processing. Split each profile into parts — like education, work history, and skills, then run extract\_structured\_data() in parallel.
+
+**Here are 2 simple steps:**
+
+1. Define tasks to extract key profile fields in parallel:
+
+
+```
+tasks = [\
+    extract_work_history(profile),   # Pull out work experience details\
+    extract_skills(profile),         # Identify listed skills\
+    extract_education(profile)       # Parse education background\
+]
+```
+
+2. Run all tasks concurrently and gather results:
+
+
+```
+results = await asyncio.gather(*tasks)
+```
+
+#### Guidelines:
+
+✅ Use when: Independent tasks run faster concurrently
+
+⚠️ Failure mode: Race conditions, timeout issues
+
+💡 Great for data extraction across multiple sources
+
+### (3) Routing
+
+_Use case: LLM classifies the input and sends it to a specialized workflow_
+
+Say you’re building a support tool that handles product questions, billing issues, and refund requests. Routing logic classifies each message and sends it to the right workflow. If it’s unclear, fall back to a generic handler.
+
+**Here are 2 simple steps:**
+
+1. Choose a handler based on profile type:
+
+
+```
+if profile_type == "executive":
+    handler = executive_handler()    # Use specialized logic for executives
+elif profile_type == "recruiter":
+    handler = recruiter_handler()    # Use recruiter-specific processing
+else:
+    handler = default_handler()      # Fallback for unknown or generic profiles
+```
+
+2. Process the profile with the selected handler:
+
+
+```
+result = handler.process(profile)
+```
+
+#### Guidelines:
+
+✅ Use when: Different inputs need different handling
+
+⚠️ Failure mode: Edge cases fall through routes
+
+💡 Add catch-all routes for unknowns
+
+### (4) Orchestrator-Worker
+
+_Use case: LLM breaks down the task into 1 or more dynamic steps_
+
+You’re generating outbound emails. The orchestrator classifies the target company as tech or non-tech, then delegates to a specialized worker that crafts the message for that context.
+
+**Here are 2 simple steps:**
+
+1. Use LLM to classify the profile as tech or non-tech:
+
+
+```
+industry = llm_classify(profile_text)
+```
+
+2. Route to the appropriate worker based on classification:
+
+
+```
+if industry == "tech":
+    email = tech_worker(profile_text, email_routes)
+else:
+    email = non_tech_worker(profile_text, email_routes)
+```
+
+The orchestrator-worker pattern separates decision-making from execution:
+
+- The orchestrator controls the flow: its output controls what needs to happen and in what order
+
+- The workers carry out those steps: they handle specific tasks delegated to them
+
+
+At first glance, this might resemble routing: a classifier picks a path, then a handler runs. But in routing, control is handed off entirely. In this example, the orchestrator retains control: it initiates the classification, selects the worker, and manages the flow from start to finish.
+
+This is a minimal version of the orchestrator-worker pattern:
+
+- The orchestrator controls the flow, making decisions and coordinating subtasks
+
+- The workers carry out the specialized steps based on those decisions
+
+
+You can scale this up with multiple workers, sequential steps, or aggregation logic (and I encourage you to! If you do so, [make a PR to the repository](https://github.com/hugobowne/building-with-ai/blob/main/notebooks/01-agentic-continuum.ipynb)), but the core structure stays the same.
+
+#### Guidelines:
+
+✅ Use when: Tasks need specialized handling
+
+⚠️ Failure mode: Orchestrator delegates subtasks poorly or breaks down the task incorrectly
+
+💡 Keep orchestrator logic simple and explicit
+
+### (5) Evaluator-Optimizer
+
+_Use case: Refining outreach emails to better match your criteria_
+
+[https://substackcdn.com/image/fetch/$s_!lzd4!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F48d8175e-a3ab-47b1-8a55-4f409ba8aee2_1825x613.png](https://substackcdn.com/image/fetch/$s_!lzd4!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F48d8175e-a3ab-47b1-8a55-4f409ba8aee2_1825x613.png) The evaluator-optimizer workflow - Image from **[Building effective agents](https://www.anthropic.com/engineering/building-effective-agents)** byAnthropic
+
+You’ve got an email generator running, but want to improve tone, structure, or alignment. Add an evaluator that scores each message and, If it doesn’t pass, send it back to the generator with feedback and loop until it meets your bar.
+
+**Here are 2 simple steps:**
+
+1. Generate an initial email from the profile:
+
+
+```
+content = generate_email(profile)
+```
+
+2. Loop until the email passes the evaluator or hits a retry limit:
+
+
+```
+while True:
+    score = evaluate_email(content)
+    if score.overall > 0.8 or score.iterations > 3:
+        break
+    content = optimize_email(content, score.feedback)
+```
+
+#### Guidelines:
+
+✅ Use when: Output quality matters more than speed
+
+⚠️ Failure mode: Infinite optimization loops
+
+💡 Set clear stop conditions
+
+> **🔎 Takeaway:** Most use cases don't need agents. They need better workflow structure.
+
+## When to Use Agents (If You Really Have To)
+
+Agents shine when you have a sharp human in the loop. Here's my hot take: agents excel at unstable workflows where human oversight can catch and correct mistakes.
+
+_When agents actually work well:_
+
+#### Example 1: Data Science Assistant
+
+An agent that writes SQL queries, generates visualizations, and suggests analyses. You're there to evaluate results and fix logical errors. The agent's creativity in exploring data beats rigid workflows.
+
+To build something like this, you’d give the LLM access to tools like run\_sql\_query(), plot\_data(), and summarize\_insights(). The agent routes between them based on the user’s request — for example, writing a query, running it, visualizing the result, and generating a narrative summary. Then, it feeds the result of each tool call back into another LLM request with its memory context. We walk through a live example of this pattern in our [Building with LLMs course](https://maven.com/hugo-stefan/building-llm-apps-ds-and-swe-from-first-principles?utm_campaign=paul-iusztin&utm_medium=affiliate&utm_source=maven&promoCode=PAUL).
+
+[https://substackcdn.com/image/fetch/$s_!Aago!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcf8727e9-f0c0-4420-8ce5-78d846fc15e5_1600x818.png](https://substackcdn.com/image/fetch/$s_!Aago!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcf8727e9-f0c0-4420-8ce5-78d846fc15e5_1600x818.png)
+
+#### Example 2: Creative Writing Partner
+
+An agent brainstorming headlines, editing copy, and suggesting structures. The human judges quality and redirects when needed. Agents excel at ideation with human judgment.
+
+#### Example 3: Code Refactoring Assistant
+
+Proposing design patterns, catching edge cases, and suggesting optimizations. The developer reviews and approves changes. Agents spot patterns humans miss.
+
+## When NOT to use agents
+
+**Enterprise Automation**
+
+Building stable, reliable software? Don't use agents. You can't have an LLM deciding critical workflows in production. Use orchestrator patterns instead.
+
+- **High-Stakes Decisions**
+
+Financial transactions, medical diagnoses, and legal compliance – these need deterministic logic, not LLM guesswork.
+
+
+Back to my CrewAI research crew: the agents kept forgetting goals and skipping tools. Here's what I learned:
+
+**Failure Point #1:** Agents assumed they had context that they didn’t
+
+**Problem:** Long documents caused the summarizer to forget citations entirely
+
+**What I'd do now:** Use explicit memory systems, not just role prompts
+
+**Failure Point #2:** Agents failed to select the right tools
+
+**Problem:** The researcher ignored the web scraper in favor of a general search
+
+**What I'd do now:** Constrain choices with explicit tool menus
+
+**Failure Point #3:** Agents did not handle coordination well
+
+**Problem:** The coordinator gave up when tasks weren't clearly scoped
+
+**What I'd do now:** Build explicit handoff protocols, not free-form delegation
+
+> **🔎 Takeaway:** If you're building agents, treat them like full software systems. Don't skip observability.
+
+[https://substackcdn.com/image/fetch/$s_!cv1W!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3bf927de-ab95-449f-b936-7ccb3ab5f448_1587x526.png](https://substackcdn.com/image/fetch/$s_!cv1W!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3bf927de-ab95-449f-b936-7ccb3ab5f448_1587x526.png) **Table: When to use an LLM, augmented LLM, or Agent (caption)**
+
+* * *
+
+## TL;DR
+
+- ❌ Agents are overhyped and overused
+
+- 🔁 Most cases need simple patterns, not agents
+
+- 🤝 Agents excel in human-in-the-loop scenarios
+
+- ⚠️ Don't use agents for stable enterprise systems
+
+- 🧪 Build with observability and explicit control
+
+
+Agents are overhyped and often overused. In most real-world applications, simple patterns and direct API calls work better than complex agent frameworks. Agents do have a role—in particular, they shine in human-in-the-loop scenarios where oversight and flexibility are needed. But for stable enterprise systems, they introduce unnecessary complexity and risk. Instead, aim to build with strong observability, clear evaluation loops, and explicit control.
+
+</details>
+
+<details>
+<summary>what-are-ai-agents-definition-examples-and-types-google-clou</summary>
+
+# What is an AI agent?
+
+AI agents are software systems that use AI to pursue goals and complete tasks on behalf of users. They show reasoning, planning, and memory and have a level of autonomy to make decisions, learn, and adapt.
+
+Their capabilities are made possible in large part by the multimodal capacity of generative AI and AI foundation models. AI agents can process multimodal information like text, voice, video, audio, code, and more simultaneously; can converse, reason, learn, and make decisions. They can learn over time and facilitate transactions and business processes. Agents can work with other agents to coordinate and perform more complex workflows.
+
+## Key features of an AI agent
+
+As explained above, while the key features of an AI agent are reasoning and acting (as described in [ReAct Framework](https://arxiv.org/pdf/2210.03629)) more features have evolved over time.
+
+- **Reasoning:** This core cognitive process involves using logic and available information to draw conclusions, make inferences, and solve problems. AI agents with strong reasoning capabilities can analyze data, identify patterns, and make informed decisions based on evidence and context.
+- **Acting**: The ability to take action or perform tasks based on decisions, plans, or external input is crucial for AI agents to interact with their environment and achieve goals. This can include physical actions in the case of embodied AI, or digital actions like sending messages, updating data, or triggering other processes.
+- **Observing**: Gathering information about the environment or situation through perception or sensing is essential for AI agents to understand their context and make informed decisions. This can involve various forms of perception, such as computer vision, natural language processing, or sensor data analysis.
+- **Planning**: Developing a strategic plan to achieve goals is a key aspect of intelligent behavior. AI agents with planning capabilities can identify the necessary steps, evaluate potential actions, and choose the best course of action based on available information and desired outcomes. This often involves anticipating future states and considering potential obstacles.
+- **Collaborating**: Working effectively with others, whether humans or other AI agents, to achieve a common goal is increasingly important in complex and dynamic environments. Collaboration requires communication, coordination, and the ability to understand and respect the perspectives of others.
+- **Self-refining**: The capacity for self-improvement and adaptation is a hallmark of advanced AI systems. AI agents with self-refining capabilities can learn from experience, adjust their behavior based on feedback, and continuously enhance their performance and capabilities over time. This can involve machine learning techniques, optimization algorithms, or other forms of self-modification.
+
+## What is the difference between AI agents, AI assistants, and bots?
+
+**AI assistants** are AI agents designed as applications or products to collaborate directly with users and perform tasks by understanding and responding to natural human language and inputs. They can reason and take action on the users' behalf with their supervision.
+
+AI assistants are often embedded in the product being used. A key characteristic is the interaction between the assistant and user through the different steps of the task. The assistant responds to requests or prompts from the user, and can recommend actions but decision-making is done by the user.
+
+|  | **AI agent** | **AI assistant** | **Bot** ﻿ |
+| --- | --- | --- | --- |
+| **Purpose** | Autonomously and proactively perform tasks | Assisting users with tasks | Automating simple tasks or conversations |
+| **Capabilities** | Can perform complex, multi-step actions; learns and adapts; can make decisions independently | Responds to requests or prompts; provides information and completes simple tasks; can recommend actions but the user makes decisions | Follows pre-defined rules; limited learning; basic interactions |
+| **Interaction** | Proactive; goal-oriented | Reactive; responds to user requests | Reactive; responds to triggers or commands |
+
+### Key differences
+
+- **Autonomy**: AI agents have the highest degree of autonomy, able to operate and make decisions independently to achieve a goal. AI assistants are less autonomous, requiring user input and direction. Bots are the least autonomous, typically following pre-programmed rules.
+- **Complexity**: AI agents are designed to handle complex tasks and workflows, while AI assistants and bots are better suited for simpler tasks and interactions.
+- **Learning**: AI agents often employ machine learning to adapt and improve their performance over time. AI assistants may have some learning capabilities, while bots typically have limited or no learning.
+
+## How do AI agents work?
+
+Every agent defines its role, personality, and communication style, including specific instructions and descriptions of available tools.
+
+- **Persona**: A well defined persona allows an agent to maintain a consistent character and behave in a manner appropriate to its assigned role, evolving as the agent gains experience and interacts with its environment.
+- **Memory**: The agent is equipped in general with short term, long term, consensus, and episodic memory. Short term memory for immediate interactions, long-term memory for historical data and conversations, episodic memory for past interactions, and consensus memory for shared information among agents. The agent can maintain context, learn from experiences, and improve performance by recalling past interactions and adapting to new situations.
+- **Tools**: Tools are functions or external resources that an agent can utilize to interact with its environment and enhance its capabilities. They allow agents to perform complex tasks by accessing information, manipulating data, or controlling external systems, and can be categorized based on their user interface, including physical, graphical, and program-based interfaces. Tool learning involves teaching agents how to effectively use these tools by understanding their functionalities and the context in which they should be applied.
+- **Model**: Large language models (LLMs) serve as the foundation for building AI agents, providing them with the ability to understand, reason, and act. LLMs act as the "brain" of an agent, enabling them to process and generate language, while other components facilitate reason and action.
+
+## What are the types of agents in AI?
+
+AI agents can be categorized in various ways based on their capabilities, roles, and environments. Here are some key categories of agents:
+
+There are different definitions of agent types and agent categories.
+
+### Based on interaction
+
+One way to categorize agents is by how they interact with users. Some agents engage in direct conversation, while others operate in the background, performing tasks without direct user input:
+
+- **Interactive partners** (also known as, surface agents) – Assisting us with tasks like customer service, healthcare, education, and scientific discovery, providing personalized and intelligent support. Conversational agents include Q&A, chit chat, and world knowledge interactions with humans. They are generally user query triggered and fulfill user queries or transactions.
+- **Autonomous background processes** (also known as, background agents) – Working behind the scenes to automate routine tasks, analyze data for insights, optimize processes for efficiency, and proactively identify and address potential issues. They include workflow agents. They have limited or no human interaction and are generally driven by events and fulfill queued tasks or chains of tasks.
+
+### Based on number of agents
+
+- **Single agent**: Operate independently to achieve a specific goal. They utilize external tools and resources to accomplish tasks, enhancing their functional capabilities in diverse environments. They are best suited for well defined tasks that do not require collaboration with other AI agents. Can only handle one foundation model for its processing.
+- **Multi-agent**: Multiple AI agents that collaborate or compete to achieve a common objective or individual goals. These systems leverage the diverse capabilities and roles of individual agents to tackle complex tasks. Multi-agent systems can simulate human behaviors, such as interpersonal communication, in interactive scenarios. Each agent can have different foundation models that best fit their needs.
+
+### Benefits of using AI agents
+
+AI agents can enhance the capabilities of language models by providing autonomy, task automation, and the ability to interact with the real world through tools and embodiment.
+
+#### Efficiency and productivity
+
+**Increased output**: Agents divide tasks like specialized workers, getting more done overall.
+
+**Simultaneous execution**: Agents can work on different things at the same time without getting in each other's way.
+
+**Automation**: Agents take care of repetitive tasks, freeing up humans for more creative work.
+
+#### Improved decision-making
+
+**Collaboration**: Agents work together, debate ideas, and learn from each other, leading to better decisions.
+
+**Adaptability**: Agents can adjust their plans and strategies as situations change.
+
+**Robust reasoning**: Through discussion and feedback, agents can refine their reasoning and avoid errors.
+
+#### Enhanced capabilities
+
+**Complex problem-solving**: Agents can tackle challenging real-world problems by combining their strengths.
+
+**Natural language communication**: Agents can understand and use human language to interact with people and each other.
+
+**Tool use**: Agents can interact with the external world by using tools and accessing information.
+
+**Learning and self-improvement**: Agents learn from their experiences and get better over time.
+
+#### Social interaction and simulation
+
+**Realistic simulations**: Agents can model human-like social behaviors, such as forming relationships and sharing information.
+
+**Emergent behavior**: Complex social interactions can arise organically from the interactions of individual agents.
+
+## Challenges with using AI agents
+
+While AI agents offer many benefits, there are also some challenges associated with their use:
+
+**Tasks requiring deep empathy / emotional intelligence or requiring complex human interaction and social dynamics**– AI agents can struggle with nuanced human emotions. Tasks like therapy, social work, or conflict resolution require a level of emotional understanding and empathy that AI currently lacks. They may falter in complex social situations that require understanding unspoken cues.
+
+**Situations with high ethical stakes** – AI agents can make decisions based on data, but they lack the moral compass and judgment needed for ethically complex situations. This includes areas like law enforcement, healthcare (diagnosis and treatment), and judicial decision-making.
+
+**Domains with unpredictable physical environments** – AI agents can struggle in highly dynamic and unpredictable physical environments where real-time adaptation and complex motor skills are essential. This includes tasks like surgery, certain types of construction work, and disaster response.
+
+**Resource-intensive applications** – Developing and deploying sophisticated AI agents can be computationally expensive and require significant resources, potentially making them unsuitable for smaller projects or organizations with limited budgets.
+
+### Use cases for AI agents
+
+Organizations have been deploying agents to address a variety [use cases](https://cloud.google.com/transform/101-real-world-generative-ai-use-cases-from-industry-leaders), which we group into six key broader categories:
+
+### Customer agents
+
+Customer agents deliver personalized customer experiences by understanding customer needs, answering questions, resolving customer issues, or recommending the right products and services. They work seamlessly across multiple channels including the web, mobile, or point of sale, and can be integrated into product experiences with voice or video.
+
+### Employee agents
+
+Employee agents boost productivity by streamlining processes, managing repetitive tasks, answering employee questions, as well as editing and translating critical content and communications.
+
+### Creative agents
+
+Creative agents supercharge the design and creative process by generating content, images, and ideas, assisting with design, writing, personalization, and campaigns.
+
+### Data agents
+
+Data agents are built for complex data analysis. They have the potential to find and act on meaningful insights from data, all while ensuring the factual integrity of their results.
+
+### Code agents
+
+Code agents accelerate software development with AI-enabled code generation and coding assistance, and to ramp up on new languages and code bases. Many organizations are seeing significant gains in productivity, leading to faster deployment and cleaner, clearer code.
+
+### Security agents
+
+Security agents strengthen security posture by mitigating attacks or increasing the speed of investigations. They can oversee security across various surfaces and stages of the security life cycle: prevention, detection, and response.
+
+</details>
