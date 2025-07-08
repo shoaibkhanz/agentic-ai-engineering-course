@@ -1,9 +1,0 @@
-{
-    "num_chars": 9521,
-    "num_words": 1287,
-    "num_sections": 3,
-    "seo": {
-        "title": "LLM Agents: Brains Not Bots",
-        "description": "Unlock the truth: Your LLM isn't an AI agent! Discover why LLMs need an 'orchestrating agent' to plan, act, & self-correct. Master ReAct & Plan-and-Execute for robust AI."
-    }
-}
