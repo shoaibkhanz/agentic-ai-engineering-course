@@ -1,7 +1,7 @@
 ## Global Context
 
-- **What I’m planning to share**: This article provides a deep dive into Retrieval-Augmented Generation (RAG), covering its fundamental principles and moving into the advanced techniques that power modern AI systems. We will explore how RAG is integrated into agentic pipelines, transforming agents from relying on static knowledge to reasoning over dynamic, external data sources. A key focus will be distinguishing between standard RAG and "Agentic RAG," where the agent autonomously decides when and how to retrieve information. The article will cover practical architectures, performance-enhancing strategies, and the pivotal role of RAG in building competent and reliable agents.
-- **Why I think it’s valuable:** RAG is the core technology for building AI agents that are grounded, trustworthy, and knowledgeable. It addresses the critical LLM limitations of knowledge cut-offs and hallucination. For an AI Engineer, mastering RAG is not optional—it's a fundamental skill for creating agents that can leverage proprietary data, access real-time information, and provide accurate, source-backed answers. This guide provides the practical and conceptual knowledge needed to build sophisticated RAG-powered systems.
+- **What I’m planning to share**: This article provides a quick foundation into Retrieval-Augmented Generation (RAG), covering important principles and moving into the advanced techniques that power modern AI systems. (RAG is such a broad method, that we have an entire course dedicated to it) We will explore how RAG is integrated into "agentic" pipelines, transforming agents from relying on static knowledge to reasoning over dynamic, external data sources. A key focus will be distinguishing between standard RAG and "Agentic RAG," where the agent autonomously decides when and how to retrieve information. The article will cover practical architectures, performance-enhancing strategies, and the pivotal role of RAG in building competent and reliable agents.
+- **Why I think it’s valuable:** RAG is the core technology for building AI agents that are grounded, trustworthy, and knowledgeable (also powers its memory as per the last lesson on Memory). It addresses the critical LLM limitations of knowledge cut-offs and hallucination. For an AI Engineer, mastering RAG is not optional—it's a fundamental skill for creating agents that can leverage proprietary data, access real-time information, and provide accurate, source-backed answers. This guide provides the practical and conceptual knowledge needed to build sophisticated RAG-powered systems.
 - **Who the intended audience is:** AI Engineers, developers, and software engineers looking to move beyond basic LLM prompting and build advanced, knowledge-driven agentic systems. This is for builders who want to understand and implement the architectures that power state-of-the-art AI applications.
 - **Expected length of the article in words** (where 200-250 words ~= 1 minute of reading time): ~3500 words (around 14-17 minutes reading time)
 
@@ -54,14 +54,14 @@
 - **Hybrid Search:** Combining the best of both worlds—keyword-based search (like BM25) for precision and vector search for meaning.
 - **Re-ranking:** Using a second, more powerful model (often a cross-encoder) to re-evaluate and re-order the initial set of retrieved documents for better relevance.
 - **Query Transformations:** Techniques to improve the initial query itself, such as breaking a complex question into sub-queries or using an LLM to generate a hypothetical document (HyDE) that answers the question and searching for that instead.
-- **Advanced Chunking Strategies:** Moving beyond simple fixed-size chunks to methods that respect document structure, such as semantic chunking or layout-aware chunking for complex PDFs.
+- **Advanced Chunking Strategies:** Moving beyond simple fixed-size chunks to methods that respect document structure or keep important context, such as semantic chunking, layout-aware chunking for complex PDFs, or Contextual Retrieval (Anthropic blog post).
 - **Section length:** 800 words
 
 ## Section 5: From Standalone Tool to Agentic Capability: Integrating RAG
 
 - Discuss the shift from viewing RAG as an isolated process to seeing it as a fundamental tool in an agent's toolkit (e.g., within LangGraph).
 - Explain that a sophisticated agent doesn't just blindly apply RAG; it *reasons* about when it has a knowledge gap and *decides* to call its RAG tool.
-- Use a conceptual diagram to show an agent's main loop, where it can choose between different tools: `web_search`, `code_interpreter`, and `internal_knowledge_base` (our RAG tool).
+- Use a conceptual Mermaid diagram to show an agent's main loop, where it can choose between different tools: `web_search`, `code_interpreter`, and `internal_knowledge_base` (our RAG tool).
 - Provide a clear, practical example of this in action, showing the agent's "thought process" as it determines that a user's query requires accessing the internal RAG tool.
 - **Section length:** 500 words
 
@@ -79,7 +79,7 @@
 
 ## Section 7: Conclusion: Why RAG is a Pillar of Modern AI Engineering
 
-- Summarize the key takeaways: RAG is the solution to the LLM knowledge problem, advanced techniques are crucial for production-grade quality, and the future of knowledge retrieval is agentic.
+- Summarize the key takeaways: RAG is the solution to the LLM knowledge problem, advanced techniques (paired with comprehensive evaluations) are crucial for production-grade quality, and the future of knowledge retrieval is agentic.
 - Reiterate the core benefits: reducing hallucinations, enabling customization with proprietary data, and building user trust through verifiable, source-based answers.
 - Conclude by positioning RAG not as a niche skill but as a foundational competency for the modern AI Engineer.
 - **Section length:** 100 words
@@ -87,7 +87,7 @@
 ## Golden Sources
 - https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/
 - https://towardsai.net/p/l/a-complete-guide-to-rag
-- https://python.langchain.com/docs/tutorials/rag/
+- https://www.anthropic.com/news/contextual-retrieval
 - https://learn.microsoft.com/en-us/azure/developer/ai/advanced-retrieval-augmented-generation
 - https://www.ibm.com/think/topics/agentic-rag
 

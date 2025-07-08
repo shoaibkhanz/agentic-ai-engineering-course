@@ -1,7 +1,7 @@
 ## Global Context
 
-- **What I'm planning to share:** This article will explore the critical concept of agent memory, moving beyond the limitations of standard LLM context windows. We'll differentiate between the model's static internal knowledge, short-term (context window) memory, and persistent long-term memory. The focus will be on the three types of long-term memory—semantic (facts), episodic (experiences), and procedural (skills)—and their practical implementation. We will detail how to use vector databases as the core engine for recall and frame Retrieval-Augmented Generation (RAG) as the primary architecture for knowledge access. Finally, we'll ground these concepts in reality by discussing the challenges, best practices, and the evolution of memory systems, drawing heavily on insights from practitioners in the field.
-- **Why I think it's valuable:** Memory is the defining feature that elevates a simple LLM-powered application to a truly adaptive and intelligent agent. For an AI Engineer, understanding how to design and build robust memory systems is fundamental. This knowledge enables the creation of agents that can maintain conversational continuity, learn from past interactions, access external and proprietary knowledge, and ultimately provide more personalized, capable, and reliable assistance.
+- **What I'm planning to share:** This article will explore the important concept of agent memory, moving beyond the limitations of standard LLM context windows. We'll differentiate between the model's static internal knowledge, short-term (context window) memory, and persistent long-term memory. The focus will be on the three types of long-term memory—semantic (facts), episodic (experiences), and procedural (skills)—and their practical implementation. We will detail how to use vector databases as the core engine for recall and frame Retrieval-Augmented Generation (RAG) as the primary architecture for knowledge access. Finally, we'll ground these concepts in reality by discussing the challenges, best practices, and the evolution of memory systems.
+- **Why I think it's valuable:** Memory is one of the defining features that elevates a simple LLM-powered application to a truly adaptive and intelligent agent. For an AI Engineer, understanding how to design and build robust memory systems is necessary. This knowledge enables the creation of agents that can maintain conversational continuity, learn from past interactions, access external and proprietary knowledge, and ultimately provide more personalized, capable, and reliable assistance.
 - **Who the intended audience is:** Aspiring AI Engineers and developers aiming to build sophisticated, stateful agents that can learn, reason, and adapt based on accumulated knowledge and experience.
 - **Expected length of the article in words** (where 200-250 words ~= 1 minute of reading time): ~3000 words (around 12 - 15 minutes reading time)
 
@@ -11,9 +11,8 @@
 1.  Introduction: Why Agents Need a Memory
 2.  The Layers of Memory: Internal Knowledge, Short-Term Context, and Long-Term Storage
 3.  The Three Pillars of Long-Term Memory: Semantic, Episodic, and Procedural
-4.  The Engine of Recall: Implementing Long-Term Memory with Vector Databases
-5.  RAG: The Architecture for Agent Knowledge Access
-6.  Real-World Lessons: Challenges, Evolution, and Best Practices in Agent Memory
+4.  The Engine of Recall: Implementing Long-Term Memory with RAG
+5.  Real-World Lessons: Challenges, Evolution, and Best Practices in Agent Memory
 
 
 ## Section 1: Introduction: Why Agents Need a Memory
@@ -46,12 +45,12 @@
 -   **Procedural Memory (Skills & How-To):** The agent's muscle memory for tasks.
     -   What it is: Stored sequences of actions, learned workflows, or reusable code snippets.
     -   How it's used: To efficiently execute multi-step tasks it has performed before.
--   Connect this framework to real-world application. For example, some builders found that a naive fact-extraction system was too shallow, while overly complex schemas were too burdensome. This led to a "convergent evolution" where practitioners independently developed sophisticated, multi-part memory architectures combining these different types.
+-   Connect this framework to real-world application. How can these three types of memory can be applied in practice, depending on the use case.
 -   **Section length:** 600 words
 
-## Section 4: The Engine of Recall: Implementing Long-Term Memory with Vector Databases
+## Section 4: The Engine of Recall: Implementing Long-Term Memory with RAG
 
--   Position vector databases as the foundational technology for implementing modern long-term memory systems.
+-   Position "semantic retrieval" (RAG)as the foundational technology for implementing modern long-term memory systems.
 -   Explain the core workflow in simple terms:
     1.  **Ingestion/Encoding:** Textual information (a memory) is converted into a numerical vector (embedding).
     2.  **Storage:** The vector and its associated metadata are stored in a vector database.
@@ -59,27 +58,16 @@
     4.  **Augmentation:** The text associated with the retrieved vectors is added to the LLM's context.
 -   Include a Mermaid diagram illustrating this "Encode -> Store -> Retrieve -> Augment" flow.
 -   Discuss how this single mechanism can be used to implement both semantic and episodic memory by varying the content being stored (documents vs. conversation snippets).
--   Mention the importance of memory organization, referencing the research report's finding that mixing memory types can cause "retrieval inconsistency." Highlight solutions like using separate indexes or metadata filtering, which aligns with architectures seen in practice that use parallel memory systems.
+-   Highlight solutions like using separate indexes or metadata filtering, which aligns with architectures seen in practice that use parallel memory systems. Hint at the concept of "Agentic RAG" which will be covered in the next lesson.
 -   **Section length:** 600 words (without counting the diagram)
 
-## Section 5: RAG: The Architecture for Agent Knowledge Access
-
--   Define Retrieval-Augmented Generation (RAG) clearly, not as a separate concept, but as the *primary architecture* for implementing knowledge-driven memory.
--   Explain that RAG is the practical realization of semantic memory access. It gives the agent an "open-book exam" instead of forcing it to rely on its closed-book internal knowledge.
--   Outline the two main phases of a RAG pipeline:
-    1.  **Offline Indexing:** Ingesting and embedding the knowledge corpus into a vector store.
-    2.  **Online Retrieval & Generation:** At query time, retrieving relevant documents and augmenting the prompt for the LLM.
--   Emphasize that RAG reduces hallucinations and allows the agent's knowledge to be updated simply by adding new documents to the database.
--   Briefly introduce the concept of "Agentic RAG," where the agent has the autonomy to *decide* when and what to retrieve, making memory access a dynamic tool rather than a fixed step.
--   **Section length:** 500 words
-
-## Section 6: Real-World Lessons: Challenges, Evolution, and Best Practices in Agent Memory
+## Section 5: Real-World Lessons: Challenges, Evolution, and Best Practices in Agent Memory
 
 -   Synthesize the "Challenges and Best Practices" from the research report with hard-won lessons from builders in the field.
 -   **The Ever-Evolving Architecture:** Emphasize that there is no "perfect memory architecture." As a case study, consider how an agent's design might change as underlying technology evolves.
     -   Initial complex schemas can lead to too much overhead.
     -   Compression of context becomes less necessary with larger, cheaper context windows.
-    -   A key insight from the field is that the most valuable memory might be the agent's own "notes to self" (procedural memory) rather than just compressed raw data.
+    -   A key insight from the field is that the most valuable memory might be the agent's own "notes to self" (procedural memory) rather than just compressed raw data. (from youtube video)
 -   **Discuss Key Challenges & Best Practices:**
     -   **Forgetting:** The need for mechanisms to prune or summarize old, irrelevant memories (e.g., time-decay, importance scoring).
     -   **Organization:** The necessity of structuring memory (metadata, separate indexes) to ensure high-quality retrieval.
@@ -90,12 +78,14 @@
 -   **Section length:** 500 words
 
 ## Golden Sources
-
-- https://www.youtube.com/watch?v=7AmhgMAJIT4&list=PLDV8PPvY5K8VlygSJcp3__mhToZMBoiwX&index=112
+- https://www.ibm.com/think/topics/ai-agent-memory
 - https://www.linkedin.com/pulse/memory-management-ai-agents-why-matters-ayesha-amjad-g63of/
-- https://langchain-ai.github.io/langgraph/concepts/memory/
 - https://developer.nvidia.com/blog/rag-101-demystifying-retrieval-augmented-generation-pipelines/
-- https://towardsai.net/p/l/a-complete-guide-to-rag
+- https://www.ibm.com/think/topics/agentic-rag
+- https://www.youtube.com/watch?v=7AmhgMAJIT4&list=PLDV8PPvY5K8VlygSJcp3__mhToZMBoiwX&index=112 (Nice real world example with insights on memory management)
 
 ## Other Sources
+- https://arxiv.org/abs/2504.19413 (Mem0: Building Production-Ready AI Agents with Scalable Long-Term Memory)
+- https://docs.letta.com/guides/agents/memory
+- https://langchain-ai.github.io/langgraph/concepts/memory/
 - https://medium.com/@honeyricky1m3/giving-your-ai-a-mind-exploring-memory-frameworks-for-agentic-language-models-c92af355df06 
