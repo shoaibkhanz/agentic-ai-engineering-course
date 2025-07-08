@@ -38,14 +38,16 @@
 - Detail the key components and flow:
     1. **Defining tools and their schemas:** Explain how developers define tools for the LLM:
         - Define the Python function
-        - Define the schema containing the function name, description (crucial for the LLM to understand when to use the tool), and parameters (type, required/optional properties). Often described using JSON Schema.
+        - Define the schema containing the function name, description (crucial for the LLM to understand when to use the tool), and parameters (type, required/optional properties). Often described using JSON. 
+        - Explain that this is the industry standard when working with OpenAI, Gemini and other LLM providers.
     2. **Using the LLM to call a tool:**
         - The LLM is prompted with the user's query AND the list of available tool definitions.
         - Based on its training, the LLM *decides* if a tool call is appropriate to fulfill the query. Add a quick note specifying that the LLM is specially tuned through instruction fine-tuning to interpret tool schema inputs and output tool calls.
         - If so, it *selects* the most relevant tool.
-        - It then *generates* the arguments for that tool in a structured format (typically JSON).
+        - It then *generates* the arguments for that tool in a structured format (typically JSON). Highlight how we need structured outputs for function calling.
+        - Use the provided system prompt from the provided code to support all these ideas and show how we can guide the LLM to use tools.
     3. **Executing the tool:**
-        - The application receives the LLM's request to call a function (with specific arguments).
+        - The LLM outputs the function's name and arguments. Everything necessary to call the tool.
         - The application code executes the actual tool/function.
         - Explain the importance of structured outputs, as we need to format the function call as a structured output to interpret it properly. 
     4. **Interpreting the tool results with an LLM:**
@@ -66,9 +68,9 @@
 
 ## Section 4: Implementing production-level tool calls with Gemini
 
-- We want to show how to rewrite the from-scratch code using Gemini. Use the provided code examples to show how we can rewrite the "from scratch code" from above using Gemini's interface.
-- Highlight that even if we use Gemini's Native API, we still have to define our function schemas and handle the tool calling ourselves. This is where frameworks such as LangGraph can help us by abstracting these steps. 
-- Emphasize that the API mostly optimizes the system prompt and LLM outputs.
+- We want to show how to rewrite the from-scratch code using Gemini's native tool calling capabilities rather than prompt engineering. Use the provided code examples to show how we can rewrite the "from scratch code" from above using Gemini's interface.
+- Highlight that when using an LLM provider API, such as Gemini, we still have to define our function schemas and handle the tool calling ourselves. This is where frameworks such as LangGraph can help us by abstracting these steps.
+- Explain how the tool calling works. More exactly highlight that now instead of defining a huge system prompt where we guide the LLM how to use the tools, we pass the function schemas to the LLM provider which handles the tool schema injection internally. Emphasize that this is much more efficient than manually crafting tool descriptions in prompts.
 - Explain that all popular APIs, such as OpenAI or Anthropic, use a similar strategy with minimal interface differences.
 - Give step-by-step examples from section `4. Implementing tool calls with Gemini's Native API`, of the provided Notebook. Follow the code flow from the Notebook, highlighting each code cell step by step, while utilizing the markdown/text cells for inspiration.
 -  **Section length:** 300 words (without counting the code)
