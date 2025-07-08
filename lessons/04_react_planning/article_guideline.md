@@ -64,10 +64,13 @@
 - [Agentic Reasoning - IBM](https://www.ibm.com/think/topics/agentic-reasoning)
 - [AI Agent Orchestration - IBM](https://www.ibm.com/think/topics/ai-agent-orchestration)
 - [ReAct Agent - IBM](https://www.ibm.com/think/topics/react-agent)
-- [AI Agent Planning - IBM](https://www.ibm.com/think/topics/ai-agent-planning)
-- [From LLM Reasoning to Autonomous AI Agents - arXiv](https://arxiv.org/abs/2504.19678)
+- [Building effective agents - Anthropic](https://www.anthropic.com/engineering/building-effective-agents)
+- [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629)
 
 ## Other Sources
 
 - [AI Agents in 2025: Expectations vs Reality - IBM](https://www.ibm.com/think/insights/ai-agents-2025-expectations-vs-reality)
 - [Reasoning AI Agents Transform Decision Making - NVIDIA](https://blogs.nvidia.com/blog/reasoning-ai-agents-decision-making/)
+- [From LLM Reasoning to Autonomous AI Agents - arXiv](https://arxiv.org/abs/2504.19678)
+- [A practical guide to building agents - OpenAI](https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf)
+- [AI Agent Planning - IBM](https://www.ibm.com/think/topics/ai-agent-planning)

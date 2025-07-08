@@ -62,10 +62,11 @@
 - [LLM Developers vs Software Developers vs ML Engineers](https://www.louisbouchard.ai/llm-developers/)
 - [AI Agents in 2025: Expectations vs Reality - IBM](https://www.ibm.com/think/insights/ai-agents-2025-expectations-vs-reality)
 - [What is Agentic Reasoning - IBM](https://www.ibm.com/think/topics/agentic-reasoning)
-- [What is LangGraph - IBM](https://www.ibm.com/think/topics/langgraph)
+- [What is LangGraph](https://langchain-ai.github.io/langgraph/concepts/why-langgraph/)
 - [OpenAI Agents Python SDK](https://openai.github.io/openai-agents-python/)
 
 ## Other Sources
 
 - [A Practical Guide to Building Agents - OpenAI](https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf)
 - [How Reasoning AI Agents Transform High-Stakes Decision Making - NVIDIA](https://blogs.nvidia.com/blog/reasoning-ai-agents-decision-making/)
+- [What is LangGraph - IBM](https://www.ibm.com/think/topics/langgraph)

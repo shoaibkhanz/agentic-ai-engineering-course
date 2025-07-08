@@ -119,13 +119,14 @@ Links to code that will be used to support the article. Always prioritize this c
 
 ## Golden Sources
 
-- [AI Agent Orchestration - IBM](https://www.ibm.com/think/topics/ai-agent-orchestration)
-- [From LLM Reasoning to Autonomous AI Agents - ArXiv](https://arxiv.org/abs/2504.19678)
+- [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629)
 - [ReAct Agent - IBM](https://www.ibm.com/think/topics/react-agent)
 - [AI Agent Planning - IBM](https://www.ibm.com/think/topics/ai-agent-planning)
-- [Building ReAct Agents from Scratch using Gemini - Medium](https://medium.com/google-cloud/building-react-agents-from-scratch-a-hands-on-guide-using-gemini-ffe4621d90ae)
+- [Building effective agents - Anthropic](https://www.anthropic.com/engineering/building-effective-agents)
+- [ReAct agent from scratch with Gemini 2.5 and LangGraph](https://ai.google.dev/gemini-api/docs/langgraph-example)
 
 ## Other Sources
 
-None.
-
+- [From LLM Reasoning to Autonomous AI Agents - ArXiv](https://arxiv.org/abs/2504.19678)
+- [Building ReAct Agents from Scratch using Gemini - Medium](https://medium.com/google-cloud/building-react-agents-from-scratch-a-hands-on-guide-using-gemini-ffe4621d90ae)
+- [AI Agent Orchestration - IBM](https://www.ibm.com/think/topics/ai-agent-orchestration)
