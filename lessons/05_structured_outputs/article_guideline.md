@@ -25,7 +25,6 @@
     - Extracting entities from text (names, dates, locations, tags, keywords). For example, this is a precursor for GraphRAG.
     - Formatting LLM output into a predefined data structure for downstream processing.
     - Data and type validation.
-    - Can be used as an alternative to function calling when the goal is just data extraction, not necessarily an action.
 - Generate a mermaid diagram to support the ideas from the section.
 -  **Section length:** 550 words (without counting the mermaid diagram)
 
