@@ -95,15 +95,15 @@
     - tool result
     - ...
 - Explain the benefits: flexibility, adaptability, and the ability to handle complex multi-step tasks.
-- Parallel Tool calls: Introduce the concept of parallel tool execution when tools are independent:
-    - Explain scenarios where multiple tools can be called simultaneously (e.g., fetching weather data and stock prices independently)
-    - Discuss the performance benefits: reduced latency and improved efficiency
 - Discuss the limitations of sequential tool loops: 
     - Assumes the agent needs to run a tool at each step
     - Doesn't allow for reflection or reasoning between tool calls
     - Can lead to inefficient tool usage or getting stuck in loops
     - Limited ability to plan ahead or consider multiple approaches
-- Connect these limitations to the need for more sophisticated patterns like **ReAct** (Reasoning and Acting), which we will explore in the next lesson.
+- Parallel tool calls: As a side note introduce the concept of parallel tool execution when tools are independent:
+    - Explain scenarios where multiple tools can be called simultaneously (e.g., fetching weather data and stock prices independently)
+    - Discuss the performance benefits: reduced latency and improved efficiency
+- To conclude, connect these limitations to the need for more sophisticated patterns like **ReAct** (Reasoning and Acting), which we will explore in the next lesson.
 - Give step-by-step examples from section `6. Running Tools in a Loop`, of the provided Notebook. Follow the code flow from the Notebook, highlighting each code cell step by step, while utilizing the markdown/text cells for inspiration.
 -  **Section length:** 400 words (without counting the code)
 
