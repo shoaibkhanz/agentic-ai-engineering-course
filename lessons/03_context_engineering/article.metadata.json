@@ -1,9 +1,9 @@
 {
-    "num_chars": 20808,
-    "num_words": 2702,
+    "num_chars": 19094,
+    "num_words": 2411,
     "num_sections": 5,
     "seo": {
-        "title": "Context Engineering: The New Frontier",
-        "description": "Unlock LLM power! Learn Context Engineering: optimize AI memory, beat context decay, and build accurate, cost-effective AI apps. Beyond prompt engineering!"
+        "title": "Context Engineering: LLM Frontier",
+        "description": "Unlock LLM potential with Context Engineering! Go beyond prompt engineering to optimize AI memory, boost accuracy, and cut costs. Master RAG, memory, and advanced strategies."
     }
 }
