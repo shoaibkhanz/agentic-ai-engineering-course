@@ -4,7 +4,7 @@
 - **Why I think it's valuable**: In the real world, we rarely work only with text data. Often, we have to manipulate multimodal data such as text, images, and PDFs within the same context window or integrate them using various tools that interface with the LLM. An extremely popular example is building AI agents that process rich visual PDFs that contain tables, diagrams and graphs. Thus the most common tools for multimodal AI agents are retrieval tools that can return different types of data based on specific queries. Thus, knowing how to manipulate multimodal data and integrate it with LLMs, RAG, and AI agents is a foundational skill in the industry and enterprise applications.
 - **Who the intended audience is**: Aspiring AI Engineers who are learning for the first time about multimodal LLMs, RAG, and AI agents.
 - **Theory / Practice ratio**: 20% theory / 80% practice
-- **Expected length of the article in words** (where 200-250 words ≈ 1 minute of reading time): 3600 words
+- **Expected length of the article in words (without the titles and references) ** (where 200-250 words ≈ 1 minute of reading time): 3800 words
 
 
 ## Narrative Flow of the Lesson
@@ -35,7 +35,7 @@ Follow the next narrative flow when writing the end-to-end lesson:
 8. Building multimodal AI agents
 
 
-## Section 1: The need for multimodal AI
+## Section 1 - Introduction: The need for multimodal AI
 - Why agents need to understand images, documents, and complex layouts
 - Industry real-world scenarios and limitations of text-only approaches:
     - Financial reports with embedded charts
@@ -45,7 +45,7 @@ Follow the next narrative flow when writing the end-to-end lesson:
     - Research assistants processing charts and diagrams
     - Object detection and classification
 - Often, processing directly the images or PDFs as visual elements, as humans see them, makes the AI system more intuitive, easier to implement and more performant
--  **Section length:** 250 words
+-  **Section length:** 300 words
 
 ## Section 2: Limitations of traditional document processing
 - Quick overview of traditional PDFdocument processing workflows done with OCR + Layout detection
@@ -55,7 +55,7 @@ Follow the next narrative flow when writing the end-to-end lesson:
     - The standard approach of OCR → layout detection → chunking → embedding → search works for simple documents but becomes clunky, brittle, and does not scale well across real-world data.
     - The multi-step nature of traditional document processing creates a cascade effect where errors compound at each stage. 
 - Comparison between traditional document processing and interpreting the PDFs as images directly (similar to how humans interpret PDFs)
--  **Section length**: 250 words
+-  **Section length**: 300 words
 
 ## Section 3: Foundations of multimodal LLMs
 - Core concepts and architecture:
@@ -64,7 +64,7 @@ Follow the next narrative flow when writing the end-to-end lesson:
     - Focus only on the most successful approaches, which are based on "late interaction" mechanisms.
     - Enumerate popular multimodal LLM architectures and models, such as LLaVA
     - Capabilities and limitations
-- Use an image from the research showing the architecture of a text-image multimodal LLM
+- Add an image from the research showing the architecture of a text-image multimodal LLM
 - Discussion of how it can be expanded to other modalities, such as PDF documents, audio, or video:
     - Popular models
     - Capabilities and limitations
@@ -92,7 +92,7 @@ Follow the next narrative flow when writing the end-to-end lesson:
 - When working with Gemini with PDFs, show the following scenarios:
     - bytes / one pdf
     - Base64 / one pdf
-- Give step-by-step examples from `Section 2 ("Applying multimodal LLMs to images, PDFs, and text")` of the provided Notebook. Follow the code flow from the Notebook, highlighting each code cell step by step, while utilizing the markdown/text cells for inspiration.
+- Give step-by-step examples from `Section 2 ("Applying multimodal LLMs to images, PDFs, and text")` of the provided Notebook. Follow the code flow from the Notebook, highlighting each code cell step by step, while utilizing the markdown/text cells for inspiration. Avoid using code from other sections of the Notebook.
 -  **Section length**: 500 words (Don't count the code)
 
 ## Section 5: Foundations of multimodal embedding models
@@ -140,7 +140,7 @@ Follow the next narrative flow when writing the end-to-end lesson:
 - Provide a list of popular multimodal embedding models: Voyage, Cohere, Google Embeddings on Vertex AI (not Gemini Dev), OpenAI CLIP (available on Hugging Face).
 - Also highlight that this is not a complete ColPali implementation, as we do not patch the image before embedding or use the ColBERT reranker. Since running `colpali` requires a GPU, we wanted to keep the example lightweight by leveraging Gemini and focusing on how multimodal works in general.
 - Specify that the official `colpali` implementation can be found on GitHub at `illuin-tech/colpali` (we can load the model from Hugging Face).
-- Give step-by-step examples from `Section 3 ("Implementing multimodal RAG for images and text")` of the provided Notebook. Follow the code flow from the Notebook, highlighting each code cell step by step, while utilizing the markdown/text cells for inspiration.
+- Give step-by-step examples from `Section 3 ("Implementing multimodal RAG for images and text")` of the provided Notebook. Follow the code flow from the Notebook, highlighting each code cell step by step, while utilizing the markdown/text cells for inspiration. Avoid using code from other sections of the Notebook.
 -  **Section length**: 500 words (Don't count the code)
 
 ## Section 8: Building multimodal AI agents
@@ -150,8 +150,15 @@ Follow the next narrative flow when writing the end-to-end lesson:
     - Leveraging other multimodal tools such as deep research or MCP servers that return or act on external resources: company PDF files, screenshots from your computer, audio files from Spotify, or videos from Zoom.
 - Create a simple ReAct Engine leveraging LangGraph's `create_react_agent()` and connecting the RAG retrieval function from Section 7 as a tool for the agent, which returns the top-k images based on semantic similarity between the images and a text query. As an example, we will ask the agent about the color of our kitten. 
 - *[Generate a mermaid diagram of our ReAct agent that we will implement]*
-- Give step-by-step examples from `Section 4 ("Building multimodal AI agents")` of the provided Notebook. Follow the code flow from the Notebook, highlighting each code cell step by step, while utilizing the markdown/text cells for inspiration.
+- Give step-by-step examples from `Section 4 ("Building multimodal AI agents")` of the provided Notebook. Follow the code flow from the Notebook, highlighting each code cell step by step, while utilizing the markdown/text cells for inspiration. Avoid using code from other sections of the Notebook.
 -  **Section length**: 500 words (Don't count the code)
+
+## Section 9: Conclusion
+
+- Wrap-up the article by explaining that we will use multimodal techniques in our capstone project
+to pass images and PDFs from our research agent to the writer agent, avoiding any text translation and
+benefit of the complete visual information from them
+-  **Section length**: 100 words
 
 ## Article Code
 
