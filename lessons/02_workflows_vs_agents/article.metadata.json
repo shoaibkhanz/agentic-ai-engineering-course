@@ -1,9 +1,35 @@
 {
-    "num_chars": 20233,
-    "num_words": 2518,
+    "num_chars_article": 24643,
+    "num_chars_conclusion": 2570,
+    "num_chars_introduction": 1669,
     "num_sections": 5,
+    "num_words_article": 3161,
+    "num_words_conclusion": 352,
+    "num_words_introduction": 273,
+    "sections": {
+        "Understanding the Spectrum: From Workflows to Agents": {
+            "num_chars": 2956,
+            "num_words": 397
+        },
+        "Choosing Your Path: PROs and CONs": {
+            "num_chars": 3731,
+            "num_words": 477
+        },
+        "Exploring Common Patterns": {
+            "num_chars": 3792,
+            "num_words": 480
+        },
+        "Looking at State-of-the-Art (SOTA) Examples (2025)": {
+            "num_chars": 2625,
+            "num_words": 265
+        },
+        "Zooming In on Our Favorite Examples": {
+            "num_chars": 4329,
+            "num_words": 655
+        }
+    },
     "seo": {
-        "title": "AI Workflows vs. Agents",
-        "description": "Workflows vs. Agents: The AI engineer's dilemma. Discover pros, cons, & hybrid solutions for LLM-driven systems. Master AI architecture for scalable, reliable apps."
+        "title": "AI Workflows vs. Agents: Choose Wisely",
+        "description": "AI Workflows vs. Agents: The AI Engineer's Dilemma. Learn to choose between predictable AI workflows and autonomous agents for your LLM applications. Master reliability, cost, and deployment for success."
     }
 }

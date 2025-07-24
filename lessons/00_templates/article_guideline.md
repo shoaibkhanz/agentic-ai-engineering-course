@@ -1,8 +1,9 @@
 ## Global Context of the Lesson
 
+- **Scope:** This is the X lesson from module Y of a broader course on AI agents and LLM workflows.
 - **What I’m planning to share**: ...
 - **Why I think it’s valuable:** ...
-- **Who the intended audience is:** ...
+- **Who the intended audience is:** ... (ADD HERE WHAT THE USER ALREADY LEARNT DURING THE COURSE AND WHAT NOT - TO AVOID REPEATING PRINCIPLES OR USING UNINTENDED ACRONYMS)
 - **Theory / Practice ratio:** 20% theory / 80% practice
 - **Expected length of the article in words (without the titles and references)** (where 200-250 words ≈ 1 minute of reading time): ...
 
@@ -12,6 +13,7 @@
 Follow the next narrative flow when writing the end-to-end lesson:
 
 - What problem are we solving? Why is it essential to solve it?
+    - Start with a personal story where we encountered the problem
 - Why other solutions are not working and what's wrong with them.
 - At a theoretical level, explain our solution or transformation. Highlight:
     - The theoretical foundations.
