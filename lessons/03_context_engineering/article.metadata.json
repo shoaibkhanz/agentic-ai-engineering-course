@@ -1,9 +1,35 @@
 {
-    "num_chars": 19094,
-    "num_words": 2411,
+    "num_chars_article": 24777,
+    "num_chars_conclusion": 2046,
+    "num_chars_introduction": 2254,
     "num_sections": 5,
+    "num_words_article": 3347,
+    "num_words_conclusion": 299,
+    "num_words_introduction": 336,
+    "sections": {
+        "What is Context Engineering?": {
+            "num_chars": 4084,
+            "num_words": 565
+        },
+        "What Makes Up the Context": {
+            "num_chars": 4113,
+            "num_words": 514
+        },
+        "Challenges in Context Engineering": {
+            "num_chars": 1937,
+            "num_words": 253
+        },
+        "Context Optimization Strategies": {
+            "num_chars": 4805,
+            "num_words": 646
+        },
+        "Practical Application: Healthcare AI Assistant": {
+            "num_chars": 3824,
+            "num_words": 574
+        }
+    },
     "seo": {
-        "title": "Context Engineering: LLM Frontier",
-        "description": "Unlock LLM potential with Context Engineering! Go beyond prompt engineering to optimize AI memory, boost accuracy, and cut costs. Master RAG, memory, and advanced strategies."
+        "title": "Context Engineering: Own Your LLM",
+        "description": "Master context engineering for LLMs! Learn to optimize, select, and compress context for accurate, fast, and cost-effective AI. Dive into practical strategies & challenges."
     }
 }

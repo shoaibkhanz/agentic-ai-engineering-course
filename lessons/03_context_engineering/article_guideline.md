@@ -5,7 +5,7 @@
 - **Why I think it's valuable:** Context engineering is the new fine-tuning. As fine-tuning is required less and less due to the fact that it is expensive, slow, and extremely inflexible in a world where data keeps changing, fine-tuning becomes the last resort when building AI applications. Thus, context engineering becomes a core skill for building successful AI agents or LLM workflows that manage the short-term memory and long-term memory of AI applications to achieve the best performance possible.
 Aspiring AI engineers who are learning about context engineering for the first time. In previous lessons, we introduced the concepts of AI agents and LLM workflows. Only in future lessons will we discuss structured outputs, chaining, routing, the task-executor pattern, tool calling, ReAct agents, memory, RAG, and multimodal models. When discussing concepts introduced in previous lessons, avoid reintroducing them to the reader. Use them as if the reader already knows what they are. When discussing concepts that haven't been introduced in previous lessons, try to avoid using them altogether. If the guideline specifies them, keep them at an extremely high level, as if explaining them to a 7-year-old, while avoiding the use of acronyms that aren't explicitly stated in the guidelines. As context engineering is the core foundation, we will have to introduce new terms, but we should discuss them in a highly intuitive manner. 
 - **Theory / Practice ratio:** 90% theory / 10% practice
-- **Expected length of the article in words** (where 200-250 words ~= 1 minute of reading time): 1900 words
+- **Expected length of the article in words** (where 200-250 words ~= 1 minute of reading time): 2450 words
 
 
 ## Narrative Flow of the Lesson
@@ -52,7 +52,7 @@ Follow the next narrative flow when writing the end-to-end lesson:
 - Real-world example: In one of my previous projects, I tried to add everything into my context window: my research, intentions, guidelines, examples, reviews, etc. The result? An LLM workflow that takes 30 minutes to run and produces output that wasn't of high quality.
 - Context engineering addresses these limitations by treating AI applications not as a series of isolated prompts, but as systems that operate through dynamic context gathered from past conversations, databases, tools, and other types of memory. Thus, as AI Engineers, our job is to keep only what's essential in the context when we pass it to the LLM, making it accurate, fast, and cost-effective.
 
--  **Section length:** 300 words
+-  **Section length:** 400 words
 
 ## Section 2: Understanding context engineering
 (At a theoretical level, explain our solution or transformation.)
@@ -100,7 +100,7 @@ Follow the next narrative flow when writing the end-to-end lesson:
 - Explain how things are connected: User query or task -> Long-term memory -> Short-term working memory -> Context -> LLM Call -> Answer -> Short-term working memory -> Long-term memory -> Repeat
 - Add a mermaid diagram illustrating the steps from above.
 
--  **Section length:** 250 words
+-  **Section length:** 300 words
 
 ## Section 4: Production implementation challenges 
 (Go deeper into the advanced theory)
@@ -138,7 +138,7 @@ Follow the next narrative flow when writing the end-to-end lesson:
 
 - Add an image from the research illustrating some key strategies for context optimization.
 
--  **Section length:** 250 words
+-  **Section length:** 450 words
 
 ## Section 6: Here is an example
 (An example)
@@ -164,7 +164,7 @@ Follow the next narrative flow when writing the end-to-end lesson:
     - mem0 for memory
     - Opik for observability
 
--  **Section length:** 250 words (without the code example)
+-  **Section length:** 350 words (without the code example)
 
 ## Section 7 - Conclusion - Wrap-up: Connecting context engineering to AI engineering
 (Connect our solution to the bigger picture and next steps)
@@ -181,7 +181,7 @@ Follow the next narrative flow when writing the end-to-end lesson:
     - Tools (Procedural long-term memory)
     - User preferences (Episodic long-term memory)
 
--  **Section length:** 150 words
+-  **Section length:** 250 words
 
 ## Golden Sources
 
