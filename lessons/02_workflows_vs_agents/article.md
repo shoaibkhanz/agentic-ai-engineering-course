@@ -230,6 +230,7 @@ The exact way it works is not public, so we make assumptions about its design ba
 graph TD
     A[User Research Question] --> B[Orchestrator: Decompose into Sub-Questions];
     B --> C[Parallel Search Agents];
+    C -.-> "Research Agents";
     subgraph "Research Agents"
         direction LR
         C1[Agent 1: Sub-Q1]
