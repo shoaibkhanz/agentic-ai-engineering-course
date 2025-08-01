@@ -205,7 +205,7 @@ graph TD
     D -->|Accept| E[Execute Actions: Read/Write Files, Search Web, Run Code];
     D -->|Reject| F[Refine Plan];
     F --> C;
-    E -- Results to Short-Term Memory --> G{Evaluate Outcome};
+    E --> G{Evaluate Outcome};
     G -- More Steps Needed --> C;
     G -- Task Complete --> H[Final Code];
 ```
