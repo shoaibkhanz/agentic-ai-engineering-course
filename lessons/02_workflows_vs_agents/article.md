@@ -230,14 +230,14 @@ The exact way it works is not public, so we make assumptions about its design ba
 graph TD
     A[User Research Question] --> B[Orchestrator: Decompose into Sub-Questions];
     B --> C[Parallel Search Agents];
-    subgraph Research Agents
+    subgraph "Research Agents"
         direction LR
         C1[Agent 1: Sub-Q1]
         C2[Agent 2: Sub-Q2]
         C3[...] 
         C4[Agent N: Sub-QN]
     end
-    "Research Agents" --> D[Orchestrator: Synthesize & Find Gaps];
+    C --> D[Orchestrator: Synthesize & Find Gaps];
     D -- Gaps Found --> B;
     D -- No Gaps --> E[Generate Final Report];
 ```
