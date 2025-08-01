@@ -182,13 +182,13 @@ Figure 9: A simple workflow for document summarization in Google Workspace.
 ### Single Agent System: Gemini CLI Coding Assistant
 **The Problem:** Writing code is a slow process that often means switching between reading guides, searching for answers, and understanding existing code. An AI coding assistant can make this process faster.
 
-**The Solution:** The **Gemini CLI**, an open-source coding assistant from Google, shows how a single-agent system works. It uses a Reason and Act (ReAct) architecture [[16]](https://cloud.google.com/gemini/docs/codeassist/gemini-cli), [[17]](https://blog.google/technology/developers/introducing-gemini-cli-open-source-ai-agent/). It helps with tasks like writing new code, creating documentation, or quickly understanding a new project.
+**The Solution:** The **Gemini CLI**, an open-source coding assistant from Google, is a perfect example of how a single-agent based on ReAct works[[16]](https://cloud.google.com/gemini/docs/codeassist/gemini-cli), [[17]](https://blog.google/technology/developers/introducing-gemini-cli-open-source-ai-agent/). The agents core features are writing new code, updating existing code, creating documentation, or quickly understanding a new project.
 
-Here is how it works at a high level:
-1.  **Context Gathering:** The system loads the folder structure, available actions, and the conversation history into its working memory.
+Here is a simplified step-by-step guide on how it works:
+1.  **Context Gathering:** The system loads the folder structure of the codebase, available actions, and the conversation history into its working memory.
 2.  **LLM Reasoning:** The Gemini model looks at your input and the current working memory to figure out what actions it needs to take to change the code as you asked.
 3.  **Human in the Loop:** Before it takes any actions, it checks the plan with you.
-4.  **Action Execution:** The chosen actions are performed. These can be file operations to read the current code, web requests to get information, and finally generating the code. The agent processes the action outputs and adds the results to the conversation context for later use.
+4.  **Action Execution:** If you accept, the chosen actions are performed. These can be file operations to read the current code, web requests to get information, and finally generating the code. The agent processes the action outputs and adds the results to the short-term memory for later use.
 5.  **Evaluation:** The agent checks if the generated code is correct by running or compiling it.
 6.  **Loop Decision:** Based on the results, the agent decides if the task is finished or if it needs another round of thinking and action.
 
@@ -199,12 +199,15 @@ More action examples include:
 *   Version control: Using tools like Git to automatically save your code to platforms like GitHub or GitLab.
 ```mermaid
 graph TD
-    A[User Request] --> B{LLM: Reason & Plan};
-    B --> C{Human Validation};
-    C --> D[Execute Actions: Read/Write Files, Search Web, Run Code];
-    D -- Results --> E{Evaluate Outcome};
-    E -- More Steps Needed --> B;
-    E -- Task Complete --> F[Final Code];
+    A[User Request] --> B[Context Gathering];
+    B --> C[LLM: Reason & Plan];
+    C --> D{Human in the Loop};
+    D -->|Accept| E[Execute Actions: Read/Write Files, Search Web, Run Code];
+    D -->|Reject| F[Refine Plan];
+    F --> C;
+    E -- Results to Short-Term Memory --> G{Evaluate Outcome};
+    G -- More Steps Needed --> C;
+    G -- Task Complete --> H[Final Code];
 ```
 Figure 10: The operational loop of the Gemini CLI, a single-agent coding assistant.
 
