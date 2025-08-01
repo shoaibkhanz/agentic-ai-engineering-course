@@ -65,8 +65,6 @@ Figure 3: A fundamental trade-off exists between an agent's autonomous control a
 
 In reality, most production systems are not purely one or the other. They exist on a spectrum, blending the stability of workflows with the flexibility of agents. When you build an application, you are effectively setting an "autonomy slider," deciding how much control to give the LLM versus the user.
 
-For instance, the AI code editor **Cursor** offers different levels of autonomy: simple tab-completion (low autonomy), refactoring a selected block of code with `Cmd+K` (medium autonomy), or letting the AI modify the entire repository with `Cmd+I` (high autonomy) [[8]](https://www.youtube.com/watch?v=LCEmiRjPEtQ). Similarly, **Perplexity** offers a quick "search" (a simple workflow), a more involved "research" mode, and a "deep research" function that deploys a complex agentic system [[8]](https://www.youtube.com/watch?v=LCEmiRjPEtQ). As you can see, for most applications, the goal is to create a fast, effective loop between AI generation and human verification, which you often achieve through a thoughtful combination of architecture and user interface design.
-
 ```mermaid
 graph TD
     A[User Input] --> B[AI Generation];
@@ -81,14 +79,16 @@ graph TD
 
 Figure 4: The AI generation and human verification loop, showing how AI outputs are validated and refined through human feedback.
 
+For instance, the AI code editor **Cursor** offers different levels of autonomy: simple tab-completion (low autonomy), refactoring a selected block of code with `Cmd+K` (medium autonomy), or letting the AI modify the entire repository with `Cmd+I` (high autonomy) [[8]](https://www.youtube.com/watch?v=LCEmiRjPEtQ). Similarly, **Perplexity** offers a quick "search" (a simple workflow), a more involved "research" mode, and a "deep research" function that deploys a complex agentic system [[8]](https://www.youtube.com/watch?v=LCEmiRjPEtQ). As you can see, for most applications, the goal is to create a fast, effective loop between AI generation and human verification, which you often achieve through a thoughtful combination of architecture and user interface design.
+
 ## Exploring Common Patterns
 
-To give you a better intuition for how these systems are built, let's briefly look at some of the most common patterns for both workflows and agents. Think of this as a high-level preview; we will dive deep into each of these patterns in future lessons.
+To give you a better intuition for how these AI systems are built, let's briefly look at some of the most common patterns for both workflows and agents. This is only a high-level preview, as we will dive deep into each of these patterns in future lessons.
 
 ### LLM Workflow Patterns
-For LLM workflows, you structure and automate a series of LLM calls to accomplish a task reliably.
+We will look over the three most common LLM workflow patterns used across the industry.
 
-**Chaining and Routing** is the simplest pattern. You use chaining to glue together multiple LLM calls sequentially, where the output of one step becomes the input for the next. This helps break down complex tasks into smaller, manageable subtasks. Routing, on the other hand, allows you to choose between different predefined paths. A router, often an LLM itself, acts as a decision-maker, guiding the workflow between multiple decisions and directing the input to the most appropriate specialized model or sub-workflow based on the user's intent. This pattern is useful for triaging requests across various tasks like search, summarization, or calculations [[9]](https://www.revanthquicklearn.com/post/understanding-workflow-design-patterns-in-ai-systems), [[10]](https://www.philschmid.de/agentic-pattern), [[11]](https://docs.aws.amazon.com/prescriptive-guidance/latest/agentic-ai-patterns/workflow-for-routing.html).
+**Chaining and Routing** is the simplest pattern. You use chaining to glue together multiple LLM calls sequentially, where the output of one step becomes the input for the next. This helps break down complex tasks into smaller, manageable subtasks. Routing, on the other hand, allows you to choose between different predefined paths. A router, often an LLM itself, acts as a decision-maker, guiding the workflow between multiple decisions and directing the input to the most appropriate specialized model or sub-workflow based on the user's intent. This pattern is useful for branching requests across various tasks like search, summarization, or calculations [[9]](https://www.revanthquicklearn.com/post/understanding-workflow-design-patterns-in-ai-systems), [[10]](https://www.philschmid.de/agentic-pattern), [[11]](https://docs.aws.amazon.com/prescriptive-guidance/latest/agentic-ai-patterns/workflow-for-routing.html).
 ```mermaid
 graph TD
     A[Input] --> B{Router LLM};
@@ -97,22 +97,24 @@ graph TD
     C --> F[Output];
     D --> F[Output];
 ```
-Figure 4: A routing workflow, where an initial LLM directs the task to a specialized path.
+Figure 5: A routing workflow, where an initial LLM directs the task to a specialized path.
 
-The **Orchestrator-Worker** pattern introduces more dynamic planning. A central "orchestrator" LLM analyzes a complex task, breaks it down into subtasks, and delegates them to specialized "worker" LLMs or actions. The orchestrator then synthesizes the results into a final answer [[12]](https://www.anthropic.com/research/building-effective-agents). This pattern is well-suited for complex tasks where you cannot predict the exact subtasks needed in advance, such as making changes across multiple files in a coding project. It provides a smooth transition from rigid workflows to more adaptive, agent-like behavior.
+The **Orchestrator-Worker** pattern introduces a way to dynamically plan and execute multiple actions. A central "orchestrator" LLM analyzes a complex task, breaks it down into subtasks, and delegates them to specialized workers, which can be other LLMs or classic code. Ultimately, the orchestrator synthesizes the results into a final answer [[12]](https://www.anthropic.com/research/building-effective-agents). This pattern is well-suited for complex tasks where you cannot predict the exact subtasks needed in advance, such as making changes across multiple files in a coding project or generating multiple images for a blog post. It provides a smooth transition from rigid workflows to more adaptive, agent-like behavior. Still, it's not an agentic pattern, because there is a clear path between the input and output, as the logic always ends at the final output.
 ```mermaid
 graph TD
     A[Input] --> B[Orchestrator LLM];
     B --> C{Decompose Task};
     C --> D[Worker 1: Subtask A];
     C --> E[Worker 2: Subtask B];
+    C --> H[Worker 3: Subtask C];
     D --> F[Synthesizer LLM];
     E --> F;
+    H --> F;
     F --> G[Final Output];
 ```
-Figure 5: The orchestrator-worker pattern, where a main LLM delegates subtasks to specialized workers.
+Figure 6: The orchestrator-worker pattern, where a main LLM delegates subtasks to specialized workers.
 
-An **Evaluator-Optimizer Loop** iteratively improves an LLM's output quality. After an initial response is generated, an "evaluator" LLM assesses it against predefined criteria and provides feedback. This feedback then goes back to the "optimizer" (often the original generator) to refine the response. This loop continues until the output meets the quality standard or reaches a set number of iterations [[13]](https://javaaidev.com/docs/agentic-patterns/patterns/evaluator-optimizer/). This pattern is particularly effective when you have clear evaluation criteria and when iterative refinement provides measurable value, similar to how a human writer might refine a document based on feedback [[12]](https://www.anthropic.com/research/building-effective-agents).
+The last workflow pattern we want to present is the **Evaluator-Optimizer Loop** which is used to iteratively improve an LLM's output quality. After an initial response is generated, an "evaluator" LLM assesses it against predefined criteria and provides feedback. This feedback then goes back to the "optimizer" (often the original generator) to refine the response. This loop continues until the output meets the quality standard or reaches a set number of iterations [[13]](https://javaaidev.com/docs/agentic-patterns/patterns/evaluator-optimizer/). This pattern is particularly effective when you have clear evaluation criteria and when iterative refinement provides measurable value, similar to how a human writer might refine a document based on feedback [[12]](https://www.anthropic.com/research/building-effective-agents).
 ```mermaid
 graph TD
     A[Input] --> B[Generator LLM];
@@ -120,18 +122,20 @@ graph TD
     C -- Feedback --> B;
     C -- Meets Criteria --> D[Final Output];
 ```
-Figure 6: The evaluator-optimizer loop, which uses feedback to iteratively refine an LLM's output.
+Figure 7: The evaluator-optimizer loop, which uses feedback to iteratively refine an LLM's output.
 
 ### Core Components of a ReAct AI Agent
 While workflows provide structured, predictable paths for AI applications, agents introduce a different paradigm: dynamic, autonomous decision-making. Let's now explore the core components that enable this agentic behavior.
 
-Nearly all modern agents build on a foundational pattern that enables them to reason and take action in a loop. This is the core of the **ReAct (Reason and Act)** framework, which we will explore in detail in Lessons 7 and 8. The agent automatically decides what action to take, interprets the result of that action, and repeats the cycle until the task is complete.
+Nearly all modern agents build on a foundational pattern that enables them to reason and take action in a loop. This is the core of the **ReAct (Reason and Act)** pattern, which we will explore in detail in Lessons 7 and 8. For now, we want to provide a quick intuition on how it works. 
+
+In ReAct, the agent automatically decides what action(s) to take, interprets the result of that action, and repeats the cycle until the task is complete. 
 
 A ReAct agent has a few key components:
-*   **LLM**: This is the "brain" of the agent. It analyzes the task, reasons about the next steps, and interprets the outputs from its actions.
-*   **Actions**: These are the "hands" of the agent, allowing it to perform operations in an external environment, like searching the web, reading a file, or running code. We will cover actions in Lesson 6.
-*   **Short-Term Memory**: This is the agent's working memory, comparable to RAM in a computer. It holds the context of the current task, including the conversation history and recent actions.
-*   **Long-Term Memory**: This provides the agent with access to factual knowledge, such as information from the internet or private company databases, and helps it remember user preferences over time. Memory will be the focus of Lesson 9.
+*   **A Reasoning LLM**: This is the "brain" of the agent. It analyzes the task, reasons about the next steps, and interprets the outputs from its actions.
+*   **Actions**: These are the "hands" of the agent, allowing it to perform operations in an external environment, like searching the web, reading a file, or running code. These are usually knowns as tools which we will cover in Lesson 6.
+*   **Short-Term Memory**: This is the agent's working memory, comparable to RAM in a computer. It holds the context of the current task, which is passed to the LLM, including components such as the conversation history and recent actions.
+*   **Long-Term Memory**: This provides the agent with access to factual knowledge, such as information from the internet or private company databases. Also, it is often used to help the agent remember user preferences over time. You will learn more on memory in Lesson 9.
 ```mermaid
 graph TD
     subgraph "ReAct Loop"
@@ -139,17 +143,19 @@ graph TD
         B --> C{Select Action};
         C --> D[Action: Execute];
         D -- Observation --> B;
+        B -- Context --> G[(Short-Term Memory)];
+        G -- Working Memory --> B;
     end
     B -- Task Complete --> E[Final Response];
     B -- Access --> F[(Long-Term Memory)];
 ```
-Figure 7: A high-level view of the ReAct agent loop, where the LLM reasons, selects an action, executes it, and observes the result.
+Figure 8: A high-level view of the ReAct agent loop, where the LLM reasons, selects an action, executes it, and observes the result.
 
 This is just a brief introduction to these powerful patterns. The goal here is not to understand them fully but to build an intuition for the different ways you can architect AI systems.
 
 ## Zooming In on Our Favorite Examples
 
-To help you understand these ideas, let's look at how they appear in real-world applications. We will start with a simple workflow, then move to a single-agent system, and finally, explore a complex hybrid solution. We explain these examples simply to build your understanding.
+To help you understand these ideas, let's look at how they appear in real-world applications. We will start with a simple workflow, then move to a single-agent system built on top of ReAct, and finally, explore a complex hybrid solution.
 
 ### Simple Workflow: Google Workspace Document Summarization
 **The Problem:** In any team setting, finding the right information can take a lot of time. Documents are often long, making it hard to quickly see if they contain what you need. A built-in summarization tool can help guide your search.
@@ -171,7 +177,7 @@ graph TD
     C --> D[LLM Call: Extract Key Points];
     D --> E[Format & Display Results];
 ```
-Figure 8: A simple workflow for document summarization in Google Workspace.
+Figure 9: A simple workflow for document summarization in Google Workspace.
 
 ### Single Agent System: Gemini CLI Coding Assistant
 **The Problem:** Writing code is a slow process that often means switching between reading guides, searching for answers, and understanding existing code. An AI coding assistant can make this process faster.
@@ -200,7 +206,7 @@ graph TD
     E -- More Steps Needed --> B;
     E -- Task Complete --> F[Final Code];
 ```
-Figure 9: The operational loop of the Gemini CLI, a single-agent coding assistant.
+Figure 10: The operational loop of the Gemini CLI, a single-agent coding assistant.
 
 ### Hybrid System: Perplexity's Deep Research Agent
 **The Problem:** Doing in-depth research on a new or complex topic can be hard. It is often unclear where to start, which sources are trustworthy, and how to combine a lot of information into a clear report.
@@ -229,7 +235,7 @@ graph TD
     D -- Gaps Found --> B;
     D -- No Gaps --> E[Generate Final Report];
 ```
-Figure 10: The iterative, multi-agent process used by Perplexity's Deep Research agent.
+Figure 11: The iterative, multi-agent process used by Perplexity's Deep Research agent.
 
 Another new type of tool is AI-native browsers, like **ChatGPT Agent** and **Perplexity Comet**. These allow agents to move between websites and transfer data with very little human help [[20]](https://www.techtarget.com/whatis/feature/ChatGPT-agents-explained). However, as of August 2025, these tools are still in their early stages.
 
