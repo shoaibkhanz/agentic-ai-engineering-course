@@ -1,7 +1,4 @@
-# Prompt engineering is dead
-### Mastering the art of context engineering
-
-## When prompt engineering breaks
+# Lesson 3: Context Engineering
 
 AI applications have evolved rapidly. In 2022, we had simple chatbots for question-answering. By 2023, Retrieval-Augmented Generation (RAG) systems connected Large Language Models (LLMs) to domain-specific knowledge. 2024 brought us tool-using agents that could perform actions. Now, we are building memory-enabled agents that remember past interactions and build relationships over time.
 
