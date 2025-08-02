@@ -1,4 +1,4 @@
-# Lesson 2: LLM Workflows vs. AI Agents: The AI Engineer's Dilemma
+# Lesson 2: LLM Workflows vs. AI Agents - The AI Engineer's Dilemma
 
 As an AI engineer preparing to build your first real AI application, after narrowing down the problem you want to solve, you face a critical decision: How should you design your AI solution? This architectural choice, made early in development, determines whether your AI application follows a predictable, step-by-step workflow or demands a more autonomous approach where the LLM makes self-directed decisions. This fundamental question impacts development time, cost, reliability, and user experience, ultimately determining your project's success or failure. Choosing the wrong path can lead to an overly rigid system that breaks when users deviate from expected patterns or an unpredictable agent that fails when it matters most and is too expensive to run.
 

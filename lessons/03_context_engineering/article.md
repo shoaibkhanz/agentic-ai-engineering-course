@@ -1,8 +1,8 @@
 # Lesson 3: Context Engineering
 
-AI applications have evolved rapidly. In 2022, we had simple chatbots for question-answering. By 2023, Retrieval-Augmented Generation (RAG) systems connected Large Language Models (LLMs) to domain-specific knowledge. 2024 brought us tool-using agents that could perform actions. Now, we are building memory-enabled agents that remember past interactions and build relationships over time.
+AI applications have evolved rapidly. In 2022, we had simple chatbots for question-answering. By 2023, Retrieval-Augmented Generation (RAG) systems connected LLMs to domain-specific knowledge. 2024 brought us tool-using agents that could perform actions. Now, we are building memory-enabled agents that remember past interactions and build relationships over time.
 
-In our last lesson, we explored how to choose between AI agents and LLM workflows when designing a system. As these applications grow more complex, prompt engineering, a practice that once served us well, is showing its limits. It optimizes single LLM calls but fails when managing systems with memory, actions, and long interaction histories. The sheer volume of information an agent might need—past conversations, user data, documents, and action descriptions—has grown exponentially. Simply stuffing all this into a prompt is not a viable strategy. This is where context engineering comes in. It is the discipline of orchestrating this entire information ecosystem to ensure the LLM gets exactly what it needs, when it needs it. This skill is becoming a core foundation for AI engineering.
+In our last lesson, we explored how to choose between AI agents and LLM workflows when designing a system. As these applications grow more complex, prompt engineering, a practice that once served us well, is showing its limits. It optimizes single LLM calls but fails when managing systems with memory, actions, and long interaction histories. The sheer volume of information an agent might need—past conversations, user data, documents, and action descriptions has grown exponentially. Simply stuffing all this into a prompt is not a viable strategy. This is where context engineering comes in. It is the discipline of orchestrating this entire information ecosystem to ensure the LLM gets exactly what it needs, when it needs it. This skill is becoming a core foundation for AI engineering.
 
 ## From prompt to context engineering
 
@@ -10,7 +10,7 @@ Prompt engineering, while effective for simple tasks, is designed for single, st
 
 As a conversation or task progresses, the context grows. Without a strategy to manage this growth, the LLM’s performance degrades. This is context decay: the model gets confused by the noise of an ever-expanding history. It starts to lose track of original instructions or key information.
 
-Even with large context windows, a physical limit exists for what you can include. Every token adds to the cost and latency of an LLM call. Simply putting everything into the context creates a slow, expensive, and unreliable system. We will explore these concepts in more detail in upcoming lessons, including memory in Lesson 9 and RAG in Lesson 10.
+Even with large context windows, a physical limit exists for what you can include. Also, on the operational side, every token adds to the cost and latency of an LLM call. Simply putting everything into the context creates a slow, expensive, and underperforming system. We will explore these concepts in more detail in upcoming lessons, including memory in Lesson 9 and RAG in Lesson 10.
 
 On a recent project, we learned this the hard way. We were working with a model that supported a two-million-token context window, so we thought, "What could go wrong?" We stuffed everything in: our research, guidelines, examples, and user history. The result was an LLM workflow that took 30 minutes to run and produced low-quality outputs.
 
@@ -18,7 +18,7 @@ This is where context engineering becomes essential. It shifts the focus from cr
 
 ## Understanding context engineering
 
-Context engineering is about finding the best way to arrange information from your memory into the context passed to an LLM. It is an optimization problem where you retrieve the right parts from your short-term and long-term memory to solve a specific task without overwhelming the model. For example, when you ask a a cooking agent for a recipe, you do not give it the entire cookbook. Instead, you retrieve the specific recipe, along with personal context like allergies or taste preferences. This precise selection ensures the model receives only the essential information.
+Context engineering is about finding the best way to arrange information from your applications memory into the context passed to an LLM. It is a solution to an optimization problem where you retrieve the right parts from your short-term and long-term memory to solve a specific task without overwhelming the model. For example, when you ask a a cooking agent for a recipe, you do not give it the entire cookbook. Instead, you retrieve the specific recipe, along with personal context like allergies or taste preferences. This precise selection ensures the model receives only the essential information.
 
 Andrej Karpathy explains that LLMs are like a new kind of operating system where the model is the CPU and its context window is the RAM [[36]](https://addyo.substack.com/p/context-engineering-bringing-engineering). Just as an operating system manages what fits into your computer’s limited RAM, context engineering manages what information occupies the model’s limited context window.
 
@@ -27,7 +27,7 @@ Andrej Karpathy explains that LLMs are like a new kind of operating system where
 </div>
 Figure 1: What makes up the context
 
-Prompt engineering is not dead; it is a subset of context engineering. You still write effective prompts, but you also design a system that feeds the right context into those prompts. This means understanding not just *how* to phrase a task, but *what* information the model needs to perform optimally.
+How does context engineering relates to prompt engineering? It's simple. Prompt engineering is a subset of context engineering. You still write effective prompts, but you also design a system that feeds the right context into those prompts. This means understanding not just *how* to phrase a task, but *what* information the model needs to perform optimally. This is illustrated in Figure 1, where all the context gathered across multiple conversation turns between the user and the agent is used to create the final prompt, which is passed to the LLM.
 
 | Dimension | Prompt Engineering | Context Engineering |
 |-----------|-------------------|---------------------|
@@ -39,20 +39,20 @@ Table 1: A comparison of prompt engineering and context engineering.
 
 Context engineering is the new fine-tuning. While fine-tuning has its place, it is expensive, time-consuming, and inflexible. Data changes constantly, making fine-tuning a last resort [[41]](https://www.tabnine.com/blog/your-ai-doesnt-need-more-training-it-needs-context/). For most enterprise use cases, you get better results faster and more cheaply with context engineering [[43]](https://www.tribe.ai/applied-ai/fine-tuning-vs-prompt-engineering). It allows for rapid iteration and adaptation to evolving data without altering the core model, a key advantage in dynamic environments. This approach avoids the computational resources and specialized expertise required for retraining, offering a more agile path to reliable AI applications.
 
-When you start a new AI project, your decision-making process for guiding the LLM should look like this:
+When you start a new AI project, your decision-making process for guiding the LLM should look like the one presented in Figure 2.
 
 <div align="center">
 <img src="./media/prompt_vs_context_engineering_fine_tuning.png" alt="Prompt vs. Context. Fine-tuning" width="700"/>
 </div>
 Figure 2: A decision-making workflow for choosing between prompt engineering, context engineering, and fine-tuning.
 
-For instance, if you build an agent to process internal Slack messages, you do not need to fine-tune a model on your company’s communication style. It is more effective to use a powerful reasoning model and engineer the context to retrieve specific messages and enable actions like creating tasks or drafting emails. Throughout this course, we will show you how to solve most industry problems using context engineering.
+For instance, if you build an agent to process internal Slack messages, you do not need to fine-tune a model on your company’s communication style. It is more effective to use a powerful reasoning model and engineer the context to retrieve specific messages and enable actions like creating tasks or drafting emails. Throughout this course, we will show you how to solve most industry problems using only context engineering.
 
 ## What makes up the context
 
 To master context engineering, you first need to understand what "context" actually is. It is everything the LLM sees in a single turn, dynamically assembled from various memory components before being passed to the model.
 
-The high-level workflow begins when a user input triggers the system to pull relevant information from both long-term and short-term memory. This information is assembled into the final context, inserted into a prompt template, and sent to the LLM. The LLM’s answer then updates the memory, and the cycle repeats.
+The high-level workflow, as presented in Figure 3, begins when a user input triggers the system to pull relevant information from both long-term and short-term memory. This information is assembled into the final context, inserted into a prompt template, and sent to the LLM. The LLM’s answer then updates the memory, and the cycle repeats.
 
 ```mermaid
 graph TD
@@ -71,20 +71,20 @@ graph TD
 ```
 Figure 3: The high-level workflow of how context is assembled and used in an AI system.
 
-These components group into two main categories. We will explain them intuitively for now, as we have not formally introduced these concepts yet.
+These components group into two main categories. We will explain them intuitively for now, as we have future dedicated lessons for all of them:
 
 ### Short-term working memory
-Short-term working memory is the state of the agent for the current task or conversation. It is volatile and changes with each interaction, helping the agent maintain a coherent dialogue and make immediate decisions. It includes:
+Short-term working memory is the state of the agent for the current task or conversation. It is volatile and changes with each interaction, helping the agent maintain a coherent dialogue and make immediate decisions.  It can include some or all of these components:
 *   **User input:** The most recent query or command from the user.
 *   **Message history:** The log of the current conversation, allowing the LLM to understand the flow and previous turns.
 *   **Agent's internal thoughts:** The reasoning steps the agent takes to decide on its next action.
-*   **Action calls and outputs:** The results from any actions the agent has performed, providing real-time feedback from external systems.
+*   **Action calls and outputs:** The results from any actions the agent has performed, providing information from external systems.
 
 ### Long-term memory
-Long-term memory is more persistent and stores information across sessions, allowing the AI system to remember things beyond a single conversation. We divide it into three types, drawing parallels from human memory [[16]](https://arxiv.org/html/2504.15965v1):
-*   **Procedural memory:** This is knowledge encoded directly in the system's design. It includes the system prompt, which sets the agent's overall behavior; the definitions of available actions, which tell the agent what it can do; and schemas for structured outputs, which guide the format of its responses. Think of this as the agent's built-in skills.
-*   **Episodic memory:** This is memory of specific past experiences, like user preferences or previous interactions. It helps the agent personalize its responses by recalling individual user histories. We typically store this in vector or graph databases for efficient retrieval.
-*   **Semantic memory:** This is the agent’s general knowledge base. It can be internal, like company documents stored in a vector database, or external, accessed via the internet through API calls or web scraping. This memory provides the factual information the agent needs to answer questions.
+Long-term memory is more persistent and stores information across sessions, allowing the AI system to remember things beyond a single conversation. We divide it into three types, drawing parallels from human memory [[16]](https://arxiv.org/html/2504.15965v1). As before an AI system, can include some or all of them:
+*   **Procedural memory:** This is knowledge encoded directly in the code. It includes the system prompt, which sets the agent's overall behavior. Also, it includes the definitions of available actions, which tell the agent what it can do and schemas for structured outputs, which guide the format of its responses. Think of this as the agent's built-in skills.
+*   **Episodic memory:** This is memory of specific past experiences, like user preferences or previous interactions. It's used to help the agent personalize its responses based on individual users. We typically store this in vector or graph databases for efficient retrieval.
+*   **Semantic memory:** This is the agent’s general knowledge base. It can be internal, like company documents stored in a data lake, or external, accessed via the internet through API calls or web scraping. This memory provides the factual information the agent needs to answer questions.
 
 ![A diagram showing that Context Engineering encompasses RAG, Prompt Engineering, State/History, Memory, and Structured Outputs.](https://github.com/user-attachments/assets/0f1f193f-8e94-4044-a276-576bd7764fd0)
 Figure 4: Context engineering encompasses a variety of techniques and information sources [[2]](https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-03-own-your-context-window.md).
