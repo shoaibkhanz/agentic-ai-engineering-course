@@ -25,6 +25,11 @@ Context engineering is about finding the best way to arrange information from yo
 
 Andrej Karpathy explains that LLMs are like a new kind of operating system where the model is the CPU and its context window is the RAM [[36]](https://addyo.substack.com/p/context-engineering-bringing-engineering). Just as an operating system manages what fits into your computer’s limited RAM, context engineering manages what information occupies the model’s limited context window.
 
+<div align="center">
+<img src="./media/what_makes_up_the_context.png" alt="What makes up the context" width="700"/>
+</div>
+Figure 1: What makes up the context
+
 Prompt engineering is not dead; it is a subset of context engineering. You still write effective prompts, but you also design a system that feeds the right context into those prompts. This means understanding not just *how* to phrase a task, but *what* information the model needs to perform optimally.
 
 | Dimension | Prompt Engineering | Context Engineering |
@@ -39,24 +44,10 @@ Context engineering is the new fine-tuning. While fine-tuning has its place, it 
 
 When you start a new AI project, your decision-making process for guiding the LLM should look like this:
 
-```mermaid
-graph TD
-    prompt_eng_decision{"Prompt Engineering?"}
-    context_eng_decision{"Context Engineering?"}
-    fine_tune_dataset_decision{"Can fine-tuning dataset be created?"}
-    stop_prompt["Stop"]
-    stop_context["Stop"]
-    fine_tune_stop["Fine-tune and Stop"]
-    reframing["Suggest reframing the problem"]
-
-    prompt_eng_decision -->|"Yes"| stop_prompt
-    prompt_eng_decision -->|"No"| context_eng_decision
-    context_eng_decision -->|"Yes"| stop_context
-    context_eng_decision -->|"No"| fine_tune_dataset_decision
-    fine_tune_dataset_decision -->|"Yes"| fine_tune_stop
-    fine_tune_dataset_decision -->|"No"| reframing
-```
-Figure 1: A decision-making workflow for choosing between prompt engineering, context engineering, and fine-tuning.
+<div align="center">
+<img src="./media/prompt_vs_context_engineering_fine_tuning.png" alt="Prompt vs. Context. Fine-tuning" width="700"/>
+</div>
+Figure 2: A decision-making workflow for choosing between prompt engineering, context engineering, and fine-tuning.
 
 For instance, if you build an agent to process internal Slack messages, you do not need to fine-tune a model on your company’s communication style. It is more effective to use a powerful reasoning model and engineer the context to retrieve specific messages and enable actions like creating tasks or drafting emails. Throughout this course, we will show you how to solve most industry problems using context engineering.
 
@@ -81,7 +72,7 @@ graph TD
         I --> J{Long-Term Memory};
     end
 ```
-Figure 2: The high-level workflow of how context is assembled and used in an AI system.
+Figure 3: The high-level workflow of how context is assembled and used in an AI system.
 
 These components group into two main categories. We will explain them intuitively for now, as we have not formally introduced these concepts yet.
 
@@ -97,11 +88,17 @@ Long-term memory is more persistent and stores information across sessions, allo
 *   **Procedural memory:** This is knowledge encoded directly in the system's design. It includes the system prompt, which sets the agent's overall behavior; the definitions of available actions, which tell the agent what it can do; and schemas for structured outputs, which guide the format of its responses. Think of this as the agent's built-in skills.
 *   **Episodic memory:** This is memory of specific past experiences, like user preferences or previous interactions. It helps the agent personalize its responses by recalling individual user histories. We typically store this in vector or graph databases for efficient retrieval.
 *   **Semantic memory:** This is the agent’s general knowledge base. It can be internal, like company documents stored in a vector database, or external, accessed via the internet through API calls or web scraping. This memory provides the factual information the agent needs to answer questions.
-![A diagram showing that Context Engineering encompasses RAG, Prompt Engineering, State/History, Memory, and Structured Outputs.](https://github.com/user-attachments/assets/0f1f193f-8e94-4044-a276-576bd7764fd0)
 
-Figure 3: Context engineering encompasses a variety of techniques and information sources [[2]](https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-03-own-your-context-window.md).
+![A diagram showing that Context Engineering encompasses RAG, Prompt Engineering, State/History, Memory, and Structured Outputs.](https://github.com/user-attachments/assets/0f1f193f-8e94-4044-a276-576bd7764fd0)
+Figure 4: Context engineering encompasses a variety of techniques and information sources [[2]](https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-03-own-your-context-window.md).
 
 If this seems like a lot, bear with us. We will cover all these concepts in-depth in future lessons, including structured outputs (Lesson 4), actions (Lesson 6), memory (Lesson 9), and RAG (Lesson 10).
+
+<div align="center">
+<img src="./media/context_engineering_guide_101.png" alt="Context Engineering Guide 101" width="700"/>
+</div>
+Figure 5: A detailed illustration of how all the context engineering components work together inside an AI agent
+
 
 The key takeaway is that these components are not static. They are dynamically re-computed for every single interaction. For each conversation turn or new task, the short-term memory grows or the long-term memory can change. Context engineering involves knowing how to select the right pieces from this vast memory pool to construct the most effective prompt for the task at hand.
 
@@ -147,7 +144,7 @@ graph TD
         E --> F;
     end
 ```
-Figure 4: A workflow for selecting the right context from various memory sources.
+Figure 6: A workflow for selecting the right context from various memory sources.
 
 ### Context compression
 As message history grows in short-term working memory, you must manage past interactions to keep your context window in check. You cannot simply drop past conversation turns, as the LLM still needs to remember what happened. Instead, you need ways to compress key facts from the past.
@@ -166,7 +163,7 @@ graph TD
         D --> E[Long-Term Episodic Memory];
     end
 ```
-Figure 5: Compressing context by summarizing history and extracting preferences to long-term memory.
+Figure 7: Compressing context by summarizing history and extracting preferences to long-term memory.
 
 ### Isolating context
 Another powerful strategy is to isolate context by splitting information across multiple agents or LLM workflows. Instead of one agent with a massive, cluttered context window, you can have a team of agents, each with a smaller, focused context.
@@ -183,7 +180,7 @@ graph TD
     D --> F;
     E --> F;
 ```
-Figure 6: The orchestrator-worker pattern isolates context across multiple specialized agents.
+Figure 8: The orchestrator-worker pattern isolates context across multiple specialized agents.
 
 ### Format optimization
 Finally, the way you format the context matters. Models are sensitive to structure, and using clear delimiters can improve performance.
