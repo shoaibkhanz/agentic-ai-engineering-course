@@ -176,9 +176,9 @@ We often implement this using an orchestrator-worker pattern, where a central or
 ```mermaid
 graph TD
     A[User Request] --> B(Orchestrator Agent);
-    B --> C{Worker Agent 1<br>(Context A)};
-    B --> D{Worker Agent 2<br>(Context B)};
-    B --> E{Worker Agent 3<br>(Context C)};
+    B --> C{"Worker Agent 1<br>(Context A)"};
+    B --> D{"Worker Agent 2<br>(Context B)"};
+    B --> E{"Worker Agent 3<br>(Context C)"};
     C --> F[Results];
     D --> F;
     E --> F;
