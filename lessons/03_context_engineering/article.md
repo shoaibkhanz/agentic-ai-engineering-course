@@ -77,8 +77,8 @@ graph TD
     G --> H[Answer];
     H --> C;
     subgraph Memory Update
-        H --> I{Update Short-Term Memory};
-        I --> J{Update Long-Term Memory};
+        H --> I{Short-Term Memory};
+        I --> J{Long-Term Memory};
     end
 ```
 Figure 2: The high-level workflow of how context is assembled and used in an AI system.
