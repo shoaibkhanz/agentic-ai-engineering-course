@@ -149,7 +149,8 @@ graph TD
         G --> H[Assemble Context];
         H --> I[Add Core Instructions at Start];
         H --> J[Add Core Instructions at End];
-        I --> K[Final Optimized Context];
+        I --> K[Prompt Template];
+        K --> J[Prompt];
         J --> K;
     end
     
