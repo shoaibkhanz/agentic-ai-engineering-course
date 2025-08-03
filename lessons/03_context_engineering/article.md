@@ -101,49 +101,80 @@ The key takeaway is that these components are not static. They are dynamically r
 
 ## Production implementation challenges
 
-Now that we understand what makes up the context, let's look at the core challenges of implementing it in production. These challenges all revolve around a single question: "How can I keep my context as small as possible while providing enough information to the LLM?"
+Now that we understand what makes up the context, let's look at the core challenges of implementing it in production. These challenges all revolve around a single question: *"How can I keep my context as small as possible while providing enough information to the LLM?"*
 
 Here are four common issues that come up when building AI applications:
 
 1.  **The context window challenge:** Every AI model has a limited context window, the maximum amount of information (tokens) it can process at once. Think of it like your computer's RAM. If your machine has only 32GB of RAM, that is all it can use at one time. While context windows are getting larger, they are not infinite, and treating them as such leads to other problems.
 
-2.  **Information overload:** Just because you can fit a lot of information into the context does not mean you should. Too much context reduces the performance of the LLM by confusing it. This is known as the "lost-in-the-middle" or "needle in the haystack" problem, where LLMs are known for remembering information best at the beginning and end of the context window. Information in the middle is often overlooked, and performance can drop long before the physical context limit is reached [[55]](https://www.unite.ai/why-large-language-models-forget-the-middle-uncovering-ais-hidden-blind-spot/), [[8]](https://openreview.net/forum?id=5sB6cSblDR).
+2.  **Information overload:** Just because you can fit a lot of information into the context does not mean you should. Too much context reduces the performance of the LLM by confusing it. This is known as the *"lost-in-the-middle"* or *"needle in the haystack"* problem, where LLMs are known for remembering information best at the beginning and end of the context window. Information in the middle is often overlooked, and performance can drop long before the physical context limit is reached [[55]](https://www.unite.ai/why-large-language-models-forget-the-middle-uncovering-ais-hidden-blind-spot/), [[8]](https://openreview.net/forum?id=5sB6cSblDR).
 
-3.  **Context drift:** This occurs when conflicting views of truth accumulate in the memory over time [[28]](https://viso.ai/deep-learning/concept-drift-vs-data-drift/). For example, the memory might contain two conflicting statements: "My cat is white" and "My cat is black." This is not a quantum physics experiment; it is a data conflict that confuses the LLM. Without a mechanism to resolve these conflicts, the model's responses become unreliable [[31]](https://erikjlarson.substack.com/p/context-drift-and-the-illusion-of).
+3.  **Context drift:** This occurs when conflicting views of truth accumulate in the memory over time [[28]](https://viso.ai/deep-learning/concept-drift-vs-data-drift/). For example, the memory might contain two conflicting statements: "My cat is white" and "My cat is black." This is not the Schrodinger's Cat quantum physics experiment, it is a data conflict that confuses the LLM. Without a mechanism to resolve these conflicts, the model's responses become unreliable [[31]](https://erikjlarson.substack.com/p/context-drift-and-the-illusion-of).
 
-4.  **Tool confusion:** The final challenge is tool confusion, which arises in two main ways. First, adding too many actions to an agent can confuse the LLM about the best one for the job, a problem that often appears with over 100 actions [[38]](https://support.talkdesk.com/hc/en-us/articles/39096730105115--Preview-AI-Agent-Platform-Best-Practices). Second, confusion can occur when action descriptions are poorly written or overlap. If the distinctions between actions are unclear, even a human would struggle to choose the right one [[49]](https://www.forrester.com/blogs/the-state-of-ai-agents-lots-of-potential-and-confusion/).
+4.  **Tool confusion:** The final challenge is tool confusion, which arises in two main ways. First, adding too many actions to an agent can confuse the LLM about the best one for the job, a problem that often appears with over 100 actions [[38]](https://support.talkdesk.com/hc/en-us/articles/39096730105115--Preview-AI-Agent-Platform-Best-Practices). Second, confusion can occur when tool descriptions are poorly written or overlap. If the distinctions between actions are unclear, even a human would struggle to choose the right one [[49]](https://www.forrester.com/blogs/the-state-of-ai-agents-lots-of-potential-and-confusion/).
 
 ## Key strategies for context optimization
 
-Initially, most AI applications were chatbots over single knowledge bases. Today, modern AI solutions require access to multiple knowledge bases and actions, and must manage complex histories. Context engineering is about managing this complexity while meeting performance, latency, and cost requirements.
+Initially, most AI applications were chatbots over single knowledge bases. Today, modern AI solutions must manage multiple knowledge bases, tools, and complex conversational histories. Context engineering is about managing this complexity while meeting performance, latency, and cost requirements.
 
 Here are four popular context engineering strategies used across the industry:
 
-### Selecting the right context
+### 1. Selecting the right context
 Retrieving the right information from memory is a critical first step. A common mistake is to provide everything at once, assuming that models with large context windows can handle it. As we've discussed, the "lost-in-the-middle" problem means this often leads to poor performance, increased latency, and higher costs.
 
 To solve this, consider these approaches:
 *   **Use structured outputs:** Define clear schemas for what the LLM should return. This allows you to pass only the necessary, structured information to downstream steps. We will cover this in detail in Lesson 4.
 *   **Use RAG:** Instead of providing entire documents, use RAG to fetch only the specific chunks of text needed to answer a user's question. This is a core topic we will explore in Lesson 10.
-*   **Reduce the number of available actions:** Rather than giving an agent access to every available action, use a RAG-based approach to dynamically select a small, relevant subset for each task. Studies show that limiting the selection to under 30 actions can triple selection accuracy [[45]](https://productschool.com/blog/artificial-intelligence/ai-agents-product-managers).
+*   **Reduce the number of available actions:** Rather than giving an agent access to every available action, use various strategies to delegate action subsets to specialized components. For example, a typical pattern is to leverage the orchestrator-worker pattern to delegate subtasks to specialized agents. Studies show that limiting the selection to under 30 tools can triple the agent's selection accuracy [[45]](https://productschool.com/blog/artificial-intelligence/ai-agents-product-managers). Still the exact number of the perfect number of tools an agent can use can be extremely dependent on what tools you provide, what LLM you use, and how well the actions are defined. That's why evaluating the performance of your AI system on core business metrics it's a mandatory step that will help you pick the number. We will learn how to do this in future lessons.
 *   **Rank time-sensitive data:** For time-sensitive information, rank it by date and filter out anything no longer relevant.
-*   **Repeat core instructions:** For the most important instructions, repeat them at both the start and the end of the prompt. This uses the model's tendency to pay more attention to the context edges, ensuring core directives are not lost [[56]](https://promptmetheus.com/resources/llm-knowledge-base/lost-in-the-middle-effect).
+*   **Repeat core instructions:** For the most important instructions, repeat them at both the start and the end of the prompt. This uses the model's tendency to pay more attention to the context edges, ensuring core instructions are not lost [[56]](https://promptmetheus.com/resources/llm-knowledge-base/lost-in-the-middle-effect).
 
 ```mermaid
 graph TD
-    subgraph "Context Selection"
-        A[Memory] --> B{Information Retrieval};
+    subgraph "1. Context Selection"
+        A[Memory Sources] --> B{Information Retrieval};
         B -->|RAG| C[Relevant Facts];
         B -->|Tool Selection| D[Relevant Tools];
         B -->|History Ranking| E[Relevant History];
-        C --> F[Optimized Context];
+        C --> F[Selected Context];
         D --> F;
         E --> F;
     end
+    
+    subgraph "2. Context Compression"
+        F --> G{Compression Engine};
+        G -->|Summarize| H[Compressed History];
+        G -->|Extract Preferences| I[User Preferences];
+        G -->|Deduplicate| J[Clean Context];
+        H --> K[Optimized Context];
+        I --> K;
+        J --> K;
+    end
+    
+    subgraph "3. Context Isolation"
+        K --> L{Orchestrator Agent};
+        L --> M[Worker Agent 1<br/>Context A];
+        L --> N[Worker Agent 2<br/>Context B];
+        L --> O[Worker Agent 3<br/>Context C];
+        M --> P[Specialized Results];
+        N --> P;
+        O --> P;
+    end
+    
+    subgraph "4. Format Optimization"
+        P --> Q[Format with XML Tags];
+        Q --> R[YAML Structured Data];
+        R --> S[Final Optimized Context];
+    end
+    
+    S --> T((LLM Call));
+    T --> U[Response];
+    U --> V[Update Memory];
+    V --> A;
 ```
-Figure 6: A workflow for selecting the right context from various memory sources.
+Figure 6: A comprehensive workflow showing how all four context engineering techniques work together to optimize information flow from memory to LLM.
 
-### Context compression
+### 2. Context compression
 As message history grows in short-term working memory, you must manage past interactions to keep your context window in check. You cannot simply drop past conversation turns, as the LLM still needs to remember what happened. Instead, you need ways to compress key facts from the past.
 
 You can do this through:
@@ -162,7 +193,7 @@ graph TD
 ```
 Figure 7: Compressing context by summarizing history and extracting preferences to long-term memory.
 
-### Isolating context
+### 3. Isolating context
 Another powerful strategy is to isolate context by splitting information across multiple agents or LLM workflows. Instead of one agent with a massive, cluttered context window, you can have a team of agents, each with a smaller, focused context.
 
 We often implement this using an orchestrator-worker pattern, where a central orchestrator agent breaks down a problem and assigns sub-tasks to specialized worker agents [[12]](https://www.confluent.io/blog/event-driven-multi-agent-systems/). Each worker operates in its own isolated context, improving focus and allowing for parallel processing. We will cover this pattern in more detail in Lesson 5.
@@ -179,7 +210,7 @@ graph TD
 ```
 Figure 8: The orchestrator-worker pattern isolates context across multiple specialized agents.
 
-### Format optimization
+### 4. Format optimization
 Finally, the way you format the context matters. Models are sensitive to structure, and using clear delimiters can improve performance.
 *   **Use XML tags:** Wrap different pieces of context in XML-like tags (e.g., `<user_query>`, `<documents>`). This helps the model distinguish between different types of information [[5]](https://milvus.io/ai-quick-reference/what-modifications-might-be-needed-to-the-llms-input-formatting-or-architecture-to-best-take-advantage-of-retrieved-documents-for-example-adding-special-tokens-or-segments-to-separate-context).
 *   **Prefer YAML over JSON:** When providing structured data as input, YAML is often more token-efficient than JSON, which helps save space in your context window.

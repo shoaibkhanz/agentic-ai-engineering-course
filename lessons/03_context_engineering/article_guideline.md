@@ -204,11 +204,12 @@ Follow the next narrative flow when writing the end-to-end lesson:
 
 - Get more hands-on and present four of the most popular context engineering strategies used across the industry: 
     1. **Selecting the right context:** The art of retrieving the right information from the memory as context to solve a given task. A common mistake we see people make when building AI products is providing everything into the context at once. Often, their reasoning is that if they work with models that can handle up to 2 million input tokens, the model can handle all that input. But as mentioned in the previous section, due to the "lost-in-the-middle" problem this often results in poor performance. Also, it translates to increased latency and costs. To solve this:
-        1. Use structured outputs to separate different parts of the LLM outputs and pass downstream only what is required (more on this in Lesson 4) (Create mermaid diagram to support this idea.)
+        1. Use structured outputs to separate different parts of the LLM outputs and pass downstream only what is required (more on this in Lesson 4) 
         2. Use RAG to pass only the factual facts required to answer a given user question (more on this in Lesson 10.)
         3. Reducing the number of available tools to avoid confusing the LLM what actions to take at each step.
         4. Temporal Relevance: Ranking time-sensitive data and cutting off irrelevant data points
         5. Repeat core instructions at both the start and the end. Unintuiteveliy, for the most important instructions, it's recommended to repeat yourself across the prompt, even if it translates into more tokens.  
+        (Create a mermaid diagram that combines techniques 1, 2, 3, and 4 to show how they could work together.)
     2. **Context compression:** As the message history grows in the short-term working memory, you have to carefully manage past interactions to keeping your context window in check. The trick is that you cannot just drop past conversation turns, as the LLM still needs to remember what happen. Thus, we need ways to compress key facts from the past, while shrinking the short-term memory. We can do that through:
         - Creating summaries of past interactions using an LLM
         - Moving preferences about the user, from the working memory into the long-term memory, which is most often labeled as the episodic memory (create a mermaid diagram to support the idea)
