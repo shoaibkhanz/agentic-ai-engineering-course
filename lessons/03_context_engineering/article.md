@@ -8,7 +8,7 @@ In our last lesson, we explored how to choose between AI agents and LLM workflow
 
 Prompt engineering, while effective for simple tasks, is designed for single, stateless interactions. It treats each call to an LLM as a new, isolated event. This approach breaks down in stateful applications where context must be preserved and managed across multiple turns.
 
-As a conversation or task progresses, the context grows. Without a strategy to manage this growth, the LLM’s performance degrades. This is context decay: the model gets confused by the noise of an ever-expanding history. It starts to lose track of original instructions or key information.
+As a conversation or task progresses, the context grows. Without a strategy to manage this growth, the LLM’s performance degrades. This is context decay: the model gets confused by the noise of an ever-expanding history. It starts to lose track of the original instructions or key information.
 
 Even with large context windows, a physical limit exists for what you can include. Also, on the operational side, every token adds to the cost and latency of an LLM call. Simply putting everything into the context creates a slow, expensive, and underperforming system. We will explore these concepts in more detail in upcoming lessons, including memory in Lesson 9 and RAG in Lesson 10.
 
@@ -18,7 +18,7 @@ This is where context engineering becomes essential. It shifts the focus from cr
 
 ## Understanding context engineering
 
-Context engineering is about finding the best way to arrange information from your applications memory into the context passed to an LLM. It is a solution to an optimization problem where you retrieve the right parts from your short-term and long-term memory to solve a specific task without overwhelming the model. For example, when you ask a a cooking agent for a recipe, you do not give it the entire cookbook. Instead, you retrieve the specific recipe, along with personal context like allergies or taste preferences. This precise selection ensures the model receives only the essential information.
+Context engineering involves finding the optimal way to arrange information from your application's memory into the context passed to an LLM. It is a solution to an optimization problem where you retrieve the right parts from your short-term and long-term memory to solve a specific task without overwhelming the model. For example, when you ask a cooking agent for a recipe, you do not give it the entire cookbook. Instead, you retrieve the specific recipe, along with personal context like allergies or taste preferences. This precise selection ensures the model receives only the essential information.
 
 Andrej Karpathy explains that LLMs are like a new kind of operating system where the model is the CPU and its context window is the RAM [[36]](https://addyo.substack.com/p/context-engineering-bringing-engineering). Just as an operating system manages what fits into your computer’s limited RAM, context engineering manages what information occupies the model’s limited context window.
 
@@ -27,7 +27,7 @@ Andrej Karpathy explains that LLMs are like a new kind of operating system where
 </div>
 Figure 1: What makes up the context
 
-How does context engineering relates to prompt engineering? It's simple. Prompt engineering is a subset of context engineering. You still write effective prompts, but you also design a system that feeds the right context into those prompts. This means understanding not just *how* to phrase a task, but *what* information the model needs to perform optimally. This is illustrated in Figure 1, where all the context gathered across multiple conversation turns between the user and the agent is used to create the final prompt, which is passed to the LLM.
+How does context engineering relate to prompt engineering? It's simple. Prompt engineering is a subset of context engineering. You still write effective prompts, but you also design a system that feeds the right context into those prompts. This means understanding not just how to phrase a task, but what information the model needs to perform optimally. This is illustrated in Figure 1, where all the context gathered across multiple conversation turns between the user and the agent is used to create the final prompt, which is passed to the LLM.
 
 | Dimension | Prompt Engineering | Context Engineering |
 |-----------|-------------------|---------------------|
@@ -52,6 +52,9 @@ For instance, if you build an agent to process internal Slack messages, you do n
 
 To master context engineering, you first need to understand what "context" actually is. It is everything the LLM sees in a single turn, dynamically assembled from various memory components before being passed to the model.
 
+![A diagram showing that Context Engineering encompasses RAG, Prompt Engineering, State/History, Memory, and Structured Outputs.](https://github.com/user-attachments/assets/0f1f193f-8e94-4044-a276-576bd7764fd0)
+Figure 4: Context engineering encompasses a variety of techniques and information sources [[2]](https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-03-own-your-context-window.md)
+
 The high-level workflow, as presented in Figure 3, begins when a user input triggers the system to pull relevant information from both long-term and short-term memory. This information is assembled into the final context, inserted into a prompt template, and sent to the LLM. The LLM’s answer then updates the memory, and the cycle repeats.
 
 ```mermaid
@@ -71,7 +74,7 @@ graph TD
 ```
 Figure 3: The high-level workflow of how context is assembled and used in an AI system.
 
-These components group into two main categories. We will explain them intuitively for now, as we have future dedicated lessons for all of them:
+These components are grouped into two main categories. We will explain them intuitively for now, as we have future dedicated lessons for all of them:
 
 ### Short-term working memory
 Short-term working memory is the state of the agent for the current task or conversation. It is volatile and changes with each interaction, helping the agent maintain a coherent dialogue and make immediate decisions.  It can include some or all of these components:
@@ -81,13 +84,10 @@ Short-term working memory is the state of the agent for the current task or conv
 *   **Action calls and outputs:** The results from any actions the agent has performed, providing information from external systems.
 
 ### Long-term memory
-Long-term memory is more persistent and stores information across sessions, allowing the AI system to remember things beyond a single conversation. We divide it into three types, drawing parallels from human memory [[16]](https://arxiv.org/html/2504.15965v1). As before an AI system, can include some or all of them:
+Long-term memory is more persistent and stores information across sessions, allowing the AI system to remember things beyond a single conversation. We divide it into three types, drawing parallels from human memory [[16]](https://arxiv.org/html/2504.15965v1). As before, an AI system can include some or all of them:
 *   **Procedural memory:** This is knowledge encoded directly in the code. It includes the system prompt, which sets the agent's overall behavior. Also, it includes the definitions of available actions, which tell the agent what it can do and schemas for structured outputs, which guide the format of its responses. Think of this as the agent's built-in skills.
 *   **Episodic memory:** This is memory of specific past experiences, like user preferences or previous interactions. It's used to help the agent personalize its responses based on individual users. We typically store this in vector or graph databases for efficient retrieval.
 *   **Semantic memory:** This is the agent’s general knowledge base. It can be internal, like company documents stored in a data lake, or external, accessed via the internet through API calls or web scraping. This memory provides the factual information the agent needs to answer questions.
-
-![A diagram showing that Context Engineering encompasses RAG, Prompt Engineering, State/History, Memory, and Structured Outputs.](https://github.com/user-attachments/assets/0f1f193f-8e94-4044-a276-576bd7764fd0)
-Figure 4: Context engineering encompasses a variety of techniques and information sources [[2]](https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-03-own-your-context-window.md).
 
 If this seems like a lot, bear with us. We will cover all these concepts in-depth in future lessons, including structured outputs (Lesson 4), actions (Lesson 6), memory (Lesson 9), and RAG (Lesson 10).
 
@@ -95,7 +95,6 @@ If this seems like a lot, bear with us. We will cover all these concepts in-dept
 <img src="./media/context_engineering_guide_101.png" alt="Context Engineering Guide 101" width="700"/>
 </div>
 Figure 5: A detailed illustration of how all the context engineering components work together inside an AI agent
-
 
 The key takeaway is that these components are not static. They are dynamically re-computed for every single interaction. For each conversation turn or new task, the short-term memory grows or the long-term memory can change. Context engineering involves knowing how to select the right pieces from this vast memory pool to construct the most effective prompt for the task at hand.
 
@@ -120,7 +119,7 @@ Initially, most AI applications were chatbots over single knowledge bases. Today
 Here are four popular context engineering strategies used across the industry:
 
 ### 1. Selecting the right context
-Retrieving the right information from memory is a critical first step. A common mistake is to provide everything at once, assuming that models with large context windows can handle it. As we've discussed, the "lost-in-the-middle" problem means this often leads to poor performance, increased latency, and higher costs.
+Retrieving the right information from memory is a critical first step. A common mistake is to provide everything at once, assuming that models with large context windows can handle it. As we've discussed, the "lost-in-the-middle" problem often leads to poor performance, increased latency, and higher costs.
 
 To solve this, consider these approaches:
 *   **Use structured outputs:** Define clear schemas for what the LLM should return. This allows you to pass only the necessary, structured information to downstream steps. We will cover this in detail in Lesson 4.
@@ -132,18 +131,16 @@ To solve this, consider these approaches:
 graph TD
     subgraph "Context Selection Strategies"
         A[User Query] --> B{Context Selection Engine};
-        
+
         B --> C["RAG: Retrieve Relevant Documents"];
         B --> D["Tool Selection: Filter to <30 Tools"];
         B --> E["Time Ranking: Rank by Date/Relevance"];
-        B --> F["Structured Outputs: Define Response Schema"];
-        
+
         C --> G[Selected Context];
         D --> G;
         E --> G;
-        F --> G;
     end
-    
+
     subgraph "Context Assembly"
         G --> H[Assemble Context];
         H --> I[Add Core Instructions at Start];
@@ -152,7 +149,7 @@ graph TD
         J --> K;
         K --> L[Prompt];
     end
-    
+
     L --> M((LLM Call));
     M --> N[Structured Response];
     N --> O[Update Memory];
@@ -169,6 +166,7 @@ As message history grows in short-term working memory, you must manage past inte
 You can do this through:
 1.   **Creating summaries of past interactions:** Use an LLM to replace a long, detailed history with a concise overview.
 2.   **Moving user preferences to long-term memory:** Transfer user preferences from working memory to long-term episodic memory. This keeps the working context clean while ensuring preferences are remembered for future sessions.
+3.   **Deduplication:** Remove redundant information from the context to avoid repetition.
 
 ```mermaid
 graph TD
@@ -180,8 +178,6 @@ graph TD
     end
 ```
 Figure 7: Compressing context by summarizing history and extracting preferences to long-term memory.
-
-3.   **Deduplication:** Remove redundant information from the context to avoid repetition.
 
 ### 3. Isolating context
 Another powerful strategy is to isolate context by splitting information across multiple agents or LLM workflows. This technique is similar to tool isolation (explained in `Selecting the right context`), but it's more general, referring to the whole context. The key idea is that instead of one agent with a massive, cluttered context window, you can have a team of agents, each with a smaller, focused context.
