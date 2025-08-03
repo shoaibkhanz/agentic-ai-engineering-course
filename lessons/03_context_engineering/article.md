@@ -150,14 +150,14 @@ graph TD
         H --> I[Add Core Instructions at Start];
         H --> J[Add Core Instructions at End];
         I --> K[Prompt Template];
-        K --> J[Prompt];
         J --> K;
+        K --> L[Final Prompt];
     end
     
-    K --> L((LLM Call));
-    L --> M[Structured Response];
-    M --> N[Update Memory];
-    N --> A;
+    L --> M((LLM Call));
+    M --> N[Structured Response];
+    N --> O[Update Memory];
+    O --> A;
 ```
 Figure 6: A workflow showing how the four context selection strategies work together to optimize information retrieval and assembly.
 
