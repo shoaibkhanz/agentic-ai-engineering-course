@@ -134,7 +134,7 @@ graph TD
     subgraph "Context Selection Strategies"
         A[User Query] --> B{Context Selection Engine};
         
-        B -->|1. RAG| C[Retrieve Relevant Documents];
+        B --> C["RAG: Retrieve Relevant Documents"];
         B -->|2. Tool Selection| D[Filter to <30 Tools];
         B -->|3. Time Ranking| E[Rank by Date/Relevance];
         B -->|4. Structured Outputs| F[Define Response Schema];
