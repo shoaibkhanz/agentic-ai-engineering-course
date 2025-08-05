@@ -18,13 +18,12 @@ Second, using libraries like Pydantic adds a layer of data and type validation [
 Structured outputs create a formal contract between the LLM and your application code, making your system far more reliable. Engineers use this pattern everywhere. For example, they extract entities like names and dates to build knowledge graphs for advanced Retrieval-Augmented Generation (RAG). They also format outputs for downstream systems like databases or user interfaces [[5]](https://www.prompts.ai/en/blog-details/automating-knowledge-graphs-with-llm-outputs), [[6]](https://humanloop.com/blog/structured-outputs), [[7]](https://developers.redhat.com/articles/2025/06/03/structured-outputs-vllm-guiding-ai-responses).
 ```mermaid
 flowchart TD
-    A[Unstructured Text] --> B{LLM};
-    B --> C[Structured Output <br> (JSON/Pydantic)];
-    C --> D[Downstream Application];
-    D --> E[Database];
-    D --> F[User Interface];
-    D --> G[API];
-```
+    A["Unstructured Text"] --> B{"LLM"};
+    B --> C["Structured Output <br> (JSON/Pydantic)"];
+    C --> D["Downstream Application"];
+    D --> E["Database"];
+    D --> F["User Interface"];
+    D --> G["API"];
 Figure 1: A simplified flow showing how structured outputs bridge the gap between LLMs and downstream applications.
 
 Now that we understand the theory, let us move to practice. We will explore three ways to implement structured outputs: from scratch with JSON, from scratch with Pydantic, and natively with the Gemini API.
