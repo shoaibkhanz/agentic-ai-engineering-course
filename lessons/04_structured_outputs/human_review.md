@@ -1,151 +1,55 @@
-# Paul
-
-## Comprehensiveness of Key Facts - Feedback
-
-## Instruction Following vs Guidelines - Feedback
-
-- Section 1 - hallucinates: "This also mitigates security risks like prompt injection. By validating the data structure, you isolate malformed inputs before they can cause security vulnerabilities."
-
-## Writing Quality - Feedback
-
-"- Section 1 - GraphRAG - Gets too wordy: ""In these systems, parsing precision directly impacts utility and reliability. When the output follows a schema, the system can map extracted entities directly to knowledge graph nodes and edges, which avoids extensive post-processing and improves context-aware generation.""
-
-- Section 2: The code blocks are not split well enough using the standard [code block] [text description] format, granular enough. Probably because the LLM takes code snippets based on Notebook code cells.
-- Section 2: We don't show intermediate output steps from the Notebook.
-
-- Section 3: using fancy words: ""it’s still brittle""
-- Section 3: hmm: ""Pydantic is more than a type checker; it's a data guardian.""
-- Section 3: The dynamicity between code and text can be improved. For example, show how the Pydantic model schema looks like leveragint the outputs form the Notebook.
-"
-
-## Other Feedback
-
-"- Add introduction and conclusion
-
- - Section 1 - add - ""Structured outputs solve this by creating a clear contract between the LLM and your application.""
-- Section 1 - improve narrative flow
-
-- Section 3 - add - ""If an LLM returns a string instead of an integer or misses a required field, Pydantic raises a ValidationError with a clear explanation of what went wrong and where.""
-- Section 3 - add - Highlight that ideally we use the ""DocumentMetadata"" pydantic object direclty, and not obscure PYthon dicts where we don't know what's inside 
-
-IMPORTANT:
-- Better split the code from the Notebooks
-- Anchor it into the course: current lesson, previous, next lessons
-- Add the narrative flow section & correct the article to follow it"
-
-------
-
-# Louis
-
-## Comprehensiveness of Key Facts - Feedback
-
-"- Too much detail on why its useful. It's way too long. We get it from a simple clear example how a structured output can be crucial, we don't have to writye 6 paragraphs about that. It's too long to get into how to do it.
-- As usual, figure 1 seems quite useless.
-- The code example should again be related to our projects I think since we want them to have similar code to what they will be implementing in the project."
-
-## Instruction Following vs Guidelines - Feedback
-
-## Writing Quality - Feedback
-
-"- Sentence ""Pydantic is more than a type checker; it's a data guardian"" seems generated - AI slop.
-- ""article "" -- no it is a lesson.
-- ""is invaluable"" seems generated - AI slop."
-
-## Other Feedback
-
-------
-
-# Fabio
-
-## Comprehensiveness of Key Facts - Feedback
-
-## Instruction Following vs Guidelines - Feedback
-
-"- ""Explain that Pydantic works hand in hand with Python's standard typing library, which is used to define the type from the signature of data structures, functions and classes."" -> this is missing from the article
-
-- ""Other popular options are Python's TypeDicts and DataClass classes. But due to Pydantic out-of-the-box validation mechanisms Pydantic is the most popular and powerful."" -> missing from the article"
-
-## Writing Quality - Feedback
-
-"- ""We'll cut through the hype and show you the engineering reality of making LLMs work reliably"" -> feels LLM-generated
-
-- ""Pydantic is more than a type checker; it's a data guardian"" -> feels LLM-generated"
-
-## Other Feedback
-
-"- ""This article is for AI Engineers who want to move beyond basic prototypes and ship production-ready applications."" -> this article is part of a lesson of a course, so I'd say something like ""This specific lesson is a step for those who want to learn how to move beyond basic prototypes and ship production-ready applications""
-
-- ""In this article, we walked you through the entire process, from the ground up."" -> since it's a lesson in a course, it should say ""in this lesson"""
-
-------
-
-# Rucha
-
-## Comprehensiveness of Key Facts - Feedback
-
-It comprehensive but repetitive, not in a way to explain concepts properly but just repeats the same analogies. For example: In introduction: Large Language Models (LLMs) are probabilistic, but the software they connect to is deterministic.  and same is said is conclusion and in The Engineering Case for Structured Outputs: The core challenge of integrating LLMs into software is managing their inherent unpredictability. Same for problems as highlighted in the other section. Similarly Pydantic is mentioned in The Engineering Case for Structured Outputs and has an independent section that says the same thing
-
-## Instruction Following vs Guidelines - Feedback
-
-## Writing Quality - Feedback
-
-"- Change the title: From messy text to clean data | Why Structured Outputs are Your Best Friend in Production AI | From Scratch: Forcing LLM Outputs to JSON | The Pydantic Advantage: Adding a Validation Layer | Production-Grade Structured Outputs with the Gemini API 
-
-- AI fluff specifics: 
-
-- In introduction: robust bridge between the AI and your application logic 
-- In The Engineering Case for Structured Outputs: fragile methods like regular expressions is a recipe for disaster in a production environment.
-
-- In The Pydantic Advantage: Adding a Validation Layer: 
-
-This gives you a single source of truth for your schema and, most importantly, provides powerful, out-of-the-box validation AND Pydantic is more than a type checker; it's a data guardian. AND The real magic happens now. AND This creates a perfect, type-safe bridge between the probabilistic world of the LLM and the deterministic world of your Python code, making Pydantic objects the de facto standard for modeling domain objects in AI applications
-
-- In Production-Grade Structured Outputs with the Gemini API: 
-
-While this foundational knowledge is invaluable and Implementing structured outputs yourself demands intricate prompt engineering and often requires manual validation. In contrast, native API support is typically more accurate, reliable, and token-efficient. This approach ensures type-safety, simplifies prompting, and can lead to more explicit refusals from the model when a request cannot be fulfilled according to the schema"
-
-## Other Feedback
-
-"- In introduction it says: This article is for AI Engineers who want to move beyond basic prototypes and ship production-ready applications. It is not an article. The rest: We'll cut through the hype and show you the engineering reality of making LLMs work reliably. We'll start from the ground up, showing you how to force JSON output with prompt engineering, then level up with Pydantic for validation, and finally, use the production-grade features of the Gemini API. also feels very much for a blog, and not a lesson.
-
-- In The Engineering Case for Structured Outputs: This approach frequently leads to malformed data, type mismatches, and unpredictable formatting that causes downstream failures. Even with clear prompts, LLMs can produce incomplete or malformed outputs, which might include type mismatches or extra conversational text, leading to runtime errors and system failures. Says the same thing 
-
-- In the From Scratch: Forcing LLM Outputs to JSON: this is only sentence that uses you' for the walkthrough example: The output is now a standard Python dictionary, which you can easily work with in your code. 
-
-- The entire conclusion seems AI generated and for a blog, needs deeper editing than just words. 
-
-- In general the tone is a little more enthusiastic than the previous chapter. So not consistent with the previous one (chapter 3) but consistent with chapter 2"
-
-------
-
-# Louie
-
-## Comprehensiveness of Key Facts - Feedback
-
-"- More  of the notebook needs to be included and explained.
-- Missing value add info on advantages of pydantic - low informtion density in this section as facts are repalced by waffle.  "
-
-## Instruction Following vs Guidelines - Feedback
-
-"-We should keep section headings/names matching the guidelines. 
--Several comments around Pydantic and alterntives missing. 
-- Needs more intro to the code notebook - plus explaining setup etc. "
-
-## Writing Quality - Feedback
-
-"-""This is where structured outputs come in""; ""this is where x comes in"" will likely become very overused if we do not prompt against it. 
--The Engineering Case for Structured Outputs - this section is too long with some waffle/ redunancy. 
-
-- ""Pydantic is more than a type checker; it's a"" - AI slop signature sentence structure."
-
-## Other Feedback
-
-"- In JSON from scratch - we extract the 15% user growth rather than 20% revenue growth. Pydantic finds the 20% revenue. 
-
--parsed_repsonse typo
-
--The Pydantic Advantage: Adding a Validation Layer - this dramatic two part heading structure can be an AI slop signature, but its also popular and sometimes works well. 
-
-Note: We likely need more precise instructions on how the agent should work with our notebooks - this can be in general terms and attached to the writing agent - but also some more pointers in the guidlines. "
-
-------
+# Offline human review
+
+## 1. Critical
+- Writing Quality: AI Slop, Structure, and Word Choice
+    - Section 1 - GraphRAG - Gets too wordy: ""In these systems, parsing precision directly impacts utility and reliability. When the output follows a schema, the system can map extracted entities directly to knowledge graph nodes and edges, which avoids extensive post-processing and improves context-aware generation.""
+    - Section 3: using fancy words: ""it’s still brittle""
+    - Section 3: hmm: ""Pydantic is more than a type checker; it's a data guardian.""
+    - Sentence ""Pydantic is more than a type checker; it's a data guardian"" seems generated - AI slop.
+    - ""is invaluable"" seems generated - AI slop.
+    - ""We'll cut through the hype and show you the engineering reality of making LLMs work reliably"" -> feels LLM-generated
+    - ""Pydantic is more than a type checker; it's a data guardian"" -> feels LLM-generated
+    - AI fluff specifics: In introduction: robust bridge between the AI and your application logic
+    - AI fluff specifics: In The Engineering Case for Structured Outputs: fragile methods like regular expressions is a recipe for disaster in a production environment.
+    - AI fluff specifics: In The Pydantic Advantage: Adding a Validation Layer: This gives you a single source of truth for your schema and, most importantly, provides powerful, out-of-the-box validation AND Pydantic is more than a type checker; it's a data guardian. AND The real magic happens now. AND This creates a perfect, type-safe bridge between the probabilistic world of the LLM and the deterministic world of your Python code, making Pydantic objects the de facto standard for modeling domain objects in AI applications
+    - AI fluff specifics: In Production-Grade Structured Outputs with the Gemini API: While this foundational knowledge is invaluable and Implementing structured outputs yourself demands intricate prompt engineering and often requires manual validation. In contrast, native API support is typically more accurate, reliable, and token-efficient. This approach ensures type-safety, simplifies prompting, and can lead to more explicit refusals from the model when a request cannot be fulfilled according to the schema
+    - ""This is where structured outputs come in""; ""this is where x comes in"" will likely become very overused if we do not prompt against it.
+    - ""Pydantic is more than a type checker; it's a"" - AI slop signature sentence structure.
+    - Paragraphs contain multiple key ideas, making them not skimmable.
+    - Weird word choices: "constructing the perfect briefing"
+    - Weird word choices: "This hands-on approach is what separates production-grade AI from mere prototypes."
+    - Remove AI slop like "art form" in this sentence "Context engineering...is an art form focused on intuitively", keep it direct and techincal. Dont use markety terms like ".seamlessly integrates", "significantly", "dramatically etc.
+    - Add transition between each section. The transition between section-4 and section-5 is wrong. "These challenges underscore the need for deliberate context management strategies." Its not context mangement strategies rather it should be context optimization strategies.
+    - Stop using the symbol —. AI slop.
+    - "Imagine you're building...". Don't use the expression "imagine...". AI slop. Otherwise the example there is good!
+    - Mastering the art of context for LLMs- These titles can be better.
+    - The AI fluff that needs removing: Procedural Memory under what makes up context uses encompasses
+    - The AI fluff that needs removing: Under Format optimization ( in Context Optimization Strategies), two sentences: Do not let a framework abstract this critical part of your application away from you. AND This hands-on approach is what separates production-grade AI from mere prototypes.
+    - The AI fluff that needs removing: In conclusion: By wrestling with the real-world challenges and This practical experience is invaluable
+    - "In the early days" feels like AI/ filler text.
+    - "Imagine telling your AI assistant" - should stear away from use of "imagine" as is overused by LLMs.
+    - "Context engineering is more than just a technical skill; it is" - this "is more than" sentence structure is a LLM slop signature.
+    -  weird AI formulation: "high-frequency scenarios where predictable costs and latency are paramount"
+    - mention of "paramount" and "crucial" terms to avoid, we can add "Avoid Purple Prose" in the style guidelines
+    - Avoid AI slop like ""leverage"", ""fast-moving world"" , ""But here’s the good news"", overuse of ""significant""
+    - AI fluff is seen primarily in adjectives like trivial decisions, paramount, thrive, or phrases like critical decision with confidence, tackling a novel problem. Needs an overall upgrade with toning down AI fluff while keeping the human essence.
+    - AI fluff specifics: 
+        - the line between a thriving product and a failed experiment is often drawn at this exact architectural seam. AND This lesson will provide a framework to help you make this critical decision with confidence.
+        - show you how to design robust systems that leverage the best of both worlds. By the end, you’ll be equipped to choose the right path for your AI applications. In Looking at State-of-the-Art (SOTA) Examples (2025): Workflows also transform creative and legal industries.
+        - In the developer world, coding assistants like In Zooming In on Our Favorite Examples: feature in Google Workspace perfectly exemplifies a pure, multi-step workflow. AND Perplexity's deep research feature is a fascinating hybrid.
+        - You will constantly battle a reliability crisis.
+        - we will systematically tackle each of these issues. You will learn battle-tested patterns for building reliable systems, proven strategies for managing context, and practical approaches for handling multimodal data.
+        - frameworks that let you deploy with confidence. Your path forward as an AI engineer is about mastering these realities. By the end of this course, you will have the knowledge to architect AI systems that are not only powerful but also robust, efficient, and safe. You'll know when to use a workflow, when to deploy an agent, and how to build effective hybrid systems that work in the messy, unpredictable real world.
+    - ""In the fast-moving world of AI, the line between a thriving product and a failed experiment is often drawn at this exact architectural seam"" -> too metaphorical?
+    - "In the fast-moving world of AI" - fast moving worlds are oversuse AI slop.
+    - "often drawn at this exact architectural seam." - AI verbosity
+    - In the fast-moving world of AI, the line between a thriving product and a failed experiment is often drawn at this exact architectural seam. The most successful AI companies have mastered this balance. They understand that the choice isn’t a binary one between rigid control and total autonomy. Instead, it’s about finding the right point on a spectrum to solve a specific problem. Statements like these feel AI and overly generic.
+    - - For startups, Minimum Viable Products (MVPs), and projects focused on rapid deployment. Tone shift, from addressing one person to making a general statement. Say: For projects or MVPs that require rapid deployment.
+    - "Workflows allow you to move fast without heavy infrastructure investment" - not a good framing as Agents don't neccessarily need heavy infrastructure investment either.
+    - - ""These aren't just theoretical problems; they are the day-to-day reality of building with AI"" -> feels LLM-generated"
+    - "These aren't just theoretical problems; they are" - AI slop structure.
+    - weird AI formulation: "This lets the agent go beyond its internal knowledge and affect its environment"
+    - "Finally, tool confusion arises when" is not proper wording. We are enumerating challengers, so it should be something like "The last challenge is tool confusion...".
+ 
+- Figures/Tables: Formatting, Quality, Relevance, Contextualization
+    - Table captions are rendered as a table row.

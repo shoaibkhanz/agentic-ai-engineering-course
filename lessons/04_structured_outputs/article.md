@@ -1,303 +1,383 @@
-# LLM Structured Output: A Deep Dive
-### From messy text to clean data
+# LLM Structured Outputs: A Deep Dive
+### Bridge LLMs to apps with structured data
 
-## Why Structured Outputs are Your Best Friend in Production AI
+## Introduction
 
-If you're building any AI application that goes beyond a simple chatbot, you'll quickly run into a fundamental problem: Large Language Models (LLMs) are probabilistic, but the software they connect to is deterministic. LLMs generate text, which can be inconsistent, malformed, or just plain wrong. Your Python code, on the other hand, expects data in a predictable, reliable format.
+In our previous lessons, we laid the groundwork for AI Engineering. We explored the AI agent landscape, distinguished between rule-based workflows and autonomous agents, and covered context engineering—the art of feeding the right information to a Large Language Model (LLM). Now, we are ready to tackle a fundamental challenge: getting reliable information *out* of an LLM.
 
-This is where structured outputs come in. Forcing an LLM to return data in a specific format like JSON, and then validating it with a tool like Pydantic, is the most critical skill for building a robust bridge between the AI and your application logic. It turns the model's unpredictable text into clean, reliable data that you can easily parse, manipulate, and validate.
+Large Language Models operate in a world of probabilities, often called "Software 3.0". Our applications, however, rely on deterministic code and predictable data structures—the world of "Software 1.0". This lesson builds the bridge between these two worlds. We explore structured outputs, a critical technique for forcing LLMs to return consistent, machine-readable data. Mastering this is essential for any AI Engineer building production-grade systems.
 
-This article is for AI Engineers who want to move beyond basic prototypes and ship production-ready applications. We'll cut through the hype and show you the engineering reality of making LLMs work reliably. We'll start from the ground up, showing you how to force JSON output with prompt engineering, then level up with Pydantic for validation, and finally, use the production-grade features of the Gemini API.
+## Understanding why structured outputs are critical
 
-## The Engineering Case for Structured Outputs
+Before we start coding, it is important to understand why structured outputs are a cornerstone of reliable AI applications. When an LLM returns a free-form string, you face the messy task of parsing it. This often involves fragile regular expressions or string-splitting logic. These methods easily break if the model changes its phrasing even slightly [[1]](https://pmc.ncbi.nlm.nih.gov/articles/PMC11751965/), [[2]](https://arxiv.org/html/2506.21585v1). Structured outputs solve this by forcing the model’s response into a predictable format like JSON.
 
-The core challenge of integrating LLMs into software is managing their inherent unpredictability. Relying on raw text output and then trying to parse it with fragile methods like regular expressions is a recipe for disaster in a production environment. This approach frequently leads to malformed data, type mismatches, and unpredictable formatting that causes downstream failures. Even with clear prompts, LLMs can produce incomplete or malformed outputs, which might include type mismatches or extra conversational text, leading to runtime errors and system failures.
+This approach offers several key benefits. First, structured outputs are easy to parse, manipulate, and debug. Instead of wrestling with raw text, you work with clean Python objects like dictionaries or, even better, Pydantic models. This allows you to programmatically access the data you need without guesswork, making your code cleaner and more predictable.
 
-Structured outputs solve this by creating a clear contract between the LLM and your application. When you enforce a schema, you guarantee that the output will be consistent, machine-readable, and reliably type-safe. This makes it easy to programmatically manipulate the data, monitor its quality, and debug issues. Instead of dealing with a messy string, you are working with a clean Python dictionary or object, where you can access fields directly and ensure the data conforms to your expectations.
+Second, using libraries like Pydantic adds a layer of data and type validation [[3]](https://www.speakeasy.com/blog/pydantic-vs-dataclasses), [[4]](https://codetain.com/blog/validators-approach-in-python-pydantic-vs-dataclasses/). If the LLM returns a string where an integer is expected, your application will not crash silently with a `TypeError` down the line; it will raise a clear validation error immediately. This "fail-fast" behavior is essential for building reliable systems, preventing bad data from propagating through your application.
 
-This approach is essential for a wide range of use cases. For example, in entity extraction, you can use structured outputs to pull specific pieces of information like names, dates, and locations from a block of text. This is a foundational step for advanced applications like knowledge graphs or Graph Retrieval-Augmented Generation (GraphRAG) pipelines. In these systems, parsing precision directly impacts utility and reliability. When the output follows a schema, the system can map extracted entities directly to knowledge graph nodes and edges, which avoids extensive post-processing and improves context-aware generation.
-
-The true advantage, however, comes from using Pydantic models to define your output schema. Pydantic is a robust validation engine. If the LLM returns a string instead of an integer or misses a required field, Pydantic raises a `ValidationError`. This error provides detailed messages about the failure, including its location and a human-readable explanation. This acts as a powerful, type-safe bridge between the LLM and your Python code, preventing malformed data from ever reaching your downstream systems. This also mitigates security risks like prompt injection. By validating the data structure, you isolate malformed inputs before they can cause security vulnerabilities.
-
-The following diagram shows the typical workflow for handling LLM outputs. Your application takes the raw, unstructured output and sends it through a validation layer. This layer uses a Pydantic model to check for correctness. If the validation succeeds, your application then uses the structured data in downstream systems. If it fails, your application catches and handles the errors, often by refining the prompt and retrying the request.
+Structured outputs create a formal contract between the LLM and your application code, making your system far more reliable. Engineers use this pattern everywhere. For example, they extract entities like names and dates to build knowledge graphs for advanced Retrieval-Augmented Generation (RAG). They also format outputs for downstream systems like databases or user interfaces [[5]](https://www.prompts.ai/en/blog-details/automating-knowledge-graphs-with-llm-outputs), [[6]](https://humanloop.com/blog/structured-outputs), [[7]](https://developers.redhat.com/articles/2025/06/03/structured-outputs-vllm-guiding-ai-responses).
 ```mermaid
-graph TD
-    A[Raw AI Output - Unstructured] --> B{Pydantic Features};
-    subgraph Pydantic Features
-        C[Pydantic Model] --> D{Validation};
-    end
-    B --> D;
-    D -- Success --> E[Structured and Typed Data];
-    D -- Failure --> F[Validation Errors];
-    E --> G[Downstream Systems or APIs];
-    F --> H[Error Handling and Prompt Refinement];
+flowchart TD
+    A[Unstructured Text] --> B{LLM};
+    B --> C[Structured Output <br> (JSON/Pydantic)];
+    C --> D[Downstream Application];
+    D --> E[Database];
+    D --> F[User Interface];
+    D --> G[API];
 ```
-Figure 1: A workflow for validating unstructured AI output and converting it into structured data for downstream systems.
+Figure 1: A simplified flow showing how structured outputs bridge the gap between LLMs and downstream applications.
 
-## From Scratch: Forcing LLM Outputs to JSON
+Now that we understand the theory, let us move to practice. We will explore three ways to implement structured outputs: from scratch with JSON, from scratch with Pydantic, and natively with the Gemini API.
 
-Before we jump into advanced libraries and native API features, it is essential to understand the fundamentals. The simplest way to get structured data from an LLM is to force it to generate a JSON object through careful prompt engineering. This from-scratch approach gives you a deep appreciation for what libraries and APIs do for you under the hood.
+## Implementing structured outputs from scratch using JSON
 
-The core technique is to be painfully explicit in your prompt. You need to tell the model not only to generate JSON but also to provide a clear example or schema of the exact structure you expect [[1]](https://build5nines.com/how-to-write-ai-prompts-that-output-valid-json-data/). A good practice is to wrap distinct parts of your prompt, like the document to be analyzed or the example schema, in XML tags (e.g., `<document>` and `<json>`). This helps the model clearly distinguish between instructions and content, reducing the chances of it getting confused and generating malformed output.
+To understand what modern LLM APIs offer, we will first build a structured output pipeline from the ground up. This hands-on approach will show you the underlying mechanics. Our goal is to prompt the model to return a JSON object and then parse it into a Python dictionary.
 
-Let's walk through an example. Suppose we want to extract metadata from a financial report. We can construct a prompt that provides the document and a template of the desired JSON output. First, we define our document and the prompt. Notice how we provide a clear JSON structure for the model to follow.
-```python
-import json
+1.  We begin by setting up our environment. This involves initializing the Gemini client, defining the model we will use, and preparing a sample document for analysis.
 
-DOCUMENT = """
-# Q3 2023 Financial Performance Analysis
-
-The Q3 earnings report shows a 20% increase in revenue and a 15% growth in user engagement, 
-beating market expectations. These impressive results reflect our successful product strategy 
-and strong market positioning.
-
-Our core business segments demonstrated remarkable resilience, with digital services leading 
-the growth at 25% year-over-year. The expansion into new markets has proven particularly 
-successful, contributing to 30% of the total revenue increase.
-
-Customer acquisition costs decreased by 10% while retention rates improved to 92%, 
-marking our best performance to date. These metrics, combined with our healthy cash flow 
-position, provide a strong foundation for continued growth into Q4 and beyond.
-"""
-
-prompt = f"""
-Analyze the following document and extract metadata from it. 
-The output must be a single, valid JSON object with the following structure:
-<json>
-{{ 
-    "summary": "A concise summary of the article.", 
-    "tags": ["list", "of", "relevant", "tags"], 
-    "keywords": ["list", "of", "key", "concepts"],
-    "quarter": "Q3",
-    "growth_rate": "15%",
-}}
-</json>
-
-Here is the document:
-<document>
-{DOCUMENT}
-</document>
-"""
-```
-Next, we send this prompt to the Gemini model.
-```python
-response = client.models.generate_content(model=MODEL_ID, contents=prompt)
-```
-The model often wraps its JSON output in markdown code blocks, so we need a simple helper function to clean it up before parsing.
-```python
-def extract_json_from_response(response: str) -> dict:
+    ```python
+    import json
+    
+    from google import genai
+    from google.genai import types
+    from pydantic import BaseModel, Field
+    
+    from lessons.utils import env
+    
+    env.load(required_env_vars=["GOOGLE_API_KEY"])
+    
+    client = genai.Client()
+    
+    MODEL_ID = "gemini-2.5-flash"
+    
+    DOCUMENT = """
+    # Q3 2023 Financial Performance Analysis
+    
+    The Q3 earnings report shows a 20% increase in revenue and a 15% growth in user engagement, 
+    beating market expectations. These impressive results reflect our successful product strategy 
+    and strong market positioning.
+    
+    Our core business segments demonstrated remarkable resilience, with digital services leading 
+    the growth at 25% year-over-year. The expansion into new markets has proven particularly 
+    successful, contributing to 30% of the total revenue increase.
+    
+    Customer acquisition costs decreased by 10% while retention rates improved to 92%, 
+    marking our best performance to date. These metrics, combined with our healthy cash flow 
+    position, provide a strong foundation for continued growth into Q4 and beyond.
     """
-    Extracts JSON from a response string that is wrapped in <json> or ```json tags.
-    """
-    response = response.replace("<json>", "").replace("</json>", "")
-    response = response.replace("```json", "").replace("```", "")
-    return json.loads(response)
+    ```
 
-parsed_repsonse = extract_json_from_response(response.text)
-print(f"Type of the parsed response: `{type(parsed_repsonse)}`")
-```
-The output is now a standard Python dictionary, which you can easily work with in your code.
-```json
-{
-    "summary": "The Q3 2023 earnings report showcases strong financial performance, exceeding market expectations with a 20% revenue increase and 15% growth in user engagement. This success is attributed to effective product strategy, strong market positioning, and successful expansion into new markets, particularly in digital services. The company also improved customer acquisition costs by 10% and achieved a 92% retention rate, indicating a solid foundation for future growth.",
-    "tags": [
+2.  Next, we craft a prompt that instructs the LLM to extract metadata and format it as JSON. Notice how we provide a clear example of the desired structure and use XML tags like `<document>` and `<json>` to separate the input data from the formatting instructions. This is a common and effective prompt engineering technique to improve clarity and guide the model's output [[8]](https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-the-openai-api), [[9]](https://aws.amazon.com/blogs/machine-learning/structured-data-response-with-amazon-bedrock-prompt-engineering-and-tool-use/).
+
+    ```python
+    prompt = f"""
+    Analyze the following document and extract metadata from it. 
+    The output must be a single, valid JSON object with the following structure:
+    <json>
+    {{ 
+        "summary": "A concise summary of the article.", 
+        "tags": ["list", "of", "relevant", "tags"], 
+        "keywords": ["list", "of", "key", "concepts"],
+        "quarter": "Q...",
+        "growth_rate": "...%",
+    }}
+    </json>
+    
+    Here is the document:
+    <document>
+    {DOCUMENT}
+    </document>
+    """
+    ```
+
+3.  We send the prompt to the model and inspect the raw response. As expected, the model returns a JSON object, but it is often wrapped in markdown code blocks.
+
+    ```python
+    response = client.models.generate_content(model=MODEL_ID, contents=prompt)
+    ```
+
+    It outputs:
+
+    ```
+    ```json
+    {
+        "summary": "The Q3 2023 financial report highlights a strong performance with a 20% increase in revenue and 15% growth in user engagement, surpassing market expectations. This success is attributed to effective product strategy, strong market positioning, and successful expansion into new markets. The company also improved efficiency, reducing customer acquisition costs by 10% and achieving a 92% customer retention rate.",
+        "tags": [
+            "Financial Performance",
+            "Q3 2023",
+            "Earnings Report",
+            "Revenue Growth",
+            "User Engagement",
+            "Market Expansion",
+            "Customer Retention",
+            "Business Strategy"
+        ],
+        "keywords": [
+            "Q3",
+            "Revenue",
+            "Growth",
+            "User engagement",
+            "Digital services",
+            "New markets",
+            "Customer acquisition cost",
+            "Retention rate",
+            "Financial results"
+        ],
+        "quarter": "Q3",
+        "growth_rate": "20%"
+    }
+    ```
+    ```
+
+4.  To handle this, we create a simple helper function to strip the markdown and XML tags, leaving us with a clean JSON string.
+
+    ```python
+    def extract_json_from_response(response: str) -> dict:
+        """
+        Extracts JSON from a response string that is wrapped in <json> or ```json tags.
+        """
+    
+        response = response.replace("<json>", "").replace("</json>", "")
+        response = response.replace("```json", "").replace("```", "")
+    
+        return json.loads(response)
+    ```
+
+5.  Finally, we parse the string into a Python dictionary, which can now be used in our application.
+
+    ```python
+    parsed_response = extract_json_from_response(response.text)
+    ```
+
+    It outputs:
+
+    ```json
+    {
+      "summary": "The Q3 2023 financial report highlights a strong performance with a 20% increase in revenue and 15% growth in user engagement, surpassing market expectations. This success is attributed to effective product strategy, strong market positioning, and successful expansion into new markets. The company also improved efficiency, reducing customer acquisition costs by 10% and achieving a 92% customer retention rate.",
+      "tags": [
         "Financial Performance",
         "Q3 2023",
         "Earnings Report",
+        "Revenue Growth",
+        "User Engagement",
+        "Market Expansion",
+        "Customer Retention",
+        "Business Strategy"
+      ],
+      "keywords": [
+        "Q3",
+        "Revenue",
+        "Growth",
+        "User engagement",
+        "Digital services",
+        "New markets",
+        "Customer acquisition cost",
+        "Retention rate",
+        "Financial results"
+      ],
+      "quarter": "Q3",
+      "growth_rate": "20%"
+    }
+    ```
+
+This "from scratch" method works, but it relies on manual parsing and lacks data validation. If the LLM makes a mistake, our application might fail. Next, we will see how Pydantic solves this problem.
+
+## Implementing structured outputs from scratch using Pydantic
+
+While forcing JSON output is an improvement over parsing raw text, it still leaves you with a plain Python dictionary. You cannot be sure what is inside that dictionary, if the keys are correct, or if the values have the right type. This uncertainty can lead to bugs and make your code difficult to maintain. This is where Pydantic helps. Pydantic is a data validation library that enforces type hints at runtime, ensuring data integrity from the moment data enters your application [[3]](https://www.speakeasy.com/blog/pydantic-vs-dataclasses). It provides a single, clear source of truth for your data structure and can automatically generate a JSON Schema from your Python class.
+
+When an LLM produces output that does not match the structure and types defined in your Pydantic model, the library raises a `ValidationError`. This error clearly explains what went wrong, allowing you to quickly identify and fix issues. This "fail-fast" behavior is essential for building reliable systems, preventing bad data from moving through your application and causing hard-to-debug errors later.
+
+Let's refactor our previous example to use Pydantic.
+
+1.  We define our desired data structure as a Pydantic class. This class acts as a single source of truth for your output format. We use standard Python type hints to define the expected type for each field. Pydantic works with Python’s `typing` module. Since Python 3.9, you can use built-in types like `list` directly, making the code cleaner. For example, `tags: list[str]` is now preferred over importing `List` from `typing`.
+
+    ```python
+    class DocumentMetadata(BaseModel):
+        """A class to hold structured metadata for a document."""
+    
+        summary: str = Field(description="A concise, 1-2 sentence summary of the document.")
+        tags: list[str] = Field(description="A list of 3-5 high-level tags relevant to the document.")
+        keywords: list[str] = Field(description="A list of specific keywords or concepts mentioned.")
+        quarter: str = Field(description="The quarter of the financial year described in the document (e.g, Q3 2023).")
+        growth_rate: str = Field(description="The growth rate of the company described in the document (e.g, 10%).")
+    ```
+
+    You can also nest Pydantic models to represent more complex, hierarchical data. This allows you to define intricate relationships between different pieces of information, such as a `DocumentMetadata` model containing a `Summary` object and a list of `Tag` objects. Nesting helps organize your data logically and reflects the real-world complexity of information. However, it is a good practice to keep schemas from becoming overly complex, as overly intricate structures can sometimes confuse the LLM and lead to more formatting errors.
+
+    ```python
+    class Summary(BaseModel):
+        text: str
+        sentiment: float
+
+    class Tag(BaseModel):
+        label: str
+        relevance: float
+
+    class ComplexDocumentMetadata(BaseModel):
+        summary: Summary
+        tags: list[Tag]
+    ```
+
+2.  With our Pydantic model defined, we can automatically generate a JSON Schema from it. A schema is the standard term for defining the structure and constraints of your data. Think of it as a formal contract between your application and the LLM. This contract precisely dictates the expected fields, their types, and any validation rules. We provide this generated schema to the LLM to guide its output, giving the model a clear blueprint for its response. This is similar to the technique used internally by APIs like Gemini and OpenAI to enforce a specific output format, ensuring their models adhere to predefined structures [[10]](https://ai.google.dev/gemini-api/docs/structured-output).
+
+    ```python
+    schema = DocumentMetadata.model_json_schema()
+    ```
+
+    The generated schema looks like this:
+
+    ```json
+    {'description': 'A class to hold structured metadata for a document.',
+     'properties': {'summary': {'description': 'A concise, 1-2 sentence summary of the document.',
+       'title': 'Summary',
+       'type': 'string'},
+      'tags': {'description': 'A list of 3-5 high-level tags relevant to the document.',
+       'items': {'type': 'string'},
+       'title': 'Tags',
+       'type': 'array'},
+      'keywords': {'description': 'A list of specific keywords or concepts mentioned.',
+       'items': {'type': 'string'},
+       'title': 'Keywords',
+       'type': 'array'},
+      'quarter': {'description': 'The quarter of the financial year described in the document (e.g, Q3 2023).',
+       'title': 'Quarter',
+       'type': 'string'},
+      'growth_rate': {'description': 'The growth rate of the company described in the document (e.g, 10%).',
+       'title': 'Growth Rate',
+       'type': 'string'}},
+     'required': ['summary', 'tags', 'keywords', 'quarter', 'growth_rate'],
+     'title': 'DocumentMetadata',
+     'type': 'object'}
+    ```
+
+3.  We update our prompt to include this JSON Schema. This gives the model a much more precise set of instructions than our previous plain-text example.
+
+    ```python
+    prompt = f"""
+    Please analyze the following document and extract metadata from it. 
+    The output must be a single, valid JSON object that conforms to the following JSON Schema:
+    <json>
+    {json.dumps(schema, indent=2)}
+    </json>
+    
+    Here is the document:
+    <document>
+    {DOCUMENT}
+    </document>
+    """
+    ```
+
+4.  After calling the model and extracting the JSON string, we validate and parse it directly into our `DocumentMetadata` object.
+
+    ```python
+    response = client.models.generate_content(model=MODEL_ID, contents=prompt)
+    parsed_response = extract_json_from_response(response.text)
+    
+    try:
+        document_metadata = DocumentMetadata.model_validate(parsed_response)
+        print("\nValidation successful!")
+    except Exception as e:
+        print(f"\nValidation failed: {e}")
+    ```
+
+    The validated Pydantic object can now be safely used throughout your application, with full type-hinting and attribute access. This is the main advantage: you move away from unclear dictionaries, where you constantly check for missing keys or incorrect types, to clean, predictable Python objects.
+
+Python’s built-in `dataclasses` or `TypedDict` can define structure, but they only provide type hints for static analysis tools [[3]](https://www.speakeasy.com/blog/pydantic-vs-dataclasses), [[4]](https://codetain.com/blog/validators-approach-in-python-pydantic-vs-dataclasses/), [[11]](https://dev.to/meeshkan/typeddict-vs-dataclasses-in-python-epic-typing-battle-onb). They do not perform runtime validation. This means if the LLM returns a string where an integer is expected, or if a required field is missing, a `dataclass` or `TypedDict` will not catch this error immediately. A type mismatch will go unnoticed until it causes an error during execution, potentially leading to difficult-to-debug issues later.
+
+Pydantic, with its out-of-the-box runtime validation and type coercion, directly addresses these challenges [[12]](https://www.youtube.com/watch?v=WRiQD4lmnUk). While `TypedDict` can be faster for simple cases without validation, Pydantic's overhead is minimal for the robust data integrity it provides [[13]](https://docs.pydantic.dev/latest/concepts/performance/). This makes Pydantic the industry standard for moving data reliably in LLM workflows and AI agents, providing the robustness needed for production-grade systems.
+
+## Implementing structured outputs using Gemini and Pydantic
+
+We have manually engineered prompts to guide the LLM so far. Now, we will explore how to use the native structured output features offered by modern LLM APIs like Gemini and OpenAI. This built-in functionality is simpler, more accurate, and often more cost-effective than manual prompt engineering. The model is constrained at the generation level, which reduces the likelihood of formatting errors and ensures more consistent, reliable data. This allows you to focus on your application's logic instead of data wrangling [[10]](https://ai.google.dev/gemini-api/docs/structured-output), [[14]](https://www.vellum.ai/blog/when-should-i-use-function-calling-structured-outputs-or-json-mode), [[15]](https://www.googlecloudcommunity.com/gc/AI-ML/Structured-Output-in-vertexAI-BatchPredictionJob/m-p/866640), [[16]](https://news.ycombinator.com/item?id=41173223).
+
+Let us see how to achieve the same result using the Gemini API's native capabilities. The process becomes much simpler.
+
+1.  We define a `GenerateContentConfig` object, instructing the Gemini API to set the `response_mime_type` to `"application/json"` and the `response_schema` to our `DocumentMetadata` Pydantic model. The Gemini SDK automatically converts the Pydantic model into a JSON Schema [[10]](https://ai.google.dev/gemini-api/docs/structured-output).
+
+    ```python
+    config = types.GenerateContentConfig(response_mime_type="application/json", response_schema=DocumentMetadata)
+    ```
+
+2.  This configuration makes our prompt significantly shorter and cleaner, eliminating the need to manually inject JSON examples or full schemas; we simply ask the model to perform the task.
+
+    ```python
+    prompt = f"""
+    Analyze the following document and extract its metadata.
+    
+    Document:
+    --- 
+    {DOCUMENT}
+    --- 
+    """
+    ```
+
+3.  Now, we call the model, passing our simplified prompt and the new configuration object.
+
+    ```python
+    response = client.models.generate_content(model=MODEL_ID, contents=prompt, config=config)
+    ```
+
+4.  The Gemini client automatically parses the output for us. By accessing the `response.parsed` attribute, we receive a ready-to-use instance of our `DocumentMetadata` Pydantic model. This eliminates the need for custom parsing functions or manual validation steps.
+
+    ```python
+    # response.parsed is a DocumentMetadata object
+    document_metadata = response.parsed
+    print(document_metadata.model_dump_json(indent=2))
+    ```
+
+    It outputs:
+
+    ```json
+    {
+      "summary": "The Q3 2023 earnings report reveals a strong financial performance with a 20% increase in revenue and 15% growth in user engagement, surpassing market expectations. This success is attributed to effective product strategy, market expansion, reduced customer acquisition costs, and improved retention rates.",
+      "tags": [
+        "Financial Performance",
+        "Earnings Report",
         "Business Growth",
         "Market Expansion",
-        "User Engagement",
-        "Customer Retention"
-    ],
-    "keywords": [
+        "Q3 Results"
+      ],
+      "keywords": [
+        "Q3 2023",
         "revenue increase",
-        "user engagement growth",
+        "user engagement",
         "product strategy",
         "market positioning",
         "digital services",
         "new markets",
         "customer acquisition costs",
         "retention rates",
-        "cash flow",
-        "Q3 2023"
-    ],
-    "quarter": "Q3",
-    "growth_rate": "15%"
-}
-```
-💡 **A note on token efficiency:** While JSON is universally supported, it can be verbose. For applications where cost and latency are critical, consider a more concise format like YAML. Studies have shown that YAML can reduce token usage by up to 50% compared to JSON, as it avoids repetitive characters like curly braces and commas [[2]](https://wiserli.com/blogs/optimizing-generation-process-with-large-language-models-for-specific-formats/), [[3]](https://betterprogramming.pub/yaml-vs-json-which-is-more-efficient-for-language-models-5bc11dd0f6df). You can ask the model for YAML and then convert it to JSON in your code.
+        "cash flow"
+      ],
+      "quarter": "Q3 2023",
+      "growth_rate": "20%"
+    }
+    ```
 
-## The Pydantic Advantage: Adding a Validation Layer
+This native approach is the recommended way to generate structured outputs. It is robust, efficient, and requires less code, allowing you to focus on your application's logic instead of data wrangling.
 
-While prompting for JSON is a good start, it’s still brittle. You are simply hoping the LLM returns a string that can be parsed. A more robust approach is to use Pydantic to define your data structures as Python classes. Pydantic is the industry standard for data validation in Python, going beyond simple `TypedDict` or `dataclasses` by enforcing runtime type checking [[4]](https://docs.pydantic.dev/1.10/usage/models/). This gives you a single source of truth for your schema and, most importantly, provides powerful, out-of-the-box validation.
+## Conclusion: Structured Outputs Are Everywhere
 
-Pydantic is more than a type checker; it's a data guardian. If an LLM returns a string instead of an integer or misses a required field, Pydantic raises a `ValidationError` with a clear explanation of what went wrong and where. This prevents bad data from propagating through your application. This validation also acts as a security layer, mitigating risks like prompt injection by ensuring only well-formed data enters your system [[5]](https://betterstack.com/community/guides/scaling-python/pydantic-explained/).
+We have covered the why and how of structured outputs, from manual prompting to native API integration. This technique is more than just a convenience; it is a fundamental pattern in AI Engineering. It is the essential bridge connecting the probabilistic, free-form nature of LLMs with the deterministic, structured world of software applications. Whether you are building a simple workflow to summarize articles or a complex agent that analyzes financial data, you will use structured outputs. This ensures reliability and control.
 
-We can improve our previous example by replacing the raw JSON template with a Pydantic model. We can then generate a JSON schema directly from this model and inject it into the prompt. This is a more formal and reliable way to communicate the desired output structure to the LLM. In fact, major APIs like Gemini and OpenAI use this technique internally to power their structured output features [[6]](https://ai.google.dev/gemini-api/docs/structured-output).
-
-First, let's define our `DocumentMetadata` class using Pydantic. Notice how we can add descriptions to each field, which provides additional context to the LLM.
-```python
-from pydantic import BaseModel, Field
-
-class DocumentMetadata(BaseModel):
-    """A class to hold structured metadata for a document."""
-    summary: str = Field(description="A concise, 1-2 sentence summary of the document.")
-    tags: list[str] = Field(description="A list of 3-5 high-level tags relevant to the document.")
-    keywords: list[str] = Field(description="A list of specific keywords or concepts mentioned.")
-    quarter: str = Field(description="The quarter of the financial year described in the document (e.g, Q3 2023).")
-    growth_rate: str = Field(description="The growth rate of the company described in the document (e.g, 10%).")
-```
-Next, we generate the JSON schema from our model and insert it into the prompt.
-```python
-schema = DocumentMetadata.model_json_schema()
-
-prompt = f"""
-Please analyze the following document and extract metadata from it. 
-The output must be a single, valid JSON object that conforms to the following JSON Schema:
-<json>
-{json.dumps(schema, indent=2)}
-</json>
-
-Here is the document:
-<document>
-{DOCUMENT}
-</document>
-"""
-
-response = client.models.generate_content(model=MODEL_ID, contents=prompt)
-parsed_repsonse = extract_json_from_response(response.text)
-```
-The real magic happens now. We can validate the parsed dictionary against our Pydantic model. If the output is valid, we get a `DocumentMetadata` object. If not, Pydantic raises an error.
-```python
-try:
-    document_metadata = DocumentMetadata.model_validate(parsed_repsonse)
-    print("\nValidation successful!")
-    print(f"Type of the validated response: `{type(document_metadata)}`")
-    print(document_metadata.model_dump_json(indent=2))
-except Exception as e:
-    print(f"\nValidation failed: {e}")
-```
-It outputs:
-```
-Validation successful!
-Type of the validated response: `<class '__main__.DocumentMetadata'>`
-{
-  "summary": "The Q3 2023 earnings report indicates strong financial performance with a 20% revenue increase and 15% growth in user engagement, surpassing market expectations. This success is attributed to robust digital services growth, successful market expansion, reduced customer acquisition costs, and improved retention rates.",
-  "tags": [
-    "Financial Performance",
-    "Earnings Report",
-    "Business Growth",
-    "Revenue Analysis",
-    "Market Expansion"
-  ],
-  "keywords": [
-    "Q3 2023",
-    "revenue increase",
-    "user engagement",
-    "market expectations",
-    "product strategy",
-    "market positioning",
-    "digital services",
-    "new markets",
-    "customer acquisition costs",
-    "retention rates",
-    "cash flow"
-  ],
-  "quarter": "Q3 2023",
-  "growth_rate": "20%"
-}
-```
-This creates a perfect, type-safe bridge between the probabilistic world of the LLM and the deterministic world of your Python code, making Pydantic objects the de facto standard for modeling domain objects in AI applications [[7]](https://www.arecadata.com/pydanticai-for-building-agentic-ai-based-llm-applications/), [[8]](https://xebia.com/blog/enforce-and-validate-llm-output-with-pydantic/).
-
-## Production-Grade Structured Outputs with the Gemini API
-
-So far, we have implemented structured outputs from scratch to understand the underlying mechanics. While this foundational knowledge is invaluable, for production systems, it is almost always better to leverage the native features of your LLM provider's API. Implementing structured outputs yourself demands intricate prompt engineering and often requires manual validation. In contrast, native API support is typically more accurate, reliable, and token-efficient. This approach ensures type-safety, simplifies prompting, and can lead to more explicit refusals from the model when a request cannot be fulfilled according to the schema [[9]](https://www.tamingllms.com/notebooks/structured_output.html).
-
-The Gemini API, for instance, offers a streamlined way to enforce structured output by directly accepting a Pydantic model in its generation configuration. This means you do not need to manually craft a JSON schema or embed it within your prompt. The Gemini client library handles this conversion automatically, forcing the model to return a valid JSON object that strictly conforms to your defined Pydantic schema [[6]](https://ai.google.dev/gemini-api/docs/structured-output). This out-of-the-box integration simplifies your code and reduces the potential for errors.
-
-This native integration is the most direct and robust method for achieving structured outputs in real-world applications. Let's refactor our previous example to demonstrate how simple it is to use Gemini's native capabilities. First, we define our Pydantic model, exactly as we did before.
-```python
-class DocumentMetadata(BaseModel):
-    """A class to hold structured metadata for a document."""
-    summary: str = Field(description="A concise, 1-2 sentence summary of the document.")
-    tags: list[str] = Field(description="A list of 3-5 high-level tags relevant to the document.")
-    keywords: list[str] = Field(description="A list of specific keywords or concepts mentioned.")
-    quarter: str = Field(description="The quarter of the financial year described in the document (e.g, Q3 2023).")
-    growth_rate: str = Field(description="The growth rate of the company described in the document (e.g, 10%).")
-```
-Next, we create a `GenerateContentConfig` object. We set the `response_mime_type` to `"application/json"` and pass our `DocumentMetadata` class directly to the `response_schema` parameter. This tells the Gemini API to enforce the Pydantic schema for the output.
-```python
-from google.genai import types
-
-config = types.GenerateContentConfig(
-    response_mime_type="application/json",
-    response_schema=DocumentMetadata
-)
-
-prompt = f"""
-Analyze the following document and extract its metadata.
-
-Document:
----
-{DOCUMENT}
----
-"""
-```
-Finally, we call the model with this configuration. The response object will contain a `.parsed` attribute that is already a validated `DocumentMetadata` instance. This eliminates the need for any manual parsing or validation steps on your end.
-```python
-response = client.models.generate_content(
-    model=MODEL_ID,
-    contents=prompt,
-    config=config
-)
-
-print(f"Type of the response: `{type(response.parsed)}`")
-print(response.parsed.model_dump_json(indent=2))
-```
-It outputs:
-```
-Type of the response: `<class '__main__.DocumentMetadata'>`
-{
-  "summary": "The Q3 2023 earnings report reveals a 20% increase in revenue and 15% growth in user engagement, surpassing market expectations due to successful product strategy and market expansion. The company demonstrated strong performance with improved customer acquisition costs and retention rates.",
-  "tags": [
-    "Financial Performance",
-    "Earnings Report",
-    "Business Growth",
-    "Market Expansion",
-    "Customer Metrics"
-  ],
-  "keywords": [
-    "Q3 2023",
-    "revenue increase",
-    "user engagement",
-    "product strategy",
-    "market positioning",
-    "digital services",
-    "new markets",
-    "customer acquisition costs",
-    "retention rates"
-  ],
-  "quarter": "Q3 2023",
-  "growth_rate": "20%"
-}
-```
-
-## Conclusion
-
-Building reliable AI applications requires bridging the gap between the probabilistic nature of LLMs and the deterministic world of traditional software. Structured outputs are the fundamental tool for creating this bridge. By forcing an LLM to generate data in a predictable format, you transform its output from messy, unreliable text into clean, machine-readable data that your application can depend on.
-
-In this article, we walked you through the entire process, from the ground up. We started by implementing structured outputs from scratch using JSON and prompt engineering to build a solid foundational understanding. We then leveled up by introducing Pydantic, the industry-standard tool for adding a crucial validation layer that ensures data quality and type safety. Finally, we showed you the production-grade approach: using the native structured output capabilities of the Gemini API, which offers the most accurate and efficient solution.
-
-While building from scratch is an invaluable learning experience, leveraging native API support is almost always the right choice for real-world systems. Understanding these techniques is not just a "nice-to-have"—it is a core competency for any AI Engineer serious about shipping robust, production-ready AI applications.
+This pattern will be a recurring theme throughout this course. In our next lesson, we will explore the basic ingredients of LLM workflows, where we will see how structured data flows between different components. Later, when we build agents that can take action or reason about the world, structured outputs will be how they parse information and decide what to do next. Mastering this technique is a key step toward building powerful and predictable AI systems.
 
 ## References
 
-- [1] [How to Write AI Prompts That Output Valid JSON Data](https://build5nines.com/how-to-write-ai-prompts-that-output-valid-json-data/)
-- [2] [Optimizing the Generation Process with Large Language Models for Specific Formats](https://wiserli.com/blogs/optimizing-generation-process-with-large-language-models-for-specific-formats/)
-- [3] [YAML vs. JSON: Which Is More Efficient for Language Models?](https://betterprogramming.pub/yaml-vs-json-which-is-more-efficient-for-language-models-5bc11dd0f6df)
-- [4] [Models - Pydantic](https://docs.pydantic.dev/1.10/usage/models/)
-- [5] [Pydantic Explained](https://betterstack.com/community/guides/scaling-python/pydantic-explained/)
-- [6] [Structured output](https://ai.google.dev/gemini-api/docs/structured-output)
-- [7] [PydanticAI for Building Agentic AI-Based LLM Applications](https://www.arecadata.com/pydanticai-for-building-agentic-ai-based-llm-applications/)
-- [8] [Enforce and validate LLM output with Pydantic](https://xebia.com/blog/enforce-and-validate-llm-output-with-pydantic/)
-- [9] [Structured Output](https://www.tamingllms.com/notebooks/structured_output.html)
+- [1] [Systematic evaluation of large language models for data extraction from unstructured and semi-structured electronic health records](https://pmc.ncbi.nlm.nih.gov/articles/PMC11751965/)
+- [2] [Direct vs. Indirect Information Extraction using LLM-based Function Generation](https://arxiv.org/html/2506.21585v1)
+- [3] [Pydantic vs. Dataclasses: A Clear Winner for SDKs](https://www.speakeasy.com/blog/pydantic-vs-dataclasses)
+- [4] [Pydantic vs. Dataclasses: a battle of validators in Python](https://codetain.com/blog/validators-approach-in-python-pydantic-vs-dataclasses/)
+- [5] [Automating Knowledge Graphs with LLM Outputs](https://www.prompts.ai/en/blog-details/automating-knowledge-graphs-with-llm-outputs)
+- [6] [Structured Outputs](https://humanloop.com/blog/structured-outputs)
+- [7] [Structured Outputs in vLLM: Guiding AI Responses with Precision](https://developers.redhat.com/articles/2025/06/03/structured-outputs-vllm-guiding-ai-responses)
+- [8] [Best practices for prompt engineering with the OpenAI API](https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-the-openai-api)
+- [9] [Structured data response with Amazon Bedrock: Prompt engineering and tool use](https://aws.amazon.com/blogs/machine-learning/structured-data-response-with-amazon-bedrock-prompt-engineering-and-tool-use/)
+- [10] [Structured output](https://ai.google.dev/gemini-api/docs/structured-output)
+- [11] [TypedDict vs. dataclasses in Python: an epic typing battle](https://dev.to/meeshkan/typeddict-vs-dataclasses-in-python-epic-typing-battle-onb)
+- [12] [OpenAI Function Calling & Structured Prompting with Pydantic](https://www.youtube.com/watch?v=WRiQD4lmnUk)
+- [13] [Performance](https://docs.pydantic.dev/latest/concepts/performance/)
+- [14] [When should I use Function Calling, Structured Outputs or JSON Mode?](https://www.vellum.ai/blog/when-should-i-use-function-calling-structured-outputs-or-json-mode)
+- [15] [Structured Output in vertexAI BatchPredictionJob](https://www.googlecloudcommunity.com/gc/AI-ML/Structured-Output-in-vertexAI-BatchPredictionJob/m-p/866640)
+- [16] [Hacker News Discussion on Structured Output](https://news.ycombinator.com/item?id=41173223)
