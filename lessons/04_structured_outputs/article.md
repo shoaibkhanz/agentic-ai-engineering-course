@@ -7,11 +7,13 @@ flowchart LR
     subgraph "Software 3.0"
         A(("LLMs"))
         D["Prompt"]
+        D --> A
     end
     
     subgraph "Software 1.0"
         B(("Code"))
         C["Structured Data"]
+        C --> B
     end
     
     A -->|"Unstructured Output"| C
