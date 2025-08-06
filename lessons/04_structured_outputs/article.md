@@ -44,9 +44,9 @@ flowchart TD
         H["API"];
     end
     
-    B --> E;
-    B --> F;
-    B --> H;
+    C --> E;
+    C --> F;
+    C --> H;
 ```
 Figure 2: A simplified flow showing how structured outputs bridge the gap between LLMs and downstream components.
 
