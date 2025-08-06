@@ -15,7 +15,7 @@ flowchart LR
     A -->|"Unstructured Output"| B
     B -->|"Structured Input"| A
 ```
-Figure 1: The goal of structured outputs is to fill in the gap between Software 3.0 (LLM workflows & AI Agents) and Software 1.0 (Traditional Applications). Software 2.0 was referred to as the Machine Learning/Deep Learning phase.
+Figure 1: The goal of structured outputs is to fill in the gap between Software 3.0 (LLM workflows & AI Agents) and Software 1.0 (Traditional Applications). **Side note:** Software 2.0 is referred to as the Machine Learning/Deep Learning world.
 
 LLMs operate in a world of unstructured data and probabilities, where we input instructions in plain english and get results as plain text. This subdomain of engineering is often called "Software 3.0". Our applications, however, rely on deterministic code and predictable data structures, which is known as "Software 1.0". With that in mind, this lesson explores structured outputs, the bridge between these two worlds. Structured outputs are a fundamental technique for forcing LLMs to return consistent, machine-readable data. Mastering this is essential for any AI Engineer building production-grade systems.
 
