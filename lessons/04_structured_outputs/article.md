@@ -9,7 +9,7 @@ flowchart LR
     end
     
     subgraph "Software 1.0"
-        B{"Traditional Application"}
+        B{"Code"}
     end
     
     A -->|"Unstructured Output"| B
