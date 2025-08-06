@@ -32,10 +32,10 @@ Structured outputs create a formal contract between the LLM and your application
 ```mermaid
 flowchart TD
     subgraph "Worflow / Agent"
-        A["Unstructured Text"] --> B{"LLM"};
+        A["Unstructured Text"] --> B(("LLM"));
         B --> C["Structured Output <br> (JSON/Pydantic)"];
         C --> D["Compile Prompt"];
-        D --> G{"LLM"};
+        D --> G(("LLM"));
     end
     
     subgraph "Application"
