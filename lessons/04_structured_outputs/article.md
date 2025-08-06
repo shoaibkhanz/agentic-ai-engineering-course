@@ -33,14 +33,14 @@ Structured outputs create a formal contract between the LLM and your application
 flowchart TD
     subgraph "Worflow / Agent"
         A["Unstructured Text"] --> B(("LLM"));
-        B --> C["Structured Output <br> (JSON/Pydantic)"];
-        C --> D["Compile Prompt"];
+        B --> C["Structured Output"];
+        C --> D["Prompt"];
         D --> G(("LLM"));
     end
     
-    subgraph "Application"
+    subgraph "Code"
         E["Database"];
-        F["User Interface"];
+        F["UI"];
         H["API"];
     end
     
