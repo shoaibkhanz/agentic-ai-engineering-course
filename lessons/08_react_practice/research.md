@@ -3,33 +3,13 @@
 ## Research Results
 
 <details>
-<summary>What official Gemini API documentation or blog posts describe how the Python SDK automatically converts a function’s signature and docstring into a tool schema that the model can call?</summary>
+<summary>How does the Gemini API's function calling feature compare to traditional ReAct prompting for tool selection and execution?</summary>
 
-### Source [3]: https://googleapis.github.io/python-genai/
+### Source [1]: https://codelabs.developers.google.com/codelabs/gemini-function-calling
 
-Query: What official Gemini API documentation or blog posts describe how the Python SDK automatically converts a function’s signature and docstring into a tool schema that the model can call?
+Query: How does the Gemini API's function calling feature compare to traditional ReAct prompting for tool selection and execution?
 
-Answer: The official documentation for the Google Gen AI Python SDK describes support for providing response schemas using Pydantic models or explicit JSON schema dictionaries. It shows how developers can define a schema for the expected response by passing a Pydantic model (or a JSON schema) to the `response_schema` parameter in the `GenerateContentConfig`. The documentation includes examples of this approach, but it does not mention or document any feature where the SDK automatically converts a function’s signature and docstring into a tool schema. The schema must be manually specified as a Pydantic model or a dictionary, rather than being inferred from a Python function's definition or docstring.
-
------
-
------
-
-</details>
-
-<details>
-<summary>According to AI-engineering best-practice articles or conference papers, what are the key benefits of forcing an LLM to produce structured JSON (validated with Pydantic) versus free-form text when implementing a “Thought” phase in ReAct agents?</summary>
-
-### Source [6]: https://python.useinstructor.com/blog/2023/09/11/generating-structured-output--json-from-llms/
-
-Query: According to AI-engineering best-practice articles or conference papers, what are the key benefits of forcing an LLM to produce structured JSON (validated with Pydantic) versus free-form text when implementing a “Thought” phase in ReAct agents?
-
-Answer: **Pydantic** validators play a key role in simplifying tasks such as re-asking or self-critique within LLM pipelines. By using Pydantic, developers can define models directly in Python that describe the desired structure for the LLM output. This approach offers several benefits:
-- **Simplicity**: Developers can define expected outputs using familiar Python syntax.
-- **Validation**: Pydantic ensures that the output strictly adheres to the specified schema, catching errors early and reducing the complexity of handling free-form text.
-- **Framework Compatibility**: Since Pydantic is widely adopted across Python frameworks, integrating structured output from LLMs into existing applications becomes straightforward.
-- **Reduced Complexity**: Compared to frameworks requiring manual JSON schema management, using Pydantic with LLMs streamlines the process, making it easier to control and validate model interactions.
-This approach is particularly valuable for implementing phases like “Thought” in ReAct agents, where predictable and well-structured intermediate reasoning steps are essential for downstream logic and reliable agent behavior[1].
+Answer: The **Gemini API's function calling** feature works by allowing developers to define one or more function declarations within a tool, making the Gemini model aware of which functions it can call and how to call them. When the user sends a prompt, Gemini analyzes both the user input and available function declarations, then returns a structured Function Call response that specifies the function name and required parameters. The developer is responsible for actually executing the function (e.g. using Python’s `requests` library to call an external REST API) and then passing the API response back to Gemini for further processing or user response. Notably, Gemini does not directly execute external API calls, giving developers flexibility in the choice of APIs, including Google Cloud services or any REST endpoint. This structured approach enables clean separation between model reasoning and tool execution, contrasting with traditional prompt engineering approaches where tool selection and invocation often depend on informal, text-based model outputs[1].
 
 -----
 
@@ -37,16 +17,11 @@ This approach is particularly valuable for implementing phases like “Thought�
 
 -----
 
-### Source [7]: https://python.langchain.com/docs/how_to/structured_output/
+### Source [2]: https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling
 
-Query: According to AI-engineering best-practice articles or conference papers, what are the key benefits of forcing an LLM to produce structured JSON (validated with Pydantic) versus free-form text when implementing a “Thought” phase in ReAct agents?
+Query: How does the Gemini API's function calling feature compare to traditional ReAct prompting for tool selection and execution?
 
-Answer: With LangChain, enforcing structured output from an LLM is straightforward: you pass a Pydantic class (or JSON schema) describing the expected output. The key benefits highlighted are:
-- **Automatic Parsing and Validation**: The output is validated against the Pydantic class, ensuring fields are present and correctly typed. This eliminates the need for custom parsing of ambiguous free-form text responses.
-- **Clear Documentation**: Using JSON schema or Pydantic models makes parameter expectations explicit, which aids both developers and the models in adhering to desired formats.
-- **Direct Usability**: The structured response (as a Pydantic object or dictionary) can be directly used in downstream code, improving reliability and reducing the risk of runtime errors due to missing or misformatted fields.
-- **Flexibility**: While Pydantic classes offer type safety and integration with Python code, JSON schema allows for more explicit documentation and can be used without Python-specific constructs, enhancing clarity at the cost of verbosity.
-These benefits are especially relevant for the “Thought” phase in ReAct agents, where each reasoning step must be interpretable, validated, and easily processed by subsequent logic[2].
+Answer: Gemini function calling on Vertex AI requires the developer to submit both the prompt and explicit function declarations (in OpenAPI-compatible schema format) to the model. The model then evaluates whether to generate a standard response or propose one or more function calls, returning structured JSON information with function names and parameters. Gemini supports **parallel function calling** (multiple functions in one turn), enhancing its ability to execute complex multi-step tasks efficiently. This contrasts with traditional ReAct-style prompting, where tool selection and execution logic are typically embedded in the model’s generated text and require parsing or additional reasoning by the developer. Gemini’s approach offers higher reliability and clarity for tool selection and execution, as the model’s outputs are structured and predictable[2].
 
 -----
 
@@ -54,16 +29,11 @@ These benefits are especially relevant for the “Thought” phase in ReAct agen
 
 -----
 
-### Source [8]: https://pydantic.dev/articles/llm-intro
+### Source [3]: https://firebase.google.com/docs/ai-logic/function-calling
 
-Query: According to AI-engineering best-practice articles or conference papers, what are the key benefits of forcing an LLM to produce structured JSON (validated with Pydantic) versus free-form text when implementing a “Thought” phase in ReAct agents?
+Query: How does the Gemini API's function calling feature compare to traditional ReAct prompting for tool selection and execution?
 
-Answer: Pydantic provides a schema-based approach to validating structured outputs from LLMs. The advantages include:
-- **Schema Validation**: By defining models with Pydantic, developers can ensure that LLM outputs are automatically checked for compliance with the expected structure and types.
-- **Error Handling**: If the model output deviates from the schema (e.g., by including prose, markdown, or misformatted data), Pydantic validation will catch these issues immediately, allowing for robust error handling and retries.
-- **Documentation and Code Generation**: The schema not only validates data but also serves as documentation and can generate JSON schemas for interoperability.
-- **Reliable Integration**: Structured outputs facilitate reliable and predictable integration points, which is critical for agents performing multi-step reasoning where each phase’s output is fed into the next step.
-This approach mitigates the risks and inconsistencies associated with parsing free-form text, resulting in more robust and maintainable agent implementations[3].
+Answer: With Gemini API function calling in Firebase AI Logic, developers can expose external functions (tools) to the model and use a multi-turn chat interface for interaction. Developers provide a schema for each function, specifying expected input and output parameters. The Gemini model will return a function call suggestion with structured parameters when it determines tool use is required. This offers a more robust, programmatic alternative to ReAct prompting, where the model might output a textual action description that must be parsed and mapped to an API call. Gemini’s function calling separates reasoning and execution, reducing ambiguity and error risk in tool selection and invocation[3].
 
 -----
 
@@ -71,16 +41,23 @@ This approach mitigates the risks and inconsistencies associated with parsing fr
 
 -----
 
-### Source [9]: https://humanloop.com/blog/structured-outputs
+### Source [4]: https://www.youtube.com/watch?v=mVXrdvXplj0
 
-Query: According to AI-engineering best-practice articles or conference papers, what are the key benefits of forcing an LLM to produce structured JSON (validated with Pydantic) versus free-form text when implementing a “Thought” phase in ReAct agents?
+Query: How does the Gemini API's function calling feature compare to traditional ReAct prompting for tool selection and execution?
 
-Answer: Structured outputs enforce strict formatting of LLM responses, which has several key benefits:
-- **Consistency**: Outputs always follow the predefined structure, reducing ambiguity and simplifying downstream integration.
-- **Error Reduction**: Validated responses decrease the likelihood of errors caused by missing or malformed data that are common with free-form text.
-- **Type Safety**: By defining and validating against a schema (like JSON), structured outputs can be directly parsed into typed objects, making it easier to use the data in application logic.
-- **Integration Readiness**: Structured outputs are easier to integrate into production systems, as they eliminate the need for complex parsing logic and handle edge cases systematically.
-For ReAct agents, especially during the “Thought” phase, these benefits ensure that agent reasoning is transparent, reliably structured, and easily auditable, supporting robust orchestration and post-processing[4].
+Answer: The Gemini API’s function calling feature allows the model to produce structured data representing a function call whenever it determines that external tool use is needed. Developers must define function declarations that specify the function’s name, description, and expected parameters. Upon receiving a prompt, Gemini analyzes the input and function declarations, returning structured JSON for the function call. Crucially, Gemini does not execute the function itself; developers must implement the function execution and handle the response. This design is more systematic and less error-prone than ReAct prompting, where the model’s tool selection and execution instructions are usually embedded in free-form text and require interpretation[4].
+
+-----
+
+-----
+
+-----
+
+### Source [5]: https://ai.google.dev/gemini-api/docs/function-calling
+
+Query: How does the Gemini API's function calling feature compare to traditional ReAct prompting for tool selection and execution?
+
+Answer: The Gemini API’s function calling lets developers connect models to external tools and APIs by providing explicit function declarations. When prompted, Gemini analyzes both the input and available functions, deciding whether to respond directly or to call a function. If a function call is needed, Gemini returns a structured response with the function name and its parameters. Developers then execute the function and return results to the model. This process is available in multiple programming languages (Python, JavaScript, etc.), and the Gemini API supports direct configuration of function schemas, making tool use more reliable, scalable, and maintainable than traditional ReAct-style prompting, which relies on interpreting model-generated text for tool actions[5].
 
 -----
 
@@ -89,67 +66,27 @@ For ReAct agents, especially during the “Thought” phase, these benefits ensu
 </details>
 
 <details>
-<summary>In tutorials or academic courses on agentic AI, why is a mock search tool frequently recommended over real web APIs, and what pedagogical or technical advantages are cited?</summary>
+<summary>What are best practices for designing a ReAct agent's control loop, specifically regarding state management and termination conditions?</summary>
 
-### Source [10]: https://www.datacamp.com/tutorial/agentic-rag-tutorial
+### Source [6]: https://docs.getdynamiq.ai/low-code-builder/llm-agents/guide-to-implementing-llm-agents-react-and-simple-agents
 
-Query: In tutorials or academic courses on agentic AI, why is a mock search tool frequently recommended over real web APIs, and what pedagogical or technical advantages are cited?
+Query: What are best practices for designing a ReAct agent's control loop, specifically regarding state management and termination conditions?
 
-Answer: In the DataCamp tutorial on agentic Retrieval-Augmented Generation (RAG), a **mock search tool** is frequently recommended for use in educational settings. This approach is cited for several pedagogical and technical reasons:
-- **Controlled Environment**: Using a mock search tool allows instructors to create a sandboxed, predictable environment where learners can focus on understanding the architecture and logic of agentic systems without being distracted by the unpredictability or variability of live web data.
-- **Repeatability and Reproducibility**: Mock tools ensure that every student receives the same input and context, which is essential for structured learning, debugging, and consistent assessment.
-- **Safety and Privacy**: Relying on mock search tools avoids exposing students’ queries or project data to real-world web APIs, mitigating privacy and security concerns.
-- **Cost and Accessibility**: Avoiding real APIs eliminates the need for API keys, rate limits, or potential costs associated with commercial search APIs, making the tutorial more accessible to all students and reducing setup complexity.
-- **Focus on Core Concepts**: By abstracting away the external dependencies and potential failures of real web searches, learners can better focus on agent orchestration, tool integration, and reasoning logic—core skills in agentic AI development.
+Answer: The execution flow of a **ReAct Agent** is built around a cycle of thinking, acting, and evaluating results. The agent:
+- Receives an input query.
+- Determines necessary actions.
+- Utilizes appropriate tools (such as web search or data extraction tools).
+- Assesses the gathered data.
+- Repeats the loop if additional information or reasoning is needed.
+- Concludes with a formatted response.
 
-The tutorial demonstrates that, once students are comfortable with these fundamentals, they can later integrate real web APIs as an extension or advanced exercise, but early learning benefits from the stability and transparency offered by mock tools.
+**Best practices** highlighted for control loop design include:
+- Setting a reasonable `max_loops` value based on the complexity of the task. This prevents infinite loops and ensures timely termination.
+- Defining clear agent roles and specific behavioral guidelines, which help manage agent state and ensure consistent decision-making.
+- Configuring robust error handling for loop termination, so that the agent can gracefully exit in case of tool failures or unexpected results.
+- Using combinations of complementary tools, which enhances the agent’s reasoning and acting capabilities within each loop iteration.
 
------
-
------
-
------
-
-### Source [11]: https://www.youtube.com/watch?v=aijS9fWB854
-
-Query: In tutorials or academic courses on agentic AI, why is a mock search tool frequently recommended over real web APIs, and what pedagogical or technical advantages are cited?
-
-Answer: In the referenced video, the use of mock or built-in tools (as opposed to direct integration with real web APIs) is highlighted in the context of building agentic AI applications. The advantages discussed include:
-- **Ease of Prototyping**: Built-in tools (including mock search tools) enable rapid prototyping and experimentation without the overhead of configuring real API access or handling authentication and error cases associated with live web services.
-- **Reduced Technical Barriers**: Beginners can focus on the logic of agent orchestration and tool use without needing to manage the complexities of external API integration, which can be daunting or distracting for those new to agentic AI.
-- **Modularity and Flexibility**: Mock tools can be easily swapped or extended, allowing students to iteratively build up their agent’s capabilities in a modular way before “graduating” to more complex, real-world integrations.
-
-This approach is particularly effective in an educational setting where the primary objective is to teach the structure and reasoning of agentic systems, rather than the nuances of every possible external service.
-
------
-
------
-
-</details>
-
-<details>
-<summary>How do developers identify and handle `function_call` objects in Gemini API responses—including extracting the function name, arguments, and managing unknown or malformed calls—when building a ReAct control loop?</summary>
-
-### Source [12]: https://codelabs.developers.google.com/codelabs/gemini-function-calling
-
-Query: How do developers identify and handle `function_call` objects in Gemini API responses—including extracting the function name, arguments, and managing unknown or malformed calls—when building a ReAct control loop?
-
-Answer: Developers interact with the Gemini API by first **defining function declarations** within a tool, specifying what functions Gemini can call and their expected parameters. When the Gemini API determines that a function should be called based on the user’s input, it returns a **Function Call response** containing structured data with the **function name** and its **arguments**.
-
-To handle this in a ReAct control loop:
-- **Extract the function name and parameters** directly from the returned structured data.
-- Use these to make an API request or call the relevant function in your application logic.
-- After executing the function, **return the API response** to Gemini, allowing it to generate a user-facing response or possibly invoke additional functions.
-
-If a function call is unknown or malformed, the handling logic is up to the developer—typically by validating the function name and arguments against the original declarations and gracefully managing errors or fallback behaviors. All **parameter extraction, validation, and error handling** is implemented in the application code, outside the Gemini API or SDK itself.
-
-The developer is responsible for:
-- **Identifying function calls** by parsing the response structure.
-- **Extracting** and validating the function name and parameters.
-- **Managing unknown or malformed calls** with custom error handling, such as logging, returning error messages, or prompting the model for clarification.
-- **Continuing the loop** by passing results back to Gemini or handling additional required steps.
-
-This process ensures robust interaction and error resilience in a ReAct-style control loop, as the Gemini function calling feature is designed to be flexible and developer-driven[1].
+Testing is crucial: the agent should be evaluated with a variety of queries to ensure it handles state transitions correctly and terminates as expected when `max_loops` is reached or when the goal is achieved.
 
 -----
 
@@ -157,60 +94,25 @@ This process ensures robust interaction and error resilience in a ReAct-style co
 
 -----
 
-### Source [13]: https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling
+### Source [7]: https://dylancastillo.co/posts/react-agent-langgraph.html
 
-Query: How do developers identify and handle `function_call` objects in Gemini API responses—including extracting the function name, arguments, and managing unknown or malformed calls—when building a ReAct control loop?
+Query: What are best practices for designing a ReAct agent's control loop, specifically regarding state management and termination conditions?
 
-Answer: To implement function calling using the Gemini API, developers must:
-- **Declare functions** using a Tool schema compatible with OpenAPI.
-- **Submit a prompt and function declarations** to the Gemini model, which enables Gemini to reference and call these functions when generating responses.
+Answer: The control logic of a ReAct agent revolves around a `should_continue` function, which inspects the last message from the LLM:
+- If the last message is a tool request, the loop routes to a tool execution step.
+- If not, the loop ends and the conversation terminates.
 
-In practice, the response from Gemini will include a **function_call object** specifying:
-- The **function name** (matching one of the declared functions).
-- The **arguments/parameters** as key-value pairs.
+State is managed through a `MessagesState` object, which tracks all messages (thoughts, actions, and observations) in the conversation. Each function (`call_llm` for reasoning, `call_tool` for acting) takes the current state as input and returns updated state, ensuring that all steps have access to the latest context.
 
-Developers parse this function_call object from the response, extract the **function name and arguments**, and then execute the corresponding logic or external API request. The workflow is:
-1. **Parse the Gemini response** for function_call objects.
-2. **Validate** the function name against the declared list.
-3. **Extract and validate arguments** according to the function schema.
-4. **Handle errors or unknown calls** by checking for unexpected function names or malformed parameters and implementing a fallback, such as sending a clarifying prompt or returning an error to the user.
+A typical loop structure is:
+1. Call the LLM for reasoning.
+2. If an action is determined, execute the tool and record the result.
+3. Pass the result back to the LLM for further reasoning.
+4. Continue this loop until `should_continue` determines that the goal is met or no further action is required.
 
-This approach ensures that the application logic maintains control over function execution, input validation, and error management, which is critical for reliability in a ReAct loop[2].
-
------
-
------
-
------
-
-### Source [14]: https://geminibyexample.com/021-tool-use-function-calling/
-
-Query: How do developers identify and handle `function_call` objects in Gemini API responses—including extracting the function name, arguments, and managing unknown or malformed calls—when building a ReAct control loop?
-
-Answer: A Gemini API function calling implementation example follows these steps:
-- Define a **function declaration** with a name and parameters (including type, description, and required fields).
-- Configure the API client with the function declaration as a tool.
-
-Upon sending a user prompt, the Gemini API response will have a **function_call object** located at, for example, `response.candidates.content.parts.function_call`.
-
-Developers can **identify and extract** function call data as follows:
-- Access `function_call.name` for the **function name**.
-- Access `function_call.args` for the **arguments**.
-
-Sample code:
-```python
-function_call = response.candidates[0].content.parts[0].function_call
-print(f"Function to call: {function_call.name}")
-print(f"Arguments: {function_call.args}")
-```
-
-For handling **unknown or malformed function calls**, developers should:
-- Check if `function_call` exists in the response.
-- Validate that `function_call.name` matches a declared function.
-- Confirm that `function_call.args` contains all required parameters and types.
-- Implement error handling or fallback logic when the function name is unrecognized or arguments are missing/incorrect.
-
-This structured approach enables robust extraction and management of function calls in a ReAct loop, with validation and error handling fully controlled in the application code[3].
+This structure ensures:
+- State is consistently updated and passed between steps.
+- Termination conditions are explicit, relying either on the LLM’s signal to stop or on loop limits.
 
 -----
 
@@ -218,23 +120,59 @@ This structured approach enables robust extraction and management of function ca
 
 -----
 
-### Source [15]: https://firebase.google.com/docs/ai-logic/function-calling
+### Source [8]: https://dev.to/jamesli/react-vs-plan-and-execute-a-practical-comparison-of-llm-agent-patterns-4gh9
 
-Query: How do developers identify and handle `function_call` objects in Gemini API responses—including extracting the function name, arguments, and managing unknown or malformed calls—when building a ReAct control loop?
+Query: What are best practices for designing a ReAct agent's control loop, specifically regarding state management and termination conditions?
 
-Answer: When using function calling in a multi-turn chat interface with the Gemini API, developers provide a **set of tools (functions)** the model can use. The Gemini model, upon receiving a prompt, may respond with a **function call** that includes the function name and arguments.
+Answer: This article outlines the **ReAct reasoning-action loop mechanism** as a core design for LLM agents. The focus is on:
+- Implementing the ReAct pattern with careful attention to the agent’s reasoning and acting steps.
+- Comparing ReAct with Plan-and-Execute patterns, emphasizing that ReAct relies on iterative loops of decision-making and action.
 
-To handle function calls in practice, application code should:
-- **Detect** when a Gemini response contains a function call.
-- **Extract** the function name and arguments from the response object.
-- **Validate** that the function name matches one of the declared tools, and that all required arguments are present and well-formed.
-- **Handle unknown or malformed calls** by implementing logic to reject, log, or prompt for clarification if the function name is not recognized or the arguments do not meet the schema requirements.
+While specific control loop or state management implementation details are not provided, the article underlines:
+- The importance of matching the loop design to the complexity and requirements of the scenario.
+- The need for systematic selection of loop termination criteria to balance performance (response time, cost) and accuracy.
 
-The application is responsible for:
-- **Calling the appropriate function** with the extracted arguments, often by querying an external API.
-- **Returning the function's response** to Gemini for further processing or user presentation.
+-----
 
-This structure, with explicit validation and error handling, is necessary for maintaining robust and predictable ReAct control loops, since Gemini's function calling feature is flexible and leaves error management to the developer[4].
+-----
+
+-----
+
+### Source [9]: https://www.dailydoseofds.com/ai-agents-crash-course-part-10-with-implementation/
+
+Query: What are best practices for designing a ReAct agent's control loop, specifically regarding state management and termination conditions?
+
+Answer: The ReAct paradigm is described as using a **chain-of-thought reasoning** and **tool-using action** cycle:
+- The agent maintains a structured trace of its reasoning (thoughts) and actions.
+- Each loop iteration involves the agent reasoning about what action to take (or whether to terminate), then executing that action using a tool.
+
+Best practices illustrated include:
+- Making the agent’s internal state and reasoning explicit, which aids in debugging and transparency.
+- Using structured data (like JSON) for tool inputs and outputs, keeping state management clear and deterministic.
+- Automating the loop as much as possible, so the agent can independently reason, act, and decide when to stop.
+
+Although some implementation details are reserved for subscribers, the emphasis is on clarity of state transitions and explicit handling of loop termination.
+
+-----
+
+-----
+
+-----
+
+### Source [10]: https://langchain-ai.github.io/langgraph/concepts/agentic_concepts/
+
+Query: What are best practices for designing a ReAct agent's control loop, specifically regarding state management and termination conditions?
+
+Answer: Modern ReAct agents combine:
+- **Tool calling**: The LLM selects and uses tools as needed, based on user input and ongoing reasoning.
+- **Memory**: The agent retains and references information from previous steps, maintaining a history that informs subsequent reasoning and actions.
+- **Planning**: The LLM creates and follows multi-step plans, deciding dynamically when to act, when to reason, and when to stop.
+
+State is managed as a list of messages (thoughts, actions, observations), which is passed and updated at each step. Termination conditions are typically defined by:
+- The LLM producing a message that signals completion (e.g., a final answer).
+- Hitting a predefined loop limit (to prevent infinite cycles).
+
+Tool integration is facilitated through explicit interface definitions, ensuring the LLM can issue structured requests and process structured responses, which supports robust state management and controlled loop progression.
 
 -----
 
@@ -243,40 +181,23 @@ This structure, with explicit validation and error handling, is necessary for ma
 </details>
 
 <details>
-<summary>What design patterns (e.g., scratchpads, role-tagged messages) are recommended in agentic-AI literature for maintaining conversation state across multiple Thought-Action-Observation cycles in a ReAct loop?</summary>
+<summary>What are common failure modes and debugging strategies for a ReAct agent built from scratch?</summary>
 
-### Source [16]: https://outshift.cisco.com/blog/how-agent-oriented-design-patterns-transform-system-development
+### Source [11]: https://www.amplework.com/blog/debugging-agentic-ai-tools-techniques/
 
-Query: What design patterns (e.g., scratchpads, role-tagged messages) are recommended in agentic-AI literature for maintaining conversation state across multiple Thought-Action-Observation cycles in a ReAct loop?
+Query: What are common failure modes and debugging strategies for a ReAct agent built from scratch?
 
-Answer: Agentic-AI systems utilize several key design patterns for maintaining conversation state across multiple Thought-Action-Observation (TAO) cycles in a ReAct loop:
+Answer: **Common Failure Modes:**
+- **Opaque Decision-Making:** Agentic AI systems, like ReAct agents, can behave unexpectedly due to their autonomous and adaptive nature, making their decision processes difficult to interpret.
+- **Unexpected Behavior Sequences:** Since agents operate based on evolving goals and inputs, they may enter unanticipated states or action sequences that are hard to trace without sufficient observability.
 
-- **Persistent State Pattern**: Agents store data in external databases or in-memory data stores to recall information across multiple interactions. This is especially important in multi-turn dialogue systems, where context must be retained over several sessions or conversations. For example, an agent handling router configurations will keep the configuration data in a database, allowing contextual continuity even after long periods between interactions.
-- **State Caching Pattern**: For session-limited needs, agents keep data in memory only for the duration of the session. This supports multi-turn discussions within a session, but data is discarded once the session ends, balancing performance and complexity.
-- **Failsafe and Fallback Strategies**: Agents implement mechanisms to recover from tool failures or unexpected scenarios, such as switching to backup tools or retrying failed actions, ensuring robust and resilient operation throughout TAO cycles.
+**Debugging Strategies:**
+- **Behavior Tracing and Action Logging:** Capture every agent action, input, and context. This comprehensive logging enables reconstruction of the agent’s full reasoning process and helps pinpoint why specific decisions were made.
+- **Reconstructing Behavior Paths:** By analyzing action logs, developers can trace sequences leading to a problematic outcome, clarifying the root cause of failures.
+- **Time-Travel Debugging:** Regularly record system state snapshots, making it possible to compare agent behavior before and after changes, and to identify when issues first appeared. This longitudinal analysis is critical in systems where agent behavior evolves over time.
+- **Iterative Comparison:** Use snapshots to observe the impact of code or configuration modifications, isolating the introduction points of bugs or regressions.
 
-These patterns collectively enable agents to maintain and recover state efficiently, which is critical for effective ReAct-style reasoning and tool use over multiple conversational turns.
-
------
-
------
-
------
-
-### Source [17]: https://www.jit.io/resources/devsecops/its-not-magic-its-memory-how-to-architect-short-term-memory-for-agentic-ai
-
-Query: What design patterns (e.g., scratchpads, role-tagged messages) are recommended in agentic-AI literature for maintaining conversation state across multiple Thought-Action-Observation cycles in a ReAct loop?
-
-Answer: Jit.io discusses advanced memory management for agentic AI, highlighting these patterns for maintaining conversation state:
-
-- **Dual Histories Pattern**: The system maintains two separate message histories:
-  - A complete internal context, including tools, intermediate steps, and metadata, for LLM processing.
-  - A streamlined, user-facing thread with only human and AI messages, ensuring a clean user experience.
-  This separation allows for accurate multi-turn reasoning while keeping the frontend clear and concise.
-- **Pre-Processing for State Hygiene**: Before each new execution cycle, transient and irrelevant state fields are cleared. This prevents state bloat and the risk of outdated information affecting subsequent tasks.
-- **Summarization with Tool-Aware Context**: As message history approaches the LLM’s context window limit, the system summarizes the conversation. LangGraph’s langmem module generates a compact system message capturing key context, and older messages are trimmed. Importantly, the summarization process is "tool-aware," ensuring that necessary tool information is preserved for orchestrator agents, maintaining continuity across TAO cycles even after summarization.
-
-These mechanisms support efficient, accurate, and robust state management in agentic AI workflows involving multiple ReAct cycles.
+These strategies rely on maximizing transparency and traceability in agentic AI systems to facilitate debugging and continuous improvement.
 
 -----
 
@@ -284,33 +205,20 @@ These mechanisms support efficient, accurate, and robust state management in age
 
 -----
 
-### Source [18]: https://www.inviul.com/the-blueprint-of-intelligence-design-patterns-in-agentic-ai/
+### Source [15]: https://neon.com/blog/the-3-levels-of-debugging-with-ai
 
-Query: What design patterns (e.g., scratchpads, role-tagged messages) are recommended in agentic-AI literature for maintaining conversation state across multiple Thought-Action-Observation cycles in a ReAct loop?
+Query: What are common failure modes and debugging strategies for a ReAct agent built from scratch?
 
-Answer: Inviul highlights design patterns that directly support maintaining state across TAO cycles:
+Answer: **Common Failure Modes:**
+- **Semantic Misunderstanding:** AI agents may misinterpret instructions or context, leading to errors in execution or reasoning, especially when the agent’s logic is complex or data-driven.
+- **Improper Data Handling:** Errors can arise when the agent processes undefined or uninitialized variables, causing failures in downstream reasoning or actions.
 
-- **Reflective Loop Pattern**: After each action, the agent reflects, evaluates, and potentially retries or improves upon its previous output. This self-awareness loop is implemented in systems like LangGraph and OpenAI’s function-calling and memory. The agent explicitly tracks results, assesses outcomes, and uses this evolving state for subsequent actions, thus supporting continuous, multi-step reasoning.
-- **Graph-Based Planning Pattern**: Inspired by state machines (e.g., LangGraph), this pattern models each state as a task or decision, with transitions representing possible outcomes (including retries, branching, or human intervention). This explicit state representation makes each step and its context visible and trackable, supporting robust planning and execution over long, multi-turn agent workflows.
+**Debugging Strategies:**
+- **Error Message Analysis:** Directly inputting error messages or failure outputs into a large language model (LLM) can yield explanations and likely root causes. For example, an LLM can infer if an error is due to mapping over an undefined variable.
+- **Component and Line Tracing:** Examine the specific agent component and execution line where the failure occurs, focusing on the state and initialization of variables at those points.
+- **Iterative Prompting:** Use LLMs interactively to explore the agent’s reasoning, propose likely causes, and suggest concrete code or logic changes to resolve issues.
 
-Both patterns emphasize explicit, structured state tracking and decision-making, which are essential for maintaining coherent context across extended ReAct loops.
-
------
-
------
-
------
-
-### Source [19]: https://research.aimultiple.com/agentic-ai-design-patterns/
-
-Query: What design patterns (e.g., scratchpads, role-tagged messages) are recommended in agentic-AI literature for maintaining conversation state across multiple Thought-Action-Observation cycles in a ReAct loop?
-
-Answer: AIMultiple describes these state-related patterns in agentic AI:
-
-- **Planning Pattern**: Agents decompose large tasks into subtasks, organizing them into logical sequences or branches for parallel execution. This explicit planning structure maintains state by tracking sub-goals, task progress, and dependencies across multiple cycles.
-- **Multi-Agent Pattern**: Complex workflows are managed by delegating subtasks to different specialized agents, each maintaining its own state relevant to its assigned responsibility. The overall system tracks state transitions, task assignments, and results aggregation, ensuring that context is preserved as the primary agent coordinates multiple cycles of action and observation.
-
-These patterns enable robust, scalable, and organized state management for agentic-AI systems operating over multiple TAO cycles in ReAct frameworks.
+This approach leverages LLMs as interactive debugging agents, capable of contextualizing errors and guiding developers through fixing them based on the agent's observed execution path.
 
 -----
 
@@ -319,35 +227,71 @@ These patterns enable robust, scalable, and organized state management for agent
 </details>
 
 <details>
-<summary>Where does Google’s official Gemini Python SDK documentation (or blog posts) describe that simply passing a Python function to the `tools` config lets Gemini automatically derive the tool’s name, description, and parameter schema from the function’s signature and docstring?</summary>
+<summary>How can a mock tool in a ReAct agent be designed to be easily replaceable with real-world APIs like Google Search?</summary>
 
-### Source [20]: https://googleapis.github.io/python-genai/
+### Source [16]: https://blog.motleycrew.ai/blog/reliable-ai-at-your-fingertips-how-we-built-universal-react-agents-that-just-work
 
-Query: Where does Google’s official Gemini Python SDK documentation (or blog posts) describe that simply passing a Python function to the `tools` config lets Gemini automatically derive the tool’s name, description, and parameter schema from the function’s signature and docstring?
+Query: How can a mock tool in a ReAct agent be designed to be easily replaceable with real-world APIs like Google Search?
 
-Answer: The official Google Gen AI Python SDK documentation explains that you can pass a Python function directly to the `tools` configuration when generating content with the Gemini model. The SDK will then perform automatic function calling. In the provided code examples, a function such as `get_current_weather(location: str) -> str` is passed to the `tools` parameter within the `GenerateContentConfig`. The function includes a docstring describing its purpose and parameters.
+Answer: To make a mock tool in a ReAct agent easily replaceable with real-world APIs like Google Search, the agent should be designed for **universality and modularity**. The process described involves initially using a standard ReAct prompt that lists available tools and describes their usage, but issues with reliability and reasoning were encountered. The solution was to separate reasoning and acting into distinct steps, ensuring the agent reasons before selecting a tool. 
 
-While the documentation demonstrates how to pass a Python function and notes that "if you also pass a python function as a tool, by default the SDK will perform automatic function calling," it does not explicitly state that the tool’s name, description, and parameter schema are **automatically derived** from the function’s signature and docstring. The examples imply this behavior, as the function is passed without additional schema or metadata, but there is no direct, explicit statement in this documentation section confirming that the function’s signature and docstring are parsed to set the tool’s name, description, or parameter schema.
+This approach means that each tool is described by its capabilities and interface in the prompt, allowing the large language model (LLM) to understand what each tool can do without implementation details. When swapping out a mock tool for a real API, as long as the interface (input/output structure and tool description) remains consistent, the agent does not require any changes in reasoning or prompt logic. This modular and interface-driven design is critical for making tool replacement seamless and reliable[1].
 
-Relevant example from the documentation:
-```python
-def get_current_weather(location: str) -> str:
-    """Returns the current weather.
-    Args:
-        location: The city and state, e.g. San Francisco, CA
-    """
-    return "sunny"
+-----
 
-response = client.models.generate_content(
-    model="gemini-2.0-flash-001",
-    contents="What is the weather like in Boston?",
-    config=types.GenerateContentConfig(
-        tools=[get_current_weather],
-        # other configs omitted for brevity
-    ),
-)
-```
-However, the documentation does not include explanatory text confirming that the SDK will extract the **name**, **description**, or **parameter schema** from the function’s Python signature and docstring; it demonstrates usage but leaves the mechanics implied.
+-----
+
+-----
+
+### Source [17]: https://www.promptingguide.ai/techniques/react
+
+Query: How can a mock tool in a ReAct agent be designed to be easily replaceable with real-world APIs like Google Search?
+
+Answer: Using the LangChain framework, a mock tool within a ReAct agent can be replaced with a real-world API, such as Google Search, by **adhering to a standardized tool interface**. In LangChain, tools are defined as callable Python functions or classes with a specific input/output schema. The agent is initialized with a list of tools (either mock or real), and the LLM uses these through a clear, documented API.
+
+This separation enables an easy swap: to replace a mock search tool with Google Search, you simply substitute the mock implementation with a function/class that calls the Google Search API, while keeping the tool name, input, and output formats the same. The agent’s reasoning and control flow remain unchanged because they interact with the tool interface, not the implementation. This modular tooling pattern is central to LangChain’s ReAct agent design and is essential for maintainability and scalability[2].
+
+-----
+
+-----
+
+-----
+
+### Source [18]: https://technofile.substack.com/p/how-to-build-a-react-ai-agent-with
+
+Query: How can a mock tool in a ReAct agent be designed to be easily replaceable with real-world APIs like Google Search?
+
+Answer: A mock tool in a ReAct agent is invoked by pattern-matching a specific action string (e.g., `Action: search: query`). The Python implementation exemplifies this by extracting the tool name and input from the agent’s output using regular expressions. Known actions are registered in advance, and when an action is detected, the corresponding function is called.
+
+To make tools easily replaceable, the code structure uses a **mapping of action names to functions**. Swapping a mock function for a real-world API (such as Google Search) is a matter of updating the mapping for that action name to reference the new function. As long as the function signature and expected output remain consistent, the agent logic and prompt do not require changes. This decoupled, dictionary-driven approach ensures that tools can be substituted or upgraded with minimal disruption to the agent’s workflow[3].
+
+-----
+
+-----
+
+-----
+
+### Source [19]: https://www.youtube.com/watch?v=Lvrv9I276ps
+
+Query: How can a mock tool in a ReAct agent be designed to be easily replaceable with real-world APIs like Google Search?
+
+Answer: Within the LangChain ecosystem, the video demonstrates creating a custom tool for a ReAct agent by **implementing each tool as a callable unit with a predictable interface**. The agent is constructed by supplying a list of such tools, each registered by name. When the agent "acts," it references the tool by name and passes input as defined by the interface.
+
+To replace a mock tool with a real-world API, you only need to switch out the callable associated with the tool name while maintaining the same input/output contract. The rest of the agent’s logic, prompt, and execution process remain untouched because of this consistent interface-driven design. This method allows for rapid prototyping (with mock tools) and straightforward productionization (by swapping in real APIs) without altering the agent's reasoning or orchestration code[4].
+
+-----
+
+-----
+
+-----
+
+### Source [20]: https://maven.com/rakeshgohel/ai-agent-engineering-react-rag-multi-agent
+
+Query: How can a mock tool in a ReAct agent be designed to be easily replaceable with real-world APIs like Google Search?
+
+Answer: Building agentic systems with ReAct benefits from **software engineering best practices** such as modularity and interface abstraction. Production-ready starter kits and frameworks emphasize structuring tools as modular, interchangeable components. Each tool is encapsulated, and the agent interacts with it via a defined interface.
+
+To replace a mock tool with a real API like Google Search, you implement the API call in a module that conforms to the same interface as the mock. Unit testing and debugging are facilitated because the interface remains unchanged, and version control systems track changes to individual tools, not the agent as a whole. This approach supports maintainability, scalability, and the ability to develop and test with mocks before deploying real-world integrations[5].
 
 -----
 
@@ -356,23 +300,21 @@ However, the documentation does not include explanatory text confirming that the
 </details>
 
 <details>
-<summary>What official Gemini API or SDK resources explain how to configure structured (Pydantic/JSON) outputs and use `response.parsed` to obtain validated objects without manual JSON parsing?</summary>
+<summary>What is the minimal but effective prompt structure for the "Thought" generation phase in a ReAct agent?</summary>
 
-### Source [24]: https://ai.google.dev/gemini-api/docs/structured-output
+### Source [21]: https://shafiqulai.github.io/blogs/blog_3.html
 
-Query: What official Gemini API or SDK resources explain how to configure structured (Pydantic/JSON) outputs and use `response.parsed` to obtain validated objects without manual JSON parsing?
+Query: What is the minimal but effective prompt structure for the "Thought" generation phase in a ReAct agent?
 
-Answer: The official Gemini API documentation provides direct guidance on configuring structured (Pydantic/JSON) outputs:
+Answer: The **Thought** generation phase in a ReAct agent is where the agent processes the user's input, breaks down complex queries into smaller steps, and determines the best immediate course of action. The minimal but effective prompt structure for this phase should:
+- Direct the agent to **read and understand** the user's query.
+- Encourage **breaking down** complex tasks into logical, manageable steps.
+- Guide the agent to **decide** which information or tool is necessary for the next step.
 
-- **Configuring JSON Output**: There are two ways to generate JSON using the Gemini API: by configuring a schema on the model or by providing a schema in a text prompt. Using schemas enables structured extraction and standardization of information, such as processing resumes into database-compatible structures.
+An example of minimal prompt structure is:
+- “Thought: What do I need to know or do next to answer the user’s question?”
 
-- **Pydantic Models**: When you use a Pydantic type, the Gemini Python library automatically builds a JSON schema from your model and sends this schema to the API. This allows you to define key names, value types, and nested structures precisely.
-
-- **Supported Types**: The Python library supports schemas based on basic types (`int`, `float`, `bool`, `str`, `list`), unions, dictionaries with homogeneous value types, and user-defined Pydantic models for more complex, nested structures.
-
-- **JSON Schema Support**: Gemini 2.5 supports the direct use of JSON Schema for structured output via the `responseJsonSchema` field, with some limitations (e.g., only available in Gemini 2.5, constraints on recursive references, and `$ref` usage).
-
-- **Output Handling**: The documentation references the use of Pydantic models for both schema definition and result validation, but does not explicitly mention a `.parsed` attribute for output handling. For more detailed usage (such as accessing validated objects via `response.parsed`), the documentation refers users to the Python library documentation for additional examples.
+This structure ensures the agent does not jump to conclusions, but instead reasons explicitly about each requirement, retrieving and verifying information step by step, which enhances accuracy and completeness.
 
 -----
 
@@ -380,37 +322,19 @@ Answer: The official Gemini API documentation provides direct guidance on config
 
 -----
 
-### Source [25]: https://ai.pydantic.dev/output/
+### Source [22]: https://www.wordware.ai/blog/why-the-react-agent-matters-how-ai-can-now-reason-and-act
 
-Query: What official Gemini API or SDK resources explain how to configure structured (Pydantic/JSON) outputs and use `response.parsed` to obtain validated objects without manual JSON parsing?
+Query: What is the minimal but effective prompt structure for the "Thought" generation phase in a ReAct agent?
 
-Answer: The Pydantic AI documentation describes how structured outputs are handled and validated using Pydantic:
+Answer: In the ReAct framework, the **Thought** phase is initiated as soon as the agent receives an input question. The language model is prompted to:
+- **Interpret the prompt** to understand the core requirements.
+- **Break down the question** into actionable parts.
+- **Formulate an initial action plan** and identify what additional data or steps might be needed.
 
-- **Structured Output Modes**: Three output modes are supported—Tool Output, Native Output, and Prompted Output. All modes use Pydantic models to define the JSON schema and validate model responses.
+A minimal but effective prompt structure for this phase would be:
+- “Thought: Analyze the question and identify key requirements and next steps.”
 
-- **Validation and Parsing**: When using structured output, Pydantic validates the data returned by the model according to the schema. If the model output does not match the schema, validation fails and the system may prompt the model to retry.
-
-- **Prompted Output**: When using Prompted Output mode, the output type(s) are wrapped in a `PromptedOutput` marker class, which can customize the expected output and instructions template for the model. This provides flexibility in guiding the model to generate outputs that match the schema.
-
-- **Accessing Validated Outputs**: While this documentation describes structured output and validation, it does not mention a `.parsed` attribute or a response object with such an attribute. The documentation focuses on schema creation, output modes, and validation, not on specific SDK response handling.
-
------
-
------
-
------
-
-### Source [26]: https://www.youtube.com/watch?v=c8DOxMnigWE
-
-Query: What official Gemini API or SDK resources explain how to configure structured (Pydantic/JSON) outputs and use `response.parsed` to obtain validated objects without manual JSON parsing?
-
-Answer: This official video tutorial on using structured output with the Gemini API covers the following relevant points:
-
-- **System Prompts and Pydantic Models**: The tutorial demonstrates how to define structured schemas using Pydantic models and how to pass these schemas into Gemini API requests for structured JSON output.
-
-- **Practical Example**: The video provides a step-by-step demonstration for Python developers, showing how to extract clean, structured JSON responses from Gemini and use them directly in applications such as chatbots or workflow automations.
-
-- **Response Handling**: While the video shows how to process structured output, it does not explicitly mention the use of a `.parsed` attribute or direct access to validated Pydantic objects without manual JSON parsing.
+This approach prompts the agent to generate clear **reasoning traces**, which are essential for transparency, iterative improvement, and effective problem decomposition before any actions are taken.
 
 -----
 
@@ -418,42 +342,19 @@ Answer: This official video tutorial on using structured output with the Gemini 
 
 -----
 
-### Source [27]: https://ai.pydantic.dev/api/models/gemini/
+### Source [23]: https://www.promptingguide.ai/techniques/react
 
-Query: What official Gemini API or SDK resources explain how to configure structured (Pydantic/JSON) outputs and use `response.parsed` to obtain validated objects without manual JSON parsing?
+Query: What is the minimal but effective prompt structure for the "Thought" generation phase in a ReAct agent?
 
-Answer: The Pydantic AI models documentation for Gemini describes the implementation of a Gemini integration using the generativelanguage.googleapis.com API:
+Answer: The ReAct prompting paradigm requires the agent to generate a **verbal reasoning trace** before taking action. The prompt structure for the Thought phase usually follows a simple yet effective template:
+- “Thought: [Reasoning about what needs to be done next]”
+- “Action: [Action or tool use based on the above thought]”
+- “Observation: [Result from the environment/tool]”
 
-- **Implementation Details**: The documentation and source code show how the Gemini model is implemented to interact with the Gemini API, including schema handling and request construction.
+For the Thought phase specifically, the prompt should simply instruct the model to “think aloud”:
+- “Thought: What is the next logical step or piece of information needed?”
 
-- **Schema and Validation**: There is an emphasis on using Pydantic models to define schemas and validate outputs. The model uses these schemas to interpret and validate responses from the Gemini API.
-
-- **Response Attributes**: The documentation does not explicitly mention a `response.parsed` attribute or how to access validated objects in a response. It focuses on the mechanics of schema usage and model interaction rather than SDK-specific response properties.
-
------
-
------
-
-</details>
-
-<details>
-<summary>In developer guides or tutorials that integrate Gemini function calling into ReAct loops, how do they detect `function_call` objects, extract names/arguments, and gracefully handle unknown or malformed calls?</summary>
-
-### Source [33]: https://ai.google.dev/gemini-api/docs/function-calling
-
-Query: In developer guides or tutorials that integrate Gemini function calling into ReAct loops, how do they detect `function_call` objects, extract names/arguments, and gracefully handle unknown or malformed calls?
-
-Answer: The official Gemini API documentation describes the end-to-end flow for function calling but does not provide explicit code for detecting `function_call` objects or handling malformed calls. However, it demonstrates the process for extracting the function name and arguments:
-
-- When the Gemini model responds with a function call, the response includes the function name and any arguments as structured data.
-- In Python, after executing the function (e.g., based on `tool_call.name` and its arguments), a function response part is created using `types.Part.from_function_response`, which includes the function name and result.
-- This response is appended to the conversation history for the model to generate the next step.
-- The documentation does not directly mention how to handle unknown or malformed calls, but the flow implies that developers are responsible for validating the existence of the function and the correctness of its arguments before executing external calls. Any exceptions or errors in this process should be handled in the application logic, outside the Gemini API itself.
-
-The process generally involves:
-- Extracting the function name (`tool_call.name`) and arguments from the model's response.
-- Validating and executing the function in the application code.
-- Returning the result (or handling errors) back into the Gemini conversation loop[1].
+This minimal structure is effective because it makes the agent explicitly state its reasoning, supporting dynamic problem-solving and reducing the risk of skipping important steps.
 
 -----
 
@@ -461,22 +362,37 @@ The process generally involves:
 
 -----
 
-### Source [34]: https://codelabs.developers.google.com/codelabs/gemini-function-calling
+### Source [24]: https://xaibo.ai/how-to/orchestrator/customize-react-prompts/
 
-Query: In developer guides or tutorials that integrate Gemini function calling into ReAct loops, how do they detect `function_call` objects, extract names/arguments, and gracefully handle unknown or malformed calls?
+Query: What is the minimal but effective prompt structure for the "Thought" generation phase in a ReAct agent?
 
-Answer: This official Google Codelab offers a clear breakdown of the function calling workflow, including parameter extraction and error handling responsibilities:
+Answer: According to the Xaibo ReActOrchestrator documentation, the **Thought** prompt is defined in the configuration as:
+- `thought_prompt: "Generate thoughts about next steps"`
 
-- The Gemini API returns a **Function Call response** that contains the name of the function to call and its parameters as structured data.
-- **Extraction**: Developers extract the function name and parameters from the response.
-- **Execution**: The function (or external API) is called using these extracted values, typically implemented by the developer.
-- If the function name is unknown or the parameters are malformed, the codelab implies that the developer's code should validate inputs before making the external call.
-- Error handling for unknown or malformed calls is not performed by the Gemini API; instead, it is the developer’s responsibility to check for:
-  - Valid function names (matching those registered and declared to the model).
-  - Valid and complete parameters (according to function schema).
-  - Any errors encountered should be caught in application logic and a suitable response should be passed back to Gemini, either as a function error or by clarifying the issue in the conversation.
+In practice, the system prompt instructs:
+- “Always start with THOUGHT to analyze the user's request”
+- “THOUGHT: Reason about what information you need”
 
-The codelab emphasizes that all **API request and response handling**, including error and validation logic, occurs outside the Gemini API, within the application code[2].
+The minimal but effective prompt for the Thought phase is thus:
+- “THOUGHT: Reason about what information you need.”
+
+This approach ensures the agent begins every cycle by considering what is required for progress, establishing a clear, concise reasoning step at the start of each loop.
+
+-----
+
+-----
+
+-----
+
+### Source [25]: https://arize.com/docs/phoenix/cookbook/prompt-engineering/react-prompting
+
+Query: What is the minimal but effective prompt structure for the "Thought" generation phase in a ReAct agent?
+
+Answer: In the Phoenix ReAct prompt engineering guide, the **Thought** phase is described as the model reasoning step-by-step before deciding on an action. The minimal prompt structure is:
+- Instruct the model to “reason through the problem first.”
+- Example: “Thought: What needs to be considered or found out before acting?”
+
+By prompting the model to articulate its thought process before proceeding to action, this structure promotes transparency, multi-step problem-solving, and better traceability of the agent’s decisions.
 
 -----
 
@@ -485,25 +401,21 @@ The codelab emphasizes that all **API request and response handling**, including
 </details>
 
 <details>
-<summary>Where do Google’s official Gemini SDK docs or engineering blog posts explicitly explain that passing a Python function to the tools parameter auto-generates the tool’s name, description, and parameter schema from its signature and docstring?</summary>
+<summary>What are the best practices for structuring the "scratchpad" or message history in a ReAct agent to effectively manage the thought-action-observation loop?</summary>
 
-### Source [41]: https://codelabs.developers.google.com/codelabs/gemini-function-calling
+### Source [26]: https://geekyants.com/blog/implementing-ai-agents-from-scratch-using-langchain-and-openai
 
-Query: Where do Google’s official Gemini SDK docs or engineering blog posts explicitly explain that passing a Python function to the tools parameter auto-generates the tool’s name, description, and parameter schema from its signature and docstring?
+Query: What are the best practices for structuring the "scratchpad" or message history in a ReAct agent to effectively manage the thought-action-observation loop?
 
-Answer: This codelab demonstrates how to use the Gemini Python client library for function calling. It shows that function declarations must be registered explicitly using the `FunctionDeclaration` class, where the **name**, **description**, and **parameters** are manually specified in code. The guide emphasizes the importance of providing detailed information in the function and parameter descriptions, as the generative model uses this metadata for tool selection and parameter filling. However, the codelab does **not** state or imply that simply passing a Python function to the `tools` parameter will auto-generate the tool's name, description, or parameter schema from its signature or docstring. Instead, all metadata is shown as manually specified.
+Answer: The agent scratchpad in a ReAct agent is structured within the agent prompt template, which defines the LLM's behavior and interaction with tools. Best practices for structuring the scratchpad include:
+- **Clear System Instructions**: Begin with a section that explicitly defines the agent's role, for example, specifying that the agent answers questions using available tools, performs reasoning, fetches information, and carries out calculations.
+- **Tool Descriptions**: List each tool with its name and a clear description, so the model understands its capabilities. Each tool section typically includes a usage guideline and a format example, such as specifying how to structure an action call (e.g., `Action: Calculator` and `Action Input: 2 + 2`).
+- **Format Guide**: Specify how the agent should structure its output, often in a structured format like JSON or markdown. This ensures consistent communication between the thought process, tool invocation, and observation integration.
+- **Guardrails**: Include explicit behavioral constraints, such as only calling tools when necessary, not fabricating information, and never executing code directly.
+- **Iterative State Tracking**: The scratchpad logs the sequence of thoughts, actions, and observations. Each cycle is captured, enabling the agent to reference past steps and build coherent multi-step reasoning.
+- **Customization for Robustness**: The prompt, including the scratchpad format, is highly customizable based on the agent's tasks. Using libraries like Pydantic for structured outputs is recommended for precision, especially in JSON-based tool calls.
 
------
-
------
-
------
-
-### Source [42]: https://googleapis.github.io/python-genai/
-
-Query: Where do Google’s official Gemini SDK docs or engineering blog posts explicitly explain that passing a Python function to the tools parameter auto-generates the tool’s name, description, and parameter schema from its signature and docstring?
-
-Answer: The official Google Gen AI Python SDK documentation explicitly states that **you can pass a Python function directly** as a tool, and it will be "automatically called and responded." The example shows passing a Python function (with a docstring and type annotations) directly to the `tools` parameter of `GenerateContentConfig`. However, the documentation does **not explicitly state** that the tool's name, description, and parameter schema are auto-generated from the function's signature and docstring. The behavior is demonstrated via example, but there is no direct statement confirming that the SDK parses the function's metadata (such as the signature and docstring) to populate tool fields.
+This approach ensures the agent maintains transparency in its reasoning and actions, effectively manages intermediate state, and can be easily extended or debugged.
 
 -----
 
@@ -511,45 +423,17 @@ Answer: The official Google Gen AI Python SDK documentation explicitly states th
 
 -----
 
-### Source [43]: https://ai.google.dev/gemini-api/docs/function-calling
+### Source [27]: https://airbyte.com/data-engineering-resources/using-langchain-react-agents
 
-Query: Where do Google’s official Gemini SDK docs or engineering blog posts explicitly explain that passing a Python function to the tools parameter auto-generates the tool’s name, description, and parameter schema from its signature and docstring?
+Query: What are the best practices for structuring the "scratchpad" or message history in a ReAct agent to effectively manage the thought-action-observation loop?
 
-Answer: The official Gemini API documentation describes that function declarations must be supplied in a JSON-compatible schema, requiring explicit fields for **name**, **description**, and **parameters**. The documentation also states: "You can also construct FunctionDeclarations from Python functions directly using `types.FunctionDeclaration.from_callable(client=client, callable=your_function)`." This implies there is a mechanism to create function declarations from Python callables, but the documentation does **not explicitly explain** whether and how the tool's name, description, or parameters are auto-generated from the Python function’s signature or docstring. No clear statement is provided about the extraction or auto-generation process.
+Answer: LangChain implements the ReAct pattern by maintaining a running log called the agent scratchpad, which records all thoughts, actions, and observations throughout the reasoning process. Key best practices include:
+- **Systematic Logging**: The scratchpad consistently records each cycle—starting with the agent’s thought, the action it takes (such as calling a tool), the action input, and the resulting observation. This iterative log provides a transparent and traceable history of the agent’s decision-making.
+- **Support for Iterative Reasoning**: The scratchpad structure allows the agent to recognize when additional information is needed, enabling it to return to the thought-action-observation loop as many times as necessary before producing a final answer.
+- **Separation of Reasoning and Action**: By alternating between “thought” (reasoning step) and “action” (tool invocation), the scratchpad enforces a clear boundary between internal deliberation and external interaction, improving both interpretability and modularity.
+- **Finalization Step**: After sufficient iterations, the agent can provide a comprehensive final answer, referencing the full context preserved in the scratchpad.
 
------
-
------
-
------
-
-### Source [44]: https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling
-
-Query: Where do Google’s official Gemini SDK docs or engineering blog posts explicitly explain that passing a Python function to the tools parameter auto-generates the tool’s name, description, and parameter schema from its signature and docstring?
-
-Answer: This Vertex AI documentation focuses on best practices and manual schema creation for function calling. It emphasizes writing clear and detailed function names, parameter descriptions, and instructions, as well as demonstrating how to submit function declarations in OpenAPI-like schema format. The documentation does **not mention** automatic generation of tool metadata (name, description, parameter schema) from Python function signatures or docstrings, nor does it describe passing raw Python functions to the tools parameter.
-
------
-
------
-
-</details>
-
-<details>
-<summary>Which tutorials or reference guides show how to parse Gemini API function_call objects, extract names/arguments, and implement robust error handling for unknown or malformed calls inside a ReAct control loop?</summary>
-
-### Source [49]: https://codelabs.developers.google.com/codelabs/gemini-function-calling
-
-Query: Which tutorials or reference guides show how to parse Gemini API function_call objects, extract names/arguments, and implement robust error handling for unknown or malformed calls inside a ReAct control loop?
-
-Answer: This official codelab explains the step-by-step process for interacting with Gemini API function calls:
-
-- **Function Call Parsing**: After submitting a user prompt and function declarations, the Gemini API returns a structured response containing the function name and parameters.
-- **Extraction**: The returned object includes the function name and its arguments, which can be extracted programmatically from the response payload. The developer is responsible for parsing these fields to identify which function to invoke and with what arguments.
-- **Error Handling**: While the codelab does not provide explicit error handling patterns, it emphasizes that the developer's application should handle the actual API request using the extracted function name and parameters. This implies that robust error handling for unknown or malformed calls should be implemented as part of the application logic, for example by validating function names against the list of declared functions and verifying argument structure and types before making the API call.
-- **Control Loop**: The guide describes a loop where the response from the external function is returned to Gemini, which may then generate further function calls as needed. At each step, the application should ensure the integrity of the function call objects before proceeding, which is where error handling can be incorporated.
-
-The codelab presents the broad workflow but does not provide detailed code snippets for error handling or unknown function names; these must be implemented by the developer based on their specific requirements[1].
+This method supports complex, multi-step queries and makes it easy to debug or audit the agent's process by reviewing the detailed message history.
 
 -----
 
@@ -557,33 +441,24 @@ The codelab presents the broad workflow but does not provide detailed code snipp
 
 -----
 
-### Source [50]: https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling
+### Source [28]: https://arize.com/blog-course/react-agent-llm/
 
-Query: Which tutorials or reference guides show how to parse Gemini API function_call objects, extract names/arguments, and implement robust error handling for unknown or malformed calls inside a ReAct control loop?
+Query: What are the best practices for structuring the "scratchpad" or message history in a ReAct agent to effectively manage the thought-action-observation loop?
 
-Answer: This Vertex AI documentation details the definition and declaration of functions (tools) for function calling:
+Answer: In practical ReAct agent implementations, the scratchpad is built directly into the prompt template and explicitly guides the agent through the thought-action-observation sequence. The recommended structure includes:
+- **Prompt Template Variables**: The prompt template defines a sequence where each step is explicitly marked:
+    - `Thought:` (agent's reasoning)
+    - `Action:` (name of the tool or action)
+    - `Action Input:` (parameters or input for the tool)
+    - `Observation:` (the result or output from the tool)
+- **Iterative Expansion**: The pattern `(Thought / Action / Action Input / Observation)` can repeat as many times as needed, enabling the agent to chain multiple tool invocations and observations.
+- **Final Answer Declaration**: After iterating, the template includes
+    - `Thought: I now know the final answer`
+    - `Final Answer:` (the agent's answer to the original input)
+- **Prompt Continuity**: The variable `{agent_scratchpad}` is appended at the end of the prompt, ensuring that the agent receives its entire message history with every new step, maintaining context and continuity.
+- **Customization**: The prompt template can be tailored for specific tasks, and the structure of the scratchpad should match the requirements of the agent and domain.
 
-- **Function Declaration**: Functions are declared in a schema compatible with OpenAPI, specifying required parameters, types, and descriptions. This declaration is crucial for downstream parsing and validation.
-- **Parsing and Extraction**: The response from Gemini includes the function name and arguments as defined in the functionDeclarations. To parse, developers should reference the schema to extract the function name and parameter values from the returned JSON object.
-- **Error Handling**: The documentation does not provide explicit examples for error handling of unknown or malformed calls. However, because the function declarations are strictly typed and limited to those provided in the request, developers can validate that returned function calls match the declared functions and that their parameters conform to the schema before execution.
-- **ReAct Loop Integration**: The documentation implies that robust applications should validate incoming function calls at each step of the control loop, and handle cases where the model returns an undeclared or malformed function call by rejecting the call or returning an error to the user[2].
-
------
-
------
-
------
-
-### Source [51]: https://firebase.google.com/docs/ai-logic/function-calling
-
-Query: Which tutorials or reference guides show how to parse Gemini API function_call objects, extract names/arguments, and implement robust error handling for unknown or malformed calls inside a ReAct control loop?
-
-Answer: Firebase AI Logic documentation provides a practical walkthrough of function calling with Gemini, including parameter extraction:
-
-- **Function Call Object Structure**: The documentation specifies how input parameters are structured (name, type, required, description), and how the application is expected to parse these from the Gemini model's response.
-- **Extraction**: Upon receiving a function call from Gemini, the app extracts the function name and arguments from the JSON payload. The documentation describes how to map these extracted values to backend logic, such as calling an external weather API with the provided arguments.
-- **Validation & Error Handling**: The guide suggests that developers should validate the extracted parameters against the expected input structure (types, required fields). If a function call is not recognized or the arguments are malformed, the application should handle these cases—though explicit code examples for these error scenarios are not provided.
-- **ReAct Pattern**: The documentation encourages a multi-turn chat (ReAct) design: after the function is executed (or if an error occurs), the result or error is fed back to Gemini in the next turn, allowing the model to adapt or clarify as needed. This loop is where robust error handling and validation logic is critical[3].
+This format ensures that the agent’s reasoning and tool interactions are both explicit and auditable, supporting robust multi-step reasoning.
 
 -----
 
@@ -591,63 +466,17 @@ Answer: Firebase AI Logic documentation provides a practical walkthrough of func
 
 -----
 
-### Source [52]: https://ai.google.dev/gemini-api/docs/function-calling
+### Source [29]: https://langchain-ai.github.io/langgraph/how-tos/react-agent-from-scratch/
 
-Query: Which tutorials or reference guides show how to parse Gemini API function_call objects, extract names/arguments, and implement robust error handling for unknown or malformed calls inside a ReAct control loop?
+Query: What are the best practices for structuring the "scratchpad" or message history in a ReAct agent to effectively manage the thought-action-observation loop?
 
-Answer: This official Gemini API documentation shows how to work with function call objects in both Python and JavaScript:
+Answer: In LangGraph, the recommended scratchpad structure for a ReAct agent is to maintain the message history as a list of message objects within the agent's state. Key implementation points include:
+- **Graph State as Message Sequence**: The agent’s state includes a `messages` list, where each entry is a message object representing either a user input, an agent thought, an action, or an observation.
+- **Reducer Functionality**: The message list is updated using a reducer (such as `add_messages`), ensuring that every new message (thought, action, observation, or response) is appended to the state in order.
+- **Extensibility**: The state can be extended with additional keys as needed for different use cases, but the core principle is to preserve the complete chronological message history.
+- **Tool Integration**: Tools are bound to the model and invoked as needed, with their calls and results logged as message objects, preserving transparency and reproducibility in the agent’s operations.
 
-- **Parsing**: When the Gemini model returns a response with a function call, developers can access the function name and parameters from the response object (e.g., `tool_call.name` and the corresponding parameters).
-- **Extraction Example**: Example code demonstrates extracting the function call data and using it to execute logic in the application—such as making an API call or running a local function.
-- **Error Handling**: The documentation does not provide explicit error handling for unknown or malformed calls. However, the example workflow suggests that after extracting the function call, developers should ensure the function name matches a known function and that parameters are valid before execution.
-- **ReAct Loop**: The workflow involves appending the function call result (or presumably an error message, if applicable) to the conversation history before returning it to Gemini for further processing, fitting the ReAct pattern.
-- **Implementation Responsibility**: It is implied that robust error handling—including checks for unknown function names, missing/invalid arguments, and malformed calls—should be implemented by the developer within the application logic, as these scenarios are not handled automatically by the API[4].
-
------
-
-</details>
-
-<details>
-<summary>Where do Gemini API examples demonstrate configuring structured JSON/Pydantic output and retrieving validated data via response.parsed, avoiding manual JSON parsing?</summary>
-
-### Source [53]: https://ai.google.dev/gemini-api/docs/structured-output
-
-Query: Where do Gemini API examples demonstrate configuring structured JSON/Pydantic output and retrieving validated data via response.parsed, avoiding manual JSON parsing?
-
-Answer: The official Gemini API documentation provides explicit examples demonstrating how to configure structured JSON/Pydantic output and retrieve validated data without manual JSON parsing. The recommended approach is to configure a **response schema** directly on the model, which constrains the model to output JSON in the desired format.
-
-#### Python Example
-
-```python
-from google import genai
-from pydantic import BaseModel
-
-class Recipe(BaseModel):
-    recipe_name: str
-    ingredients: list[str]
-
-client = genai.Client()
-response = client.models.generate_content(
-    model="gemini-2.5-flash",
-    contents="List a few popular cookie recipes, and include the amounts of ingredients.",
-    config={
-        "response_mime_type": "application/json",
-        "response_schema": list[Recipe],
-    },
-)
-
-# Use the response as a JSON string.
-print(response.text)
-
-# Use instantiated objects.
-my_recipes: list[Recipe] = response.parsed
-```
-
-- The `response_schema` constrains the model's output to match the specified Pydantic model.
-- The `response.parsed` property returns **instantiated objects** of the schema type (here, a list of `Recipe`), delivering fully validated data.
-- This approach **eliminates the need for manual JSON parsing**, as the Gemini API performs validation and object instantiation automatically.
-
-The documentation also provides a JavaScript example using a similar schema-based approach, but the `response.parsed` pattern is specific to Python and Pydantic integration as shown above[3].
+This design aligns with best practices for modularity, extensibility, and traceability, making it easy to follow and audit the agent’s reasoning and actions at every step.
 
 -----
 
@@ -656,19 +485,13 @@ The documentation also provides a JavaScript example using a similar schema-base
 </details>
 
 <details>
-<summary>According to teaching resources or course tutorials on ReAct/RAG, why is a mock search tool preferred over live web APIs (e.g., pedagogical benefits, repeatability, no API keys)?</summary>
+<summary>How does Gemini's function calling mechanism simplify the "Action" phase of a ReAct agent compared to traditional text-parsing approaches?</summary>
 
-### Source [56]: https://www.singlestore.com/blog/a-guide-to-retrieval-augmented-generation-rag/
+### Source [30]: https://ai.google.dev/gemini-api/docs/function-calling
 
-Query: According to teaching resources or course tutorials on ReAct/RAG, why is a mock search tool preferred over live web APIs (e.g., pedagogical benefits, repeatability, no API keys)?
+Query: How does Gemini's function calling mechanism simplify the "Action" phase of a ReAct agent compared to traditional text-parsing approaches?
 
-Answer: The tutorial instructs users to add their OpenAI API key as an environment variable before running code examples involving Retrieval Augmented Generation (RAG). This reliance on live APIs introduces several challenges for teaching and reproducibility:
-- **API Key Requirement:** Users must obtain and manage their own API keys, which can be a hurdle for students or those running tutorials in environments where sharing or exposing keys is not desirable.
-- **Cost and Rate Limiting:** Live API usage may incur costs, and users can be limited by rate quotas or regional restrictions, potentially disrupting the learning experience.
-- **Non-repeatability:** Results from live web APIs can change over time as underlying models or data sources update, making it difficult to ensure that all learners get the same results when they run code from a tutorial or teaching resource.
-- **Pedagogical Consistency:** For classroom or workshop settings, having all students work with the same mock data ensures that the lesson is consistent and that troubleshooting and grading are simplified.
-
-Although this source does not explicitly discuss mock search tools, the code examples and API key management requirements highlight why educators prefer mock tools for teaching: they eliminate external dependencies and ensure repeatable, controlled demonstrations.
+Answer: **Gemini's function calling mechanism** allows developers to define functions (using OpenAPI-compatible schemas) and provide these definitions to the Gemini model along with the user prompt. When the model determines that a function call is needed to fulfill the user's request, it outputs a structured `functionCall` object specifying which function to call and with what parameters, rather than generating a text instruction to be parsed. This replaces the need for the agent or developer to parse text output to extract actions and parameters, as is required in traditional ReAct or text-based approaches. The structured response makes the "Action" phase more reliable and programmatically accessible, eliminating ambiguity and reducing the risk of parsing errors. Additionally, Gemini supports parallel function calls, enabling efficient handling of multi-part requests. However, only a subset of the OpenAPI schema is supported, and some limitations exist regarding parameter types and SDK availability[1].
 
 -----
 
@@ -676,16 +499,738 @@ Although this source does not explicitly discuss mock search tools, the code exa
 
 -----
 
-### Source [57]: https://hiringnet.com/exercise-4-and-5-rag-with-react-reflection-for-10-k-filings
+### Source [31]: https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling
 
-Query: According to teaching resources or course tutorials on ReAct/RAG, why is a mock search tool preferred over live web APIs (e.g., pedagogical benefits, repeatability, no API keys)?
+Query: How does Gemini's function calling mechanism simplify the "Action" phase of a ReAct agent compared to traditional text-parsing approaches?
 
-Answer: While this source focuses on RAG and ReAct exemplars, it implicitly supports the use of controlled, reproducible teaching scenarios:
-- **Few-shot exemplars:** The original ReAct paper used human-annotated examples as templates, allowing the model to follow a specific reasoning process and action sequence. This approach is directly analogous to using a mock search tool in tutorials: it ensures that the learning process is based on known, repeatable data and steps.
-- **Pedagogical value:** By using fixed examples, instructors can guarantee that every student or learner is exposed to the same inputs and expected outputs, facilitating easier diagnosis of errors and ensuring fairness in evaluation.
+Answer: **Function calling in Gemini** (also called "tool use") lets the model decide—based on the prompt—if an external function is needed and, if so, it outputs structured data specifying the function to call and its parameters, such as `get_current_weather(location='Boston')`. This structure means the "Action" phase for a ReAct agent no longer requires parsing free-form text to determine which tool to invoke or how to invoke it. Instead, the agent directly receives clear, machine-readable instructions. This greatly simplifies orchestration, reduces the chance of misinterpretation, and makes chaining tool calls or parallel actions straightforward. The process bridges the LLM and external systems, extending the agent’s capabilities to fetch data or perform operations seamlessly. OpenAPI schema declarations allow for up to 512 functions, and best practices are provided for defining these actions[2].
 
-Although this section does not mention mock search tools directly, its emphasis on **repeatability and controlled examples** reflects the pedagogical benefits of using mock tools over live, unpredictable APIs.
+-----
 
+-----
+
+-----
+
+### Source [32]: https://www.philschmid.de/langgraph-gemini-2-5-react-agent
+
+Query: How does Gemini's function calling mechanism simplify the "Action" phase of a ReAct agent compared to traditional text-parsing approaches?
+
+Answer: Traditional ReAct agents operate by prompting the LLM to output action instructions as text, typically following a "Thought, Action, Observation" pattern. For the "Action" phase, the LLM describes (in text) what action to take—such as calling a tool or querying an API. The developer or agent framework must then parse this output text to extract the function name and parameters, which introduces ambiguity and potential errors if the text format changes or is misinterpreted. This text-parsing approach requires robust, often brittle parsing logic and careful prompt engineering to keep outputs machine-readable[3].
+
+-----
+
+-----
+
+-----
+
+### Source [33]: https://www.leewayhertz.com/react-agents-vs-function-calling-agents/
+
+Query: How does Gemini's function calling mechanism simplify the "Action" phase of a ReAct agent compared to traditional text-parsing approaches?
+
+Answer: In a classic ReAct agent, the LLM’s output for the "Action" phase is a natural language description of what tool to use and how, which must be interpreted and parsed by the system to determine the intended action. This iterative approach is flexible and allows dynamic planning, but places the burden of reliable parsing on the agent developer. Parsing natural language is error-prone, especially as tasks grow more complex or LLM output varies. In contrast, function calling agents (like those using Gemini's mechanism) receive structured outputs directly from the model, specifying tool names and parameters as data, not text. This removes ambiguity and parsing complexity, making the "Action" phase simpler, more robust, and easier to scale[4].
+
+-----
+
+-----
+
+-----
+
+### Source [34]: https://www.youtube.com/watch?v=SC-Y_o_fkbY
+
+Query: How does Gemini's function calling mechanism simplify the "Action" phase of a ReAct agent compared to traditional text-parsing approaches?
+
+Answer: The video tutorial demonstrates that with Gemini’s function calling, developers provide a set of existing functions to the model. When the model determines a function should be called, it outputs a structured response (not text), directly indicating which function to execute and with which parameters. This contrasts with earlier approaches where the model would generate textual commands that required parsing to extract actions and parameters. Gemini’s structured function call output makes it straightforward for agents to trigger actions, reducing opportunities for error and simplifying integration with external systems[5].
+
+-----
+
+-----
+
+</details>
+
+<details>
+<summary>What are the most common errors or failure modes when implementing a ReAct agent's control loop from scratch, and what are the best debugging strategies?</summary>
+
+### Source [35]: https://www.neradot.com/post/building-a-python-react-agent-class-a-step-by-step-guide
+
+Query: What are the most common errors or failure modes when implementing a ReAct agent's control loop from scratch, and what are the best debugging strategies?
+
+Answer: Common errors when implementing a ReAct agent’s control loop from scratch include:
+
+- **Improper initialization**: Failing to set up agent state correctly (e.g., not initializing `intermediate_steps`, `start_time`, or setting `is_started` properly) can cause later steps to fail or behave unpredictably.
+- **State mutation issues**: Not appending or managing steps in the reasoning/action loop properly, such as missing calls to `add_intermediate_step`, can result in incomplete reasoning traces or lost data.
+- **Verbosity and debugging**: Without proper use of the `verbose` flag for logging intermediate steps, tracking agent progress and identifying issues is difficult.
+
+Best debugging strategies:
+- **Verbose logging**: Enable the `verbose` flag to print each intermediate step and all agent actions. Review printed output during execution to spot logical errors or missed steps.
+- **Test with simple queries**: Start with basic inputs (e.g., “What is 2 + 2?”) to verify that the control loop runs and state updates as expected before handling complex tasks.
+- **Incremental development**: Build and test each method (e.g., `start`, `add_intermediate_step`) individually to isolate problems early.
+
+These strategies help ensure that the agent’s control loop operates as designed and errors in state management or execution are caught quickly[1].
+
+-----
+
+-----
+
+-----
+
+### Source [36]: https://docs.getdynamiq.ai/low-code-builder/llm-agents/guide-to-implementing-llm-agents-react-and-simple-agents
+
+Query: What are the most common errors or failure modes when implementing a ReAct agent's control loop from scratch, and what are the best debugging strategies?
+
+Answer: Common errors and failure modes:
+
+- **Tool misconfiguration**: Incorrect setup of external tools (e.g., ScaleSerp, ZenRows) may result in failed or inaccurate data retrieval.
+- **Improper loop termination**: Not setting a reasonable `max_loops` or lacking error handling can cause infinite loops or premature agent termination.
+- **Role ambiguity**: Unclear agent roles and behavioral guidelines may lead to inconsistent decision-making in the control loop.
+- **Error handling gaps**: Failure to configure robust error handling for tool failures, API timeouts, or data parsing errors can break the loop or produce misleading outputs.
+
+Best debugging strategies:
+- **Test with a series of queries** to evaluate agent responses, loop behavior, and data handling.
+- **Set practical `max_loops` limits** to prevent runaway execution and aid in diagnosing termination logic.
+- **Define clear roles and guidelines** for the agent to improve decision consistency and make debugging more straightforward.
+- **Configure comprehensive error handling** for both loop termination and tool usage, capturing exceptions and logging errors for review[2].
+
+-----
+
+-----
+
+-----
+
+### Source [37]: https://dylancastillo.co/posts/react-agent-langgraph.html
+
+Query: What are the most common errors or failure modes when implementing a ReAct agent's control loop from scratch, and what are the best debugging strategies?
+
+Answer: Common failure modes:
+
+- **Incorrect routing logic**: Errors in the `should_continue` control function can cause the agent to skip necessary tool invocations or terminate the loop prematurely.
+- **State update inconsistencies**: Mistakes in updating `MessagesState` after each step may lead to lost messages or improper sequencing, breaking the reasoning/action trace.
+- **Edge misconfiguration**: Incorrectly connecting nodes and edges in the agent’s graph (e.g., missing conditional transitions between LLM and tool nodes) can interrupt the control loop.
+
+Best debugging strategies:
+- **Inspect control logic** (e.g., `should_continue`): Carefully verify conditions for tool calls and loop termination.
+- **Trace state transitions**: Print or log the updated `MessagesState` after each step to confirm that messages and actions are stored and sequenced correctly.
+- **Validate graph connections**: Review agent graph structure to ensure all nodes and edges are correctly defined and transitions match expected control flow[3].
+
+-----
+
+-----
+
+-----
+
+### Source [38]: https://langchain-ai.github.io/langgraph/how-tos/react-agent-from-scratch/
+
+Query: What are the most common errors or failure modes when implementing a ReAct agent's control loop from scratch, and what are the best debugging strategies?
+
+Answer: Common errors and failure modes:
+
+- **State mismanagement**: Failing to properly define and update the agent’s state (e.g., the list of messages) can result in incomplete or incorrect reasoning/action cycles.
+- **Tool interface errors**: Incorrectly implementing or binding tools (such as not matching expected input/output formats) may prevent successful tool calls.
+- **Model-tool integration issues**: Problems in binding tools to the model, such as mismatched tool names or signatures, can break the agent’s action step.
+
+Best debugging strategies:
+- **Test state updates**: Use reducers (like `add_messages`) and confirm that the agent’s state reflects all intended messages and actions after each step.
+- **Validate tool calls**: Implement mock tools for initial debugging and verify that the agent calls tools correctly and receives expected outputs.
+- **Check model-tool binding**: Ensure tools are properly registered with the model and accessible during action selection[4].
+
+-----
+
+-----
+
+-----
+
+### Source [39]: https://docs.nvidia.com/aiqtoolkit/latest/workflows/about/react-agent.html
+
+Query: What are the most common errors or failure modes when implementing a ReAct agent's control loop from scratch, and what are the best debugging strategies?
+
+Answer: Common errors and failure modes:
+
+- **Skipping reasoning steps**: Not alternating properly between reasoning and acting can cause the agent to jump to actions without sufficient thought, reducing answer quality.
+- **Action/observation mismatch**: Failing to correctly process tool outputs or misinterpreting feedback can break the iterative loop and lead to irrelevant answers.
+- **Loop repetition errors**: Not handling repeated reasoning-action cycles may result in incomplete answers or missed opportunities to refine responses.
+
+Best debugging strategies:
+- **Walk through each iteration**: Manually trace the agent’s reasoning and action steps for sample queries to ensure the loop alternates correctly and feedback is incorporated.
+- **Monitor tool responses**: Verify that tool outputs are correctly received and summarized by the agent.
+- **Test with varied input problems**: Use diverse queries to check the agent’s ability to reason, act, and refine answers across multiple cycles[5].
+-----
+
+-----
+
+</details>
+
+<details>
+<summary>What are the essential components of a prompt template for the "Thought" generation step in a ReAct agent, and how should it be structured to include tool descriptions and conversation history?</summary>
+
+### Source [40]: https://www.mercity.ai/blog-post/react-prompting-and-react-based-agentic-systems
+
+Query: What are the essential components of a prompt template for the "Thought" generation step in a ReAct agent, and how should it be structured to include tool descriptions and conversation history?
+
+Answer: The essential components of a prompt template for the "Thought" generation step in a ReAct agent include a clear structure and explicit instructions to guide the language model through a **Thought/Action/Observation** cycle. The template must instruct the model to reason step-by-step about the current situation (Thought), specify an action (Action), and observe the result (Observation). The template should also include examples that show multiple cycles of this process, which illustrate how the agent should alternate between generating thoughts, performing actions, and observing outcomes.
+
+A typical prompt template should include:
+- **User Query**: The initial question or task.
+- **Example Trajectories**: Concrete, task-specific examples demonstrating several iterations of the Thought/Action/Observation cycle, culminating in a Final Answer. This shows the agent precisely how to reason and act.
+- **Explicit Format Instructions**: Clear formatting instructions such as:
+  - Thought: [agent's reasoning]
+  - Action: [the specific action to take]
+  - Observation: [result of the action]
+  - Repeat cycle as needed.
+  - Final Answer: [final response]
+- This structure supports the agent in maintaining a logical flow and encourages step-by-step reasoning.
+
+Including **tool descriptions** and the **conversation history** is implied through the context provided in the examples—where each action can represent a tool call, and previous thoughts, actions, and observations serve as the conversation history. The agent is expected to reference these prior steps as it continues reasoning, ensuring coherence and relevance in multi-step tasks.
+
+The prompt ends with instructions to always output in this specific format, reinforcing the cyclical structure critical for ReAct agents[1].
+
+-----
+
+-----
+
+-----
+
+### Source [41]: https://arize.com/blog-course/react-agent-llm/
+
+Query: What are the essential components of a prompt template for the "Thought" generation step in a ReAct agent, and how should it be structured to include tool descriptions and conversation history?
+
+Answer: The prompt template for a ReAct agent must provide:
+- **Descriptions and purposes of each tool** available to the agent, along with the specific input format required to trigger each tool.
+- An explicit **Thought/Action/Action Input/Observation** structure that can repeat for multiple steps as needed.
+- The inclusion of **{agent_scratchpad}** at the end of the prompt. This variable represents the running conversation history, allowing the model to reference all prior thoughts, actions, and observations, ensuring continuity and informed subsequent reasoning.
+- **Task-specific instructions** and, if desired, stylistic or output constraints (e.g., respond in a specific tone or with certain keywords).
+- The user's question ({input}) is included at the end, paired with the agent_scratchpad, so the agent always has access to both the original query and the evolving reasoning context.
+
+This structure ensures the agent can:
+- Leverage tool descriptions to select and use tools appropriately.
+- Use conversation history (via agent_scratchpad) to inform ongoing reasoning and avoid repetition or contradictions.
+- Produce outputs in a consistent, expected format for both reasoning and action steps[2].
+
+-----
+
+-----
+
+-----
+
+### Source [42]: https://www.width.ai/post/react-prompting
+
+Query: What are the essential components of a prompt template for the "Thought" generation step in a ReAct agent, and how should it be structured to include tool descriptions and conversation history?
+
+Answer: The key components for a ReAct prompt template, especially for the "Thought" step, are:
+- Inclusion of **task-specific in-context examples** that demonstrate the alternating cycle of thought, action, and observation. These few-shot examples are crucial for teaching the model the expected reasoning process and output structure.
+- Each example clearly labels:
+  - Thought: The agent's reasoning at that point.
+  - Action: The specific operation or tool usage.
+  - Observation: The result or data returned from the action.
+- The action step in examples should use specific, context-appropriate values, illustrating how the agent should translate generic instructions into concrete actions based on current input.
+- The number and content of examples should be determined experimentally, but only a handful (3-6) are typically needed to define expectations.
+
+While the content does not explicitly focus on tool descriptions, it implies that the examples themselves should demonstrate how to use available tools, and the history of thoughts/actions/observations forms the conversation context that the agent references in subsequent steps[3].
+
+-----
+
+-----
+
+-----
+
+### Source [43]: https://www.promptingguide.ai/techniques/react
+
+Query: What are the essential components of a prompt template for the "Thought" generation step in a ReAct agent, and how should it be structured to include tool descriptions and conversation history?
+
+Answer: A ReAct prompt template is organized to generate **verbal reasoning traces** ("Thought") and **actions** for a given task, leveraging both reasoning and acting steps. The essential components include:
+- A **user question** as the initial input.
+- A sequence of alternating "Thought" (reasoning) and "Action" steps, with "Observation" reflecting the real-world or external feedback received from each action.
+- Incorporation of **in-context examples** (few-shot learning) to demonstrate the expected process, though not shown in detail in the example provided.
+- The template effectively combines both reasoning (planning/deciding what to do next) and acting (interacting with tools or knowledge sources).
+
+The **conversation history** is maintained by including all prior thoughts, actions, and observations as context for the next step, allowing the agent to build upon what has already been deduced or discovered.
+
+While explicit instructions about tool descriptions are not given, the structure supports interaction with external tools or APIs, and the examples can be tailored to include tool usage as part of the action steps[4].
+
+-----
+
+</details>
+
+<details>
+<summary>What are effective strategies for designing a mock tool for a ReAct agent that is both simple for a tutorial and easily replaceable with a real-world API?</summary>
+
+### Source [44]: https://docs.getdynamiq.ai/low-code-builder/llm-agents/guide-to-implementing-llm-agents-react-and-simple-agents
+
+Query: What are effective strategies for designing a mock tool for a ReAct agent that is both simple for a tutorial and easily replaceable with a real-world API?
+
+Answer: For a ReAct agent, the tool integration process is modular and designed to be easily swappable, which is ideal for mock tool development in tutorials. The configuration steps include:
+
+- **Name**: Assign a unique identifier to distinguish the agent.
+- **Tools**: Integrate external services (mock or real APIs), such as search engines or data scrapers. These are modular, so you can start with a simple mock implementation and later replace it with a real-world API.
+- **Prompt Template**: Customize the agent’s prompt to describe tool functionality, input formats, and expected outputs for clarity.
+- **Max Loop & Behavior**: Set the maximum number of reasoning-action cycles and define the agent's response when the loop limit is reached, which is useful for controlling tutorial complexity.
+- **Inference Mode**: Use a standardized response format (XML is recommended) to facilitate consistent tool output parsing, making the switch from a mock to real tool seamless.
+- **Streaming**: Optionally enable incremental response generation to demonstrate real-world interaction patterns.
+- **Tool Parameters**: Allow specification of tool parameters in responses, ensuring the interface remains consistent across mock and production tools.
+
+By following these steps and leveraging the modularity in tool integration, you ensure that your mock tool is simple for demonstration but can be easily swapped for a real API by updating the tool configuration, not the agent logic.
+
+-----
+
+-----
+
+-----
+
+### Source [45]: https://dev.to/jamesli/react-vs-plan-and-execute-a-practical-comparison-of-llm-agent-patterns-4gh9
+
+Query: What are effective strategies for designing a mock tool for a ReAct agent that is both simple for a tutorial and easily replaceable with a real-world API?
+
+Answer: The ReAct agent pattern employs a reasoning-action loop, which iteratively selects and calls tools based on the agent’s reasoning process. When designing a mock tool for tutorials:
+
+- **Code Modularity**: Tools are implemented as independent, callable functions or classes. This makes it straightforward to substitute a mock tool with a real-world API by keeping the interface (method names, parameters, and outputs) unchanged.
+- **Prompt Engineering**: The ReAct pattern relies heavily on well-designed prompt templates. Mock tools should be described clearly in the prompt, with explicit input-output expectations, so that switching to a real API only requires updating the backend logic, not the user-facing interface or prompt.
+- **Testing and Analysis**: The modular structure allows for easy benchmarking of performance and accuracy between mock and real tools, ensuring the tutorial remains relevant as the system evolves.
+
+This approach ensures that ReAct agents can be taught with simple, mock tools that mirror the interface of real systems, making later replacement with production APIs trivial.
+
+-----
+
+-----
+
+-----
+
+### Source [46]: https://arize.com/blog-course/react-agent-llm/
+
+Query: What are effective strategies for designing a mock tool for a ReAct agent that is both simple for a tutorial and easily replaceable with a real-world API?
+
+Answer: When implementing a custom ReAct agent—especially for tutorials—most of the complexity lies in the prompt template and tool interface design:
+
+- **Tool List Definition**: Define tools as a list of callable entities (e.g., search or lookup functions). These can be implemented as simple mock functions for a tutorial, then swapped for real APIs later without changing the agent logic.
+- **Prompt Customization**: The prompt should include a description and purpose of each tool, the input format, and how the tool should be invoked. This clarity ensures that the agent (and users) interact with the mock tool in the same way as they would with a real API.
+- **Agent Memory**: Retain explicit asks and responses in memory (e.g., using an agent scratchpad), which supports step-by-step reasoning and is agnostic to whether the tool is mock or real.
+- **Iterative Design**: Customize prompt templates and tool outputs by running examples and refining as needed, making it easy to identify and fix mismatches before integrating a real-world API.
+
+These strategies ensure the mock tool is both simple for learning and structured for easy replacement.
+
+-----
+
+-----
+
+-----
+
+### Source [47]: https://docs.nvidia.com/aiqtoolkit/latest/workflows/about/react-agent.html
+
+Query: What are effective strategies for designing a mock tool for a ReAct agent that is both simple for a tutorial and easily replaceable with a real-world API?
+
+Answer: The NVIDIA Agent Intelligence Toolkit provides a flexible ReAct agent system emphasizing ease of tool integration and replacement:
+
+- **Pre-built Tools & Plugins**: The system supports the integration of both built-in and custom tools via a plugin system. For tutorials, you can implement a mock tool as a plugin, and later swap it for a real-world API by simply updating the plugin.
+- **Customizable Prompts**: The agent’s prompt can be modified to specify tool names, descriptions, and usage, ensuring clarity for both mock and real tools.
+- **Configurable Workflows**: Agent workflows are fully configurable (e.g., via YAML), allowing developers to switch between mock and real tools without altering the agent’s core logic.
+- **Developer Experience**: The toolkit is designed for rapid prototyping and deployment, facilitating fast iteration on mock tools for tutorials and straightforward migration to production APIs.
+
+This modular, plugin-based approach ensures mock tools are easy to implement, demonstrate, and later replace.
+
+-----
+
+-----
+
+-----
+
+### Source [48]: https://www.anthropic.com/research/building-effective-agents
+
+Query: What are effective strategies for designing a mock tool for a ReAct agent that is both simple for a tutorial and easily replaceable with a real-world API?
+
+Answer: Anthropic emphasizes the importance of designing agent-computer interfaces (ACI) with the same care as human-computer interfaces:
+
+- **Clarity in Tool Definition**: Provide clear tool descriptions, example usage, input format requirements, and boundaries between tools. This makes mock tools easy to use and later replace because their interface is unambiguous.
+- **Parameter Naming & Documentation**: Name parameters and describe them clearly, as if writing documentation for a junior developer. This reduces errors and simplifies the transition from mock to real-world APIs.
+- **Test and Iterate**: Run extensive tests with sample inputs to identify and correct model errors, iterating on the tool design until the agent consistently uses tools correctly. This process ensures that both mock and real tools are robustly integrated.
+- **Poka-yoke (Error-proofing)**: Structure tool arguments to minimize mistakes. For example, require absolute file paths if relative paths cause errors. Such constraints apply equally to mock and real tools, making replacement seamless.
+
+These practices ensure that a mock tool is not only simple for tutorials but also structured to be easily swapped for a production API with minimal risk of error.
+
+-----
+
+</details>
+
+<details>
+<summary>What are the fundamental principles of the ReAct (Reason+Act) framework and how does it create synergy between reasoning and acting in large language models?</summary>
+
+### Source [49]: https://dev.to/rijultp/react-reason-act-a-smarter-way-for-language-models-to-think-and-do-344o
+
+Query: What are the fundamental principles of the ReAct (Reason+Act) framework and how does it create synergy between reasoning and acting in large language models?
+
+Answer: The ReAct (Reason + Act) framework is designed to enhance large language models (LLMs) by structuring their approach to complex tasks around two alternating steps: **Reason** and **Act**. In the Reason step, the model articulates its current understanding, relevant facts, and what it intends to do next. In the Act step, the model performs an action based on its reasoning, such as calling an API, executing a command, or retrieving information. The result of each action is looped back as new input, prompting the model to reason again, and the process repeats until the task is complete.
+
+This structured alternation provides several benefits:
+- **Transparency:** Every step is explicit, allowing users to follow the model's thought process, which facilitates debugging and performance improvement.
+- **Efficiency:** By separating reasoning from action, the model is less likely to take unnecessary steps, staying focused on the task.
+- **Control:** Developers can monitor and intervene at each step, refining reasoning or actions as needed.
+- **Synergy:** The loop leverages LLMs’ strengths in both reasoning and action selection, enabling them to solve more complex, multi-step tasks.
+
+-----
+
+-----
+
+-----
+
+### Source [50]: https://learnprompting.org/docs/agents/react
+
+Query: What are the fundamental principles of the ReAct (Reason+Act) framework and how does it create synergy between reasoning and acting in large language models?
+
+Answer: The ReAct paradigm enables LLMs to solve complex tasks by combining **natural language reasoning** with **actions** such as retrieving external information. ReAct extends Modular Reasoning, Knowledge, and Language (MRKL) systems by allowing models to reason about the actions they can perform.
+
+A typical ReAct loop involves:
+- The model generating a reasoning step (a "thought").
+- The model performing an action (e.g., querying a search engine).
+- The environment providing an observation in response to the action.
+- The model reasoning again based on new information, continuing the loop until the task is solved.
+
+This iterative thought-action cycle is likened to the reinforcement learning paradigm of state, action, and reward, formalizing the process of reasoning and acting. By integrating external information and reasoning steps, ReAct improves LLMs' ability to handle tasks requiring multiple, coordinated actions based on dynamic information.
+
+-----
+
+-----
+
+-----
+
+### Source [51]: https://tsmatz.wordpress.com/2023/03/07/react-with-openai-gpt-and-langchain/
+
+Query: What are the fundamental principles of the ReAct (Reason+Act) framework and how does it create synergy between reasoning and acting in large language models?
+
+Answer: ReAct (Reasoning + Acting) is a foundational framework for building agentic applications with LLMs, underpinning tools like Microsoft Copilot, ChatGPT plugins, and AutoGPT. The ReAct method decomposes complex tasks into simpler subtasks through iterative reasoning and acting.
+
+The LLM alternates between:
+- Reasoning to decide what external tool or action is needed.
+- Pausing to receive the outcome (observation) from the action or tool.
+- Updating its reasoning based on the accumulated observations and deciding the next action.
+
+For instance, the LLM can issue "Search" or "Lookup" commands to external APIs, simulating human behaviors like web searches or document lookups. This loop continues until an answer is found or the model determines the task is impossible.
+
+This architecture is sometimes called "Augmented Language Models" (ALMs), highlighting the synergy between intrinsic reasoning and extrinsic tool use, which enhances the LLM’s ability to solve real-world, multi-step problems.
+
+-----
+
+-----
+
+-----
+
+### Source [52]: https://react-lm.github.io
+
+Query: What are the fundamental principles of the ReAct (Reason+Act) framework and how does it create synergy between reasoning and acting in large language models?
+
+Answer: The ReAct approach combines the traditionally separate abilities of LLMs to reason (such as through chain-of-thought prompting) and to act (such as generating action plans for decision making). ReAct prompts consist of **interleaved reasoning traces, actions, and observations** from the environment.
+
+**Key principles:**
+- Reasoning traces help the model induce, track, and update action plans and manage exceptions.
+- Actions enable the model to interface with external sources (like knowledge bases or APIs) to gather information.
+- The synergy between reasoning and acting allows the model to dynamically adapt its plan based on new evidence, reducing hallucinations and error propagation.
+
+ReAct has been applied successfully to tasks such as question answering and fact verification, where it demonstrated fewer errors and greater human interpretability compared to methods using only reasoning or acting. In interactive decision-making tasks, ReAct outperformed both imitation and reinforcement learning methods, achieving higher success rates with minimal in-context examples. The approach produces human-like, transparent task-solving trajectories, increasing interpretability and trustworthiness.
+
+-----
+
+</details>
+
+<details>
+<summary>How does the iterative, single-step reasoning of the ReAct agent architecture compare to the multi-step approach of Plan-and-Execute agents, particularly in terms of adaptability and error handling?</summary>
+
+### Source [53]: https://www.dailydoseofds.com/ai-agents-crash-course-part-10-with-implementation/
+
+Query: How does the iterative, single-step reasoning of the ReAct agent architecture compare to the multi-step approach of Plan-and-Execute agents, particularly in terms of adaptability and error handling?
+
+Answer: The **ReAct agent architecture** operates through an iterative loop: Thought → Action → Observation, repeating until a solution is found. In each cycle, the agent analyzes the current context, reasons internally (the "Thought" step), performs an action (such as calling a tool), and then observes the result of that action before starting the next reasoning step. This single-step, iterative approach allows the agent to dynamically adjust its reasoning and actions in response to real-time feedback from the environment. Adaptability is thus high, as each new observation can immediately influence the next reasoning step. In terms of **error handling**, if an action produces unexpected results, the agent can incorporate this feedback and choose a new course of action in the next iteration. This contrasts with architectures that plan multiple steps ahead without intermediate feedback, which may be less responsive to errors that occur mid-plan.
+
+-----
+
+-----
+
+-----
+
+### Source [54]: https://arxiv.org/html/2404.11584v1
+
+Query: How does the iterative, single-step reasoning of the ReAct agent architecture compare to the multi-step approach of Plan-and-Execute agents, particularly in terms of adaptability and error handling?
+
+Answer: Single-agent models like **ReAct** and related architectures emphasize the importance of dedicated reasoning stages before each action. The architecture allows for **self-evaluation and self-correction** at each reasoning step. The paper observes that if agents lack the ability to self-correct or plan effectively at each step, they can become stuck in execution loops or fail to meet user expectations. For straightforward tasks requiring tool calls, this single-step, iterative approach is effective. However, when comparing to **multi-step Plan-and-Execute agents**, which create and follow more extensive plans before acting, the document highlights that adaptability and real-time adjustment may be more limited in such multi-step approaches, particularly if feedback is not incorporated between planning and execution phases. Therefore, ReAct's stepwise reasoning is especially advantageous for tasks where adaptability and error recovery are important.
+
+-----
+
+-----
+
+-----
+
+### Source [55]: https://aws.plainenglish.io/what-is-react-reasoning-pattern-how-it-makes-amazon-bedrock-agents-a-powerful-service-to-build-ai-c29e2d883d05
+
+Query: How does the iterative, single-step reasoning of the ReAct agent architecture compare to the multi-step approach of Plan-and-Execute agents, particularly in terms of adaptability and error handling?
+
+Answer: The **ReAct reasoning pattern** enables agents to break down problems into a sequence of reasoning and actions, interleaving them to allow step-by-step adaptation. In this model, after each action is taken, the agent evaluates the result and updates its reasoning trace accordingly. This **stepwise approach** is distinct from generating a full solution or plan at once, as is common with some Plan-and-Execute agents. The advantage for **adaptability** is clear: the agent can respond to unforeseen changes or errors as soon as they are detected, rather than waiting until the end of a multi-step plan. In terms of **error handling**, mistakes can be caught and addressed in near real-time, reducing the risk of propagating errors across multiple steps. By contrast, multi-step Plan-and-Execute agents may be less able to adjust mid-execution, especially if feedback mechanisms are not integrated into the execution phase.
+
+-----
+
+-----
+
+-----
+
+### Source [56]: https://www.promptingguide.ai/techniques/react
+
+Query: How does the iterative, single-step reasoning of the ReAct agent architecture compare to the multi-step approach of Plan-and-Execute agents, particularly in terms of adaptability and error handling?
+
+Answer: **ReAct** combines verbal reasoning and actions, prompting LLMs to generate a stepwise reasoning trace and take actions after each step. This allows for dynamic reasoning, where the agent creates, maintains, and adjusts its plan with each new observation from the environment. The architecture is explicitly designed to incorporate **external feedback at every step**, enabling the agent to update its knowledge and plans continually. This stands in contrast to pure chain-of-thought prompting (which may hallucinate or propagate errors due to static knowledge) and to multi-step plan-execute models, which may be less responsive to real-time changes. In **error handling**, the iterative structure of ReAct allows for continuous correction, as actions and observations are interleaved, making it well-suited for environments where adaptability is required.
+
+-----
+
+-----
+
+-----
+
+### Source [57]: https://www.dailydoseofds.com/p/intro-to-react-reasoning-and-action-agents/
+
+Query: How does the iterative, single-step reasoning of the ReAct agent architecture compare to the multi-step approach of Plan-and-Execute agents, particularly in terms of adaptability and error handling?
+
+Answer: **ReAct agents** integrate reasoning and actions, allowing LLMs not only to plan but also to interact with the external world in response to changing circumstances. In a practical workflow, the agent understands the query, selects appropriate tools, gathers information, and adapts its answers based on feedback—repeating this process as needed. This architecture is ideal for real-time adaptation and continuous decision-making, as each step in the process can be revised based on new information or errors encountered. This is a core distinction from **multi-step Plan-and-Execute agents**, which may formulate an entire plan before acting and therefore may be slower to respond to unexpected changes or errors detected during execution. The ReAct architecture inherently supports fine-grained adaptability and iterative error correction thanks to its single-step cycle structure.
+
+-----
+
+</details>
+
+<details>
+<summary>What is the specific role of the 'Observation' step in a ReAct agent's control loop, and how does processing external feedback from tools influence the agent's subsequent 'Thought' and 'Action' steps?</summary>
+
+### Source [58]: https://www.dailydoseofds.com/ai-agents-crash-course-part-10-with-implementation/
+
+Query: What is the specific role of the 'Observation' step in a ReAct agent's control loop, and how does processing external feedback from tools influence the agent's subsequent 'Thought' and 'Action' steps?
+
+Answer: In the ReAct agentic pattern, the agent operates in a loop of **Thought → Action → Observation**. The 'Observation' step occurs after the agent takes an action, such as querying a tool or searching the internet. This step involves processing the output from the tool, which might include structured data, text snippets, or URLs provided in response to the agent's action.
+
+The specific role of the 'Observation' step is to **integrate the external feedback or results from the tool back into the agent's reasoning loop**. For example, after issuing a search query, the agent observes the results and uses them as new context for its next reasoning cycle. This observed information directly influences the subsequent 'Thought' step, as the agent must reason about the new information, decide if its goal has been met, or if further actions are necessary. The agent's next 'Action' will be chosen based on both its internal plan and the latest observed feedback, enabling dynamic adaptation and iterative improvement towards the goal.
+
+Thus, **processing external feedback in 'Observation' is crucial**—it closes the loop, enabling the agent to refine its approach, validate outcomes, and avoid acting blindly or repeatedly without learning from previous steps. This makes the agent interactive and adaptive rather than static or rigid.
+
+-----
+
+-----
+
+-----
+
+### Source [59]: https://dylancastillo.co/posts/react-agent-langgraph.html
+
+Query: What is the specific role of the 'Observation' step in a ReAct agent's control loop, and how does processing external feedback from tools influence the agent's subsequent 'Thought' and 'Action' steps?
+
+Answer: In a ReAct agent, the **think-act-observe loop** is implemented as a cycle in which the output of the 'Action' (typically tool execution) is passed into the 'Observation' step. The observation is then routed back as input to the LLM for the next round of reasoning.
+
+The 'Observation' step serves as the **mechanism to capture and process the outcome of the agent's most recent action**. This could be the response from an API, the result of a database lookup, or any relevant output from an external tool. Once observed, this feedback is appended to the agent's message state or conversation history.
+
+This updated state is then used as the primary context for the next 'Thought' step, where the LLM re-evaluates its plan based on the new information. Thus, **the agent's ability to process and incorporate external feedback through 'Observation' directly influences the subsequent reasoning ('Thought') and the selection of future actions**, ensuring the agent's behavior is responsive and context-aware.
+
+-----
+
+-----
+
+-----
+
+### Source [60]: https://www.nutrient.io/blog/rewoo-vs-react-choosing-right-agent-architecture/
+
+Query: What is the specific role of the 'Observation' step in a ReAct agent's control loop, and how does processing external feedback from tools influence the agent's subsequent 'Thought' and 'Action' steps?
+
+Answer: In the ReAct agent architecture, the loop of **generating a thought, taking an action, and then observing the result** is fundamental. The 'Observation' step is where the agent **receives and interprets the result of its previous action**, such as the output from a search or an API call.
+
+Processing this external feedback is what enables the agent to **adapt its strategy dynamically**. After each observation, the agent re-engages its reasoning process ('Thought'), now informed by the latest data, and decides on the next best action. This cycle continues until the agent achieves its objective or exhausts its options.
+
+The feedback loop created by the 'Observation' step is particularly powerful for tasks that are open-ended or where the pathway to the solution is not predefined. **The agent's effectiveness relies on how well it integrates observed results into its ongoing reasoning**, often outperforming agents that lack this iterative, feedback-driven structure.
+
+-----
+
+-----
+
+-----
+
+### Source [61]: https://langchain-ai.github.io/langgraphjs/concepts/agentic_concepts/
+
+Query: What is the specific role of the 'Observation' step in a ReAct agent's control loop, and how does processing external feedback from tools influence the agent's subsequent 'Thought' and 'Action' steps?
+
+Answer: In the ReAct architecture, the 'Observation' step follows tool execution and involves the **agent processing the output from an external tool**. This could be data retrieved from an API, a result from a search, or any other structured response.
+
+The agent uses 'Observation' to **update its internal memory and context** with the latest feedback, which becomes essential input for subsequent reasoning ('Thought') steps. This allows the agent to **make informed, multi-step decisions**, leveraging both its prior knowledge and the most current external information.
+
+Integrating tool results via 'Observation' ensures that the agent doesn't act in isolation but rather **continuously refines its plan and actions based on real-world feedback**. This dynamic loop is key to enabling flexible, robust, and interactive agent behaviors across complex tasks.
+
+-----
+
+-----
+
+-----
+
+### Source [62]: https://langchain-ai.github.io/langgraph/concepts/agentic_concepts/
+
+Query: What is the specific role of the 'Observation' step in a ReAct agent's control loop, and how does processing external feedback from tools influence the agent's subsequent 'Thought' and 'Action' steps?
+
+Answer: The 'Observation' step in ReAct agent architectures is the **process by which the agent receives and processes outputs from external tools**. For instance, after calling an API or function, the agent observes the result and incorporates it into its current context or memory.
+
+This step is critical because it **enables the agent to ground its reasoning and future actions in the most recent, externally validated information**. With each observation, the agent can update its plan, correct mistakes, or decide if additional steps are necessary.
+
+By processing feedback from tools in the 'Observation' step, the agent's next 'Thought' and 'Action' are **informed by a richer, continuously updated context**, supporting more sophisticated and adaptive problem-solving. This iterative, observation-informed process distinguishes ReAct agents from simpler, single-pass or non-interactive agent designs.
+
+-----
+
+-----
+
+</details>
+
+<details>
+<summary>What are the best practices for designing the 'Action Phase' of a ReAct agent when using Gemini's native function calling, specifically regarding prompt strategy and the separation of strategic guidance from technical tool details?</summary>
+
+### Source [63]: https://ai.gopubby.com/react-ai-agent-from-scratch-using-deepseek-handling-memory-tools-without-frameworks-cabda9094273
+
+Query: What are the best practices for designing the 'Action Phase' of a ReAct agent when using Gemini's native function calling, specifically regarding prompt strategy and the separation of strategic guidance from technical tool details?
+
+Answer: This guide details the architecture and execution flow of a ReAct agent, emphasizing the **Thought-Action-Observation loop** as the agent’s core. In the Action Phase, the agent’s logic involves:
+- **Processing user input** and determining the required action using the `think` function, which performs reasoning before any tool invocation.
+- **Executing the action** (i.e., function call or tool use) only after a reasoning step has clarified the intent and requirements.
+- **Separating strategy and technical details**: Strategic guidance, such as when and why to use a tool, is embedded in the system prompt and demonstrated through few-shot examples. The technical details about tool usage (API parameters, expected input/output format) are encapsulated within the action execution logic, not exposed in strategic reasoning or prompts.
+- **System prompt design**: The system prompt serves to guide the agent’s high-level decision-making and includes instructions/examples for when to trigger an action. It avoids technical API specifics, which are handled in the code, keeping prompts focused on strategy and intent.
+
+Best practices from this approach:
+- **Keep the system prompt focused on reasoning and intent**, using few-shot demonstrations for tool selection.
+- **Encapsulate tool-specific technical instructions within the agent’s code**, not within the prompt.
+- **Maintain a clear separation between strategic guidance (when and why to act) and the technical mechanics (how to act).**
+- The agent executes the action and then observes the result, feeding it back into the reasoning loop for the next step.
+
+This structure ensures modularity and clarity, making the agent’s reasoning transparent while isolating technical details for easier maintenance and adaptation to new tools.
+
+-----
+
+-----
+
+-----
+
+### Source [64]: https://ai.google.dev/gemini-api/docs/langgraph-example
+
+Query: What are the best practices for designing the 'Action Phase' of a ReAct agent when using Gemini's native function calling, specifically regarding prompt strategy and the separation of strategic guidance from technical tool details?
+
+Answer: This practical example demonstrates building a ReAct agent with Gemini 2.5 and LangGraph, highlighting **state management and action execution**:
+- The agent’s state includes the conversation history and a step counter, ensuring context is maintained across iterative reasoning and action steps.
+- The action phase is triggered after a reasoning step, where the agent decides, based on accumulated context, whether and which function to call (e.g., a weather API).
+- **Prompt strategy**: The agent’s prompt provides high-level instructions and examples of tool use, but does not expose technical details of the function signature. Instead, the code manages function invocation and response handling.
+- **Separation of concerns**: Strategic guidance on “when” and “why” to use a tool is modeled in the prompt and agent logic, whereas the “how” (parameters, function schema) is abstracted away in code, reducing cognitive load on the LLM.
+
+The example uses helper utilities like `add_messages` to keep action results and observations organized, maintaining a strict loop: Reason → Act (function call) → Observe → Reason.
+
+-----
+
+-----
+
+-----
+
+### Source [65]: https://developers.googleblog.com/en/building-agents-google-gemini-open-source-frameworks/
+
+Query: What are the best practices for designing the 'Action Phase' of a ReAct agent when using Gemini's native function calling, specifically regarding prompt strategy and the separation of strategic guidance from technical tool details?
+
+Answer: This blog post outlines **best practices in agent design with Gemini and open-source frameworks**, emphasizing:
+- **Advanced function calling**: Gemini’s models support direct, structured function calls, allowing the agent to trigger specific actions based on its reasoning.
+- **Framework-assisted separation**: When using frameworks like LangGraph, the agent’s workflow is explicitly modeled as a graph, where each node represents either a reasoning step or an action (function call/tool use).
+- **Prompt role**: The prompt guides the LLM’s strategic reasoning and intent—when to use a tool, not how to use it. Tool schemas and calling details are configured in the framework and abstracted from the prompt.
+- **Iterative reflection**: The agent reflects on observations (function call results) before determining the next action, ensuring that technical tool details remain outside the agent’s high-level reasoning.
+
+The recommended approach:
+- Use prompts for **strategic guidance and intent articulation**.
+- **Encapsulate technical API and tool details in code or framework configuration**, not in prompts.
+- Enable stepwise, transparent agent reasoning by keeping action execution modular and separate from strategy.
+
+-----
+
+-----
+
+</details>
+
+<details>
+<summary>What are the most common failure modes and debugging strategies for a ReAct agent's control loop, specifically addressing issues like hallucination, error propagation, and improper loop termination?</summary>
+
+### Source [66]: https://arxiv.org/pdf/2503.13657
+
+Query: What are the most common failure modes and debugging strategies for a ReAct agent's control loop, specifically addressing issues like hallucination, error propagation, and improper loop termination?
+
+Answer: This paper introduces the MAST taxonomy, which organizes multi-agent system (MAS) failure modes—including those relevant to ReAct agents—into three main categories: Specification Issues, Execution Failures, and Post-Execution Failures. 
+
+- **Specification Issues (FC1):** These failures are rooted in system design choices and ambiguous prompt specifications. Poorly defined control logic or insufficiently clear instructions can lead to improper loop termination, hallucination, or error propagation. For example, an agent may terminate too early if the stop condition is vague, or may propagate errors if the design does not properly handle intermediate mistakes.
+- The taxonomy emphasizes that many observed failures (like hallucination and error propagation) are not solely due to language model limitations, but also stem from structural and design flaws in the agent's control loop.
+- Debugging strategies require more than superficial fixes; they often necessitate structural redesigns to clarify specifications, handle error states, and enforce correct loop termination conditions.
+
+The paper provides detailed definitions and examples for each failure mode, demonstrating that effective debugging involves both analyzing agent outputs and systematically evaluating system design choices impacting the control loop[1].
+
+-----
+
+-----
+
+-----
+
+### Source [67]: https://inspect.aisi.org.uk/react-agent.html
+
+Query: What are the most common failure modes and debugging strategies for a ReAct agent's control loop, specifically addressing issues like hallucination, error propagation, and improper loop termination?
+
+Answer: This resource focuses on the **control loop termination problem** in ReAct agents. 
+
+- Some agents may unintentionally stop calling tools, for instance, by stating an intention to call a tool but failing to execute the actual call. This leads to **improper loop termination**.
+- The recommended debugging and mitigation strategy is to implement an explicit `submit()` tool. By requiring the agent to call `submit()` to signal task completion, accidental or premature termination is avoided, and the agent is encouraged to keep iterating until it is truly finished.
+- This approach enables support for **multiple attempts** at solving a task and provides clearer boundaries for loop termination.
+- If disabling the `submit()` tool, developers can control termination with a custom handler, but this increases the risk that the agent will halt at the wrong time.
+
+Explicit signaling with a `submit()` tool is a practical solution for debugging and reducing control loop errors, though it may not be appropriate in every application domain[2].
+
+-----
+
+-----
+
+-----
+
+### Source [68]: https://huyenchip.com/2025/01/07/agents.html
+
+Query: What are the most common failure modes and debugging strategies for a ReAct agent's control loop, specifically addressing issues like hallucination, error propagation, and improper loop termination?
+
+Answer: This source outlines several **common failure modes** for agents—including ReAct agents—and offers practical **evaluation and debugging strategies**:
+
+- **Hallucination:** The agent may be convinced that it has accomplished a task when it has not, such as miscounting assignments or missing requirements. This is often due to errors in reflection and planning.
+- **Error Propagation:** Errors in one tool call or step can lead to compounding mistakes in subsequent steps, especially if the agent does not verify outputs before proceeding.
+- **Improper Loop Termination:** The agent might stop execution before the task is complete due to misinterpretation of goal state or an error in control logic.
+
+**Debugging strategies include:**
+- Creating datasets of tasks and tool inventories, generating multiple plans, and measuring the validity of outputs.
+- Tracking metrics such as: proportion of valid plans, frequency of invalid tool calls, and parameter correctness.
+- Analyzing output patterns to identify recurrent failure types or particularly troublesome tools.
+- Improving performance with better prompting, more examples, or finetuning; if a specific tool is problematic, consider replacing it.
+
+These strategies help isolate failure points (hallucination, error propagation, loop termination) and inform targeted interventions[3].
+
+-----
+
+-----
+
+-----
+
+### Source [69]: https://www.nutrient.io/blog/rewoo-vs-react-choosing-right-agent-architecture/
+
+Query: What are the most common failure modes and debugging strategies for a ReAct agent's control loop, specifically addressing issues like hallucination, error propagation, and improper loop termination?
+
+Answer: This article compares ReAct and ReWOO agent architectures, focusing on the **trade-offs of the ReAct loop**:
+
+- The ReAct agent's "think-act-observe" loop is well suited to interactive, dynamic tasks requiring real-time adjustment.
+- **Drawbacks** include the risk of high computational cost and latency, as each iteration requires a new prompt with the full history. If the agent does not converge quickly, the loop may become slow and expensive.
+- The variance in reliability and efficiency is largely due to the agent’s tool access and the model’s ability to reason and act effectively.
+- The article implies that failures such as hallucination or improper termination are often related to the agent's difficulty in correctly using tools or interpreting feedback, especially in ambiguous tasks.
+
+While not focused on specific debugging strategies, it highlights the importance of matching the agent architecture to the task and being mindful of the loop's potential inefficiencies and error sources[4].
+
+-----
+
+-----
+
+-----
+
+### Source [70]: https://www.lesswrong.com/posts/sekmz9EiBD6ByZpyp/detecting-ai-agent-failure-modes-in-simulations
+
+Query: What are the most common failure modes and debugging strategies for a ReAct agent's control loop, specifically addressing issues like hallucination, error propagation, and improper loop termination?
+
+Answer: This case study describes simulation-based detection and resolution of AI agent failure modes, with findings relevant to ReAct agents:
+
+- **Unintended Tool Usage:** The agent sometimes used tools (commands) in ways that were not intended, such as acting outside the permitted spatial boundaries or using commands that crashed the system. This is a form of **error propagation** and improper action selection.
+- **Prompt Refinement:** Early versions of the system prompt led to mistakes; refining the prompt helped reduce errors. This demonstrates the importance of prompt clarity for controlling hallucination and minimizing error propagation.
+- **Debugging Strategy:** The system maintained a sliding window of recent actions and continually prompted the agent to "Continue," preventing the context window from overflowing and reducing the risk of hallucination or infinite loops.
+- **Outcome:** By iteratively refining the prompt and monitoring the agent’s actions, the team was able to identify and address failure modes, improving overall reliability.
+
+This approach underscores the importance of **prompt engineering, monitoring, and iterative refinement** in debugging and improving agent control loops[5].
 -----
 
 -----
@@ -696,2730 +1241,757 @@ Although this section does not mention mock search tools directly, its emphasis 
 ## Sources Scraped From Research Results
 
 <details>
-<summary>Generating Structured Output / JSON from LLMs</summary>
+<summary>First proposed by [ReAct](https://arxiv.org/abs/2210.03629) (Yao et al., 2022), interleaving reasoning and action has become a common pattern for agents. Yao et al. used the term “reasoning” to encompass both planning and reflection. At each step, the agent is asked to explain its thinking (planning), take actions, then analyze observations (reflection), until the task is considered finished by the agent. The agent is typically prompted, using examples, to generate outputs in the following format:</summary>
 
-# Generating Structured Output / JSON from LLMs
+First proposed by [ReAct](https://arxiv.org/abs/2210.03629) (Yao et al., 2022), interleaving reasoning and action has become a common pattern for agents. Yao et al. used the term “reasoning” to encompass both planning and reflection. At each step, the agent is asked to explain its thinking (planning), take actions, then analyze observations (reflection), until the task is considered finished by the agent. The agent is typically prompted, using examples, to generate outputs in the following format:
 
-Language models have seen significant growth. Using them effectively often requires complex frameworks. This post discusses how Instructor simplifies this process using Pydantic.
+```
+Thought 1: …
+Act 1: …
+Observation 1: …
 
-## The Problem with Existing LLM Frameworks
+… [continue until reflection determines that the task is finished] …
 
-Current frameworks for Language Learning Models (LLMs) have complex setups. Developers find it hard to control interactions with language models. Some frameworks require complex JSON Schema setups.
+Thought N: …
+Act N: Finish [Response to query]
 
-## The OpenAI Function Calling Game-Changer
-
-OpenAI's Function Calling feature provides a constrained interaction model. However, it has its own complexities, mostly around JSON Schema.
-
-## Why Pydantic?
-
-Instructor uses Pydantic to simplify the interaction between the programmer and the language model.
-
-- **Widespread Adoption**: Pydantic is a popular tool among Python developers.
-- **Simplicity**: Pydantic allows model definition in Python.
-- **Framework Compatibility**: Many Python frameworks already use Pydantic.
-
-```python
-import pydantic
-import instructor
-from openai import OpenAI
-
-# Enables the response_model
-client = instructor.from_openai(OpenAI())
-
-class UserDetail(pydantic.BaseModel):
-    name: str
-    age: int
-
-    def introduce(self):
-        return f"Hello I'm {self.name} and I'm {self.age} years old"
-
-user: UserDetail = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    response_model=UserDetail,
-    messages=[\
-        {"role": "user", "content": "Extract Jason is 25 years old"},\
-    ],
-)
 ```
 
-## Simplifying Validation Flow with Pydantic
-
-Pydantic validators simplify features like re-asking or self-critique. This makes these tasks less complex compared to other frameworks.
-
-```python
-from typing_extensions import Annotated
-from pydantic import BaseModel, BeforeValidator
-from instructor import llm_validator
-
-class QuestionAnswerNoEvil(BaseModel):
-    question: str
-    answer: Annotated[\
-        str,\
-        BeforeValidator(llm_validator("don't say objectionable things")),\
-    ]
-```
-
-## The Modular Approach
-
-Pydantic allows for modular output schemas. This leads to more organized code.
-
-### Composition of Schemas
-
-```python
-class UserDetails(BaseModel):
-    name: str
-    age: int
-
-class UserWithAddress(UserDetails):
-    address: str
-```
-
-### Defining Relationships
-
-```python
-class UserDetail(BaseModel):
-    id: int
-    age: int
-    name: str
-    friends: List[int]
-
-class UserRelationships(BaseModel):
-    users: List[UserDetail]
-```
-
-### Using Enums
-
-```python
-from enum import Enum, auto
-
-class Role(Enum):
-    PRINCIPAL = auto()
-    TEACHER = auto()
-    STUDENT = auto()
-    OTHER = auto()
-
-class UserDetail(BaseModel):
-    age: int
-    name: str
-    role: Role
-```
-
-### Flexible Schemas
-
-```python
-from typing import List
-
-class Property(BaseModel):
-    key: str
-    value: str
-
-class UserDetail(BaseModel):
-    age: int
-    name: str
-    properties: List[Property]
-```
-
-### Chain of Thought
-
-```python
-class TimeRange(BaseModel):
-    chain_of_thought: str
-    start_time: int
-    end_time: int
-
-class UserDetail(BaseModel):
-    id: int
-    age: int
-    name: str
-    work_time: TimeRange
-    leisure_time: TimeRange
-```
-
-## Language Models as Microservices
-
-The architecture resembles FastAPI. Most code can be written as Python functions that use Pydantic objects. This eliminates the need for prompt chains.
-
-### FastAPI Stub
-
-```python
-import fastapi
-from pydantic import BaseModel
-
-class UserDetails(BaseModel):
-    name: str
-    age: int
-
-app = fastapi.FastAPI()
-
-@app.get("/user/{user_id}", response_model=UserDetails)
-async def get_user(user_id: int) -> UserDetails:
-    return ...
-```
-
-### Using Instructor as a Function
-
-```python
-def extract_user(str) -> UserDetails:
-    return client.chat.completions(
-           response_model=UserDetails,
-           messages=[]
-    )
-```
-
-### Response Modeling
-
-```python
-class MaybeUser(BaseModel):
-    result: Optional[UserDetail]
-    error: bool
-    message: Optional[str]
-```
-
-## Conclusion
-
-Instructor, with Pydantic, simplifies interaction with language models. It is usable for both experienced and new developers.
+Figure 6-12 shows an example of an agent following the ReAct framework responding to a question from HotpotQA ( [Yang et al., 2018](https://arxiv.org/abs/1809.09600)), a benchmark for multi-hop question answering.https://huyenchip.com/assets/pics/agents/5-ReAct.png
+Figure 6-12: A ReAct agent in action.
 
 </details>
 
 <details>
-<summary>How to Interact with APIs Using Function Calling in Gemini</summary>
+<summary>This content is not relevant to the article guidelines.</summary>
 
-# How to Interact with APIs Using Function Calling in Gemini
-
-## What is function calling in Gemini?
-
-The [Vertex AI Gemini API](https://cloud.google.com/vertex-ai/docs/generative-ai/multimodal/overview) is a family of generative AI models developed by Google DeepMind that is designed for multimodal use cases. [Function calling](https://cloud.google.com/vertex-ai/docs/generative-ai/multimodal/function-calling) is a feature of Gemini models that makes it easier for developers to get structured data outputs from generative models.
-
-Developers can then use these outputs to call other APIs and return the relevant response data to the model. In other words, function calling helps you connect your generative models to external systems so that the generated content includes the most up-to-date and accurate information.
-
-## How function calling works
-
-Functions are described using function declarations, which helps the generative model understand the purpose and parameters within a function. After you pass function declarations in a query to a generative model, the model returns a structured object that includes the names of relevant functions and their arguments based on the user's query. Note that with function calling, the model doesn't actually call the function. Instead, you can use the returned function and parameters to call the function in any language, library, or framework that you'd like!
-
-https://codelabs.developers.google.com/static/codelabs/gemini-function-calling/img/api-interface.png
-
-## What you'll build
-
-In this codelab, you'll build a generative AI pipeline with the Vertex AI Gemini API and Python. Using your app, users can ask about exchange rates, and the system will fetch the latest data from an external API and respond to the user with the answer.
-
-## What you'll learn
-
-- How to interact with the Gemini model using the Python client library
-- How to define a function declaration and register it as a tool
-- How to call Gemini and get a function call response
-- How to return the function response to Gemini and respond to the user
-
-## What you'll need
-
-- A Google Cloud Project
-- A browser such as [Chrome](https://www.google.com/chrome/)
-- A Python development environment such as [Colab](https://colab.google/) or [Colab Enterprise](https://cloud.google.com/colab/docs/introduction)
-
-## Enable Vertex AI API
-
-To enable the Vertex AI API, follow these steps:
-
-1. In your browser, navigate to the [Vertex AI API Service Details page](https://console.cloud.google.com/apis/library/aiplatform.googleapis.com).
-2. Click the **Enable** button to enable the Vertex AI API in your Google Cloud project.
-
-## Install Python client library for Vertex AI
-
-To install the Python client libraries for Vertex AI, follow these steps:
-
-1. Open a terminal in your development environment.
-2. Verify that you have a valid Python development environment, and refer to these [guidelines](https://cloud.google.com/python/docs/setup) if needed.
-3. Run the following command to install the Python client library for Vertex AI:
-
-```
-pip install --upgrade google-cloud-aiplatform
-```
-
-4. If you're running in a notebook environment, then you might need to restart your runtime/kernel to use the newly installed packages.
-
-Now you're ready to use the Vertex AI API!
-
-## Understand the problem
-
-Have you ever interacted with a large language model or generative AI model and asked it about real-time or current information, only to get a response with outdated information or inaccurate information?
-
-Let's try it now! First, we'll import the relevant Python packages and initialize the Gemini model. You can run the following code in a Python development environment such as [Colab](https://colab.google/) or [Colab Enterprise](https://cloud.google.com/colab/docs/introduction) and by installing the latest version of the [Vertex AI SDK for Python](https://cloud.google.com/vertex-ai/docs/python-sdk/use-vertex-ai-python-sdk):
-
-```python
-import vertexai
-from vertexai.generative_models import GenerativeModel
-model = GenerativeModel("gemini-1.5-pro-001")
-```
-
-Now, let's ask a question about the exchange rate for different currencies today:
-
-```python
-response = model.generate_content(
-    "What's the exchange rate for euros to dollars today?"
-)
-print(response.text)
-```
-
-The model should generate a limited or outdated response for you similar to:
-
-```
-As an AI language model, I don't have access to real-time currency exchange
-rates. However, as of my last update in September 2021, the approximate exchange
-rate between euros (EUR) and US dollars (USD) was:
-
-1 EUR ≈ 1.18 USD
-
-Please note that currency exchange rates constantly fluctuate and can vary
-depending on various factors such as economic conditions, supply and demand,
-political events, and more. To obtain the most up-to-date and accurate exchange
-rate, I recommend using a reliable currency converter or financial website that
-provides live rates.
-
-[...]
-```
-
-If an end-user received this type of response, they would need to switch contexts to look up the currencies that they're interested in, fetch the latest exchange rate, and perform any conversions on their own.
-
-Ideally, a generative model pipeline could handle some or all of these tasks for the user. In the next section, you'll try some common workarounds for getting structured responses from generative models so that you can call external systems.
-
-## Try common workarounds
-
-When working with generative models in scenarios where you need up-to-date information or data from external sources, you could call an external API then feed the results back to the generative model for it to use in its response.
-
-Before you call an external system, you need to determine the right function to use, extract the relevant parameters from the user, and put the parameters into a structured data object. This usually involves exhaustive prompt engineering to coerce the generative model to output valid structured data.
-
-Let's revisit the question that we asked in the previous section and add some additional instructions for the model. Try sending the following request to the Gemini model:
-
-```python
-user_prompt = "What's the exchange rate from euros to US dollars today?"
-
-response = model.generate_content("""
-Your task is to extract parameters from the user's input and return it as a
-structured JSON payload. The user will ask about the exchange rate and which
-currency they are converting from and converting to.
-
-User input: {user_prompt}
-
-Please extract the currencies as parameters and put them in a JSON object.
-""".format(user_prompt=user_prompt))
-print(response.text)
-```
-
-This results is the following text response, which is not valid JSON and will be difficult for us to work with:
-
-````
-```json
-{
-"currency_from": "euros",
-"currency_to": "US dollars"
-}
-```
-````
-
-In particular, the first and last lines of the text response include backticks to delimit the code block, the first line includes a language specifier, and the values in the JSON object are not the standard three-letter currency abbreviations that a currency exchange API would expect as input parameters.
-
-We could try to use Python to post-process this text into valid JSON and a dictionary, add more instructions to the prompt, provide one or more examples of desired output, fine-tune the model, or make another call to the generative model asking it to clean up the JSON.
-
-But there is a more deterministic way! Let's learn how to use function calling in Gemini to query for information in external services and return relevant responses to end-users.
-
-## How function calling works
-
-Before we get started with parameter extraction and function calling, let's walk through the steps of function calling and which components are used at runtime.
-
-https://codelabs.developers.google.com/static/codelabs/gemini-function-calling/img/gemini-function-calling-overview.png
-
-### User input to Gemini API
-
-The prompt from the user is sent to the Gemini API, and in that API call to the Gemini model, the developer has defined one or more function declarations within a tool so that the Gemini model knows which functions it can call and how to call them.
-
-### The Gemini API returns a Function Call
-
-Based on the content of the user input and prompt, Gemini will return a Function Call response with structured data that includes the name of the function to call and the corresponding parameters to use.
-
-### Make an API request
-
-Then, you'll use the function name and parameters to make an API request to retrieve information from an external system or API. This API request and response is implemented by the developer in the application code and happens outside of the scope of the Gemini API and SDK. For example, you might use the `requests` library in Python to call a REST API and receive a JSON response. Or you can call the function using your preferred approach and client library.
-
-### Return the API Response to Gemini
-
-Finally, you'll pass the API response back to the Gemini model so that it can generate a response to the end-user's initial prompt or invoke another Function Call response if the Gemini model determines that it needs additional information.
-
-## Choose your API
-
-Now that you understand the overall flow and specific steps in function calling, you'll build a generative AI pipeline to fetch the latest currency exchange rates. First, we'll need to select which API that we want to use as a source of information.
-
-For our currency exchange app, we'll use the REST API at [https://www.frankfurter.app/](https://www.frankfurter.app/) to fetch the latest information about global exchange rates.
-
-To interact with this REST API, we might make a REST API call with `requests` in Python as:
-
-```python
-import requests
-url = "https://api.frankfurter.app/latest"
-response = requests.get(url)
-response.text
-```
-
-or a `cURL` request such as:
-
-```
-curl https://api.frankfurter.app/latest
-```
-
-which returns a response similar to:
-
-```
-{
-  "amount": 1,
-  "base": "EUR",
-  "date": "2023-12-20",
-  "rates": {
-    "AUD": 1.6186, "BGN": 1.9558, "BRL": 5.3287,
-    "CAD": 1.4609, "CHF": 0.946, "CNY": 7.8121,
-    "CZK": 24.538, "DKK": 7.4565, "GBP": 0.86555,
-    "HKD": 8.5439, "HUF": 385.23, "IDR": 16994,
-    "ILS": 3.9983, "INR": 91.06, "ISK": 150.3,
-    "JPY": 157.12, "KRW": 1425.62, "MXN": 18.6867,
-    "MYR": 5.0977, "NOK": 11.2895, "NZD": 1.7421,
-    "PHP": 60.991, "PLN": 4.3413, "RON": 4.9699,
-    "SEK": 11.129, "SGD": 1.4562, "THB": 38.252,
-    "TRY": 31.883, "USD": 1.0944, "ZAR": 20.111
-  }
-}
-```
-
-Because function calling in Gemini does not actually make the external API call for you, there are no such restrictions on what type of API that you use! You could use a Cloud Run Service, a Cloud Function, an API request to a Google Cloud service, or any external REST API.
-
-## Define a function and tool
-
-Now that you've selected a REST API to use, we can now define an API specification and register the function in a tool.
-
-Ensure that you've installed the latest version of the [Vertex AI SDK for Python](https://cloud.google.com/vertex-ai/docs/python-sdk/use-vertex-ai-python-sdk).
-
-Then, import the necessary modules from the Python SDK and initialize the Gemini model:
-
-```python
-from vertexai.generative_models import (
-    Content,
-    FunctionDeclaration,
-    GenerativeModel,
-    Part,
-    Tool,
-)
-
-model = GenerativeModel("gemini-1.5-pro-001")
-```
-
-Referring back to the REST API at [https://api.frankfurter.app/](https://www.frankfurter.app/), we can see that it accepts the following input parameters:
-
-| Parameter    | Type   | Description                                                        |
-| ------------ | ------ | ------------------------------------------------------------------ |
-| `from`       | String | Currency to convert from                                           |
-| `to`         | String | Currency to convert to                                             |
-| `date`       | String | Date to fetch the exchange rate for                                |
-
-Using these parameters, a partial OpenAPI specification for this REST API in YAML format looks like:
-
-```yaml
-openapi: 3.0.0
-info:
-  title: Frankfurter Exchange Rate API
-  description: This API provides current and historical exchange rates
-  version: 1.0.0
-servers:
-  - url: https://api.frankfurter.app
-paths:
-  /{date}:
-    get:
-      summary: Get the latest currency exchange rates.
-      parameters:
-        - name: date
-          in: path
-          description: Get currency rates for a specific date or 'latest' if a date is not specified
-          required: true
-          schema:
-            type: string
-        - name: from
-          in: query
-          description: The currency to convert from.
-          required: true
-          schema:
-            type: string
-        - name: to
-          in: query
-          description: The currency to convert to.
-          schema:
-            type: string
-```
-
-Now, let's register this as a `FunctionDeclaration` using the Python SDK for Gemini:
-
-```python
-get_exchange_rate_func = FunctionDeclaration(
-    name="get_exchange_rate",
-    description="Get the exchange rate for currencies between countries",
-    parameters={
-    "type": "object",
-    "properties": {
-        "currency_date": {
-            "type": "string",
-            "description": "A date that must always be in YYYY-MM-DD format or the value 'latest' if a time period is not specified"
-        },
-        "currency_from": {
-            "type": "string",
-            "description": "The currency to convert from in ISO 4217 format"
-        },
-        "currency_to": {
-            "type": "string",
-            "description": "The currency to convert to in ISO 4217 format"
-        }
-    },
-         "required": [\
-            "currency_from",\
-            "currency_date",\
-      ]
-  },
-)
-```
-
-Be sure to use as much detail as possible in the function and parameter descriptions since the generative model will use this information to determine which function to select and how to fill the parameters in the function call.
-
-Finally, you'll define a `Tool` that includes the function declaration:
-
-```python
-exchange_rate_tool = Tool(
-    function_declarations=[get_exchange_rate_func],
-)
-```
-
-Here, you're using one function declaration within a tool, but note that you can register one or more function declarations in a tool, and the model will select the appropriate function to use at runtime. Refer to the documentation on [Function Calling in the Gemini API](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling) for more details on the `FunctionDeclaration`, `Tool`, and related classes in the Gemini SDK for Python.
-
-You've completed the configuration of your function and tool definitions. In the next section, we'll call the generative model with this tool and get back a function call that we can use to call the REST API.
-
-## Generate a function call
-
-Now you can prompt the generative model and include the `tool` that you defined:
-
-```python
-prompt = """What is the exchange rate from Australian dollars to Swedish krona?
-How much is 500 Australian dollars worth in Swedish krona?"""
-
-response = model.generate_content(
-    prompt,
-    tools=[exchange_rate_tool],
-)
-```
-
-Let's take a look at the response object:
-
-```
-print(response.candidates[0].content)
-
-role: "model"
-parts {
-  function_call {
-    name: "get_exchange_rate"
-    args {
-      fields {
-        key: "currency_to"
-        value {
-          string_value: "SEK"
-        }
-      }
-      fields {
-        key: "currency_from"
-        value {
-          string_value: "AUD"
-        }
-      }
-      fields {
-        key: "currency_date"
-        value {
-          string_value: "latest"
-        }
-      }
-    }
-  }
-}
-```
-
-It looks like the model selected the one available function and returned a function call for the `get_exchange_rate` function along with the parameters. And the parameters are in the correct format that we wanted. Hooray for getting structured responses from generative models!
-
-In the next section, you'll use the information in the response to make an API request.
-
-## Make an API request
-
-Recall that function calling in Gemini does not actually make the external API call for you. Rather, you are free to use any language, library, or framework that you'd like!
-
-Here you'll use the `requests` library in Python to call the exchange rate REST API.
-
-Let's unpack the response into a Python dictionary:
-
-```python
-params = {}
-for key, value in response.candidates[0].content.parts[0].function_call.args.items():
-    params[key[9:]] = value
-params
-```
-
-Now we can call `requests` or any other method:
-
-```python
-import requests
-url = f"https://api.frankfurter.app/{params['date']}"
-api_response = requests.get(url, params=params)
-api_response.text
-```
-
-Which results in a response similar to:
-
-```
-'{"amount":1.0,"base":"AUD","date":"2024-01-16","rates":{"SEK":6.8682}}'
-```
-
-And we have our response from the REST API, with the latest exchange rate information from today. In the next section, we'll pass this information back to the model so that it can generate a relevant response for the user.
-
-## Generate a response
-
-Finally, let's generate a response for the user by passing back the function response to the model in the next conversation turn:
-
-```python
-response = model.generate_content(
-    [\
-    Content(role="user", parts=[\
-        Part.from_text(prompt + """Give your answer in steps with lots of detail\
-            and context, including the exchange rate and date."""),\
-    ]),\
-    Content(role="function", parts=[\
-        Part.from_dict({\
-            "function_call": {\
-                "name": "get_exchange_rate",\
-            }\
-        })\
-    ]),\
-    Content(role="function", parts=[\
-        Part.from_function_response(\
-            name="get_exchange_rate",\
-            response={\
-                "content": api_response.text,\
-            }\
-        )\
-    ]),\
-    ],
-    tools=[exchange_rate_tool],
-)
-
-response.candidates[0].content.parts[0].text
-```
-
-Once we pass the function response back to the model, it will respond to the user's prompt along with relevant information from the API response.
-
-```
-The exchange rate from Australian dollars to Swedish krona on January 16, 2024,
-is 1 Australian dollar is equal to 6.8663 Swedish krona.
-
-So, 500 Australian dollars would be worth 500 * 6.8663 = 3,433.15 Swedish krona.
-```
-
-## View the full code example
-
-At this point, you could put your Python code in a backend API using a Cloud Run service, a Cloud Function, or another Cloud service and deploy a frontend app that uses this backend API to perform model queries and API calls.
-
-Here's the full code example for our final solution:
-
-```python
-import requests
-from vertexai.generative_models import (
-    Content,
-    FunctionDeclaration,
-    GenerativeModel,
-    Part,
-    Tool,
-)
-
-model = GenerativeModel("gemini-1.5-pro-001")
-
-get_exchange_rate_func = FunctionDeclaration(
-    name="get_exchange_rate",
-    description="Get the exchange rate for currencies between countries",
-    parameters={
-    "type": "object",
-    "properties": {
-        "currency_date": {
-            "type": "string",
-            "description": "A date that must always be in YYYY-MM-DD format or the value 'latest' if a time period is not specified"
-        },
-        "currency_from": {
-            "type": "string",
-            "description": "The currency to convert from in ISO 4217 format"
-        },
-        "currency_to": {
-            "type": "string",
-            "description": "The currency to convert to in ISO 4217 format"
-        }
-    },
-         "required": [\
-            "currency_from",\
-            "currency_date",\
-      ]
-  },
-)
-
-exchange_rate_tool = Tool(
-    function_declarations=[get_exchange_rate_func],
-)
-
-prompt = """What is the exchange rate from Australian dollars to Swedish krona?
-How much is 500 Australian dollars worth in Swedish krona?"""
-
-response = model.generate_content(
-    prompt,
-    tools=[exchange_rate_tool],
-)
-
-response.candidates[0].content
-
-params = {}
-for key, value in response.candidates[0].content.parts[0].function_call.args.items():
-    params[key[9:]] = value
-params
-
-import requests
-url = f"https://api.frankfurter.app/{params['date']}"
-api_response = requests.get(url, params=params)
-api_response.text
-
-response = model.generate_content(
-    [\
-    Content(role="user", parts=[\
-        Part.from_text(prompt + """Give your answer in steps with lots of detail\
-            and context, including the exchange rate and date."""),\
-    ]),\
-    Content(role="function", parts=[\
-        Part.from_dict({\
-            "function_call": {\
-                "name": "get_exchange_rate",\
-            }\
-        })\
-    ]),\
-    Content(role="function", parts=[\
-        Part.from_function_response(\
-            name="get_exchange_rate",\
-            response={\
-                "content": api_response.text,\
-            }\
-        )\
-    ]),\
-    ],
-    tools=[exchange_rate_tool],
-)
-
-response.candidates[0].content.parts[0].text
-```
-
-In this implementation, we used two requests to the generative model: one request to generate a function call and another request to return the function response. Note that this is only one method of handling function calls and function responses with Gemini. You can also make additional function calls to get more information for your query, or use function calling with chat and asynchronous methods.
-
-For additional code samples, refer to the [sample notebook for function calling in Gemini](https://github.com/GoogleCloudPlatform/generative-ai/blob/main/gemini/function-calling/intro_function_calling.ipynb).
-
-## Congratulations
-
-Using function calling in Gemini, you've successfully built a generative AI pipeline that uses with the Vertex AI Gemini API and Python! Users can ask about exchange rates, and the system will fetch the latest data from an external API and respond with an answer.
-
-Given a prompt from an end-user, function calling in Gemini takes care of selecting the appropriate function, extracting parameters from the prompt, and returning a structured data object for you to make an external API call.
-
-The design of function calling in Gemini is intended to give you the best of both worlds for deterministically extracting parameters, while leaving the summarization and content creation to the generative model. Feel free to try out other APIs and prompts in your pipeline and explore the other functionality available related to [Vertex AI Gemini API](https://cloud.google.com/vertex-ai/docs/generative-ai/multimodal/overview).
-
-https://codelabs.developers.google.com/static/codelabs/gemini-function-calling/img/api-interface.png
+This content is not relevant to the article guidelines.
 
 </details>
 
 <details>
-<summary>Introduction to function calling</summary>
-
-# Introduction to function calling
-
-**Function calling**, also known as _tool use_, provides the LLM with definitions of external tools (for example, a `get_current_weather` function). When processing a prompt, the model intelligently determines if a tool is needed and, if so, outputs structured data specifying the tool to call and its parameters (for example, `get_current_weather(location='Boston')`). Your application then executes this tool, feeds the result back to the model, allowing it to complete its response with dynamic, real-world information or the outcome of an action. This effectively bridges the LLM with your systems and extends its capabilities.
-
-https://cloud.google.com/static/vertex-ai/generative-ai/docs/multimodal/images/function-calling.png
-
-Function calling enables two primary use cases:
-
-- **Fetching data**: Retrieve up-to-date information for model responses, such as current weather, currency conversion, or specific data from knowledge bases and APIs (RAG).
-- **Taking action**: Perform external operations like submitting forms, updating application state, or orchestrating agentic workflows (e.g., conversation handoffs).
-
-For more use cases and examples that are powered by function calling, see [Use cases](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling#use-cases).
-
-## Features and limitations
-
-- The following models support function calling:
-
-  - Gemini models:
-    - [Gemini 2.5 Flash-Lite](https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-5-flash-lite) previewPreview
-    - [Gemini 2.5 Flash with Live API native audio](https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-5-flash#live-api-native-audio) previewPreview
-    - [Gemini 2.0 Flash with Live API](https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-0-flash#live-api) previewPreview
-    - [Vertex AI Model Optimizer](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/vertex-ai-model-optimizer) scienceExperimental
-    - [Gemini 2.5 Pro](https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-5-pro)
-    - [Gemini 2.5 Flash](https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-5-flash)
-    - [Gemini 2.0 Flash](https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-0-flash)
-    - [Gemini 2.0 Flash-Lite](https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-0-flash-lite)
-  - Open models:
-    - [DeepSeek R1-0528](https://cloud.google.com/vertex-ai/generative-ai/docs/maas/deepseek/r1-0528)
-    - [Llama 4 Maverick](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/llama/llama4-maverick)
-    - [Llama 4 Scout](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/llama/llama4-scout)
-    - [Llama 3.3](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/llama/llama3-3)
-- You can specify up to 512 [`FunctionDeclarations`](https://cloud.google.com/vertex-ai/generative-ai/docs/reference/python/latest/vertexai.generative_models.FunctionDeclaration)
-- Define your functions in the [OpenAPI schema](https://spec.openapis.org/oas/v3.0.3#schema) format.
-- For best practices related to the function declarations, including tips for names and descriptions, see [Best practices](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling#best-practices).
-- For Open Models, follow this [user guide](https://cloud.google.com/vertex-ai/generative-ai/docs/maas/capabilities/function-calling).
-
-## How to create a function calling application
-
-To use function calling, perform the following tasks:
-
-1. [Submit function declarations and prompt to the model](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling#submit-prompt).
-2. [Provide the API output to the model](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling#submit-api-output).
-
-### Step 1: Submit the prompt and function declarations to the model
-
-Declare a [`Tool`](https://cloud.google.com/vertex-ai/generative-ai/docs/reference/python/latest/vertexai.generative_models.Tool) in a schema format that's compatible with the [OpenAPI schema](https://spec.openapis.org/oas/v3.0.3#schema). For more information, see [Schema examples](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling#schema-examples).
-
-The following examples submit a prompt and function declaration to the Gemini models.
-
-```
-PROJECT_ID=myproject
-LOCATION=us-central1
-MODEL_ID=gemini-2.0-flash-001
-
-curl -X POST \
-  -H "Authorization: Bearer $(gcloud auth print-access-token)" \
-  -H "Content-Type: application/json" \
-  https://${LOCATION}-aiplatform.googleapis.com/v1/projects/${PROJECT_ID}/locations/${LOCATION}/publishers/google/models/${MODEL_ID}:generateContent \
-  -d '{
-    "contents": [{\
-      "role": "user",\
-      "parts": [{\
-        "text": "What is the weather in Boston?"\
-      }]\
-    }],
-    "tools": [{\
-      "functionDeclarations": [\
-        {\
-          "name": "get_current_weather",\
-          "description": "Get the current weather in a given location",\
-          "parameters": {\
-            "type": "object",\
-            "properties": {\
-              "location": {\
-                "type": "string",\
-                "description": "The city name of the location for which to get the weather.",\
-                "default": {\
-                  "string_value": "Boston, MA"\
-                }\
-              }\
-            },\
-            "required": [\
-              "location"\
-            ]\
-          }\
-        }\
-      ]\
-    }]
-  }'
-```
-
-You can specify the schema either manually using a Python dictionary or automatically with the `from_func` helper function. The following example demonstrates how to declare a function manually.
-
-```
-import vertexai
-from vertexai.generative_models import (
-    Content,
-    FunctionDeclaration,
-    GenerationConfig,
-    GenerativeModel,
-    Part,
-    Tool,
-    ToolConfig
-)
-
-# Initialize Vertex AI
-# TODO(developer): Update the project
-vertexai.init(project="PROJECT_ID", location="us-central1")
-
-# Initialize Gemini model
-model = GenerativeModel(model_name="gemini-2.0-flash")
-
-# Manual function declaration
-get_current_weather_func = FunctionDeclaration(
-    name="get_current_weather",
-    description="Get the current weather in a given location",
-    # Function parameters are specified in JSON schema format
-    parameters={
-        "type": "object",
-        "properties": {
-            "location": {
-              "type": "string",
-              "description": "The city name of the location for which to get the weather.",
-              "default": {
-                "string_value": "Boston, MA"
-              }
-           }
-        },
-    },
-)
-
-response = model.generate_content(
-    contents = [\
-      Content(\
-        role="user",\
-          parts=[\
-              Part.from_text("What is the weather like in Boston?"),\
-          ],\
-      )\
-    ],
-    generation_config = GenerationConfig(temperature=0),
-    tools = [\
-      Tool(\
-        function_declarations=[get_current_weather_func],\
-      )\
-    ]
-)
-```
-
-Alternatively, you can declare the function automatically with the `from_func` helper function as shown in the following example:
-
-```
-def get_current_weather(location: str = "Boston, MA"):
-  """
-  Get the current weather in a given location
-
-  Args:
-      location: The city name of the location for which to get the weather.
-
-  """
-  # This example uses a mock implementation.
-  # You can define a local function or import the requests library to call an API
-  return {
-    "location": "Boston, MA",
-    "temperature": 38,
-    "description": "Partly Cloudy",
-    "icon": "partly-cloudy",
-    "humidity": 65,
-    "wind": {
-        "speed": 10,
-        "direction": "NW"
-    }
-  }
-get_current_weather_func = FunctionDeclaration.from_func(get_current_weather)
-```
-
-This example demonstrates a text scenario with one function and one
-prompt.
-
-### Node.js
-
-```
-const {
-  VertexAI,
-  FunctionDeclarationSchemaType,
-} = require('@google-cloud/vertexai');
-
-const functionDeclarations = [\
-  {\
-    function_declarations: [\
-      {\
-        name: 'get_current_weather',\
-        description: 'get weather in a given location',\
-        parameters: {\
-          type: FunctionDeclarationSchemaType.OBJECT,\
-          properties: {\
-            location: {type: FunctionDeclarationSchemaType.STRING},\
-            unit: {\
-              type: FunctionDeclarationSchemaType.STRING,\
-              enum: ['celsius', 'fahrenheit'],\
-            },\
-          },\
-          required: ['location'],\
-        },\
-      },\
-    ],\
-  },\
-];
-
-const functionResponseParts = [\
-  {\
-    functionResponse: {\
-      name: 'get_current_weather',\
-      response: {name: 'get_current_weather', content: {weather: 'super nice'}},\
-    },\
-  },\
-];
-
-/**
- * TODO(developer): Update these variables before running the sample.
- */
-async function functionCallingStreamContent(
-  projectId = 'PROJECT_ID',
-  location = 'us-central1',
-  model = 'gemini-2.0-flash-001'
-) {
-  // Initialize Vertex with your Cloud project and location
-  const vertexAI = new VertexAI({project: projectId, location: location});
-
-  // Instantiate the model
-  const generativeModel = vertexAI.getGenerativeModel({
-    model: model,
-  });
-
-  const request = {
-    contents: [\
-      {role: 'user', parts: [{text: 'What is the weather in Boston?'}]},\
-      {\
-        role: 'ASSISTANT',\
-        parts: [\
-          {\
-            functionCall: {\
-              name: 'get_current_weather',\
-              args: {location: 'Boston'},\
-            },\
-          },\
-        ],\
-      },\
-      {role: 'USER', parts: functionResponseParts},\
-    ],
-    tools: functionDeclarations,
-  };
-  const streamingResp = await generativeModel.generateContentStream(request);
-  for await (const item of streamingResp.stream) {
-    console.log(item.candidates[0].content.parts[0].text);
-  }
-}
-```
-
-This example demonstrates a text scenario with one function and one prompt.
-
-### Go
-
-```
-import (
-	"context"
-	"fmt"
-	"io"
-
-	genai "google.golang.org/genai"
-)
-
-// generateWithFuncCall shows how to submit a prompt and a function declaration to the model,
-// allowing it to suggest a call to the function to fetch external data. Returning this data
-// enables the model to generate a text response that incorporates the data.
-func generateWithFuncCall(w io.Writer) error {
-	ctx := context.Background()
-
-	client, err := genai.NewClient(ctx, &genai.ClientConfig{
-		HTTPOptions: genai.HTTPOptions{APIVersion: "v1"},
-	})
-	if err != nil {
-		return fmt.Errorf("failed to create genai client: %w", err)
-	}
-
-	weatherFunc := &genai.FunctionDeclaration{
-		Description: "Returns the current weather in a location.",
-		Name:        "getCurrentWeather",
-		Parameters: &genai.Schema{
-			Type: "object",
-			Properties: map[string]*genai.Schema{
-				"location": {Type: "string"},
-			},
-			Required: []string{"location"},
-		},
-	}
-	config := &genai.GenerateContentConfig{
-		Tools: []*genai.Tool{
-			{FunctionDeclarations: []*genai.FunctionDeclaration{weatherFunc}},
-		},
-		Temperature: genai.Ptr(float32(0.0)),
-	}
-
-	modelName := "gemini-2.0-flash-001"
-	contents := []*genai.Content{
-		{Parts: []*genai.Part{
-			{Text: "What is the weather like in Boston?"},
-		},
-			Role: "user"},
-	}
-
-	resp, err := client.Models.GenerateContent(ctx, modelName, contents, config)
-	if err != nil {
-		return fmt.Errorf("failed to generate content: %w", err)
-	}
-
-	var funcCall *genai.FunctionCall
-	for _, p := range resp.Candidates[0].Content.Parts {
-		if p.FunctionCall != nil {
-			funcCall = p.FunctionCall
-			fmt.Fprint(w, "The model suggests to call the function ")
-			fmt.Fprintf(w, "%q with args: %v\n", funcCall.Name, funcCall.Args)
-			// Example response:
-			// The model suggests to call the function "getCurrentWeather" with args: map[location:Boston]
-		}
-	}
-	if funcCall == nil {
-		return fmt.Errorf("model did not suggest a function call")
-	}
-
-	// Use synthetic data to simulate a response from the external API.
-	// In a real application, this would come from an actual weather API.
-	funcResp := &genai.FunctionResponse{
-		Name: "getCurrentWeather",
-		Response: map[string]any{
-			"location":         "Boston",
-			"temperature":      "38",
-			"temperature_unit": "F",
-			"description":      "Cold and cloudy",
-			"humidity":         "65",
-			"wind":             `{"speed": "10", "direction": "NW"}`,
-		},
-	}
-
-	// Return conversation turns and API response to complete the model's response.
-	contents = []*genai.Content{
-		{Parts: []*genai.Part{
-			{Text: "What is the weather like in Boston?"},
-		},
-			Role: "user"},
-		{Parts: []*genai.Part{
-			{FunctionCall: funcCall},
-		}},
-		{Parts: []*genai.Part{
-			{FunctionResponse: funcResp},
-		}},
-	}
-
-	resp, err = client.Models.GenerateContent(ctx, modelName, contents, config)
-	if err != nil {
-		return fmt.Errorf("failed to generate content: %w", err)
-	}
-
-	respText := resp.Text()
-
-	fmt.Fprintln(w, respText)
-
-	// Example response:
-	// The weather in Boston is cold and cloudy with a temperature of 38 degrees Fahrenheit. The humidity is ...
-
-	return nil
-}
-```
-
-This example demonstrates a text scenario with one function and one prompt.
-
-### C\#
-
-```
-using Google.Cloud.AIPlatform.V1;
-using System;
-using System.Threading.Tasks;
-using Type = Google.Cloud.AIPlatform.V1.Type;
-using Value = Google.Protobuf.WellKnownTypes.Value;
-
-public class FunctionCalling
-{
-    public async Task<string> GenerateFunctionCall(
-        string projectId = "your-project-id",
-        string location = "us-central1",
-        string publisher = "google",
-        string model = "gemini-2.0-flash-001")
-    {
-        var predictionServiceClient = new PredictionServiceClientBuilder
-        {
-            Endpoint = $"{location}-aiplatform.googleapis.com"
-        }.Build();
-
-        // Define the user's prompt in a Content object that we can reuse in
-        // model calls
-        var userPromptContent = new Content
-        {
-            Role = "USER",
-            Parts =
-            {
-                new Part { Text = "What is the weather like in Boston?" }
-            }
-        };
-
-        // Specify a function declaration and parameters for an API request
-        var functionName = "get_current_weather";
-        var getCurrentWeatherFunc = new FunctionDeclaration
-        {
-            Name = functionName,
-            Description = "Get the current weather in a given location",
-            Parameters = new OpenApiSchema
-            {
-                Type = Type.Object,
-                Properties =
-                {
-                    ["location"] = new()
-                    {
-                        Type = Type.String,
-                        Description = "Get the current weather in a given location"
-                    },
-                    ["unit"] = new()
-                    {
-                        Type = Type.String,
-                        Description = "The unit of measurement for the temperature",
-                        Enum = {"celsius", "fahrenheit"}
-                    }
-                },
-                Required = { "location" }
-            }
-        };
-
-        // Send the prompt and instruct the model to generate content using the tool that you just created
-        var generateContentRequest = new GenerateContentRequest
-        {
-            Model = $"projects/{projectId}/locations/{location}/publishers/{publisher}/models/{model}",
-            GenerationConfig = new GenerationConfig
-            {
-                Temperature = 0f
-            },
-            Contents =
-            {
-                userPromptContent
-            },
-            Tools =
-            {
-                new Tool
-                {
-                    FunctionDeclarations = { getCurrentWeatherFunc }
-                }
-            }
-        };
-
-        GenerateContentResponse response = await predictionServiceClient.GenerateContentAsync(generateContentRequest);
-
-        var functionCall = response.Candidates[0].Content.Parts[0].FunctionCall;
-        Console.WriteLine(functionCall);
-
-        string apiResponse = "";
-
-        // Check the function name that the model responded with, and make an API call to an external system
-        if (functionCall.Name == functionName)
-        {
-            // Extract the arguments to use in your API call
-            string locationCity = functionCall.Args.Fields["location"].StringValue;
-
-            // Here you can use your preferred method to make an API request to
-            // fetch the current weather
-
-            // In this example, we'll use synthetic data to simulate a response
-            // payload from an external API
-            apiResponse = @"{ ""location"": ""Boston, MA"",
-                    ""temperature"": 38, ""description"": ""Partly Cloudy""}";
-        }
-
-        // Return the API response to Gemini so it can generate a model response or request another function call
-        generateContentRequest = new GenerateContentRequest
-        {
-            Model = $"projects/{projectId}/locations/{location}/publishers/{publisher}/models/{model}",
-            Contents =
-            {
-                userPromptContent, // User prompt
-                response.Candidates[0].Content, // Function call response,
-                new Content
-                {
-                    Parts =
-                    {
-                        new Part
-                        {
-                            FunctionResponse = new()
-                            {
-                                Name = functionName,
-                                Response = new()
-                                {
-                                    Fields =
-                                    {
-                                        { "content", new Value { StringValue = apiResponse } }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            Tools =
-            {
-                new Tool
-                {
-                    FunctionDeclarations = { getCurrentWeatherFunc }
-                }
-            }
-        };
-
-        response = await predictionServiceClient.GenerateContentAsync(generateContentRequest);
-
-        string responseText = response.Candidates[0].Content.Parts[0].Text;
-        Console.WriteLine(responseText);
-
-        return responseText;
-    }
-}
-```
-
-### Java
-
-```
-import com.google.cloud.vertexai.VertexAI;
-import com.google.cloud.vertexai.api.Content;
-import com.google.cloud.vertexai.api.FunctionDeclaration;
-import com.google.cloud.vertexai.api.GenerateContentResponse;
-import com.google.cloud.vertexai.api.Schema;
-import com.google.cloud.vertexai.api.Tool;
-import com.google.cloud.vertexai.api.Type;
-import com.google.cloud.vertexai.generativeai.ChatSession;
-import com.google.cloud.vertexai.generativeai.ContentMaker;
-import com.google.cloud.vertexai.generativeai.GenerativeModel;
-import com.google.cloud.vertexai.generativeai.PartMaker;
-import com.google.cloud.vertexai.generativeai.ResponseHandler;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-
-public class FunctionCalling {
-  public static void main(String[] args) throws IOException {
-    // TODO(developer): Replace these variables before running the sample.
-    String projectId = "your-google-cloud-project-id";
-    String location = "us-central1";
-    String modelName = "gemini-2.0-flash-001";
-
-    String promptText = "What's the weather like in Paris?";
-
-    whatsTheWeatherLike(projectId, location, modelName, promptText);
-  }
-
-  // A request involving the interaction with an external tool
-  public static String whatsTheWeatherLike(String projectId, String location,
-                                           String modelName, String promptText)
-      throws IOException {
-    // Initialize client that will be used to send requests.
-    // This client only needs to be created once, and can be reused for multiple requests.
-    try (VertexAI vertexAI = new VertexAI(projectId, location)) {
-
-      FunctionDeclaration functionDeclaration = FunctionDeclaration.newBuilder()
-          .setName("getCurrentWeather")
-          .setDescription("Get the current weather in a given location")
-          .setParameters(
-              Schema.newBuilder()
-                  .setType(Type.OBJECT)
-                  .putProperties("location", Schema.newBuilder()
-                      .setType(Type.STRING)
-                      .setDescription("location")
-                      .build()
-                  )
-                  .addRequired("location")
-                  .build()
-          )
-          .build();
-
-      System.out.println("Function declaration:");
-      System.out.println(functionDeclaration);
-
-      // Add the function to a "tool"
-      Tool tool = Tool.newBuilder()
-          .addFunctionDeclarations(functionDeclaration)
-          .build();
-
-      // Start a chat session from a model, with the use of the declared function.
-      GenerativeModel model = new GenerativeModel(modelName, vertexAI)
-          .withTools(Arrays.asList(tool));
-      ChatSession chat = model.startChat();
-
-      System.out.println(String.format("Ask the question: %s", promptText));
-      GenerateContentResponse response = chat.sendMessage(promptText);
-
-      // The model will most likely return a function call to the declared
-      // function `getCurrentWeather` with "Paris" as the value for the
-      // argument `location`.
-      System.out.println("\nPrint response: ");
-      System.out.println(ResponseHandler.getContent(response));
-
-      // Provide an answer to the model so that it knows what the result
-      // of a "function call" is.
-      Content content =
-          ContentMaker.fromMultiModalData(
-              PartMaker.fromFunctionResponse(
-                  "getCurrentWeather",
-                  Collections.singletonMap("currentWeather", "sunny")));
-      System.out.println("Provide the function response: ");
-      System.out.println(content);
-      response = chat.sendMessage(content);
-
-      // See what the model replies now
-      System.out.println("Print response: ");
-      String finalAnswer = ResponseHandler.getText(response);
-      System.out.println(finalAnswer);
-
-      return finalAnswer;
-    }
-  }
-}
-```
-
-If the model determines that it needs the output of a particular function, the
-response that the application receives from the model contains the function name
-and the parameter values that the function should be called with.
-
-The following is an example of a model response to the user prompt "What is the weather like in Boston?". The model proposes calling
-the `get_current_weather` function with the parameter `Boston, MA`.
-
-```
-candidates {
-  content {
-    role: "model"
-    parts {
-      function_call {
-        name: "get_current_weather"
-        args {
-          fields {
-            key: "location"
-            value {
-              string_value: "Boston, MA"
-            }
-          }
-        }
-      }
-    }
-  }
-  ...
-}
-```
-
-### Step 2: Provide the API output to the model
-
-Invoke the external API and pass the API output back to the model.
-
-The following example uses synthetic data to simulate a response payload from an
-external API and submits the output back to the model.
-
-```
-PROJECT_ID=myproject
-MODEL_ID=gemini-2.0-flash
-LOCATION="us-central1"
-
-curl -X POST \
--H "Authorization: Bearer $(gcloud auth print-access-token)" \
--H "Content-Type: application/json" \
-https://${LOCATION}-aiplatform.googleapis.com/v1/projects/${PROJECT_ID}/locations/${LOCATION}/publishers/google/models/${MODEL_ID}:generateContent \
--d '{
-"contents": [\
-{\
-  "role": "user",\
-  "parts": {\
-    "text": "What is the weather in Boston?"\
-  }\
-},\
-{\
-  "role": "model",\
-  "parts": [\
-    {\
-      "functionCall": {\
-        "name": "get_current_weather",\
-        "args": {\
-          "location": "Boston, MA"\
-        }\
-      }\
-    }\
-  ]\
-},\
-{\
-  "role": "user",\
-  "parts": [\
-    {\
-      "functionResponse": {\
-        "name": "get_current_weather",\
-        "response": {\
-          "temperature": 20,\
-          "unit": "C"\
-        }\
-      }\
-    }\
-  ]\
-}\
-],
-"tools": [\
-{\
-  "function_declarations": [\
-    {\
-      "name": "get_current_weather",\
-      "description": "Get the current weather in a specific location",\
-      "parameters": {\
-        "type": "object",\
-        "properties": {\
-          "location": {\
-            "type": "string",\
-            "description": "The city name of the location for which to get the weather."\
-          }\
-        },\
-        "required": [\
-          "location"\
-        ]\
-      }\
-    }\
-  ]\
-}\
-]
-}'
-```
-
-```
-function_response_contents = []
-function_response_parts = []
-
-# Iterates through the function calls in the response in case there are parallel function call requests
-for function_call in response.candidates[0].function_calls:
-    print(f"Function call: {function_call.name}")
-
-    # In this example, we'll use synthetic data to simulate a response payload from an external API
-    if (function_call.args['location'] == "Boston, MA"):
-      api_response = { "location": "Boston, MA", "temperature": 38, "description": "Partly Cloudy" }
-    if (function_call.args['location'] == "San Francisco, CA"):
-      api_response = { "location": "San Francisco, CA", "temperature": 58, "description": "Sunny" }
-
-    function_response_parts.append(
-        Part.from_function_response(
-            name=function_call.name,
-            response={"contents": api_response}
-        )
-    )
-    # Add the function call response to the contents
-    function_response_contents = Content(role="user", parts=function_response_parts)
-
-# Submit the User's prompt, model's response, and API output back to the model
-response = model.generate_content(
-  [\
-    Content( # User prompt\
-      role="user",\
-      parts=[\
-          Part.from_text("What is the weather like in Boston?"),\
-      ],\
-    ),\
-    response.candidates[0].content,  # Function call response\
-    function_response_contents   # API output\
-  ],
-  tools=[\
-    Tool(\
-      function_declarations=[get_current_weather_func],\
-    )\
-  ],
-)
-# Get the model summary response
-print(response.text)
-```
-
-For best practices related to API invocation, see [Best practices - API invocation](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling#invoke-api-bp).
-
-If the model had proposed several parallel function calls, the application must
-provide all of the responses back to the model. To learn more, see
-[Parallel function calling example](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling#parallel-samples).
-
-The model may determine that the
-output of another function is necessary for responding to the prompt. In this case,
-the response that the application receives from the model contains another
-function name and another set of parameter values.
-
-If the model determines that the API response is sufficient for responding to
-the user's prompt, it creates a natural language response and returns it to the
-application. The following is an example of a natural language response:
-
-```
-It is currently 38 degrees Fahrenheit in Boston, MA with partly cloudy skies.
-```
-
-## Parallel function calling
-
-For prompts such as "Get weather details in Boston and San Francisco?",
-the model may propose several parallel function calls. For a list of models that
-support parallel function calling, see [Supported models](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling#features).
-
-This example demonstrates a scenario with one `get_current_weather` function.
-The user prompt is "Get weather details in Boston and San Francisco?". The
-model proposes two parallel `get_current_weather` function calls: one with the
-parameter `Boston` and the other with the parameter `San Francisco`.
-
-```
-{
-"candidates": [\
-  {\
-    "content": {\
-      "role": "model",\
-      "parts": [\
-        {\
-          "functionCall": {\
-            "name": "get_current_weather",\
-            "args": {\
-              "location": "Boston"\
-            }\
-          }\
-        },\
-        {\
-          "functionCall": {\
-            "name": "get_current_weather",\
-            "args": {\
-              "location": "San Francisco"\
-            }\
-          }\
-        }\
-      ]\
-    },\
-    ...\
-  }\
-],
-...
-}
-```
-
-**Model request**
-
-```
-PROJECT_ID=my-project
-MODEL_ID=gemini-2.0-flash
-LOCATION="us-central1"
-curl -X POST \
--H "Authorization: Bearer $(gcloud auth print-access-token)" \
--H "Content-Type: application/json" \
-https://${LOCATION}-aiplatform.googleapis.com/v1/projects/${PROJECT_ID}/locations/${LOCATION}/publishers/google/models/${MODEL_ID}:generateContent \
--d '{
-"contents": [\
-{\
-  "role": "user",\
-  "parts": {\
-    "text": "What is difference in temperature in Boston and San Francisco?"\
-  }\
-},\
-{\
-  "role": "model",\
-  "parts": [\
-    {\
-      "functionCall": {\
-        "name": "get_current_weather",\
-        "args": {\
-          "location": "Boston"\
-        }\
-      }\
-    },\
-    {\
-      "functionCall": {\
-        "name": "get_current_weather",\
-        "args": {\
-          "location": "San Francisco"\
-        }\
-      }\
-    }\
-  ]\
-},\
-{\
-  "role": "user",\
-  "parts": [\
-    {\
-      "functionResponse": {\
-        "name": "get_current_weather",\
-        "response": {\
-          "temperature": 30.5,\
-          "unit": "C"\
-        }\
-      }\
-    },\
-    {\
-      "functionResponse": {\
-        "name": "get_current_weather",\
-        "response": {\
-          "temperature": 20,\
-          "unit": "C"\
-        }\
-      }\
-    }\
-  ]\
-}\
-],
-"tools": [\
-{\
-  "function_declarations": [\
-    {\
-      "name": "get_current_weather",\
-      "description": "Get the current weather in a specific location",\
-      "parameters": {\
-        "type": "object",\
-        "properties": {\
-          "location": {\
-            "type": "string",\
-            "description": "The city name of the location for which to get the weather."\
-          }\
-        },\
-        "required": [\
-          "location"\
-        ]\
-      }\
-    }\
-  ]\
-}\
-]
-}'
-```
-
-The natural language response created by the model is similar to the following:
-
-**Model response**
-
-```
-[\
-{\
-    "candidates": [\
-        {\
-            "content": {\
-                "parts": [\
-                    {\
-                        "text": "The temperature in Boston is 30.5C and the temperature in San Francisco is 20C. The difference is 10.5C. \n"\
-                    }\
-                ]\
-            },\
-            "finishReason": "STOP",\
-            ...\
-        }\
-    ]\
-    ...\
-}\
-]
-```
-
-This example demonstrates a scenario with one `get_current_weather` function.
-The user prompt is "What is the weather like in Boston and San Francisco?".
-
-```
-import vertexai
-from vertexai.generative_models import (
-    Content,
-    FunctionDeclaration,
-    GenerationConfig,
-    GenerativeModel,
-    Part,
-    Tool,
-    ToolConfig
-)
-
-# Initialize Vertex AI
-# TODO(developer): Update the project
-vertexai.init(project="my-project", location="us-central1")
-
-# Initialize Gemini model
-model = GenerativeModel(model_name="gemini-2.0-flash")
-
-# Manual function declaration
-get_current_weather_func = FunctionDeclaration(
-    name="get_current_weather",
-    description="Get the current weather in a given location",
-    # Function parameters are specified in JSON schema format
-    parameters={
-        "type": "object",
-        "properties": {
-            "location": {
-              "type": "string",
-              "description": "The city name of the location for which to get the weather.",
-              "default": {
-                "string_value": "Boston, MA"
-              }
-          }
-        },
-    },
-)
-
-response = model.generate_content(
-    contents = [\
-      Content(\
-        role="user",\
-          parts=[\
-              Part.from_text("What is the weather like in Boston and San Francisco?"),\
-          ],\
-      )\
-    ],
-    generation_config = GenerationConfig(temperature=0),
-    tools = [\
-      Tool(\
-        function_declarations=[get_current_weather_func],\
-      )\
-    ]
-)
-```
-
-The following command demonstrates how you can provide the function output to
-the model.
-
-```
-function_response_contents = []
-function_response_parts = []
-
-# You can have parallel function call requests for the same function type.
-# For example, 'location_to_lat_long("London")' and 'location_to_lat_long("Paris")'
-# In that case, collect API responses in parts and send them back to the model
-
-for function_call in response.candidates[0].function_calls:
-    print(f"Function call: {function_call.name}")
-
-    # In this example, we'll use synthetic data to simulate a response payload from an external API
-    if (function_call.args['location'] == "Boston, MA"):
-      api_response = { "location": "Boston, MA", "temperature": 38, "description": "Partly Cloudy" }
-    if (function_call.args['location'] == "San Francisco, CA"):
-      api_response = { "location": "San Francisco, CA", "temperature": 58, "description": "Sunny" }
-
-    function_response_parts.append(
-        Part.from_function_response(
-            name=function_call.name,
-            response={"contents": api_response}
-        )
-    )
-    # Add the function call response to the contents
-    function_response_contents = Content(role="user", parts=function_response_parts)
-
-function_response_contents
-
-response = model.generate_content(
-    contents = [\
-        Content(\
-        role="user",\
-          parts=[\
-              Part.from_text("What is the weather like in Boston and San Francisco?"),\
-          ],\
-        ),  # User prompt\
-        response.candidates[0].content,  # Function call response\
-        function_response_contents,  # Function response\
-    ],
-    tools = [\
-      Tool(\
-        function_declarations=[get_current_weather_func],\
-      )\
-    ]
-)
-# Get the model summary response
-print(response.text)
-```
-
-## Forced function calling
-
-Instead of allowing the model to choose between a natural language response and a function call, you can force it to only predict function calls. This is known as _forced function calling_. You can also choose to provide the model with a full set of function declarations, but restrict its responses to a subset of these functions.
-
-| Mode | Description |
-| --- | --- |
-| `AUTO` | The default model behavior. The model decides whether to predict function calls or a natural language response. |
-| `ANY` | The model is constrained to always predict a function call. If `allowed_function_names` is not provided, the model picks from all of the available function declarations. If `allowed_function_names` is provided, the model picks from the set of allowed functions. |
-| `NONE` | The model must not predict function calls. This behaviour is equivalent to a model request without any associated function declarations. |
-
-The following example is forced to predict only `get_weather` function calls.
-
-```
-response = model.generate_content(
-    contents = [\
-      Content(\
-        role="user",\
-          parts=[\
-              Part.from_text("What is the weather like in Boston?"),\
-          ],\
-      )\
-    ],
-    generation_config = GenerationConfig(temperature=0),
-    tools = [\
-      Tool(\
-        function_declarations=[get_weather_func, some_other_function],\
-      )\
-    ],
-    tool_config=ToolConfig(
-        function_calling_config=ToolConfig.FunctionCallingConfig(
-            # ANY mode forces the model to predict only function calls
-            mode=ToolConfig.FunctionCallingConfig.Mode.ANY,
-            # Allowed function calls to predict when the mode is ANY. If empty, any of
-            # the provided function calls will be predicted.
-            allowed_function_names=["get_weather"],
-        )
-    )
-)
-```
-
-## Function schema examples
-
-Function declarations are compatible with the [OpenAPI schema](https://spec.openapis.org/oas/v3.0.3#schema). We support the following attributes: `type`, `nullable`, `required`, `format`, `description`, `properties`, `items`, `enum`, `anyOf`, `$ref`, and `$defs`. Remaining attributes are not supported.
-
-**Function with object and array parameters**
-
-```
-extract_sale_records_func = FunctionDeclaration(
-  name="extract_sale_records",
-  description="Extract sale records from a document.",
-  parameters={
-      "type": "object",
-      "properties": {
-          "records": {
-              "type": "array",
-              "description": "A list of sale records",
-              "items": {
-                  "description": "Data for a sale record",
-                  "type": "object",
-                  "properties": {
-                      "id": {"type": "integer", "description": "The unique id of the sale."},
-                      "date": {"type": "string", "description": "Date of the sale, in the format of MMDDYY, e.g., 031023"},
-                      "total_amount": {"type": "number", "description": "The total amount of the sale."},
-                      "customer_name": {"type": "string", "description": "The name of the customer, including first name and last name."},
-                      "customer_contact": {"type": "string", "description": "The phone number of the customer, e.g., 650-123-4567."},
-                  },
-                  "required": ["id", "date", "total_amount"],
-              },
-          },
-      },
-      "required": ["records"],
-  },
-)
-```
-
-**Function with enum parameter**
-
-```
-set_status_func = FunctionDeclaration(
-  name="set_status",
-  description="set a ticket's status field",
-  # Function parameters are specified in JSON schema format
-  parameters={
-      "type": "object",
-      "properties": {
-        "status": {
-          "type": "integer",
-          "enum": [ "10", "20", "30" ],   # Provide integer (or any other type) values as strings.
-        }
-      },
-  },
-)
-```
-
-**Function with ref and def**
-
-```
-{
-  "contents": ...,
-  "tools": [\
-    {\
-      "function_declarations": [\
-        {\
-          "name": "get_customer",\
-          "description": "Search for a customer by name",\
-          "parameters": {\
-            "type": "object",\
-            "properties": {\
-              "first_name": { "ref": "#/defs/name" },\
-              "last_name": { "ref": "#/defs/name" }\
-            },\
-            "defs": {\
-              "name": { "type": "string" }\
-            }\
-          }\
-        }\
-      ]\
-    }\
-  ]
-}
-```
-
-Usage notes:
-
-- Unlike, the OpenAPI schema, specify `ref` and `defs` without the `$` symbol.
-- `ref` must refer to direct child of `defs`; no
-external references.
-- The maximum depth of nested schema is 32.
-- Recursion depth in `defs` (self-reference) is limited to two.
-
-**`from_func` with array parameter**
-
-```
-from typing import List
-
-# Define a function. Could be a local function or you can import the requests library to call an API
-def multiply_numbers(numbers: List[int] = [1, 1]) -> int:
-  """
-  Calculates the product of all numbers in an array.
-
-  Args:
-      numbers: An array of numbers to be multiplied.
-
-  Returns:
-      The product of all the numbers. If the array is empty, returns 1.
-  """
-
-  if not numbers:  # Handle empty array
-      return 1
-
-  product = 1
-  for num in numbers:
-      product *= num
-
-  return product
-
-multiply_number_func = FunctionDeclaration.from_func(multiply_numbers)
-
-"""
-multiply_number_func contains the following schema:
-
-{'name': 'multiply_numbers',
-  'description': 'Calculates the product of all numbers in an array.',
-  'parameters': {'properties': {'numbers': {'items': {'type': 'INTEGER'},
-    'description': 'list of numbers',
-    'default': [1.0, 1.0],
-    'title': 'Numbers',
-    'type': 'ARRAY'}},
-  'description': 'Calculates the product of all numbers in an array.',
-  'title': 'multiply_numbers',
-  'property_ordering': ['numbers'],
-  'type': 'OBJECT'}}
-"""
-```
-
-## Best practices for function calling
-
-### Write clear and detailed function names, parameter descriptions, and instructions
-
-- Function names should start with a letter or an underscore and contain only characters a-z, A-Z, 0-9, underscores, dots or dashes with a maximum length of 64.
-- Function descriptions should be clear and verbose. For example, a `book_flight_ticket` function could have the description
-`book flight tickets after confirming users' specific requirements, such as time, departure, destination, party size and preferred airline`
-
-### Use strong typed parameters
-
-If the parameter values are from a finite set, add an `enum` field instead of putting the set of values into the description. If the parameter value is always an integer, set the type to `integer` rather than `number`.
-
-### Use system instructions
-
-When using functions with date, time, or location parameters, include the
-current date, time, or relevant location information (for example, city and
-country) in the system instruction. This provides the model with the necessary
-context to process the request accurately, even if the user's prompt lacks
-details.
-
-### Update user prompt
-
-For best results, prepend the user prompt with the following details:
-
-- Additional context for the model—for example, `You are a flight API assistant to help with searching flights based on user preferences.`
-- Details or instructions on how and when to use the functions—for example, `Don't make assumptions on the departure or destination airports. Always use a future date for the departure or destination time.`
-- Instructions to ask clarifying questions if user queries are ambiguous—for example, `Ask clarifying questions if not enough information is available.`
-
-### Use generation configuration
-
-For the temperature parameter, use `0` or another low value. This instructs
-the model to generate more confident results and reduces hallucinations.
-
-### Validate the API call
-
-If the model proposes the invocation of a function that would send an order,
-update a database, or otherwise have significant consequences, validate the
-function call with the user before executing it.
-
-## Pricing
-
-The pricing for function calling is based on the number of characters within the
-text inputs and outputs. To learn more, see
-[Vertex AI pricing](https://cloud.google.com/vertex-ai/generative-ai/pricing).
-
-Here, text input (prompt)
-refers to the user prompt for the current conversation turn, the function
-declarations for the current conversation turn, and the history of the
-conversation. The history of the conversation includes the queries, the function
-calls, and the function responses of previous conversation turns.
-Vertex AI truncates the history of the conversation at 32,000 characters.
-
-Text output (response) refers to the function calls and the text responses
-for the current conversation turn.
-
-## Use cases of function calling
-
-You can use function calling for the following tasks:
-
-| Use Case | Example description | Example link |
-| --- | --- | --- |
-| Integrate with external APIs | Get weather information using a meteorological API | [Notebook tutorial](https://github.com/GoogleCloudPlatform/generative-ai/blob/main/gemini/function-calling/intro_function_calling.ipynb) |
-| Convert addresses to latitude/longitude coordinates | [Notebook tutorial](https://github.com/GoogleCloudPlatform/generative-ai/blob/main/gemini/function-calling/intro_function_calling.ipynb) |
-| Convert currencies using a currency exchange API | [Codelab](https://codelabs.developers.google.com/codelabs/gemini-function-calling) |
-| Build advanced chatbots | Answer customer questions about products and services | [Notebook tutorial](https://github.com/GoogleCloudPlatform/generative-ai/blob/main/gemini/function-calling/intro_function_calling.ipynb) |
-| Create an assistant to answer financial and news questions about companies | [Notebook tutorial](https://github.com/GoogleCloudPlatform/generative-ai/blob/main/gemini/function-calling/use_case_company_news_and_insights.ipynb) |
-| Structure and control function calls | Extract structured entities from raw log data | [Notebook tutorial](https://github.com/GoogleCloudPlatform/generative-ai/blob/main/gemini/function-calling/intro_function_calling.ipynb) |
-| Extract single or multiple parameters from user input | [Notebook tutorial](https://github.com/GoogleCloudPlatform/generative-ai/blob/main/gemini/function-calling/function_calling_data_structures.ipynb) |
-| Handle lists and nested data structures in function calls | [Notebook tutorial](https://github.com/GoogleCloudPlatform/generative-ai/blob/main/gemini/function-calling/function_calling_data_structures.ipynb) |
-| Handle function calling behavior | Handle parallel function calls and responses | [Notebook tutorial](https://github.com/GoogleCloudPlatform/generative-ai/blob/main/gemini/function-calling/parallel_function_calling.ipynb) |
-| Manage when and which functions the model can call | [Notebook tutorial](https://github.com/GoogleCloudPlatform/generative-ai/blob/main/gemini/function-calling/forced_function_calling.ipynb) |
-| Query databases with natural language | Convert natural language questions into SQL queries for BigQuery | [Sample app](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/gemini/function-calling/sql-talk-app) |
-| Multimodal function calling | Use images, videos, audio, and PDFs as input to trigger function calls | [Notebook tutorial](https://github.com/GoogleCloudPlatform/generative-ai/blob/main/gemini/function-calling/multimodal_function_calling.ipynb) |
-
-Here are some more use cases:
-
-- **Interpret voice commands**: Create functions that correspond with in-vehicle tasks. For example, you can create functions that turn on the radio or activate the air conditioning. Send audio files of the user's voice commands to the model, and ask the model to convert the audio into text and identify the function that the user wants to call.
-
-- **Automate workflows based on environmental triggers**: Create functions to represent processes that can be automated. Provide the model with data from environmental sensors and ask it to parse and process the data to determine whether one or more of the workflows should be activated. For example, a model could process temperature data in a warehouse and choose to activate a sprinkler function.
-
-- **Automate the assignment of support tickets**: Provide the model with support tickets, logs, and context-aware rules. Ask the model to process all of this information to determine who the ticket should be assigned to. Call a function to assign the ticket to the person suggested by the model.
-
-- **Retrieve information from a knowledge base**: Create functions that retrieve academic articles on a given subject and summarize them. Enable the model to answer questions about academic subjects and provide citations for its answers.
-
-## What's next
-
-- See the [API reference for function calling](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/function-calling).
-- Learn about [Vertex AI Agent Engine](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview).
+<summary>Over the past year, we've worked with dozens of teams building large language model (LLM) agents across industries. Consistently, the most successful implementations weren't using complex frameworks or specialized libraries. Instead, they were building with simple, composable patterns.</summary>
+
+Over the past year, we've worked with dozens of teams building large language model (LLM) agents across industries. Consistently, the most successful implementations weren't using complex frameworks or specialized libraries. Instead, they were building with simple, composable patterns.
+
+In this post, we share what we’ve learned from working with our customers and building agents ourselves, and give practical advice for developers on building effective agents.
+
+### Workflow: Prompt chaining
+
+Prompt chaining decomposes a task into a sequence of steps, where each LLM call processes the output of the previous one. You can add programmatic checks (see "gate” in the diagram below) on any intermediate steps to ensure that the process is still on track.
+
+**When to use this workflow:** This workflow is ideal for situations where the task can be easily and cleanly decomposed into fixed subtasks. The main goal is to trade off latency for higher accuracy, by making each LLM call an easier task.
+
+**Examples where prompt chaining is useful:**
+
+- Generating Marketing copy, then translating it into a different language.
+- Writing an outline of a document, checking that the outline meets certain criteria, then writing the document based on the outline.
+
+### Workflow: Routing
+
+Routing classifies an input and directs it to a specialized followup task. This workflow allows for separation of concerns, and building more specialized prompts. Without this workflow, optimizing for one kind of input can hurt performance on other inputs.
+
+**When to use this workflow:** Routing works well for complex tasks where there are distinct categories that are better handled separately, and where classification can be handled accurately, either by an LLM or a more traditional classification model/algorithm.
+
+**Examples where routing is useful:**
+
+- Directing different types of customer service queries (general questions, refund requests, technical support) into different downstream processes, prompts, and tools.
+- Routing easy/common questions to smaller models like Claude 3.5 Haiku and hard/unusual questions to more capable models like Claude 3.5 Sonnet to optimize cost and speed.
+
+### Workflow: Parallelization
+
+LLMs can sometimes work simultaneously on a task and have their outputs aggregated programmatically. This workflow, parallelization, manifests in two key variations:
+
+- **Sectioning**: Breaking a task into independent subtasks run in parallel.
+- **Voting:** Running the same task multiple times to get diverse outputs.
+
+**When to use this workflow:** Parallelization is effective when the divided subtasks can be parallelized for speed, or when multiple perspectives or attempts are needed for higher confidence results. For complex tasks with multiple considerations, LLMs generally perform better when each consideration is handled by a separate LLM call, allowing focused attention on each specific aspect.
+
+**Examples where parallelization is useful:**
+
+- **Sectioning**:
+  - Implementing guardrails where one model instance processes user queries while another screens them for inappropriate content or requests. This tends to perform better than having the same LLM call handle both guardrails and the core response.
+  - Automating evals for evaluating LLM performance, where each LLM call evaluates a different aspect of the model’s performance on a given prompt.
+- **Voting**:
+  - Reviewing a piece of code for vulnerabilities, where several different prompts review and flag the code if they find a problem.
+  - Evaluating whether a given piece of content is inappropriate, with multiple prompts evaluating different aspects or requiring different vote thresholds to balance false positives and negatives.
+
+### Workflow: Orchestrator-workers
+
+In the orchestrator-workers workflow, a central LLM dynamically breaks down tasks, delegates them to worker LLMs, and synthesizes their results.
+
+**When to use this workflow:** This workflow is well-suited for complex tasks where you can’t predict the subtasks needed (in coding, for example, the number of files that need to be changed and the nature of the change in each file likely depend on the task). Whereas it’s topographically similar, the key difference from parallelization is its flexibility—subtasks aren't pre-defined, but determined by the orchestrator based on the specific input.
+
+**Example where orchestrator-workers is useful:**
+
+- Coding products that make complex changes to multiple files each time.
+- Search tasks that involve gathering and analyzing information from multiple sources for possible relevant information.
+
+### Workflow: Evaluator-optimizer
+
+In the evaluator-optimizer workflow, one LLM call generates a response while another provides evaluation and feedback in a loop.
+
+**When to use this workflow:** This workflow is particularly effective when we have clear evaluation criteria, and when iterative refinement provides measurable value. The two signs of good fit are, first, that LLM responses can be demonstrably improved when a human articulates their feedback; and second, that the LLM can provide such feedback. This is analogous to the iterative writing process a human writer might go through when producing a polished document.
+
+**Examples where evaluator-optimizer is useful:**
+
+- Literary translation where there are nuances that the translator LLM might not capture initially, but where an evaluator LLM can provide useful critiques.
+- Complex search tasks that require multiple rounds of searching and analysis to gather comprehensive information, where the evaluator decides whether further searches are warranted.
+
+### Agents
+
+Agents are emerging in production as LLMs mature in key capabilities—understanding complex inputs, engaging in reasoning and planning, using tools reliably, and recovering from errors. Agents begin their work with either a command from, or interactive discussion with, the human user. Once the task is clear, agents plan and operate independently, potentially returning to the human for further information or judgement. During execution, it's crucial for the agents to gain “ground truth” from the environment at each step (such as tool call results or code execution) to assess its progress. Agents can then pause for human feedback at checkpoints or when encountering blockers. The task often terminates upon completion, but it’s also common to include stopping conditions (such as a maximum number of iterations) to maintain control.
+
+Agents can handle sophisticated tasks, but their implementation is often straightforward. They are typically just LLMs using tools based on environmental feedback in a loop. It is therefore crucial to design toolsets and their documentation clearly and thoughtfully.
+
+**When to use agents:** Agents can be used for open-ended problems where it’s difficult or impossible to predict the required number of steps, and where you can’t hardcode a fixed path. The LLM will potentially operate for many turns, and you must have some level of trust in its decision-making. Agents' autonomy makes them ideal for scaling tasks in trusted environments.
+
+The autonomous nature of agents means higher costs, and the potential for compounding errors. We recommend extensive testing in sandboxed environments, along with the appropriate guardrails.
 
 </details>
 
 <details>
-<summary>Structured output</summary>
+<summary>(empty)</summary>
 
-# Structured output
+(empty)
 
-You can configure Gemini for structured output instead of unstructured text,
-allowing precise extraction and standardization of information for further processing.
-For example, you can use structured output to extract information from resumes,
-standardize them to build a structured database.
+</details>
 
-Gemini can generate either [JSON](https://ai.google.dev/gemini-api/docs/structured-output#generating-json)
-or [enum values](https://ai.google.dev/gemini-api/docs/structured-output#generating-enums) as structured output.
+<details>
+<summary>AI agents within LangChain take a language model and tie it together with a set of tools to address larger, more complex tasks. Unlike a static chain of instructions, an agent dynamically decides at each step which action (tool) to take based on the conversation and intermediate results.</summary>
 
-## Generating JSON
+AI agents within LangChain take a language model and tie it together with a set of tools to address larger, more complex tasks. Unlike a static chain of instructions, an agent dynamically decides at each step which action (tool) to take based on the conversation and intermediate results.
 
-There are two ways to generate JSON using the Gemini API:
+In practice, this means the agent prompts the LLM (the "reasoning engine") to formulate its next action or question, potentially invoke a tool (like a web search or calculator), and then use whatever results show up as new information in its reasoning. The agent continues to loop until it develops a final answer.
 
-- Configure a schema on the model
-- Provide a schema in a text prompt
+## **What Is a LangChain Agent?**
 
-Configuring a schema on the model is the **recommended** way to generate JSON,
-because it constrains the model to output JSON.
+A LangChain agent is an LLM-based system that can decide actions dynamically, such as calling tools or answering directly. Unlike a chain (fixed steps), an agent reasons step-by-step, adapting based on context.
 
-### Configuring a schema (recommended)
+## **Why use an agent instead of a simple chain?**
 
-To constrain the model to generate JSON, configure a `responseSchema`. The model
-will then respond to any prompt with JSON-formatted output.
+If your task is always the same process that follows a fixed sequence, a chain would suffice (a hard-coded sequence). If you would like to have flexibility which would allow operate with different tools or follow a more branching logic, you would need an agent. For instance, agents are useful for a process where you want the agent to be able to search the web, interact with a knowledge base, do something computational, and then summarize these steps in a single seamless process.
 
-```
-from google import genai
-from pydantic import BaseModel
+This guide will cover the basics and follow the building of a LangChain agent in detail step-by-step. This guide will cover the primary components (tools, LLMs, prompts), how the agent loop works, and best practices to create more robust agents. The examples will use the most current LangChain API (2025 version), and it is expected that the reader is familiar with Python and large language models (LLMs).
 
-class Recipe(BaseModel):
-    recipe_name: str
-    ingredients: list[str]
+## **How It Works:**
 
-client = genai.Client()
-response = client.models.generate_content(
-    model="gemini-2.5-flash",
-    contents="List a few popular cookie recipes, and include the amounts of ingredients.",
-    config={
-        "response_mime_type": "application/json",
-        "response_schema": list[Recipe],
-    },
-)
-# Use the response as a JSON string.
-print(response.text)
+- Follows a **loop**: Think → Act → Observe → Repeat.
+- The LLM decides whether to act or respond.
+- Tool results are fed back as context for the next step.
 
-# Use instantiated objects.
-my_recipes: list[Recipe] = response.parsed
+## **Analogy:**
 
-```
+Like a detective solving a case:
 
-```
-import { GoogleGenAI, Type } from "@google/genai";
+- Uses a **notebook** (scratchpad) for thoughts.
+- Chooses from a **toolbox** (APIs/functions).
+- Stops when confident in the answer.
 
-const ai = new GoogleGenAI({});
+## **Key Components of Agents:**
 
-async function main() {
-  const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
-    contents:
-      "List a few popular cookie recipes, and include the amounts of ingredients.",
-    config: {
-      responseMimeType: "application/json",
-      responseSchema: {
-        type: Type.ARRAY,
-        items: {
-          type: Type.OBJECT,
-          properties: {
-            recipeName: {
-              type: Type.STRING,
-            },
-            ingredients: {
-              type: Type.ARRAY,
-              items: {
-                type: Type.STRING,
-              },
-            },
-          },
-          propertyOrdering: ["recipeName", "ingredients"],
-        },
-      },
-    },
-  });
+- **Tools**:
+  - External functions or APIs with names and descriptions.
+  - Used by the agent to perform tasks (e.g., search, math).
+- **LLM**:
+  - The decision-making model (e.g., GPT-4o-mini, Gemini 2.0 ).
+  - Chooses the next action or gives the final answer based on tthe ool outputs.
+- **Prompt/Scratchpad**:
+  - Guides LLM for proper tool usage, its guardrails and clear tool differentiation.
+  - Stores previous actions and results for context.
 
-  console.log(response.text);
-}
+## **Tools: Building Blocks for Actions**
 
-main();
+A tool is simply a Python function wrapped with metadata. For example, to make a calculator tool that evaluates arithmetic expressions, you might write:
 
-```
+```python
+from langchain.tools import Tool
 
-```
-package main
+def calculate_expression(expr: str) -> str:
+    try:
+        result = eval(expr)
+        return str(result)
+    except Exception as e:
+        return f"Error: {e}"
 
-import (
-    "context"
-    "fmt"
-    "log"
+def return_dummy_weather(city: str) -> str:
+    return f"The weather in {city} is cloudy"
 
-    "google.golang.org/genai"
+calc_tool = Tool(
+    name="Calculator",
+    description="Performs simple arithmetic. Input should be a valid Python expression, e.g. '2+2'.",
+    func=calculate_expression
 )
 
-func main() {
-    ctx := context.Background()
-    client, err := genai.NewClient(ctx, nil)
-    if err != nil {
-        log.Fatal(err)
-    }
-
-    config := &genai.GenerateContentConfig{
-        ResponseMIMEType: "application/json",
-        ResponseSchema: &genai.Schema{
-            Type: genai.TypeArray,
-            Items: &genai.Schema{
-                Type: genai.TypeObject,
-                Properties: map[string]*genai.Schema{
-                    "recipeName": {Type: genai.TypeString},
-                    "ingredients": {
-                        Type:  genai.TypeArray,
-                        Items: &genai.Schema{Type: genai.TypeString},
-                    },
-                },
-                PropertyOrdering: []string{"recipeName", "ingredients"},
-            },
-        },
-    }
-
-    result, err := client.Models.GenerateContent(
-        ctx,
-        "gemini-2.5-flash",
-        genai.Text("List a few popular cookie recipes, and include the amounts of ingredients."),
-        config,
-    )
-    if err != nil {
-        log.Fatal(err)
-    }
-    fmt.Println(result.Text())
-}
-
-```
-
-```
-curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent" \
--H "x-goog-api-key: $GEMINI_API_KEY" \
--H 'Content-Type: application/json' \
--d '{
-      "contents": [{\
-        "parts":[\
-          { "text": "List a few popular cookie recipes, and include the amounts of ingredients." }\
-        ]\
-      }],
-      "generationConfig": {
-        "responseMimeType": "application/json",
-        "responseSchema": {
-          "type": "ARRAY",
-          "items": {
-            "type": "OBJECT",
-            "properties": {
-              "recipeName": { "type": "STRING" },
-              "ingredients": {
-                "type": "ARRAY",
-                "items": { "type": "STRING" }
-              }
-            },
-            "propertyOrdering": ["recipeName", "ingredients"]
-          }
-        }
-      }
-}' 2> /dev/null | head
-
-```
-
-The output might look like this:
-
-```
-[\
-  {\
-    "recipeName": "Chocolate Chip Cookies",\
-    "ingredients": [\
-      "1 cup (2 sticks) unsalted butter, softened",\
-      "3/4 cup granulated sugar",\
-      "3/4 cup packed brown sugar",\
-      "1 teaspoon vanilla extract",\
-      "2 large eggs",\
-      "2 1/4 cups all-purpose flour",\
-      "1 teaspoon baking soda",\
-      "1 teaspoon salt",\
-      "2 cups chocolate chips"\
-    ]\
-  },\
-  ...\
-]
-
-```
-
-### Providing a schema in a text prompt
-
-Instead of configuring a schema, you can supply a schema as natural language or
-pseudo-code in a text prompt. This method is **not recommended**, because it
-might produce lower quality output, and because the model is not constrained to
-follow the schema.
-
-Here's a generic example of a schema provided in a text prompt:
-
-```
-List a few popular cookie recipes, and include the amounts of ingredients.
-
-Produce JSON matching this specification:
-
-Recipe = { "recipeName": string, "ingredients": array<string> }
-Return: array<Recipe>
-
-```
-
-Since the model gets the schema from text in the prompt, you might have some
-flexibility in how you represent the schema. But when you supply a schema inline
-like this, the model is not actually constrained to return JSON. For a more
-deterministic, higher quality response, configure a schema on the model, and
-don't duplicate the schema in the text prompt.
-
-## Generating enum values
-
-In some cases you might want the model to choose a single option from a list of
-options. To implement this behavior, you can pass an _enum_ in your schema. You
-can use an enum option anywhere you could use a `string` in the
-`responseSchema`, because an enum is an array of strings. Like a JSON schema, an
-enum lets you constrain model output to meet the requirements of your
-application.
-
-For example, assume that you're developing an application to classify
-musical instruments into one of five categories: `"Percussion"`, `"String"`,
-`"Woodwind"`, `"Brass"`, or " `"Keyboard"`". You could create an enum to help
-with this task.
-
-In the following example, you pass an enum as the
-`responseSchema`, constraining the model to choose the most appropriate option.
-
-```
-from google import genai
-import enum
-
-class Instrument(enum.Enum):
-  PERCUSSION = "Percussion"
-  STRING = "String"
-  WOODWIND = "Woodwind"
-  BRASS = "Brass"
-  KEYBOARD = "Keyboard"
-
-client = genai.Client()
-response = client.models.generate_content(
-    model='gemini-2.5-flash',
-    contents='What type of instrument is an oboe?',
-    config={
-        'response_mime_type': 'text/x.enum',
-        'response_schema': Instrument,
-    },
+# Dummy weather tool
+weather_tool = Tool(
+    name="WeatherSearch",
+    description="Tells current weather of a city. Input should be a valid city in string, e.g 'paris'.",
+    func=calculate_expression
 )
-
-print(response.text)
-# Woodwind
-
 ```
 
-```
-import { GoogleGenAI, Type } from "@google/genai";
+This **calc\_tool** tells the agent that whenever it needs to do math, it can call the tool **"Calculator"** with an input string. The agent's prompt will include this tool's name and description (and optionally how to format the input). The description should be clear and specific – vagueness can confuse the agent, causing it to choose the wrong tool or misuse it.
 
-const ai = new GoogleGenAI({});
+LangChain comes with many built-in tools and tool wrappers. For example:
 
-const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
-    contents: "What type of instrument is an oboe?",
-    config: {
-      responseMimeType: "text/x.enum",
-      responseSchema: {
-        type: Type.STRING,
-        enum: ["Percussion", "String", "Woodwind", "Brass", "Keyboard"],
-      },
-    },
-  });
+- **Web Search Tool**: Interfaces like TavilySearchResults or GoogleSerperAPIWrapper let an agent search the web. (You'll need API keys for external search services.)
+- **Retriever Tool**: Wraps a vector database or document store. As described in one example, you might first load documents and create a retriever, then use create\_retriever\_tool to expose it to the agent. This tool fetches relevant text snippets from your data given the query.
+- **Custom API Tools**: You can define your tool that calls any API. For instance, a weather\_tool calling a weather API, or a jira\_tool that creates JIRA tickets. The agent only needs the Python function; LangChain handles calling it when the agent decides.
 
-console.log(response.text);
+When giving tools to an agent, we put them in a list:
 
+```python
+tools = [calc_tool, weather_tool, search_tool, retriever_tool, ...]
 ```
 
-```
-curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent" \
--H "x-goog-api-key: $GEMINI_API_KEY" \
-    -H 'Content-Type: application/json' \
-    -d '{
-          "contents": [{\
-            "parts":[\
-              { "text": "What type of instrument is an oboe?" }\
-            ]\
-          }],
-          "generationConfig": {
-            "responseMimeType": "text/x.enum",
-            "responseSchema": {
-              "type": "STRING",
-              "enum": ["Percussion", "String", "Woodwind", "Brass", "Keyboard"]
-            }
-          }
-    }'
+The agent will see this list (typically as part of the prompt, or via the Tool objects) and may choose among them.
 
+\*\* Each tool should ideally perform a clear, atomic function. Complex or multi-step logic can confuse the agent. If needed, break tasks into simpler tools or chains and let the agent sequence them. \*\*
+
+## **Language Model: The Reasoning Engine**
+
+The LLM (often a chat model) processes prompts and generates next steps. In LangChain 2025, a common import is:
+
+```python
+from langchain.chat_models import ChatOpenAI
+llm = ChatOpenAI(model_name="gpt-4o", temperature=0.0)
 ```
 
-The Python library will translate the type declarations for the API. However,
-the API accepts a subset of the OpenAPI 3.0 schema
-( [Schema](https://ai.google.dev/api/caching#schema)).
+You may also use ChatAnthropic, ChatGooglePalm, etc. Setting temperature=0 (or low) can make the agent's decisions more deterministic, which is often desirable for tool use. You'll pass this LLM to the agent.
 
-There are two other ways to specify an enumeration. You can use a
-[`Literal`](https://docs.pydantic.dev/1.10/usage/types/#literal-type):
+## **Prompt (Agent Scratchpad)**
 
-```
-Literal["Percussion", "String", "Woodwind", "Brass", "Keyboard"]
+The agent prompt template defines how the LLM is instructed to behave. A common pattern (ReAct-style) is to include:
 
-```
+- **System/Instruction** : Explains to the assistant that it is an agent with certain tools. Example: "You are an agent designed to answer questions. You have access to the following tools…"
+- **Tool Descriptions** : Lists each tool's name and description, so the model knows what actions it can take.
+- **Format Guide** : Tells the model how to output its reasoning. For example, it might use a structured JSON or markdown format like you can also use libraries like **Pydantic** to get more precise and formatted JSON objects for tool calls.
 
-And you can also pass the schema as JSON:
+Example Prompt based on our Calculator tool.
 
-```
-from google import genai
+<Persona>
 
-client = genai.Client()
-response = client.models.generate_content(
-    model='gemini-2.5-flash',
-    contents='What type of instrument is an oboe?',
-    config={
-        'response_mime_type': 'text/x.enum',
-        'response_schema': {
-            "type": "STRING",
-            "enum": ["Percussion", "String", "Woodwind", "Brass", "Keyboard"],
-        },
-    },
-)
+You are a helpful, precise AI assistant capable of solving user queries using available tools.
 
-print(response.text)
-# Woodwind
+You can perform reasoning, fetch information, and carry out calculations when needed.
 
-```
+</Persona>
 
-Beyond basic multiple choice problems, you can use an enum anywhere in a JSON
-schema. For example, you could ask the model for a list of recipe titles and
-use a `Grade` enum to give each title a popularity grade:
+<Guardrails>
 
-```
-from google import genai
+- Only call a tool if it's required to answer the question.
+- Do not guess values or fabricate information.
+- Never perform code execution or arithmetic by yourself; use the Calculator tool for all such tasks.
 
-import enum
-from pydantic import BaseModel
+</Guardrails>
 
-class Grade(enum.Enum):
-    A_PLUS = "a+"
-    A = "a"
-    B = "b"
-    C = "c"
-    D = "d"
-    F = "f"
+<AvailableTools>
 
-class Recipe(BaseModel):
-  recipe_name: str
-  rating: Grade
+<Tool>
+    <Name>Calculator</Name>
+    <Description>
+      Performs simple arithmetic. Input must be a valid Python expression, such as '3 * (4 + 5)'.
+      Use this tool only for basic math operations (e.g., +, -, *, /, parentheses).
+    </Description>
+    <Format>
+      To use this tool, return:
+      Action: Calculator
+      Action Input: 2 + 2
+    </Format>
+</Tool>
 
-client = genai.Client()
-response = client.models.generate_content(
-    model='gemini-2.5-flash',
-    contents='List 10 home-baked cookie recipes and give them grades based on tastiness.',
-    config={
-        'response_mime_type': 'application/json',
-        'response_schema': list[Recipe],
-    },
-)
+<Tool>
+    <Name>Weather</Name>
+    <Description>
+      Tells current weather of a city. Input should be a valid city in string, e.g 'paris'.
+    </Description>
+    <Format>
+      To use this tool, return:
+      Action: Weather
+      Action Input: Paris
+    </Format>
+</Tool>
 
-print(response.text)
+</AvailableTools>
 
-```
+## **How the Agent Loop Works**
 
-The response might look like this:
+Under the hood, an agent uses a loop to repeatedly query the LLM, parse its output, execute tools, and update context. Conceptually:
 
-```
-[\
-  {\
-    "recipe_name": "Chocolate Chip Cookies",\
-    "rating": "a+"\
-  },\
-  {\
-    "recipe_name": "Peanut Butter Cookies",\
-    "rating": "a"\
-  },\
-  {\
-    "recipe_name": "Oatmeal Raisin Cookies",\
-    "rating": "b"\
-  },\
-  ...\
-]
+1. **Initial Input** : The user's question is given to the agent (and any system instructions).
+2. **LLM Response** : The agent prompts the LLM, which returns either a final answer or an action.
+3. **Tool Invocation (if any)** : If the output is an action, the agent executes the corresponding tool function with the provided input. (E.g. \*\*\* _calc\_tool(query="2_ 2") )
+4. **Observe** : The result from the tool (text, JSON, etc.) is captured. The agent adds this result to the scratchpad.
+5. **Loop or End** : The agent checks if the LLM signaled a final answer or if any stopping criteria (max steps/time) are met. If not finished, it goes back to step 2: it calls the LLM again, now including the new observations in the prompt. This continues, building up a chain of reasoning.
+6. **Return Answer** : Once the agent decides it's done, it returns the final answer to the user.
 
-```
+This process is illustrated by the pseudocode in the LangChain source (simplified):
 
-## About JSON schemas
+```python
+from langchain.schema import HumanMessage, AIMessage, SystemMessage
 
-Configuring the model for JSON output using `responseSchema` parameter relies on
-`Schema` object to define its structure. This object represents a select
-subset of the [OpenAPI 3.0 Schema object](https://spec.openapis.org/oas/v3.0.3#schema-object),
-and also adds a `propertyOrdering` field.
+def process_with_tool_loop(user_input: str):
+    MAX_ITERATIONS = 10
+    current_iteration = 0
+    messages = [
+        SystemMessage(content="You are a helpful assistant with access to a calculator tool."),
+        HumanMessage(content=user_input)
+    ]
 
-Here's a pseudo-JSON representation of all the `Schema` fields:
+    while current_iteration < MAX_ITERATIONS:
+        print(f"Iteration {current_iteration + 1}")
+        response = llm.invoke(messages)
+        # Check if LLM wants to call a function
+        if not response.additional_kwargs.get("function_call"):
+            print(f"Final answer: {response.content}")
+            break
+        
+        function_call = response.additional_kwargs["function_call"]
+        function_name = function_call["name"]
+        function_args = function_call["arguments"]
 
-```
-{
-  "type": enum (Type),
-  "format": string,
-  "description": string,
-  "nullable": boolean,
-  "enum": [\
-    string\
-  ],
-  "maxItems": integer,
-  "minItems": integer,
-  "properties": {
-    string: {
-      object (Schema)
-    },
-    ...
-  },
-  "required": [\
-    string\
-  ],
-  "propertyOrdering": [\
-    string\
-  ],
-  "items": {
-    object (Schema)
-  }
-}
-
+        # Execute the tool
+        if function_name == "Calculator":
+            import json
+            args = json.loads(function_args)
+            tool_result = calculate_expression(args.get("expr", ""))
+        
+        if function_name == "WeatherSearch":
+            import json
+            args = json.loads(function_args)
+            tool_result = weather_tool(args.get("city", ""))
+        
+        # Add function call and result to conversation.
+        messages.append(response)
+        messages.append(AIMessage(content=f"Function result: {tool_result}"))
+        current_iteration += 1
+    
+    return response.content
 ```
 
-The `Type` of the schema must be one of the OpenAPI
-[Data Types](https://spec.openapis.org/oas/v3.0.3#data-types), or a union of
-those types (using `anyOf`). Only a subset of fields is valid for each `Type`.
-The following list maps each `Type` to a subset of the fields that are valid for
-that type:
+## **Managing History for the conversation**
 
-- `string` -\> `enum`, `format`, `nullable`
-- `integer` -\> `format`, `minimum`, `maximum`, `enum`, `nullable`
-- `number` -\> `format`, `minimum`, `maximum`, `enum`, `nullable`
-- `boolean` -\> `nullable`
-- `array` -\> `minItems`, `maxItems`, `items`, `nullable`
-- `object` -\> `properties`, `required`, `propertyOrdering`, `nullable`
+When building AI chat systems, preserving conversation history is essential for providing contextual, coherent responses. The ConversationHistoryService handles this by transforming stored messages into LangChain-compatible message objects that the model can understand. This formatting is especially important when using OpenAI models, as LangChain standardizes the message structure (e.g., HumanMessage, AIMessage, ToolMessage) required for proper tool invocation and response handling.
 
-Here are some example schemas showing valid type-and-field combinations:
+**Different models may expect varying formats for tool calls and conversation history. For other LLMs, such as Gemini, the history format may differ especially when supporting Agentic behavior, so the message transformation logic must be adapted to match each model’s specific input requirements.**
 
-```
-{ "type": "string", "enum": ["a", "b", "c"] }
+This system:
 
-{ "type": "string", "format": "date-time" }
+- Handles multiple sender types (USER, AI, TOOL)
+- Ensures messages are properly ordered and valid according to OpenAI LLM ( gpt-4o-mini ) requirements.
+- Constructs an array of Langchain messages starting with the system prompt
 
-{ "type": "integer", "format": "int64" }
+We must store the complete conversation history along with the tool call and tool response in the Database, then at every LLM call, we should fetch the history from the DB and formulate that according to the langchain / LLM requirement.
 
-{ "type": "number", "format": "double" }
+For example :
 
-{ "type": "boolean" }
+```python
+from langchain_core.messages import HumanMessage, AIMessage, ToolMessage
 
-{ "type": "array", "minItems": 3, "maxItems": 3, "items": { "type": ... } }
-
-{ "type": "object",
-  "properties": {
-    "a": { "type": ... },
-    "b": { "type": ... },
-    "c": { "type": ... }
-  },
-  "nullable": true,
-  "required": ["c"],
-  "propertyOrdering": ["c", "b", "a"]
-}
-
-```
-
-For complete documentation of the Schema fields as they're used in the Gemini
-API, see the [Schema reference](https://ai.google.dev/api/caching#Schema).
-
-### Property ordering
-
-When you're working with JSON schemas in the Gemini API, the order of properties
-is important. By default, the API orders properties alphabetically and does not
-preserve the order in which the properties are defined (although the
-[Google Gen AI SDKs](https://ai.google.dev/gemini-api/docs/sdks) may preserve this order). If you're
-providing examples to the model with a schema configured, and the property
-ordering of the examples is not consistent with the property ordering of the
-schema, the output could be rambling or unexpected.
-
-To ensure a consistent, predictable ordering of properties, you can use the
-optional `propertyOrdering[]` field.
-
-```
-"propertyOrdering": ["recipeName", "ingredients"]
-
+def convert_to_langchain_message(message, next_message=None):
+    sender_type = message.get("sender_type")
+    if sender_type == "TOOL":
+        return ToolMessage(
+            tool_call_id=message.get("tool_call_id"),
+            name=message.get("content"),
+            content=message.get("content")
+        )
+    elif sender_type == "USER":
+        return HumanMessage(content=message.get("content"))
+    else:  # Assume AI
+        if next_message is None:
+            return None
+        
+        if message.get("additional_metadata", {}).get("tool_calls") and next_message.get("sender_type") != "TOOL":
+            return None
+        
+        return AIMessage(
+            content=message.get("content"),
+            additional_kwargs=message.get("additional_metadata", {})
+        )
 ```
 
-`propertyOrdering[]` – not a standard field in the OpenAPI specification
-– is an array of strings used to determine the order of properties in the
-response. By specifying the order of properties and then providing examples with
-properties in that same order, you can potentially improve the quality of
-results. `propertyOrdering` is only supported when you manually create
-`types.Schema`.
+- It loops through stored conversation messages and based on the sender\_type, it converts each into the appropriate LangChain message:
+  - TOOL ➜ ToolMessage
+  - USER ➜ HumanMessage
+  Otherwise (typically AI) ➜ AIMessage
 
-### Schemas in Python
+## **Best Practices & Advanced Tips**
 
-When you're using the Python library, the value of `response_schema` must be one
-of the following:
+Building robust agents often requires attention to detail and thoughtful configuration. Here are some tips and advanced considerations:
 
-- A type, as you would use in a type annotation (see the Python
-[`typing` module](https://docs.python.org/3/library/typing.html))
-- An instance of
-[`genai.types.Schema`](https://googleapis.github.io/python-genai/genai.html#genai.types.Schema)
-- The `dict` equivalent of `genai.types.Schema`
+- Clear Tool Description \*\*\*\*: The agent relies heavily on the text descriptions of tools. Make these descriptions concise and unambiguous. For example, specify input/output formats or any usage constraints. Poor descriptions can cause the agent to pick the wrong tool or misuse a tool.
+- Zero-Shot vs Few-shot Prompts \*\*\*\*You can provide examples in the system prompt to guide the agent's reasoning (few-shot prompting), especially if the default behavior is incorrect. For example, give one or two example interactions showing how to use each tool.
+- Control Temperature \*\*\*\*: Use a low temperature (e.g. 0.1 or 0.2) for agents to make consistent decisions. High randomness can lead to inconsistent tool use.
 
-The easiest way to define a schema is with a Pydantic type (as shown in the
-previous example):
+Set Iteration Limits **:** To avoid infinite loops, configure the agent executor's limits. LangChain's AgentExecutor has parameters max\_iterations (default 10) and max\_execution\_time to halt runaway loops.
 
+## **Conclusion**
+
+LangChain makes it surprisingly straightforward to build intelligent agents by combining LLM reasoning with tool usage. By defining clear tools and prompt instructions, you can create a system that handles multi-step questions and leverages external data or computation.
+
+Remember that agents are powerful but also require careful crafting of prompts, descriptions, and limits to behave reliably. Whether you're building a QA chatbot that searches the web, an analytics assistant that processes databases, or any autonomous tool-based LLM system, understanding the agent loop and its components is key.
+
+With the foundations in this guide, you can start designing your LangChain agents and explore more advanced topics like multi-agent coordination or integration with LangGraph for complex pipelines. Happy agent-building
+
+</details>
+
+<details>
+<summary>In the previous lesson, we explored the theory behind agentic reasoning patterns like ReAct. Now, it's time to put that theory into practice. While high-level frameworks like LangChain or CrewAI offer powerful abstractions for building agents, they can also obscure the fundamental mechanics of how an agent actually "thinks" and "acts." Understanding these core mechanics is crucial for debugging, customizing, and truly mastering agent behavior.</summary>
+
+In the previous lesson, we explored the theory behind agentic reasoning patterns like ReAct. Now, it's time to put that theory into practice. While high-level frameworks like LangChain or CrewAI offer powerful abstractions for building agents, they can also obscure the fundamental mechanics of how an agent actually "thinks" and "acts." Understanding these core mechanics is crucial for debugging, customizing, and truly mastering agent behavior.
+
+This lesson is 100% hands-on. We are going to build a minimal, but complete, ReAct agent from scratch using only Python and the Gemini API. By the end, you will have implemented the entire Thought → Action → Observation loop yourself. You'll see exactly how an LLM can be prompted to reason, how its intent to use a tool is captured via function calling, and how the results of that tool are fed back into its context to inform the next step.
+
+Our goal is to give you a concrete mental model of the ReAct pattern. With a working agent that you've built piece by piece, you'll have the confidence and clarity to tackle more complex agentic systems. We'll follow the code in the associated notebook, building the agent step-by-step.
+
+Let's get started.
+
+## 1. Setup and Environment
+
+First, we need to set up our Python environment to ensure the code runs smoothly. This involves loading necessary credentials, importing libraries, and initializing the Gemini client.
+
+We begin by loading our API key from an environment file. This is a standard practice to keep secrets out of your source code.
+
+```python
+from lessons.utils.env import load_env
+import os
+
+# Your API key should be stored in a .env file
+# with the key GOOGLE_API_KEY
+load_env()
 ```
-config={'response_mime_type': 'application/json',
-        'response_schema': list[Recipe]}
 
-```
+Next, we import the required libraries: the Gemini client for interacting with the model, Pydantic and Enum for creating structured data classes, and a utility for pretty-printing our agent's outputs.
 
-When you use a Pydantic type, the Python library builds out a JSON schema for
-you and sends it to the API. For additional examples, see the
-[Python library docs](https://googleapis.github.io/python-genai/index.html#json-response-schema).
-
-The Python library supports schemas defined with the following types (where
-`AllowedType` is any allowed type):
-
-- `int`
-- `float`
-- `bool`
-- `str`
-- `list[AllowedType]`
-- `AllowedType|AllowedType|...`
-- For structured types:
-  - `dict[str, AllowedType]`. This annotation declares all dict values to
-    be the same type, but doesn't specify what keys should be included.
-  - User-defined
-    [Pydantic models](https://docs.pydantic.dev/latest/concepts/models/). This
-    approach lets you specify the key names and define different types for the
-    values associated with each of the keys, including nested structures.
-
-### JSON Schema support
-
-[JSON Schema](https://json-schema.org/) is a more recent specification than
-OpenAPI 3.0, which the [Schema](https://ai.google.dev/api/caching#Schema) object is based on.
-Support for JSON Schema is available as a preview using the field
-[`responseJsonSchema`](https://ai.google.dev/api/generate-content#FIELDS.response_json_schema) which
-accepts any JSON Schema with the following limitations:
-
-- It only works with Gemini 2.5.
-- While all JSON Schema properties can be passed, not all are supported. See
-the [documentation](https://ai.google.dev/api/generate-content#FIELDS.response_json_schema) for the
-field for more details.
-- Recursive references can only be used as the value of a non-required object
-property.
-- Recursive references are unrolled to a finite degree, based on the size of
-the schema.
-- Schemas that contain `$ref` cannot contain any properties other than those
-starting with a `$`.
-
-Here's an example of generating a JSON Schema with Pydantic and submitting it to
-the model:
-
-```
-curl "https://generativelanguage.googleapis.com/v1alpha/models/\
-gemini-2.5-flash:generateContent" \
-    -H "x-goog-api-key: $GEMINI_API_KEY"\
-    -H 'Content-Type: application/json' \
-    -d @- <<EOF
-{
-  "contents": [{\
-    "parts":[{\
-      "text": "Please give a random example following this schema"\
-    }]\
-  }],
-  "generationConfig": {
-    "response_mime_type": "application/json",
-    "response_json_schema": $(python3 - << PYEOF
+```python
+import google.generativeai as genai
+from pydantic import BaseModel, Field
 from enum import Enum
-from typing import List, Optional, Union, Set
-from pydantic import BaseModel, Field, ConfigDict
-import json
-
-class UserRole(str, Enum):
-    ADMIN = "admin"
-    VIEWER = "viewer"
-
-class Address(BaseModel):
-    street: str
-    city: str
-
-class UserProfile(BaseModel):
-    username: str = Field(description="User's unique name")
-    age: Optional[int] = Field(ge=0, le=120)
-    roles: Set[UserRole] = Field(min_items=1)
-    contact: Union[Address, str]
-    model_config = ConfigDict(title="User Schema")
-
-# Generate and print the JSON Schema
-print(json.dumps(UserProfile.model_json_schema(), indent=2))
-PYEOF
-)
-  }
-}
-EOF
-
+from typing import List, Optional, Type
+from lessons.utils.pretty_print import pretty_print_message
 ```
 
-Passing JSON Schema directly is not yet supported when using the SDK.
+With the API key loaded, we initialize the `genai.GenerativeModel` client. We'll also select the model we'll use for our agent's "brain." For this lesson, we're using `gemini-1.5-flash-latest`, a fast and capable model well-suited for this task.
 
-## Best practices
+```python
+# Initialize the Gemini client
+try:
+    client = genai.GenerativeModel("gemini-1.5-flash-latest")
+except Exception as e:
+    print(f"Error initializing Gemini client: {e}")
+    print("Please ensure your GOOGLE_API_KEY is set correctly in your .env file.")
+```
 
-Keep the following considerations and best practices in mind when you're using a
-response schema:
+With our client and model ready, the next step is to give our agent a capability—a tool it can use to interact with the world.
 
-- The size of your response schema counts towards the input token limit.
-- By default, fields are optional, meaning the model can populate the fields or
-skip them. You can set fields as required to force the model to provide a
-value. If there's insufficient context in the associated input prompt, the
-model generates responses mainly based on the data it was trained on.
-- A complex schema can result in an `InvalidArgument: 400` error. Complexity
-might come from long property names, long array length limits, enums with
-many values, objects with lots of optional properties, or a combination of
-these factors.
+## 2. Tool Layer: A Mock Search Tool
 
-If you get this error with a valid schema, make one or more of the following
-changes to resolve the error:
+To demonstrate the "Action" part of the ReAct cycle, our agent needs a tool. For this lesson, we will create a simple mock `search` tool. Using a mock tool instead of a real search API offers several advantages for learning:
 
-  - Shorten property names or enum names.
-  - Flatten nested arrays.
-  - Reduce the number of properties with constraints, such as numbers with
-    minimum and maximum limits.
-  - Reduce the number of properties with complex constraints, such as
-    properties with complex formats like `date-time`.
-  - Reduce the number of optional properties.
-  - Reduce the number of valid values for enums.
-- If you aren't seeing the results you expect, add more context to your input
-prompts or revise your response schema. For example, review the model's
-response without structured output to see how the model responds. You can then
-update your response schema so that it better fits the model's output.
+-   **Focus:** It keeps our focus on the agent's reasoning loop, not on the complexities of external API integrations.
+-   **Simplicity:** It removes the need for additional API keys and dependencies.
+-   **Predictability:** It provides consistent, predictable responses, which is essential for testing and understanding the agent's behavior.
 
+Our mock tool will be a simple Python function that simulates looking up information. It's designed to recognize a few specific queries and return a predefined answer. If it receives a query it doesn't recognize, it will return a "not found" message.
 
-## What's next
+Here is the implementation. Notice the docstring—it's not just a comment. As we'll see later, Gemini's function calling feature uses this docstring to understand what the tool does and how to use it.
 
-Now that you've learned how to generate structured output, you might want to try
-using Gemini API tools:
+```python
+def search(query: str) -> str:
+    """
+    Searches for information about a given query.
+    Only knows about the capital of France and the 2024 Summer Olympics.
 
-- [Function calling](https://ai.google.dev/gemini-api/docs/function-calling)
-- [Code execution](https://ai.google.dev/gemini-api/docs/code-execution)
-- [Grounding with Google Search](https://ai.google.dev/gemini-api/docs/grounding)
+    Args:
+        query: The search query.
+    """
+    query = query.lower()
+    if "capital of france" in query:
+        return "Paris is the capital of France and is known for the Eiffel Tower."
+    elif "2024 summer olympics" in query:
+        return "The 2024 Summer Olympics were held in Paris, France."
+    else:
+        return f"Information about '{query}' was not found."
+
+# A tool registry to hold our agent's tools
+TOOL_REGISTRY = {"search": search}
+```
+
+In a real-world application, you could easily replace this mock function with a call to an actual search API like Google Search, a database query, or any other external data source. The agent's logic would remain the same; only the tool's implementation would change.
+
+Now that our agent has a tool, we need to enable it to "think" about when and how to use it.
+
+## 3. Thought Phase: Generating a Plan
+
+The first step in the ReAct loop is "Thought." Here, the agent analyzes the user's request and its available tools, then formulates a plan. This plan is a short, internal monologue that guides its next action. We generate this thought by prompting the LLM with the conversation history and a description of the available tools.
+
+To make the tools understandable to the LLM, we first format their descriptions into an XML-like structure. This structured format helps the model clearly distinguish the tools and their functionalities.
+
+```python
+def build_tools_xml_description(tool_registry: dict) -> str:
+    """Builds an XML description of the tools for the LLM."""
+    xml_description = "<tools>\n"
+    for tool_name, tool_function in tool_registry.items():
+        xml_description += f"<tool name='{tool_name}'>\n"
+        xml_description += f"<description>{tool_function.__doc__}</description>\n"
+        xml_description += "</tool>\n"
+    xml_description += "</tools>"
+    return xml_description
+
+tools_xml = build_tools_xml_description(TOOL_REGISTRY)
+```
+
+Next, we create the prompt template for the thought-generation step. This template instructs the LLM to act as a helpful assistant, review the conversation, and decide on the next step. It explicitly tells the model to either use a tool or, if it has enough information, to prepare a final answer.
+
+```python
+PROMPT_TEMPLATE_THOUGHT = f"""
+You are a helpful assistant. Your goal is to answer the user's question.
+You have access to the following tools:
+
+{tools_xml}
+
+The conversation history is as follows:
+{{conversation}}
+
+Based on the conversation, what is the next step?
+If you can answer the question, state that you have the final answer.
+Otherwise, state which tool you will use and what you will search for.
+Your response should be a single, short paragraph.
+"""
+```
+
+Finally, we wrap this logic in a function, `generate_thought`. This function takes the current conversation history, formats the prompt, sends it to the Gemini model, and returns the model's response as the agent's thought.
+
+```python
+def generate_thought(conversation: str, tool_registry: dict) -> str:
+    """Generates a thought for the agent."""
+    prompt = PROMPT_TEMPLATE_THOUGHT.format(conversation=conversation)
+    response = client.generate_content(prompt)
+    return response.text.strip()
+```
+
+With a thought generated (e.g., "I need to use the search tool to find the capital of France"), the agent must translate this intention into a concrete action.
+
+## 4. Action Phase: Deciding What to Do
+
+The "Action" phase is where the agent decides its next move. This could be calling a tool or, if the task is complete, providing the final answer to the user. We'll leverage Gemini's native function calling capability to handle this decision-making process.
+
+Function calling allows the model to indicate when it wants to execute one of the tools we've provided. Instead of just returning text, the model can return a structured `FunctionCall` object specifying the name of the tool to use and the arguments to pass to it.
+
+Our action-generation prompt is simpler than the thought prompt. It doesn't need detailed tool descriptions because we will pass the tool functions directly to the Gemini API. The API automatically extracts the necessary information (name, description, parameters) from the Python function's signature and docstring. This keeps our prompt clean and focused on the high-level task.
+
+```python
+ACTION_SYSTEM_PROMPT = """
+You are a helpful assistant. Your goal is to answer the user's question.
+Given the conversation history, you must decide what to do next.
+You have two options:
+1.  Call a tool to get more information.
+2.  Provide the final answer to the user if you have enough information.
+"""
+```
+
+We define two special constants to represent the agent's decision: `ACTION_FINISH` for when it's ready to give a final answer, and `ACTION_UNKNOWN` for when it fails to make a clear decision.
+
+```python
+ACTION_FINISH = "finish"
+ACTION_UNKNOWN = "unknown"
+```
+
+The core of this phase is the `generate_action` function. It takes the conversation history and the tool registry. It configures the Gemini client with the system prompt and the list of available tools. When we call `generate_content`, the model will either:
+
+1.  Return a text response, which we interpret as the agent's readiness to provide a final answer.
+2.  Return a `FunctionCall` object, indicating a tool should be used.
+
+Our function parses the model's output and returns the action to be taken (e.g., `"search"`) and the corresponding arguments (e.g., `{"query": "capital of France"}`).
+
+```python
+def generate_action(conversation: str, tool_registry: dict) -> tuple[str, dict]:
+    """Generates an action for the agent."""
+    prompt = f"{ACTION_SYSTEM_PROMPT}\n\n{conversation}"
+    
+    response = client.generate_content(
+        prompt,
+        tools=list(tool_registry.values())
+    )
+    
+    # Check if the model wants to call a tool
+    if response.candidates[0].content.parts[0].function_call:
+        function_call = response.candidates[0].content.parts[0].function_call
+        action = function_call.name
+        args = {key: value for key, value in function_call.args.items()}
+        return action, args
+    
+    # If no tool call, assume it's a final answer
+    return ACTION_FINISH, {"answer": response.text}
+```
+
+Now we have all the individual components: a tool, a way to generate thoughts, and a way to decide on actions. It's time to assemble them into a cohesive control loop that orchestrates the entire ReAct process.
+
+## 5. Control Loop: Orchestrating the ReAct Cycle
+
+The control loop is the heart of our agent. It manages the flow of the ReAct cycle: Thought → Action → Observation. It maintains the state of the conversation in a "scratchpad" and iterates through the cycle until the user's question is answered or a set limit is reached.
+
+First, let's define a simple data structure to keep our conversation history organized. We'll use an `Enum` for message roles and a `Pydantic` model for the messages themselves. This ensures every entry in our scratchpad is structured and easy to read.
+
+```python
+class MessageRole(Enum):
+    USER = "user"
+    THOUGHT = "thought"
+    TOOL_REQUEST = "tool_request"
+    OBSERVATION = "observation"
+    FINAL_ANSWER = "final_answer"
+
+class Message(BaseModel):
+    role: MessageRole
+    content: str
+```
+
+The scratchpad will simply be a list of these `Message` objects. We'll also create a helper function to format the scratchpad content into a single string for the LLM prompts.
+
+```python
+def format_scratchpad(scratchpad: List[Message]) -> str:
+    """Formats the scratchpad into a string for the LLM."""
+    formatted_str = ""
+    for msg in scratchpad:
+        formatted_str += f"{msg.role.value.capitalize()}: {msg.content}\n"
+    return formatted_str.strip()
+```
+
+Now, we build the main `react_agent_loop`. This function orchestrates the entire process:
+
+1.  **Initialization**: It starts by adding the user's initial query to the scratchpad.
+2.  **Iteration**: It enters a loop that runs for a maximum number of turns.
+3.  **Thought**: Inside the loop, it calls `generate_thought` to determine the agent's plan.
+4.  **Action**: It then calls `generate_action` to decide on the next concrete step.
+5.  **Execution/Observation**:
+    *   If the action is to call a tool, the loop finds the tool in the `TOOL_REGISTRY` and executes it with the provided arguments. The tool's output is recorded as an "Observation."
+    *   If the action is `ACTION_FINISH`, the loop breaks, and the final answer is recorded.
+    *   It includes error handling for cases where the agent tries to call a tool that doesn't exist.
+6.  **Termination**: The loop terminates when a final answer is generated or the maximum number of turns is exceeded. If the loop times out, it forces the agent to generate a final answer based on the information it has gathered so far.
+
+Here is the complete implementation of the control loop:
+
+```python
+def react_agent_loop(
+    query: str, 
+    tool_registry: dict, 
+    max_turns: int = 5, 
+    verbose: bool = False
+) -> str:
+    scratchpad = [Message(role=MessageRole.USER, content=query)]
+    
+    for i in range(max_turns):
+        if verbose:
+            print(f"--- Turn {i+1}/{max_turns} ---")
+
+        # 1. Thought
+        conversation = format_scratchpad(scratchpad)
+        thought = generate_thought(conversation, tool_registry)
+        thought_message = Message(role=MessageRole.THOUGHT, content=thought)
+        scratchpad.append(thought_message)
+        if verbose:
+            pretty_print_message(thought_message)
+
+        # 2. Action
+        action, args = generate_action(conversation, tool_registry)
+        
+        if action == ACTION_FINISH:
+            final_answer = Message(role=MessageRole.FINAL_ANSWER, content=args.get("answer", "No answer found."))
+            scratchpad.append(final_answer)
+            if verbose:
+                pretty_print_message(final_answer)
+            return final_answer.content
+
+        tool_request_message = Message(role=MessageRole.TOOL_REQUEST, content=f"Tool: {action}, Args: {args}")
+        scratchpad.append(tool_request_message)
+        if verbose:
+            pretty_print_message(tool_request_message)
+
+        # 3. Observation
+        if action in tool_registry:
+            tool_function = tool_registry[action]
+            try:
+                observation_content = tool_function(**args)
+            except Exception as e:
+                observation_content = f"Error executing tool {action}: {e}"
+        else:
+            observation_content = f"Tool '{action}' not found. Available tools: {list(tool_registry.keys())}"
+        
+        observation_message = Message(role=MessageRole.OBSERVATION, content=observation_content)
+        scratchpad.append(observation_message)
+        if verbose:
+            pretty_print_message(observation_message)
+
+    # Force a final answer if max turns are reached
+    final_answer_prompt = f"{format_scratchpad(scratchpad)}\n\nBased on the conversation, what is the final answer?"
+    final_answer_text = client.generate_content(final_answer_prompt).text
+    final_answer = Message(role=MessageRole.FINAL_ANSWER, content=final_answer_text)
+    if verbose:
+        print("--- Max turns reached, forcing final answer ---")
+        pretty_print_message(final_answer)
+
+    return final_answer.content
+```
+
+With the full loop implemented, it's time to test our agent and see it in action.
+
+## 6. Tests and Traces: Validating the Agent
+
+The final step is to validate our ReAct agent with a couple of test cases. We'll run the loop with `verbose=True` to see the full trace of its thought process. This will allow us to confirm that each part of the system—thought, action, observation, and control loop—is working as expected.
+
+### Test Case 1: A Factual Question (Success Path)
+
+First, let's ask a question that our mock `search` tool knows how to answer: "What is the capital of France?" We'll limit the agent to two turns.
+
+```python
+query_france = "What is the capital of France?"
+result_france = react_agent_loop(query_france, TOOL_REGISTRY, max_turns=2, verbose=True)
+```
+
+The output trace clearly shows the ReAct cycle in action:
+
+-   **Turn 1**:
+    -   **Thought**: The agent correctly identifies that it needs to use the `search` tool to find the capital of France.
+    -   **Tool Request**: It generates a valid call to `search(query='capital of France')`.
+    -   **Observation**: The control loop executes the tool, which returns the factual answer: "Paris is the capital of France..."
+-   **Turn 2**:
+    -   **Thought**: With the observation in its context, the agent recognizes it now has the information needed to answer the user's question.
+    -   **Final Answer**: It decides to conclude the loop and provides the correct answer: "Paris is the capital of France."
+
+This successful run validates that the entire end-to-end loop works. The agent can reason about a user's query, use a tool to find information, process the result, and formulate a final answer.
+
+### Test Case 2: An Unknown Question (Graceful Fallback)
+
+Now, let's test the agent's ability to handle a query our mock tool doesn't know about: "What is the capital of Italy?" This will test the agent's reasoning when a tool fails to provide useful information and will also demonstrate the forced termination logic.
+
+```python
+query_italy = "What is the capital of Italy?"
+result_italy = react_agent_loop(query_italy, TOOL_REGISTRY, max_turns=2, verbose=True)
+```
+
+The trace for this query demonstrates the agent's ability to adapt and handle failure gracefully:
+
+-   **Turn 1**:
+    -   **Thought & Tool Request**: The agent correctly attempts to search for "capital of Italy."
+    -   **Observation**: The mock tool returns the "not found" message.
+-   **Turn 2**:
+    -   **Thought**: The agent observes the failure and adjusts its strategy. It decides to try a broader search for just "Italy," hoping to find relevant information.
+    -   **Tool Request**: It calls `search(query='Italy')`.
+    -   **Observation**: This search also fails, as our mock tool doesn't know about Italy.
+-   **Forced Final Answer**: Having reached the `max_turns` limit of 2 without finding a definitive answer, the control loop forces a conclusion. The agent synthesizes the information it has (which is that it failed to find the answer) and provides a polite, honest response like, "I'm sorry, but I couldn't find information about the capital of Italy."
+
+This test confirms that our agent doesn't get stuck in a loop when its tools fail. It can recognize failure, attempt alternative strategies, and provide a sensible final response when it exhausts its options. This resilience is a key feature of a well-designed agent.
+
+These tests show that our simple, from-scratch ReAct agent is fully functional. We have successfully built the core engine of an autonomous agent, providing a solid foundation for more advanced capabilities, which we will explore in future lessons.
+
+</details>
+
+<details>
+<summary><none></summary>
+
+<none>
 
 </details>
 
@@ -3427,16 +1999,17 @@ using Gemini API tools:
 ## Code Sources
 
 <details>
-<summary>Repository analysis for https://github.com/towardsai/course-ai-agents/blob/main/lessons/08_react_practice/notebook.ipynb</summary>
+<summary>Repository analysis for https://github.com/towardsai/course-ai-agents/blob/dev/lessons/08_react_practice/notebook.ipynb</summary>
 
-# Repository analysis for https://github.com/towardsai/course-ai-agents/blob/main/lessons/08_react_practice/notebook.ipynb
+# Repository analysis for https://github.com/towardsai/course-ai-agents/blob/dev/lessons/08_react_practice/notebook.ipynb
 
 ## Summary
 Repository: towardsai/course-ai-agents
+Branch: dev
 File: notebook.ipynb
-Lines: 569
+Lines: 579
 
-Estimated tokens: 5.0k
+Estimated tokens: 4.8k
 
 ## File tree
 ```Directory structure:
@@ -3451,42 +2024,48 @@ FILE: lessons/08_react_practice/notebook.ipynb
 # Jupyter notebook converted to Python script.
 
 """
-# Lesson 7: ReAct
+# Lesson 8: ReAct Practice
 
-This Jupyter notebook demonstrates a practical implementation of the ReAct (Reasoning and Acting) framework using Google's Gemini model. It includes three main components: a mock search tool for demonstration, a thought generation phase using structured outputs, and an action phase with function calling capabilities. The notebook implements a complete ReAct control loop that alternates between thinking, acting, and observing, allowing the AI agent to break down complex problems iteratively.
+This notebook explores practical ReAct (Reasoning and Acting) with Google's Gemini. We will use the `google-genai` library to interact with Gemini models. It includes a mock search tool, a thought generation phase using structured outputs, and an action phase with function calling, all orchestrated by a ReAct control loop.
 """
 
 """
-## Setup
+**Learning Objectives:**
 
-First, let's install the necessary Python libraries using pip.
+1. Understand how ReAct breaks problems into Thought → Action → Observation.
+2. Practice orchestrating the full ReAct loop end-to-end.
 """
 
-!pip install -q google-genai
-# Output:
-#   
-
-#   [1m[[0m[34;49mnotice[0m[1;39;49m][0m[39;49m A new release of pip is available: [0m[31;49m24.3.1[0m[39;49m -> [0m[32;49m25.1.1[0m
-
-#   [1m[[0m[34;49mnotice[0m[1;39;49m][0m[39;49m To update, run: [0m[32;49mpip install --upgrade pip[0m
-
-
 """
-### Configure Gemini API Key
+## 1. Setup
 
-To use the Gemini API, you need an API key. 
-
-1.  Get your key from [Google AI Studio](https://aistudio.google.com/app/apikey).
-2.  Create a file named `.env` in the root of this project.
-3.  Add the following line to the `.env` file, replacing `your_api_key_here` with your actual key:
-    ```
-    GOOGLE_API_KEY="your_api_key_here"
-    ```
-The code below will load this key from the `.env` file.
+First, we define some standard Magic Python commands to autoreload Python packages whenever they change:
 """
 
 %load_ext autoreload
 %autoreload 2
+
+"""
+### Set Up Python Environment
+
+To set up your Python virtual environment using `uv` and load it into the Notebook, follow the step-by-step instructions from the `Course Admin` lesson from the beginning of the course.
+
+**TL/DR:** Be sure the correct kernel pointing to your `uv` virtual environment is selected.
+"""
+
+"""
+### Configure Gemini API
+
+To configure the Gemini API, follow the step-by-step instructions from the `Course Admin` lesson.
+
+But here is a quick check on what you need to run this Notebook:
+
+1.  Get your key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+2.  From the root of your project, run: `cp .env.example .env` 
+3.  Within the `.env` file, fill in the `GOOGLE_API_KEY` variable:
+
+Now, the code below will load the key from the `.env` file:
+"""
 
 from lessons.utils import env
 
@@ -3498,20 +2077,22 @@ env.load(required_env_vars=["GOOGLE_API_KEY"])
 
 
 """
-## Setting Up the Environment and the LLM Client
-
-Let's start by importing the necessary libraries for our ReAct agent implementation:
+### Import Key Packages
 """
+
+from enum import Enum
+from pydantic import BaseModel, Field
+from typing import List
 
 from google import genai
 from google.genai import types
-from pydantic import BaseModel
-from typing import List, Union
-from enum import Enum
 
 from lessons.utils import pretty_print
 
-# Create Gemini client
+"""
+### Initialize the Gemini Client
+"""
+
 client = genai.Client()
 # Output:
 #   Both GOOGLE_API_KEY and GEMINI_API_KEY are set. Using GOOGLE_API_KEY.
@@ -3520,31 +2101,22 @@ client = genai.Client()
 """
 ### Define Constants
 
-We will use the `gemini-2.5-flash` model, which is fast, cost-effective, and supports advanced features like tool use.
+We will use the `gemini-2.5-flash` model, which is fast and cost-effective:
 """
 
 MODEL_ID = "gemini-2.5-flash"
 
 """
-## Search Tool Definition
+## 2. Tools Definition
 
 Let's implement our mock search tool that will serve as the external knowledge source for our agent. This simplified version focuses on the ReAct mechanics rather than real API integration:
 """
 
 def search(query: str) -> str:
-    """
-    Search for information about a specific topic or query.
+    """Search for information about a specific topic or query.
 
     Args:
-        query (str): The search query or topic to look up
-
-    Returns:
-        str: Search results containing information about the queried topic
-
-    Note:
-        This is a simple mocked search tool for demonstration purposes.
-        In a real scenario, this would call a search API like Google Search,
-        Bing Search, or a specialized knowledge base API.
+        query (str): The search query or topic to look up.
     """
     query_lower = query.lower()
 
@@ -3555,124 +2127,223 @@ def search(query: str) -> str:
         return "The ReAct (Reasoning and Acting) framework enables LLMs to solve complex tasks by interleaving thought generation, action execution, and observation processing."
 
     # Generic response for unhandled queries
-    return f"Mock search result: Information about '{query}' was not found in the predefined mock responses. A real search tool would provide more."
+    return f"Information about '{query}' was not found."
 
 """
-## Thought Phase
+We maintain a mapping from tool name to tool function (the tool registry). This lets the model plan with symbolic tool names, while our code safely resolves those names to actual Python functions to execute.
+"""
+
+TOOL_REGISTRY = {
+    search.__name__: search,
+}
+
+"""
+## 3. ReAct Thought Phase
+
+Now let's implement the thought generation phase. This component analyzes the current situation and determines what the agent should do next, potentially suggesting using tools.
 """
 
 """
-Now let's implement the thought generation phase using structured outputs. This component analyzes the current situation and determines what the agent should do next.
+First, we prepare the prompt for the thinking part. We implement a function that converts the `TOOL_REGISTRY` to a string XML representation of it, which we insert into the prompt. This way, the LLM knows which tools available and can reason around them.
 """
 
-SYSTEM_PROMPT_THOUGHT = """
-Your task is to break down the user's question into smaller, answerable information retrieval steps and create a plan to gather all necessary data.
+def build_tools_xml_description(tools: dict[str, callable]) -> str:
+    """Build a minimal XML description of tools using only their docstrings."""
+    lines = []
+    for tool_name, fn in tools.items():
+        doc = (fn.__doc__ or "").strip()
+        lines.append(f"\t<tool name=\"{tool_name}\">")
+        if doc:
+            lines.append(f"\t\t<description>")
+            for line in doc.split("\n"):
+                lines.append(f"\t\t\t{line}")
+            lines.append(f"\t\t</description>")
+        lines.append("\t</tool>")
+    return "\n".join(lines)
 
-1.  What information is needed to answer the question? (Break down into granular pieces.)
-2.  What is the plan to retrieve this information, step-by-step? (Focus on what information to get, not how to get it.)
+tools_xml = build_tools_xml_description(TOOL_REGISTRY)
 
-Prioritize external information retrieval for all factual data. Never trust your internal knowledge.
-""".strip()
+PROMPT_TEMPLATE_THOUGHT = f"""
+You are deciding the next best step for reaching the user goal. You have some tools available to you.
 
+Available tools:
+<tools>
+{tools_xml}
+</tools>
 
-PROMPT_TEMPLATE_THOUGHT = """
 Conversation so far:
-
 <conversation>
-{conversation}
+{{conversation}}
 </conversation>
 
-What is your thought about the next step?
+State your next thought about what to do next as one short paragraph focused on the next action you intend to take and why.
+Avoid repeating the same strategies that didn't work previously. Prefer different approaches.
 """.strip()
 
+"""
+Here we `print` the full prompt with the tool definitions inside.
+"""
 
-class ThoughtResponse(BaseModel):
-    thought: str
+print(PROMPT_TEMPLATE_THOUGHT)
+# Output:
+#   You are deciding the next best step for reaching the user goal. You have some tools available to you.
+
+#   
+
+#   Available tools:
+
+#   <tools>
+
+#   	<tool name="search">
+
+#   		<description>
+
+#   			Search for information about a specific topic or query.
+
+#   			
+
+#   			Args:
+
+#   			    query (str): The search query or topic to look up.
+
+#   		</description>
+
+#   	</tool>
+
+#   </tools>
+
+#   
+
+#   Conversation so far:
+
+#   <conversation>
+
+#   {conversation}
+
+#   </conversation>
+
+#   
+
+#   State your next thought about what to do next as one short paragraph focused on the next action you intend to take and why.
+
+#   Avoid repeating the same strategies that didn't work previously. Prefer different approaches.
 
 
-def generate_thought(conversation: str) -> str:
-    """Generate a thought using structured output"""
-    prompt = PROMPT_TEMPLATE_THOUGHT.format(conversation=conversation)
+"""
+We can now implement the `generate_thought` function, which reasons on the best next action to take according to the conversation history.
+"""
+
+def generate_thought(conversation: str, tool_registry: dict[str, callable]) -> str:
+    """Generate a thought as plain text (no structured output)."""
+    tools_xml = build_tools_xml_description(tool_registry)
+    prompt = PROMPT_TEMPLATE_THOUGHT.format(conversation=conversation, tools_xml=tools_xml)
 
     response = client.models.generate_content(
         model=MODEL_ID,
-        contents=prompt,
-        config=types.GenerateContentConfig(
-            system_instruction=SYSTEM_PROMPT_THOUGHT,
-            response_mime_type="application/json",
-            response_schema=ThoughtResponse
-        )
+        contents=prompt
     )
-    return response.parsed.thought
+    return response.text.strip()
 
 """
-## Action Phase
+## 4. ReAct Action Phase
 """
 
 """
 Next, let's implement the action phase using function calling. This component determines whether to use a tool or provide a final answer.
 """
 
-SYSTEM_PROMPT_ACTION = """
-Prioritize external information retrieval for all factual data. Never trust your internal knowledge.
-""".strip()
-
-
 PROMPT_TEMPLATE_ACTION = """
-Conversation so far:
+You are selecting the best next action to reach the user goal.
 
+Conversation so far:
 <conversation>
 {conversation}
 </conversation>
 
-Based on your thought, what action should you take?
+Respond either with a tool call (with arguments) or a final answer if you can confidently conclude.
+""".strip()
+
+# Dedicated prompt used when we must force a final answer
+PROMPT_TEMPLATE_ACTION_FORCED = """
+You must now provide a final answer to the user.
+
+Conversation so far:
+<conversation>
+{conversation}
+</conversation>
+
+Provide a concise final answer that best addresses the user's goal.
 """.strip()
 
 
-# Modeling the "finish" action
-ACTION_FINISH = "finish"
-class ActionFinishObject(BaseModel):
-    text: str
+class ToolCallRequest(BaseModel):
+    """A request to call a tool with its name and arguments."""
+    tool_name: str = Field(description="The name of the tool to call.")
+    arguments: dict = Field(description="The arguments to pass to the tool.")
 
 
-# A mapping of tool names to their functions
-TOOL_REGISTRY = {
-    search.__name__: search,
-}
+class FinalAnswer(BaseModel):
+    """A final answer to present to the user when no further action is needed."""
+    text: str = Field(description="The final answer text to present to the user.")
 
 
-def generate_action(conversation: str) -> tuple[str, Union[dict, ActionFinishObject]]:
-    """Generate an action using function calling or direct text response"""
+def generate_action(conversation: str, tool_registry: dict[str, callable] | None = None, force_final: bool = False) -> (ToolCallRequest | FinalAnswer):
+    """Generate an action by passing tools to the LLM and parsing function calls or final text.
+
+    When force_final is True or no tools are provided, the model is instructed to produce a final answer and tool calls are disabled.
+    """
+    # Use a dedicated prompt when forcing a final answer or no tools are provided
+    if force_final or not tool_registry:
+        prompt = PROMPT_TEMPLATE_ACTION_FORCED.format(conversation=conversation)
+        response = client.models.generate_content(
+            model=MODEL_ID,
+            contents=prompt
+        )
+        return FinalAnswer(text=response.text.strip())
+
+    # Default action prompt
     prompt = PROMPT_TEMPLATE_ACTION.format(conversation=conversation)
 
+    # Provide the available tools to the model; disable auto-calling so we can parse and run ourselves
+    tools = list(tool_registry.values())
+    config = types.GenerateContentConfig(
+        tools=tools,
+        automatic_function_calling={"disable": True}
+    )
     response = client.models.generate_content(
         model=MODEL_ID,
         contents=prompt,
-        config=types.GenerateContentConfig(
-            system_instruction=SYSTEM_PROMPT_ACTION,
-            tools=[search],
-            automatic_function_calling={'disable': True}
-        )
+        config=config
     )
 
-    # Check if response contains a function call or text
-    response_part = response.candidates[0].content.parts[0]
-
-    if hasattr(response_part, 'function_call') and response_part.function_call:
-        function_call = response_part.function_call
-        action_name = function_call.name
-        action_params = dict(function_call.args)
-        return action_name, action_params
-    else:
-        # It's a text response (final answer)
-        return ACTION_FINISH, ActionFinishObject(text=response.text)
-
-"""
-## ReAct Control Loop
-"""
+    # Extract the function call from the response (if present)
+    candidate = response.candidates[0]
+    parts = candidate.content.parts
+    if parts and getattr(parts[0], "function_call", None):
+        name = parts[0].function_call.name
+        args = dict(parts[0].function_call.args) if parts[0].function_call.args is not None else {}
+        return ToolCallRequest(tool_name=name, arguments=args)
+    
+    # Otherwise, it's a final answer
+    final_answer = "".join(part.text for part in candidate.content.parts)
+    return FinalAnswer(text=final_answer.strip())
 
 """
-Now let's create the main ReAct control loop that orchestrates the thought-action-observation cycle. Let's model each step of the ReAct loop first.
+Why we provide an option to force the final answer? In a ReAct loop we sometimes need to terminate cleanly after a budget of turns (e.g., to avoid infinite loops or excessive tool calls). The force flag lets us ask the model to conclude with a final answer even if, under normal conditions, it might keep calling tools. This ensures graceful shutdown and a usable output at the end of the loop.
+"""
+
+"""
+Note: In the Action phase we do not inline tool descriptions into the prompt (unlike the Thought phase). Instead, we pass the available Python tool functions through the `tools` parameter to `generate_content`. The client automatically parses these tools and incorporates their definitions/arguments into the model's prompt context, enabling function calling without duplicating tool specs in our prompt text.
+"""
+
+"""
+## 5. ReAct Control Loop
+"""
+
+"""
+Now we build the main ReAct control loop that orchestrates the Thought → Action → Observation cycle end-to-end. We treat the conversation between the user and the agent as a sequence of messages. Each message is a step in the dialogue, and each step corresponds to one ReAct unit: it can be a user message, an internal thought, a tool request, the tool's observation, or the final answer.
+
+We'll start by defining the data structures for these messages.
 """
 
 class MessageRole(str, Enum):
@@ -3686,45 +2357,15 @@ class MessageRole(str, Enum):
 
 class Message(BaseModel):
     """A message with a role and content, used for all message types."""
-    role: MessageRole
-    content: str
+    role: MessageRole = Field(description="The role of the message in the ReAct loop.")
+    content: str = Field(description="The textual content of the message.")
 
     def __str__(self) -> str:
         """Provides a user-friendly string representation of the message."""
         return f"{self.role.value.capitalize()}: {self.content}"
 
 """
-Then, let's prepare a function that generates the final answer in case that the ReAct loops has reached its maximum number of iterations.
-"""
-
-PROMPT_TEMPLATE_FINAL_ANSWER = """
-<conversation>
-{conversation}
-</conversation>
-
-Given the conversation above, write a final answer to the original question.
-""".strip()
-
-
-def generate_final_answer(conversation: str) -> str:
-    prompt = PROMPT_TEMPLATE_FINAL_ANSWER.format(conversation=conversation)
-    response = client.models.generate_content(
-        model=MODEL_ID,
-        contents=prompt
-    )
-    return response.text
-
-"""
-We'll manage a list of messages, where each message is a ReAct step, in a variable called `scratchpad` (as it was called this way originally in the ReAct paper). The following helper function converts this list of messages to a string representation that we can use in the prompts.
-"""
-
-def format_scratchpad_for_llm(scratchpad: List[Message]) -> str:
-    """Formats the scratchpad content into a string for the LLM."""
-    conversation = "\n".join([str(message) for message in scratchpad])
-    return conversation
-
-"""
-Here we define another helper function that leverages our `pretty_print` module to show each step of the ReAct loop in a beautiful and colored way.
+We also add a small printer that uses our `pretty_print` module to render each message nicely in the notebook. This makes it easy to follow how the agent alternates between Thought, Action (tool call), and Observation across turns.
 """
 
 def pretty_print_message(message: Message, turn: int, max_turns: int, header_color: str = pretty_print.Color.YELLOW, is_forced_final_answer: bool = False) -> None:
@@ -3740,79 +2381,118 @@ def pretty_print_message(message: Message, turn: int, max_turns: int, header_col
     )
 
 """
-We can now implement the ReAct loop.
+We now use a `Scratchpad` class that wraps a list of `Message` objects and provides `append(..., verbose=False)` to both store and (optionally) pretty-print messages with role-based colors. The scratchpad is serialized each turn so the model can plan the next step.
 """
 
-def react_agent_loop(initial_question: str, max_turns: int = 5, verbose: bool = False) -> str:
+class Scratchpad:
+    """Container for ReAct messages with optional pretty-print on append."""
+
+    def __init__(self, max_turns: int) -> None:
+        self.messages: List[Message] = []
+        self.max_turns: int = max_turns
+        self.current_turn: int = 1
+
+    def set_turn(self, turn: int) -> None:
+        self.current_turn = turn
+
+    def append(self, message: Message, verbose: bool = False, is_forced_final_answer: bool = False) -> None:
+        self.messages.append(message)
+        if verbose:
+            role_to_color = {
+                MessageRole.USER: pretty_print.Color.RESET,
+                MessageRole.THOUGHT: pretty_print.Color.ORANGE,
+                MessageRole.TOOL_REQUEST: pretty_print.Color.GREEN,
+                MessageRole.OBSERVATION: pretty_print.Color.YELLOW,
+                MessageRole.FINAL_ANSWER: pretty_print.Color.CYAN,
+            }
+            header_color = role_to_color.get(message.role, pretty_print.Color.YELLOW)
+            pretty_print_message(
+                message=message,
+                turn=self.current_turn,
+                max_turns=self.max_turns,
+                header_color=header_color,
+                is_forced_final_answer=is_forced_final_answer,
+            )
+
+    def to_string(self) -> str:
+        return "\n".join(str(m) for m in self.messages)
+
+"""
+We can now implement the control loop.
+- On the first turn, we add the user question.
+- Then, at each turn: (1) we get a Thought from the model; (2) we get an Action. If the action is a `FinalAnswer`, we stop. If it's a `ToolCallRequest`, we execute the tool and append the resulting `Observation`, then continue. If we reach the maximum number of turns, we run the action selector one last time with a flag that forces a final answer (no tool calls).
+"""
+
+def react_agent_loop(initial_question: str, tool_registry: dict[str, callable], max_turns: int = 5, verbose: bool = False) -> str:
     """
     Implements the main ReAct (Thought -> Action -> Observation) control loop.
     Uses a unified message class for the scratchpad.
     """
-    # The scratchpad stores the history of messages.
-    scratchpad: List[Message] = []
+    scratchpad = Scratchpad(max_turns=max_turns)
+
+    # Add the user's question to the scratchpad
+    user_message = Message(role=MessageRole.USER, content=initial_question)
+    scratchpad.append(user_message, verbose=verbose)
 
     for turn in range(1, max_turns + 1):
-        # If it's the first turn, add the user's question to the scratchpad
-        if not scratchpad:
-            user_message = Message(role=MessageRole.USER, content=initial_question)
-            scratchpad.append(user_message)
-            if verbose:
-                pretty_print_message(user_message, turn, max_turns, pretty_print.Color.RESET)
+        scratchpad.set_turn(turn)
 
         # Generate a thought based on the current scratchpad
-        thought_content = generate_thought(format_scratchpad_for_llm(scratchpad))
+        thought_content = generate_thought(
+            scratchpad.to_string(),
+            tool_registry,
+        )
         thought_message = Message(role=MessageRole.THOUGHT, content=thought_content)
-        scratchpad.append(thought_message)
-        if verbose:
-            pretty_print_message(thought_message, turn, max_turns, pretty_print.Color.ORANGE)
+        scratchpad.append(thought_message, verbose=verbose)
 
         # Generate an action based on the current scratchpad
-        action_name, action_params = generate_action(format_scratchpad_for_llm(scratchpad))
+        action_result = generate_action(
+            scratchpad.to_string(),
+            tool_registry=tool_registry,
+        )
 
-        # Handle the finish action
-        if action_name == ACTION_FINISH:
-            final_answer = action_params.text
+        # If the model produced a final answer, return it
+        if isinstance(action_result, FinalAnswer):
+            final_answer = action_result.text
             final_message = Message(role=MessageRole.FINAL_ANSWER, content=final_answer)
-            scratchpad.append(final_message)
-            if verbose:
-                pretty_print_message(final_message, turn, max_turns, pretty_print.Color.CYAN)
+            scratchpad.append(final_message, verbose=verbose)
             return final_answer
 
-        # Handle a tool request action
-        params_str = ", ".join([f"{k}='{v}'" for k, v in action_params.items()])
-        action_content = f"{action_name}({params_str})"
-        action_message = Message(role=MessageRole.TOOL_REQUEST, content=action_content)
-        scratchpad.append(action_message)
-        if verbose:
-            pretty_print_message(action_message, turn, max_turns, pretty_print.Color.GREEN)
+        # Otherwise, it is a tool request
+        if isinstance(action_result, ToolCallRequest):
+            action_name = action_result.tool_name
+            action_params = action_result.arguments
 
-        # Run the action and get the observation
-        observation_content = ""
-        if action_name in TOOL_REGISTRY:
-            tool_function = TOOL_REGISTRY[action_name]
+            # Add the action to the scratchpad
+            params_str = ", ".join([f"{k}='{v}'" for k, v in action_params.items()])
+            action_content = f"{action_name}({params_str})"
+            action_message = Message(role=MessageRole.TOOL_REQUEST, content=action_content)
+            scratchpad.append(action_message, verbose=verbose)
+
+            # Run the action and get the observation
+            observation_content = ""
+            tool_function = tool_registry[action_name]
             try:
-                # Use ** to unpack the dictionary of parameters into function arguments
                 observation_content = tool_function(**action_params)
             except Exception as e:
                 observation_content = f"Error executing tool '{action_name}': {e}"
-        else:
-            available_tools_str = ", ".join(TOOL_REGISTRY.keys())
-            observation_content = f"Error - Unknown action '{action_name}'. Available tools are [{available_tools_str}]."
 
-        # Add the observation to the scratchpad
-        observation_message = Message(role=MessageRole.OBSERVATION, content=observation_content)
-        scratchpad.append(observation_message)
-        if verbose:
-            pretty_print_message(observation_message, turn, max_turns, pretty_print.Color.YELLOW)
+            # Add the observation to the scratchpad
+            observation_message = Message(role=MessageRole.OBSERVATION, content=observation_content)
+            scratchpad.append(observation_message, verbose=verbose)
 
-
-        # Check if the maximum number of turns has been reached. If so, force generating a final answer
+        # Check if the maximum number of turns has been reached. If so, force the action selector to produce a final answer
         if turn == max_turns:
-            final_answer = generate_final_answer(format_scratchpad_for_llm(scratchpad))
+            forced_action = generate_action(
+                scratchpad.to_string(),
+                force_final=True,
+            )
+            if isinstance(forced_action, FinalAnswer):
+                final_answer = forced_action.text
+            else:
+                final_answer = "Unable to produce a final answer within the allotted turns."
             final_message = Message(role=MessageRole.FINAL_ANSWER, content=final_answer)
-            scratchpad.append(final_message)
-            if verbose:
-                pretty_print_message(final_message, turn, max_turns, pretty_print.Color.CYAN, is_forced_final_answer=True)
+            scratchpad.append(final_message, verbose=verbose, is_forced_final_answer=True)
             return final_answer
 
 """
@@ -3821,7 +2501,7 @@ Let's test our ReAct agent with a simple factual question that requires a search
 
 # A straightforward question requiring a search.
 question = "What is the capital of France?"
-final_answer = react_agent_loop(question, max_turns=2, verbose=True)
+final_answer = react_agent_loop(question, TOOL_REGISTRY, max_turns=2, verbose=True)
 # Output:
 #   [0m----------------------------------------- User (Turn 1/2): -----------------------------------------[0m
 
@@ -3831,7 +2511,7 @@ final_answer = react_agent_loop(question, max_turns=2, verbose=True)
 
 #   [38;5;208m--------------------------------------- Thought (Turn 1/2): ---------------------------------------[0m
 
-#     The user is asking a factual question about the capital of France. The next step is to retrieve this specific piece of information.
+#     I need to find the capital of France to answer the user's question. The `search` tool can be used to retrieve this factual information.
 
 #   [38;5;208m----------------------------------------------------------------------------------------------------[0m
 
@@ -3849,7 +2529,7 @@ final_answer = react_agent_loop(question, max_turns=2, verbose=True)
 
 #   [38;5;208m--------------------------------------- Thought (Turn 2/2): ---------------------------------------[0m
 
-#     The user asked for the capital of France. The previous tool call successfully identified "Paris" as the capital. The next step is to output this answer to the user.
+#     I have successfully found the capital of France using the search tool. The next step is to communicate this answer to the user.
 
 #   [38;5;208m----------------------------------------------------------------------------------------------------[0m
 
@@ -3861,113 +2541,12 @@ final_answer = react_agent_loop(question, max_turns=2, verbose=True)
 
 
 """
-Now let's test with a more complex conceptual question that our mock search tool has knowledge about:
-"""
-
-# A question about a concept the mock search tool might know.
-question = "Can you explain the ReAct framework in AI?"
-final_answer = react_agent_loop(question, max_turns=2, verbose=True)
-# Output:
-#   [0m----------------------------------------- User (Turn 1/2): -----------------------------------------[0m
-
-#     Can you explain the ReAct framework in AI?
-
-#   [0m----------------------------------------------------------------------------------------------------[0m
-
-#   [38;5;208m--------------------------------------- Thought (Turn 1/2): ---------------------------------------[0m
-
-#     The user is asking for an explanation of the ReAct framework in AI. This requires retrieving factual information about the framework. I need to gather details such as its full name, core concept, how it operates (the iterative process), its advantages, and typical use cases. I will prioritize external information retrieval for all these details.
-
-#   [38;5;208m----------------------------------------------------------------------------------------------------[0m
-
-#   [92m------------------------------------- Tool request (Turn 1/2): -------------------------------------[0m
-
-#     search(query='ReAct framework AI')
-
-#   [92m----------------------------------------------------------------------------------------------------[0m
-
-#   [93m------------------------------------- Observation (Turn 1/2): -------------------------------------[0m
-
-#     The ReAct (Reasoning and Acting) framework enables LLMs to solve complex tasks by interleaving thought generation, action execution, and observation processing.
-
-#   [93m----------------------------------------------------------------------------------------------------[0m
-
-#   [38;5;208m--------------------------------------- Thought (Turn 2/2): ---------------------------------------[0m
-
-#     The user wants a detailed explanation of the ReAct framework. I have a high-level definition from the previous search result. I need to expand on the core mechanism (how 'thought', 'action', and 'observation' interleave), the specific steps involved in its operation, its key advantages, and typical use cases. I will perform further searches to gather these details.
-
-#   [38;5;208m----------------------------------------------------------------------------------------------------[0m
-
-#   [92m------------------------------------- Tool request (Turn 2/2): -------------------------------------[0m
-
-#     search(query='ReAct framework mechanism thought action observation')
-
-#   [92m----------------------------------------------------------------------------------------------------[0m
-
-#   [93m------------------------------------- Observation (Turn 2/2): -------------------------------------[0m
-
-#     The ReAct (Reasoning and Acting) framework enables LLMs to solve complex tasks by interleaving thought generation, action execution, and observation processing.
-
-#   [93m----------------------------------------------------------------------------------------------------[0m
-
-#   [96m-------------------------------------- Final answer (Forced): --------------------------------------[0m
-
-#     The ReAct (Reasoning and Acting) framework is an AI methodology that enables Large Language Models (LLMs) to solve complex tasks by interleaving **thought generation**, **action execution**, and **observation processing**.
-
-#   
-
-#   Here's how it works:
-
-#   
-
-#   1.  **Thought:** The LLM first generates an internal "thought" to decide the next step. This thought is a natural language explanation of its reasoning, what it intends to do, or what information it needs.
-
-#   2.  **Action:** Based on the thought, the LLM then specifies an "action" to be taken. This action typically involves using external tools (like search engines, calculators, code interpreters, or APIs) to gather information or interact with the environment.
-
-#   3.  **Observation:** After the action is executed, the LLM receives an "observation" – the result or output from the tool or environment.
-
-#   
-
-#   This cycle of Thought-Action-Observation repeats iteratively. The LLM uses the new observation to refine its understanding, correct mistakes, and plan the next thought and action, continually progressing towards solving the original task.
-
-#   
-
-#   **Key advantages of ReAct:**
-
-#   
-
-#   *   **Improved Reasoning:** By explicitly articulating its thoughts, the LLM can engage in more deliberate, step-by-step reasoning, making its problem-solving process more transparent and robust.
-
-#   *   **Tool Use:** It seamlessly integrates external tools, allowing LLMs to access real-time information, perform calculations, or interact with systems beyond their pre-trained knowledge.
-
-#   *   **Error Correction:** The iterative process allows the LLM to identify and correct errors by observing the results of its actions and adjusting its subsequent steps.
-
-#   *   **Handling Complexity:** It breaks down complex problems into smaller, manageable steps, making it effective for tasks that require multiple stages of reasoning and interaction.
-
-#   
-
-#   **Typical Use Cases:**
-
-#   
-
-#   *   **Complex Question Answering:** Answering questions that require looking up information, performing calculations, and synthesizing data.
-
-#   *   **Interactive Problem Solving:** Tasks that involve interacting with APIs, databases, or web services to achieve a goal.
-
-#   *   **Code Generation and Debugging:** Where the LLM might write code (action), run it (observation), and then debug based on errors.
-
-#   *   **Data Analysis:** Using tools to retrieve, process, and analyze data to draw conclusions.
-
-#   [96m----------------------------------------------------------------------------------------------------[0m
-
-
-"""
-Last, let's test with a question that our mock search tool doesn't have knowledge about:
+Last, let's test it with a question that our mock search tool doesn't have knowledge about:
 """
 
 # A question about a concept the mock search tool doesn't know.
 question = "What is the capital of Italy?"
-final_answer = react_agent_loop(question, max_turns=2, verbose=True)
+final_answer = react_agent_loop(question, TOOL_REGISTRY, max_turns=2, verbose=True)
 # Output:
 #   [0m----------------------------------------- User (Turn 1/2): -----------------------------------------[0m
 
@@ -3977,7 +2556,7 @@ final_answer = react_agent_loop(question, max_turns=2, verbose=True)
 
 #   [38;5;208m--------------------------------------- Thought (Turn 1/2): ---------------------------------------[0m
 
-#     The user is asking a factual question about the capital of Italy. The next step is to retrieve this specific piece of information. The information needed is the name of Italy's capital city. The plan is to perform a targeted search query like 'capital of Italy' and extract the answer from reliable sources.
+#     I need to find the capital of Italy to answer the user's question. The `search` tool can provide this information efficiently.I will use the `search` tool to find the capital of Italy.
 
 #   [38;5;208m----------------------------------------------------------------------------------------------------[0m
 
@@ -3989,33 +2568,38 @@ final_answer = react_agent_loop(question, max_turns=2, verbose=True)
 
 #   [93m------------------------------------- Observation (Turn 1/2): -------------------------------------[0m
 
-#     Mock search result: Information about 'capital of Italy' was not found in the predefined mock responses. A real search tool would provide more.
+#     Information about 'capital of Italy' was not found.
 
 #   [93m----------------------------------------------------------------------------------------------------[0m
 
 #   [38;5;208m--------------------------------------- Thought (Turn 2/2): ---------------------------------------[0m
 
-#     The previous attempt to find the capital of Italy failed as the mock search did not provide a result. The information needed is still the capital city of Italy. The plan is to retry the search query 'capital of Italy' to obtain this specific factual information.
+#     The previous search query "capital of Italy" did not return information, which is unexpected for a common fact. I will try a broader search query like "Italy" to see if more general information or a list of facts about Italy can provide the capital, as the tool might respond better to less specific phrasing or have had a temporary issue with the exact previous query.I will try a broader search query like "Italy" to see if more general information or a list of facts about Italy can provide the capital, as the tool might respond better to less specific phrasing or have had a temporary issue with the exact previous query.
 
 #   [38;5;208m----------------------------------------------------------------------------------------------------[0m
 
 #   [92m------------------------------------- Tool request (Turn 2/2): -------------------------------------[0m
 
-#     search(query='capital of Italy')
+#     search(query='Italy')
 
 #   [92m----------------------------------------------------------------------------------------------------[0m
 
 #   [93m------------------------------------- Observation (Turn 2/2): -------------------------------------[0m
 
-#     Mock search result: Information about 'capital of Italy' was not found in the predefined mock responses. A real search tool would provide more.
+#     Information about 'Italy' was not found.
 
 #   [93m----------------------------------------------------------------------------------------------------[0m
 
 #   [96m-------------------------------------- Final answer (Forced): --------------------------------------[0m
 
-#     I apologize, but I was unable to find the capital of Italy using my current tools.
+#     I'm sorry, but I couldn't find information about the capital of Italy.
 
 #   [96m----------------------------------------------------------------------------------------------------[0m
+
+
+"""
+Notice how the ReAct agent tried different strategies to find an answer for the user query, demonstrating live adaptation.
+"""
 
 </details>
 
@@ -4023,11 +2607,6 @@ final_answer = react_agent_loop(question, max_turns=2, verbose=True)
 ## YouTube Video Transcripts
 
 _No YouTube video transcripts found._
-
-
-## Local Files
-
-_No local files found._
 
 
 ## Additional Sources Scraped
@@ -4043,551 +2622,37 @@ While large language models (LLMs) have demonstrated impressive performance acro
 
 A unique feature of human intelligence is the ability to seamlessly combine task-oriented actions with verbal reasoning (or inner speech, Alderson-Day & Fernyhough, 2015), which has been theorized to play an important role in human cognition for enabling self-regulation or strategization (Vygotsky, 1987; Luria, 1965; Fernyhough, 2010) and maintaining a working memory (Baddeley, 1992). Consider the example of cooking up a dish in the kitchen. Between any two specific actions, we may reason in language in order to track progress (“now that everything is cut, I should heat up the pot of water”), to handle exceptions or adjust the plan according to the situation (“I don’t have salt, so let me use soy sauce and pepper instead”), and to realize when external information is needed (“how do I prepare dough? Let me search on the Internet”). We may also act (open a cookbook to read the recipe, open the fridge, check ingredients) to support the reasoning and to answer questions (“What dish can I make right now?”). This tight synergy between “acting” and “reasoning” allows humans to learn new tasks quickly and perform robust decision making or reasoning, even under previously unseen circumstances or facing information uncertainties.
 
-Recent results have hinted at the possibility of combining verbal reasoning with interactive decision making in autonomous systems. On one hand, properly prompted large language models (LLMs) have demonstrated emergent capabilities to carry out several steps of reasoning traces to derive answers from questions in arithmetic, commonsense, and symbolic reasoning tasks (Wei et al., 2022). However, this “chain-of-thought” reasoning is a static black box, in that the model uses its own internal representations to generate thoughts and is not grounded in the external world, which limits its ability to reason reactively or update its knowledge. This can lead to issues like fact hallucination and error propagation over the reasoning process (Figure 1 (1b)). On the other hand, recent work has explored the use of pre-trained language models for planning and acting in interactive environments (Ahn et al., 2022; Nakano et al., 2021; Yao et al., 2020; Huang et al., 2022a), with a focus on predicting actions via language priors. These approaches usually convert multi-modal observations into text, use a language model to generate domain-specific actions or plans, and then use a controller to choose or execute them. However, they do not employ language models to reason abstractly about high-level goals or maintain a working memory to support acting, barring Huang et al. (2022b) who perform a limited form of verbal reasoning to reiterate spatial facts about the current state. Beyond such simple embodied tasks to interact with a few blocks, there have not been studies on how reasoning and acting can be combined in a synergistic manner for general task solving, and if such a combination can bring systematic benefits compared to reasoning or acting alone.
-
-https://arxiv.org/pdf/images/dd0e9f64b42d2cab71cdcecddd80ea2cf5aa212b5bf9a21882834d8e50a5302d.jpg
+Recent results have hinted at the possibility of combining verbal reasoning with interactive decision making in autonomous systems. On one hand, properly prompted large language models (LLMs) have demonstrated emergent capabilities to carry out several steps of reasoning traces to derive answers from questions in arithmetic, commonsense, and symbolic reasoning tasks (Wei et al., 2022). However, this “chain-of-thought” reasoning is a static black box, in that the model uses its own internal representations to generate thoughts and is not grounded in the external world, which limits its ability to reason reactively or update its knowledge. This can lead to issues like fact hallucination and error propagation over the reasoning process (Figure 1 (1b)). On the other hand, recent work has explored the use of pre-trained language models for planning and acting in interactive environments (Ahn et al., 2022; Nakano et al., 2021; Yao et al., 2020; Huang et al., 2022a), with a focus on predicting actions via language priors. These approaches usually convert multi-modal observations into text, use a language model to generate domain-specific actions or plans, and then use a controller to choose or execute them. However, they do not employ language models to reason abstractly about high-level goals or maintain a working memory to support acting, barring Huang et al. (2022b) who perform a limited form of verbal reasoning to reiterate spatial facts about the current state. Beyond such simple embodied tasks to interact with a few blocks, there have not been studies on how reasoning and acting can be combined in a synergistic manner for general task solving, and if such a combination can bring systematic benefits compared to reasoning or acting alone.https://arxiv.org/pdf/images/dd0e9f64b42d2cab71cdcecddd80ea2cf5aa212b5bf9a21882834d8e50a5302d.jpg
 
 Figure 1: (1) Comparison of 4 prompting methods, (a) Standard, (b) Chain-of-thought (CoT, Reason Only), (c) Act-only, and (d) ReAct (Reason+Act), solving a HotpotQA (Yang et al., 2018) question. (2) Comparison of (a) Act-only and (b) ReAct prompting to solve an AlfWorld (Shridhar et al., 2020b) game. In both domains, we omit in-context examples in the prompt, and only show task solving trajectories generated by the model (Act, Thought) and the environment (Obs).
 
 In this work, we present ReAct, a general paradigm to combine reasoning and acting with language models for solving diverse language reasoning and decision making tasks (Figure 1). ReAct prompts LLMs to generate both verbal reasoning traces and actions pertaining to a task in an interleaved manner, which allows the model to perform dynamic reasoning to create, maintain, and adjust high-level plans for acting (reason to act), while also interact with the external environments (e.g. Wikipedia) to incorporate additional information into reasoning (act to reason).
 
-We conduct empirical evaluations of ReAct and state-of-the-art baselines on four diverse benchmarks: question answering (HotPotQA, Yang et al., 2018), fact verification (Fever, Thorne et al., 2018), text-based game (ALFWorld, Shridhar et al., 2020b), and webpage navigation (WebShop, Yao et al., 2022). For HotPotQA and Fever, with access to a Wikipedia API that the model can interact with, ReAct outperforms vanilla action generation models while being competitive with chain-ofthought reasoning (CoT) (Wei et al., 2022). The best approach overall is a combination of ReAct and CoT that allows for the use of both internal knowledge and externally obtained information during reasoning. On ALFWorld and WebShop, two or even one-shot ReAct prompting is able to outperform imitation or reinforcement learning methods trained with $1 0 ^ { 3 } \sim \mathrm { { \bar { 1 0 } } ^ { 5 } }$ task instances, with an absolute improvement of $34 %$ and $10 %$ in success rates respectively. We also demonstrate the importance of sparse, versatile reasoning in decision making by showing consistent advantages over controlled baselines with actions only. Besides general applicability and performance boost, the combination of reasoning and acting also contributes to model interpretability, trustworthiness, and diagnosability across all domains, as humans can readily distinguish information from model’s internal knowledge versus external environments, as well as inspect reasoning traces to understand the decision basis of model actions.
+# 2 REAC T: SYNERGIZING REASONING + ACTING
 
-To summarize, our key contributions are the following: (1) we introduce ReAct, a novel promptbased paradigm to synergize reasoning and acting in language models for general task solving; (2) we perform extensive experiments across diverse benchmarks to showcase the advantage of ReAct in a few-shot learning setup over prior approaches that perform either reasoning or action generation in isolation; (3) we present systematic ablations and analysis to understand the importance of acting in reasoning tasks, and reasoning in interactive tasks; (4) we analyze the limitations of ReAct under the prompting setup (i.e. limited support of reasoning and acting behaviors), and perform initial finetuning experiments showing the potential of ReAct to improve with additional training data. Scaling up ReAct to train and operate on more tasks and combining it with complementary paradigms like reinforcement learning could further unlock the potential of large language models.
+Consider a general setup of an agent interacting with an environment for task solving. At time step $t$ , an agent receives an observation $o \_ { t } \\in \\mathcal { O }$ from the environment and takes an action $a \_ { t } \\in \\mathcal A$ following some policy $\\pi ( \\boldsymbol { a } \_ { t } \| \\boldsymbol { c } \_ { t } )$ , where $c \_ { t } = \\left( o \_ { 1 } , a \_ { 1 } , \\cdot \\cdot \\cdot , o \_ { t - 1 } , a \_ { t - 1 } , o \_ { t } \\right)$ is the context to the agent. Learning a policy is challenging when the mapping $c \_ { t } \\mapsto a \_ { t }$ is highly implicit and requires extensive computation. For example, the agent shown in Figure 1(1c) is unable to generate the correct final action (Act 4) to finish the QA task as it requires complex reasoning over the trajectory context (Question, Act 1-3, Obs 1-3). Similarly, the agent shown in Figure 1(2a) fails to comprehend from the context that sinkbasin 1 does not contain peppershaker 1, thus keep producing hallucinating actions.
 
-# 2 REACT: SYNERGIZING REASONING + ACTING
+The idea of ReAct is simple: we augment the agent’s action space to ${ \\hat { \\mathcal { A } } } = { \\mathcal { A } } \\cup { \\mathcal { L } }$ , where $\\mathcal { L }$ is the space of language. An action $\\hat { a } \_ { t } \\in \\mathcal { L }$ in the language space, which we will refer to as a thought or a reasoning trace, does not affect the external environment, thus leading to no observation feedback. Instead, a thought $\\hat { a } \_ { t }$ aims to compose useful information by reasoning over the current context $c \_ { t }$ , and update the context $\\boldsymbol c \_ { t + 1 } = \\left( c \_ { t } , \\hat { a } \_ { t } \\right)$ to support future reasoning or acting. As shown in Figure 1, there could be various types of useful thoughts, e.g. decomposing task goals and create action plans (2b, Act 1; 1d, Thought 1), injecting commonsense knowledge relevant to task solving (2b, Act 1), extracting important parts from observations (1d, Thought2, 4), track progress and transit action plans (2b, Act 8), handle exceptions and adjust action plans (1d, Thought 3), and so on.
 
-Consider a general setup of an agent interacting with an environment for task solving. At time step $t$ , an agent receives an observation $o _ { t } \in \mathcal { O }$ from the environment and takes an action $a _ { t } \in \mathcal A$ following some policy $\pi ( \boldsymbol { a } _ { t } \| \boldsymbol { c } _ { t } )$ , where $c _ { t } = \left( o _ { 1 } , a _ { 1 } , \cdot \cdot \cdot , o _ { t - 1 } , a _ { t - 1 } , o _ { t } \right)$ is the context to the agent. Learning a policy is challenging when the mapping $c _ { t } \mapsto a _ { t }$ is highly implicit and requires extensive computation. For example, the agent shown in Figure 1(1c) is unable to generate the correct final action (Act 4) to finish the QA task as it requires complex reasoning over the trajectory context (Question, Act 1-3, Obs 1-3). Similarly, the agent shown in Figure 1(2a) fails to comprehend from the context that sinkbasin 1 does not contain peppershaker 1, thus keep producing hallucinating actions.
-
-The idea of ReAct is simple: we augment the agent’s action space to ${ \hat { \mathcal { A } } } = { \mathcal { A } } \cup { \mathcal { L } }$ , where $\mathcal { L }$ is the space of language. An action $\hat { a } _ { t } \in \mathcal { L }$ in the language space, which we will refer to as a thought or a reasoning trace, does not affect the external environment, thus leading to no observation feedback. Instead, a thought $\hat { a } _ { t }$ aims to compose useful information by reasoning over the current context $c _ { t }$ , and update the context $\boldsymbol c _ { t + 1 } = \left( c _ { t } , \hat { a } _ { t } \right)$ to support future reasoning or acting. As shown in Figure 1, there could be various types of useful thoughts, e.g. decomposing task goals and create action plans (2b, Act 1; 1d, Thought 1), injecting commonsense knowledge relevant to task solving (2b, Act 1), extracting important parts from observations (1d, Thought2, 4), track progress and transit action plans (2b, Act 8), handle exceptions and adjust action plans (1d, Thought 3), and so on.
-
-However, as the language space $\mathcal { L }$ is unlimited, learning in this augmented action space is difficult and requires strong language priors. In this paper, we mainly focus on the setup where a frozen large language model, PaLM-540B (Chowdhery et al., 2022)1, is prompted with few-shot in-context examples to generate both domain-specific actions and free-form language thoughts for task solving (Figure 1 (1d), (2b)). Each in-context example is a human trajectory of actions, thoughts, and environment observations to solve a task instance (see Appendix C). For the tasks where reasoning is of primary importance (Figure 1(1)), we alternate the generation of thoughts and actions so that the task-solving trajectory consists of multiple thought-action-observation steps. In contrast, for decision making tasks that potentially involve a large number of actions (Figure 1(2)), thoughts only need to appear sparsely in the most relevant positions of a trajectory, so we let the language model decide the asynchronous occurrence of thoughts and actions for itself.
-
-Since decision making and reasoning capabilities are integrated into a large language model, ReAct enjoys several unique features: A) Intuitive and easy to design: Designing ReAct prompts is straightforward as human annotators just type down their thoughts in language on top of their actions taken. No ad-hoc format choice, thought design, or example selection is used in this paper. We detail prompt design for each task in Sections 3 and 4. B) General and flexible: Due to the flexible thought space and thought-action occurrence format, ReAct works for diverse tasks with distinct action spaces and reasoning needs, including but not limited to QA, fact verification, text game, and web navigation. C) Performant and robust: ReAct shows strong generalization to new task instances while learning solely from one to six in-context examples, consistently outperforming baselines with only reasoning or acting across different domains. We also show in Section 3 additional benefits when finetuning is enabled, and in Section 4 how ReAct performance is robust to prompt selections. D) Human aligned and controllable: ReAct promises an interpretable sequential decision making and reasoning process where humans can easily inspect reasoning and factual correctness. Moreover, humans can also control or correct the agent behavior on the go by thought editing, as shown in Figure 5 in Section 4.
+However, as the language space $\\mathcal { L }$ is unlimited, learning in this augmented action space is difficult and requires strong language priors. In this paper, we mainly focus on the setup where a frozen large language model, PaLM-540B (Chowdhery et al., 2022)1, is prompted with few-shot in-context examples to generate both domain-specific actions and free-form language thoughts for task solving (Figure 1 (1d), (2b)). Each in-context example is a human trajectory of actions, thoughts, and environment observations to solve a task instance (see Appendix C). For the tasks where reasoning is of primary importance (Figure 1(1)), we alternate the generation of thoughts and actions so that the task-solving trajectory consists of multiple thought-action-observation steps. In contrast, for decision making tasks that potentially involve a large number of actions (Figure 1(2)), thoughts only need to appear sparsely in the most relevant positions of a trajectory, so we let the language model decide the asynchronous occurrence of thoughts and actions for itself.
 
 # 3 KNOWLEDGE-INTENSIVE REASONING TASKS
 
 We begin with knowledge-intensive reasoning tasks like multi-hop question answering and fact verification. As shown in Figure 1(1d), by interacting with a Wikipedia API, ReAct is able to retrieve information to support reasoning, while also use reasoning to target what to retrieve next, demonstrating a synergy of reasoning and acting.
-
-# 3.1 SETUP
-
-Domains We consider two datasets challenging knowledge retrieval and reasoning: (1) HotPotQA (Yang et al., 2018), a multi-hop question answering benchmark that requires reasoning over two or more Wikipedia passages, and (2) FEVER (Thorne et al., 2018), a fact verification benchmark where each claim is annotated SUPPORTS, REFUTES, or NOT ENOUGH INFO, based on if there exists a Wikipedia passage to verify the claim. In this work, we operate in a question-only setup for both tasks, where models only receive the question/claim as input without access to support paragraphs, and have to rely on their internal knowledge or retrieve knowledge via interacting with an external environment to support reasoning.
-
-Action Space We design a simple Wikipedia web API with three types of actions to support interactive information retrieval: (1) search[entity], which returns the first 5 sentences from the corresponding entity wiki page if it exists, or else suggests top-5 similar entities from the Wikipedia search engine, (2) lookup[string], which would return the next sentence in the page containing string, simulating $\mathrm { C t r l + F }$ functionality on the browser. (3) finish[answer], which would finish the current task with answer. We note that this action space mostly can only retrieve a small part of a passage based on exact passage name, which is significantly weaker than state-of-theart lexical or neural retrievers. The purpose is to simulate how humans would interact with Wikipedia, and force models to retrieve via explicit reasoning in language.
-
-# 3.2 METHODS
-
-ReAct Prompting For HotpotQA and Fever, we randomly select 6 and 3 cases2 from the training set and manually compose ReAct-format trajectories to use as few-shot exemplars in the prompts. Similar to Figure 1(d), each trajectory consists of multiple thought-action-observation steps (i.e. dense thought), where free-form thoughts are used for various purposes. Specifically, we use a combination of thoughts that decompose questions (“I need to search x, find y, then find $\boldsymbol { z } ^ { \flat }$ ), extract information from Wikipedia observations $\mathbf { \epsilon } ^ { * } \mathbf { \epsilon } _ { \mathbf { X } }$ was started in $1 8 4 4 ^ { , 9 }$ , “The paragraph does not tell x”), perform commonsense ( ${ } ^ { ** } \mathbf { X }$ is not y, so z must instead be...”) or arithmetic reasoning $^ { \cdot \cdot } 1 8 4 4 < 1 9 8 9 ^ { , 3 } ,$ ), guide search reformulation (“maybe I can search/look up x instead”), and synthesize the final answer (“...so the answer is x”).
-
-# 3.3 RESULTS AND OBSERVATIONS
-
-ReAct outperforms Act consistently Table 1 shows HotpotQA and Fever results using PaLM540B as the base model with different prompting methods. We note that ReAct is better than Act on both tasks, demonstrating the value of reasoning to guide acting, especially for synthesizing the final answer, as shown in Figure 1 (1c-d). Fine-tuning results 3 also confirm the benefit of reasoning traces for more informed acting.
-
-ReAct vs. CoT On the other hand, ReAct outperforms CoT on Fever (60.9 vs. 56.3) and slightly lags behind CoT on HotpotQA (27.4 vs. 29.4). Fever claims for SUPPORTS/REFUTES might only differ by a slight amount (see Appendix D.1), so acting to retrieve accurate and up-to-date knowledge is vital. To better understand the behavioral difference between ReAct and CoT on HotpotQA, we randomly sampled 50 trajectories with correct and incorrect answers (judged by EM) from ReAct and CoT respectively (thus 200 examples in total), and manually labeled their success and failure modes in Table 2.
-
-A) Hallucination is a serious problem for CoT, resulting in much higher false positive rate than ReAct $14 %$ vs. $6 %$ ) in success mode, and make up its major failure mode $( 5 6 % )$ . In contrast, the problem solving trajectory of $\scriptstyle { \mathrm { R e A c t } }$ is more grounded, fact-driven, and trustworthy, thanks to the access of an external knowledge base.
-
-B) While interleaving reasoning, action and observation steps improves ReAct’s groundedness and trustworthiness, such a structural constraint also reduces its flexibility in formulating reasoning steps, leading to more reasoning error rate than CoT. we note that there is one frequent error pattern specific to ReAct, in which the model repetitively generates the previous thoughts and actions, and we categorize it as part of “reasoning error” as the model fails to reason about what the proper next action to take and jump out of the $\mathrm { l o o p ^ { 4 } }$ .
-
-C) For ReAct, successfully retrieving informative knowledge via search is critical. Noninformative search, which counts for $23 %$ of the error cases, derails the model reasoning and gives it a hard time to recover and reformulate thoughts. This is perhaps an expected trade-off between factuality and flexibility, which motivates our proposed strategies of combining two methods.
-
-We provide examples for each success and failure modes in Appendix E.1. We also find some HotpotQA questions may contain outdated answer labels, see Figure 4 for example.
-
-ReAct $^ +$ CoT-SC perform best for prompting LLMs The best prompting method on HotpotQA and Fever are $\mathtt { R e A c t } \to \mathtt { C o T } \mathrm { - } \mathrm { S C }$ and $\mathtt { C o T - S C } \to \mathtt { R e A c t }$ respectively. Furthermore, Figure 2 shows how different methods perform with respect to the number of $\mathrm { C o T - S C }$ samples used.
-
-ReAct performs best for fine-tuning Figure 3 shows the scaling effect of prompting/finetuning four methods (Standard, CoT, Act, ReAct) on HotpotQA. With PaLM-8/62B, prompting ReAct performs worst among four methods due to the difficulty to learn both reasoning and acting from in-context examples. However, when finetuned with just 3,000 examples, ReAct becomes the best method among the four, with PaLM-8B finetuned ReAct outperforming all PaLM-62B prompting methods, and PaLM-62B finetuned ReAct outperforming all 540B prompting methods.
-
-# 4 DECISION MAKING TASKS
-
-We also test ReAct on two language-based interactive decision-making tasks, ALFWorld and WebShop, both of which feature complex environments that require agents to act over long horizons with sparse rewards, warranting the need for reasoning to act and explore effectively.
-
-ALFWorld ALFWorld (Shridhar et al., 2020b) (Figure 1(2)) is a synthetic text-based game designed to align with the embodied ALFRED benchmark (Shridhar et al., 2020a). It includes 6 types of tasks in which an agent needs to achieve a high-level goal (e.g. examine paper under desklamp) by navigating and interacting with a simulated household via text actions (e.g. go to coffeetable 1, take paper 2, use desklamp 1). A task instance can have more than 50 locations and take an expert policy more than 50 steps to solve, thus challenging an agent to plan and track subgoals, as well as explore systematically (e.g. check all desks one by one for desklamp). In particular, one challenge built into ALFWorld is the need to determine likely locations for common household items (e.g. desklamps will likely be on desks, shelfs, or dressers), making this environment a good fit for LLMs to exploit their pretrained commonsense knowledge.
-
-WebShop Can ReAct also interact with noisy real-world language environments for practical applications? We investigate WebShop (Yao et al., 2022), a recently proposed online shopping website environment with 1.18M real-world products and $1 2 \mathrm { k }$ human instructions. Unlike ALFWorld, Webshop contains a high variety of structured and unstructured texts (e.g. product titles, descriptions, and options crawled from Amazon), and requires an agent to purchase a product based on a user instruction (e.g. “I am looking for a nightstand with drawers. It should have a nickel finish, and priced lower than $$ 140$ ) through web interactions (e.g. search “nightstand drawers”, choose buttons such as “color: modern-nickel-white” or “back to search”).
-
-Results ReAct outperforms Act on both ALFWorld (Table 3) and Webshop (Table 4). On ALFWorld, the best ReAct trial achieves an average success rate of $71 %$ , significantly outperforming the best Act $( 4 5 % )$ and BUTLER $( 3 7 % )$ trials. Moreover, the advantage of $\scriptstyle { \mathrm { R e a c t } }$ over Act is consistent across six controlled trials, with relative performance gain ranging from $33 %$ to $90 %$ and averaging $62 %$ . Qualitatively, we saw that, without any thoughts at all, Act fails to correctly decompose goals into smaller subgoals, or loses track of the current state of the environment.
-
-On Webshop, one-shot Act prompting already performs on par with IL and $\scriptstyle \mathrm { I L + R L }$ methods. With additional sparse reasoning, ReAct achieves significantly better performance, with an absolute $10 %$ improvement over the previous best success rate.
-
-On the value of internal reasoning vs. external feedback To our knowledge, ReAct is the first demonstration of combined reasoning and action using an LLM applied to an interactive environment within a closed-loop system. Perhaps the closest prior work is Inner Monologue (IM), from Huang et al. (2022b), in which actions from an embodied agent are motivated by an eponymous “inner monologue”. However, IM’s “inner monologue” is limited to observations of the environment state and what needs to be completed by the agent for the goal to be satisfied. In contrast, the reasoning traces in ReAct for decision making is flexible and sparse, allowing diverse reasoning types (see Section 2) to be induced for different tasks.
-
-To demonstrate the differences between ReAct and IM, and to highlight the importance of internal reasoning vs. simple reactions to external feedback, we ran an ablation experiment using a thought pattern composed of IM-like dense external feedback. As can be seen in Table 3, ReAct substantially outperforms IM-style prompting (ReAct-IM) (71 vs. 53 overall success rate), with consistent advantages on five out of six tasks.
-
-# C PROMPTS
-
-## Hotpot QA Prompts
-
-Original Question: What is the elevation range for the area that the eastern sector of the Colorado orogeny extends into?  
-Answer: 1,800 to 7,000 ft
-
-Question: Musician and satirist Allie Goertz wrote a song about the "The Simpsons" character Milhouse, who Matt Groening named after who?  
-Answer: Richard Nixon
-
-Question Answer: Which documentary is about Finnish rock groups, Adam Clayton Powell or The Saimaa Gesture?  
-Question: The Saimaa Gesture What profession does Nicholas Ray and Elia Kazan have in common?  
-Answer: director, screenwriter, actor
-
-Question Answer: Which magazine was started first Arthur's Magazine or First for Women? Arthur's Magazine  
-Question: Were Pavel Urysohn and Leonid Levin known for the same type of work?  
-Answer Act: Yes
-
-**Example ReAct reasoning:**
-
-Question: What is the elevation range for the area that the eastern sector of the Colorado orogeny extends into?
-- Thought 1: I need to search Colorado orogeny, find the area that the eastern sector of the Colorado orogeny extends into, then find the elevation range of the area.
-- Action 1: Search[Colorado orogeny]
-- Observation: The Colorado orogeny was an episode of mountain building (an orogeny) in Colorado and surrounding areas.
-- Thought 2: It does not mention the eastern sector. So I need to look up eastern sector.
-- Action 2: Lookup[eastern sector]
-- Observation 2: (Result 1 / 1) The eastern sector extends into the High Plains and is called the Central Plains orogeny.
-- Thought 3: The eastern sector of Colorado orogeny extends into the High Plains. So I need to search High Plains and find its elevation range.
-- Action 3: Search[High Plains]
-- [Intermediate steps...]
-- Thought 4: High Plains refers to one of two distinct land regions. I need to instead search High Plains (United States).
-- Action 4: Search[High Plains (United States)]
-- Observation 4: High Plains rise in elevation from around 1,800 to 7,000 ft (550 to 2,130 m).
-- Action 5: Finish[1,800 to 7,000 ft]
-
----
-
-Question: Musician and satirist Allie Goertz wrote a song about the "The Simpsons" character Milhouse, who Matt Groening named after who?
-- Thought 1: I need to search Milhouse, find out who he was named after.
-- Action 1: Search[Milhouse]
-- Observation: Milhouse Mussolini Van Houten is a recurring character in the Fox animated television series The Simpsons...
-- Thought 2: The paragraph does not tell who Milhouse is named after; maybe I can look up "named after".
-- Action 2: Lookup[named after]
-- Observation 2: (Result 1 / 1) Milhouse was named after U.S. president Richard Nixon, whose middle name was Milhous.
-- Thought 3: Milhouse was named after U.S. president Richard Nixon, so the answer is Richard Nixon.
-- Action 3: Finish[Richard Nixon]
-
----
-
-Question: Which documentary is about Finnish rock groups, Adam Clayton Powell or The Saimaa Gesture?
-- Thought 1: I need to search Adam Clayton Powell and The Saimaa Gesture, and find which documentary is about Finnish rock groups.
-- Action 1: Search[Adam Clayton Powell]
-- Observation 1: Could not find [Adam Clayton Powell]. Similar: ['Adam Clayton Powell III', ...]
-- Thought 2: To find the documentary, I can search Adam Clayton Powell (film).
-- Action 2: Search[Adam Clayton Powell (film)]
-- Observation 2: Adam Clayton Powell is a 1989 American documentary film...
-- Thought 3: Adam Clayton Powell (film) is a documentary about an African-American politician, not Finnish rock groups. So the documentary about Finnish rock groups must instead be The Saimaa Gesture.
-- Action 3: Finish[The Saimaa Gesture]
-
----
-
-Question: What profession does Nicholas Ray and Elia Kazan have in common?
-- Thought 1: I need to search Nicholas Ray and Elia Kazan, find their professions, then find the profession they have in common.
-- Action 1: Search[Nicholas Ray]
-- Observation 1: Nicholas Ray (born Raymond Nicholas Kienzle Jr., August 7, 1911 - June 16, 1979) was an American film director, screenwriter, and actor...
-- Thought 2: Professions of Nicholas Ray are director, screenwriter, and actor.
-- Action 2: I need to search Elia Kazan next and find his professions. Search[Elia Kazan]
-- Observation 2: Elia Kazan was an American film and theatre director, producer, screenwriter and actor.
-- Thought 3: Professions of Elia Kazan are director, producer, screenwriter, and actor. So profession Nicholas Ray and Elia Kazan have in common is director, screenwriter, and actor.
-- Action 3: Finish[director, screenwriter, actor]
-
----
-
-Question: Which magazine was started first Arthur's Magazine or First for Women?
-- Thought 1: I need to search Arthur's Magazine and First for Women, and find which was started first.
-- Action 1: Search[Arthur's Magazine]
-- Observation 1: Arthur's Magazine (1844-1846) was an American literary periodical published in Philadelphia in the 19th century
-- Thought 2: Arthur's Magazine was started in 1844. I need to search First for Women next.
-- Action 2: Search[First for Women]
-- Observation 2: First for Women is a woman's magazine published by Bauer Media Group in the USA. The magazine was started in 1989.
-- Thought 3: First for Women was started in 1989. 1844 (Arthur's Magazine) < 1989 (First for Women), so Arthur's Magazine was started first.
-- Action 3: Finish[Arthur's Magazine]
-
----
-
-Question: Were Pavel Urysohn and Leonid Levin known for the same type of work?
-- Thought 1: I need to search Pavel Urysohn and Leonid Levin, find their types of work, then find if they are the same.
-- Action 1: Search[Pavel Urysohn]
-- Observation 1: Pavel Samuilovich Urysohn (February 3, 1898 - August 17, 1924) was a Soviet mathematician...
-- Thought 2: Pavel Urysohn is a mathematician. I need to search Leonid Levin next and find its type of work.
-- Action 2: Search[Leonid Levin]
-- Observation 2: Leonid Anatolievich Levin is a Soviet-American mathematician and computer scientist.
-- Thought 3: Leonid Levin is a mathematician and computer scientist. So Pavel Urysohn and Leonid Levin have the same type of work.
-- Action 3: Finish[yes]
-
----
-
-## FEVER Prompts
-
-Claim: Nikolaj Coster-Waldau worked with the Fox Broadcasting Company.
-- Thought 1: I need to search Nikolaj Coster-Waldau and find if he has worked with the Fox Broadcasting Company.
-- Action 1: Search[Nikolaj Coster-Waldau]
-- Observation 1: Nikolaj William Coster-Waldau ... played a detective in the short-lived Fox television series New Amsterdam (2008), and appeared in the 2009 Fox television film Virtuality, originally intended as a pilot.
-- Thought 2: Because he "appeared in the 2009 Fox television film Virtuality," he should have worked with the Fox Broadcasting Company.
-- Action 2: Finish[SUPPORTS]
-
-Claim: Stranger Things is set in Bloomington, Indiana.
-- Thought 1: I should search for Stranger Things, and see if it is set in Bloomington, Indiana.
-- Action 1: Search[Stranger Things]
-- Observation 1: Stranger Things is ... Set in the 1980s, primarily in the fictional town of Hawkins, Indiana...
-- Thought 2: The observation says that it is set in a "fictional town of Hawkins, Indiana", so it is not set in Bloomington.
-- Action 2: Finish[REFUTES]
-
-Claim: Beautiful reached number two on the Billboard Hot 100 in 2003.
-- Thought 1: I need to search the song Beautiful and find if it reached number two on the Billboard Hot 100 in 2003.
-- Action 1: Search[Beautiful]
-- Observation 1: Could not find [Beautiful]. Similar: ['Beautiful', 'Beautiful, Beautiful', ... 'Beautiful (Christina Aguilera song)', ...]
-- Thought 2: From suggestions, I should search "Beautiful (Christina Aguilera song)" to find the song.
-- Action 2: Search[Beautiful (Christina Aguilera song)]
-- Observation 2: "Beautiful" is a song recorded by American singer Christina Aguilera for her fourth studio album, Stripped (2002).
-- Thought 3: It does not mention Billboard, so I need to look up "Billboard Hot 100" to find if it reached number two on it in 2003.
-- Action 3: Lookup[Billboard Hot 100]
-- Observation 3: (Result 1 / 3) The song peaked at number two on the Billboard Hot 100 in the United States, where it was certified Gold for 500,000 units shipped.
-- Thought 4: It only says the song peaked at number two on the Billboard Hot 100, but not if it was in 2003. I am not sure if this claim is true or not.
-- Action 4: Finish[NOT ENOUGH INFO]
-
----
-
-## ALFWorld Prompts
-
-You are in the middle of a room. Looking quickly around you, you see a cabinet 13, a cabinet 12, ..., a sinkbasin 1, a stoveburner 4, ..., a toaster 1. Your task is to: put a clean lettuce in diningtable.
-
-> think: To solve the task, I need to find and take a lettuce, then clean it with sinkbasin, then put it in diningtable.
-
-OK.
-
-> think: First I need to find a lettuce. A lettuce is more likely to appear in fridge (1), diningtable (1), sinkbasin (1), stoveburner (1-3), cabinet (1-13). I can check one by one, starting with fridge 1.
-
-OK.
-
-> go to fridge 1
-
-> The fridge 1 is closed.
-
-> open fridge 1
-
-> You open the fridge 1. The fridge 1 is open. In it, you see a cup 3, a egg 2, a potato 3, and a potato 2.
-
-> go to diningtable 1
-
-> On the diningtable 1, you see a apple 1, a bread 1, a butterknife 2, a cup 2, a fork 2, a knife 2, a knife 1, a ladle 1, a lettuce 1, a mug 2, a mug 1, a pan 2, a peppershaker 1, a spatula 3, a tomato 2, and a tomato 1.
-
-> think: Now I find a lettuce (1). Next, I need to take it.
-
-OK.
-
-> take lettuce 1 from diningtable 1
-
-> You pick up the lettuce 1 from the diningtable 1.
-
-> think: Now I take a lettuce (1). Next, I need to go to sinkbasin (1) and clean it.
-
-OK.
-
-> go to sinkbasin 1
-
-> On the sinkbasin 1, you see a apple 2, a ladle 2, a spoon 1, and a tomato 3.
-
-> clean lettuce 1 with sinkbasin 1
-
-> You clean the lettuce 1 using the sinkbasin 1.
-
-> think: Now I clean a lettuce (1). Next, I need to put it in/on diningtable 1. OK.
-
-> go to diningtable 1
-
-> On the diningtable 1, you see a apple 1, a bread 1, a butterknife 2, a cup 2, a fork 2, a knife 2, a knife 1, a ladle 1, a mug 2, a mug 1, a pan 2, a peppershaker 1, a spatula 3, a tomato 2, and a tomato 1.
-
-> put lettuce 1 in/on diningtable 1
-
-> You put the lettuce 1 in/on the diningtable 1.
-
----
-
-## WebShop Prompt (ReAct Example)
-
-Instruction: I would like a 3 ounce bottle of bright citrus deodorant for sensitive skin, and price lower than 50.00 dollars
-
-Action: search 3 ounce bright citrus deodorant sensitive skin  
-Observation: Back to Search Page 1 (Total results: 50) ... B078GWRC1J Bright Citrus Deodorant by Earth Mama | Natural and Safe for Sensitive Skin, Pregnancy and Breastfeeding, Contains Organic Calendula 3-Ounce $10.99 ...
-
-Action: click B078GWRC1J  
-Observation: [Options, product details]
-
-Action: think[B078GWRC1J and B078GTKVXY are bright citrus deodorant less than 50 dollars. I can check B078GWRC1J first.]
-Observation: OK.
-
-Action: click[bright citrus]  
-Observation: You have clicked bright citrus.
-
-Action: click[3 ounce (pack of 1)]  
-Observation: You have clicked 3 ounce (pack of 1).
-
-Action: click[Buy Now]
-
----
-
-## Example Trajectories & Analysis
-
-### ALFWorld: ReAct Trace
-
-You are in the middle of a room. Looking quickly around you, you see a cabinet 5, a cabinet 4, ..., a countertop 3, a countertop 2, a countertop 1, ...
-
-Your task is to: put a clean knife in countertop.
-
-> think: To solve the task, I need to find and take a knife, then clean it with the sinkbasin, then put it on a countertop.
-
-> go to countertop 2  
-> take knife 1 from countertop 2  
-> go to sinkbasin 1  
-> clean knife 1 with sinkbasin 1  
-> go to countertop 1  
-> put knife 1 in/on countertop 1
-
----
-
-### WebShop: ReAct Trace
-
-Instruction: get me a sixteen pack of apple cinnamon freeze dried banana chips, and price lower than 50.00 dollars
-
-- Action: search[sixteen pack apple cinnamon freeze dried banana chips]
-    - Observation: ... [shows relevant products]
-- Action: think[B0061IVFZE is strawberry banana, not apple cinnamon. B096H2P6G2 is fruit snacks, not freeze dried banana chips. B092JLLYK6 is banana crisps, not apple cinnamon. I can check B092JLLYK6 first.]
-    - Observation: OK.
-- Action: click[B092JLLYK6]
-    - Observation: ... [shows options, including 'apple cinnamon', '0.53 ounce (pack of 16)']
-- Action: think[For sixteen pack of apple cinnamon freeze dried banana chips, the item has options 'apple cinnamon' and '0.53 ounce (pack of 16)' and seems good to buy.]
-    - Observation: OK.
-- Action: click[apple cinnamon]
-- Action: click[0.53 ounce (pack of 16)]
-- Action: click[Buy Now]
-
----
-
-This cleaned markdown contains only the main article, methodology, example ReAct traces, and illustrative prompts, removing unrelated headers, footers, references, appendices, and other ancillary content.
 
 </details>
 
 <details>
 <summary>building-effective-ai-agents-anthropic</summary>
 
-# Building effective agents
-
-Published Dec 19, 2024
-
-We've worked with dozens of teams building LLM agents across industries. Consistently, the most successful implementations use simple, composable patterns rather than complex frameworks.
-
 Over the past year, we've worked with dozens of teams building large language model (LLM) agents across industries. Consistently, the most successful implementations weren't using complex frameworks or specialized libraries. Instead, they were building with simple, composable patterns.
 
 In this post, we share what we’ve learned from working with our customers and building agents ourselves, and give practical advice for developers on building effective agents.
-
-## What are agents?
-
-"Agent" can be defined in several ways. Some customers define agents as fully autonomous systems that operate independently over extended periods, using various tools to accomplish complex tasks. Others use the term to describe more prescriptive implementations that follow predefined workflows. At Anthropic, we categorize all these variations as **agentic systems**, but draw an important architectural distinction between **workflows** and **agents**:
-
-- **Workflows** are systems where LLMs and tools are orchestrated through predefined code paths.
-- **Agents**, on the other hand, are systems where LLMs dynamically direct their own processes and tool usage, maintaining control over how they accomplish tasks.
-
-Below, we will explore both types of agentic systems in detail. In Appendix 1 (“Agents in Practice”), we describe two domains where customers have found particular value in using these kinds of systems.
-
-## When (and when not) to use agents
-
-When building applications with LLMs, we recommend finding the simplest solution possible, and only increasing complexity when needed. This might mean not building agentic systems at all. Agentic systems often trade latency and cost for better task performance, and you should consider when this tradeoff makes sense.
-
-When more complexity is warranted, workflows offer predictability and consistency for well-defined tasks, whereas agents are the better option when flexibility and model-driven decision-making are needed at scale. For many applications, however, optimizing single LLM calls with retrieval and in-context examples is usually enough.
-
-## When and how to use frameworks
-
-There are many frameworks that make agentic systems easier to implement, including:
-
-- [LangGraph](https://langchain-ai.github.io/langgraph/) from LangChain;
-- Amazon Bedrock's [AI Agent framework](https://aws.amazon.com/bedrock/agents/);
-- [Rivet](https://rivet.ironcladapp.com/), a drag and drop GUI LLM workflow builder; and
-- [Vellum](https://www.vellum.ai/), another GUI tool for building and testing complex workflows.
-
-These frameworks make it easy to get started by simplifying standard low-level tasks like calling LLMs, defining and parsing tools, and chaining calls together. However, they often create extra layers of abstraction that can obscure the underlying prompts ​​and responses, making them harder to debug. They can also make it tempting to add complexity when a simpler setup would suffice.
-
-We suggest that developers start by using LLM APIs directly: many patterns can be implemented in a few lines of code. If you do use a framework, ensure you understand the underlying code. Incorrect assumptions about what's under the hood are a common source of customer error.
-
-See our [cookbook](https://github.com/anthropics/anthropic-cookbook/tree/main/patterns/agents) for some sample implementations.
-
-## Building blocks, workflows, and agents
-
-In this section, we’ll explore the common patterns for agentic systems we’ve seen in production. We'll start with our foundational building block—the augmented LLM—and progressively increase complexity, from simple compositional workflows to autonomous agents.
-
-### Building block: The augmented LLM
-
-The basic building block of agentic systems is an LLM enhanced with augmentations such as retrieval, tools, and memory. Our current models can actively use these capabilities—generating their own search queries, selecting appropriate tools, and determining what information to retain.
-
-https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fd3083d3f40bb2b6f477901cc9a240738d3dd1371-2401x1000.png&w=3840&q=75
-
-We recommend focusing on two key aspects of the implementation: tailoring these capabilities to your specific use case and ensuring they provide an easy, well-documented interface for your LLM. While there are many ways to implement these augmentations, one approach is through our recently released [Model Context Protocol](https://www.anthropic.com/news/model-context-protocol), which allows developers to integrate with a growing ecosystem of third-party tools with a simple [client implementation](https://modelcontextprotocol.io/tutorials/building-a-client#building-mcp-clients).
-
-For the remainder of this post, we'll assume each LLM call has access to these augmented capabilities.
-
-### Workflow: Prompt chaining
-
-Prompt chaining decomposes a task into a sequence of steps, where each LLM call processes the output of the previous one. You can add programmatic checks (see "gate” in the diagram below) on any intermediate steps to ensure that the process is still on track.
-
-https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F7418719e3dab222dccb379b8879e1dc08ad34c78-2401x1000.png&w=3840&q=75
-
-**When to use this workflow:** This workflow is ideal for situations where the task can be easily and cleanly decomposed into fixed subtasks. The main goal is to trade off latency for higher accuracy, by making each LLM call an easier task.
-
-**Examples where prompt chaining is useful:**
-
-- Generating Marketing copy, then translating it into a different language.
-- Writing an outline of a document, checking that the outline meets certain criteria, then writing the document based on the outline.
-
-### Workflow: Routing
-
-Routing classifies an input and directs it to a specialized followup task. This workflow allows for separation of concerns, and building more specialized prompts. Without this workflow, optimizing for one kind of input can hurt performance on other inputs.
-
-https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F5c0c0e9fe4def0b584c04d37849941da55e5e71c-2401x1000.png&w=3840&q=75
-
-**When to use this workflow:** Routing works well for complex tasks where there are distinct categories that are better handled separately, and where classification can be handled accurately, either by an LLM or a more traditional classification model/algorithm.
-
-**Examples where routing is useful:**
-
-- Directing different types of customer service queries (general questions, refund requests, technical support) into different downstream processes, prompts, and tools.
-- Routing easy/common questions to smaller models like Claude 3.5 Haiku and hard/unusual questions to more capable models like Claude 3.5 Sonnet to optimize cost and speed.
-
-### Workflow: Parallelization
-
-LLMs can sometimes work simultaneously on a task and have their outputs aggregated programmatically. This workflow, parallelization, manifests in two key variations:
-
-- **Sectioning**: Breaking a task into independent subtasks run in parallel.
-- **Voting:** Running the same task multiple times to get diverse outputs.
-
-https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F406bb032ca007fd1624f261af717d70e6ca86286-2401x1000.png&w=3840&q=75
-
-**When to use this workflow:** Parallelization is effective when the divided subtasks can be parallelized for speed, or when multiple perspectives or attempts are needed for higher confidence results. For complex tasks with multiple considerations, LLMs generally perform better when each consideration is handled by a separate LLM call, allowing focused attention on each specific aspect.
-
-**Examples where parallelization is useful:**
-
-- **Sectioning**:
-  - Implementing guardrails where one model instance processes user queries while another screens them for inappropriate content or requests. This tends to perform better than having the same LLM call handle both guardrails and the core response.
-  - Automating evals for evaluating LLM performance, where each LLM call evaluates a different aspect of the model’s performance on a given prompt.
-- **Voting**:
-  - Reviewing a piece of code for vulnerabilities, where several different prompts review and flag the code if they find a problem.
-  - Evaluating whether a given piece of content is inappropriate, with multiple prompts evaluating different aspects or requiring different vote thresholds to balance false positives and negatives.
-
-### Workflow: Orchestrator-workers
-
-In the orchestrator-workers workflow, a central LLM dynamically breaks down tasks, delegates them to worker LLMs, and synthesizes their results.
-
-https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F8985fc683fae4780fb34eab1365ab78c7e51bc8e-2401x1000.png&w=3840&q=75
-
-**When to use this workflow:** This workflow is well-suited for complex tasks where you can’t predict the subtasks needed (in coding, for example, the number of files that need to be changed and the nature of the change in each file likely depend on the task). Whereas it’s topographically similar, the key difference from parallelization is its flexibility—subtasks aren't pre-defined, but determined by the orchestrator based on the specific input.
-
-**Example where orchestrator-workers is useful:**
-
-- Coding products that make complex changes to multiple files each time.
-- Search tasks that involve gathering and analyzing information from multiple sources for possible relevant information.
-
-### Workflow: Evaluator-optimizer
-
-In the evaluator-optimizer workflow, one LLM call generates a response while another provides evaluation and feedback in a loop.
-
-https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F14f51e6406ccb29e695da48b17017e899a6119c7-2401x1000.png&w=3840&q=75
-
-**When to use this workflow:** This workflow is particularly effective when we have clear evaluation criteria, and when iterative refinement provides measurable value. The two signs of good fit are, first, that LLM responses can be demonstrably improved when a human articulates their feedback; and second, that the LLM can provide such feedback. This is analogous to the iterative writing process a human writer might go through when producing a polished document.
-
-**Examples where evaluator-optimizer is useful:**
-
-- Literary translation where there are nuances that the translator LLM might not capture initially, but where an evaluator LLM can provide useful critiques.
-- Complex search tasks that require multiple rounds of searching and analysis to gather comprehensive information, where the evaluator decides whether further searches are warranted.
-
-### Agents
-
-Agents are emerging in production as LLMs mature in key capabilities—understanding complex inputs, engaging in reasoning and planning, using tools reliably, and recovering from errors. Agents begin their work with either a command from, or interactive discussion with, the human user. Once the task is clear, agents plan and operate independently, potentially returning to the human for further information or judgement. During execution, it's crucial for the agents to gain “ground truth” from the environment at each step (such as tool call results or code execution) to assess its progress. Agents can then pause for human feedback at checkpoints or when encountering blockers. The task often terminates upon completion, but it’s also common to include stopping conditions (such as a maximum number of iterations) to maintain control.
-
-Agents can handle sophisticated tasks, but their implementation is often straightforward. They are typically just LLMs using tools based on environmental feedback in a loop. It is therefore crucial to design toolsets and their documentation clearly and thoughtfully. We expand on best practices for tool development in Appendix 2 ("Prompt Engineering your Tools").
-
-https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F58d9f10c985c4eb5d53798dea315f7bb5ab6249e-2401x1000.png&w=3840&q=75
-
-**When to use agents:** Agents can be used for open-ended problems where it’s difficult or impossible to predict the required number of steps, and where you can’t hardcode a fixed path. The LLM will potentially operate for many turns, and you must have some level of trust in its decision-making. Agents' autonomy makes them ideal for scaling tasks in trusted environments.
-
-The autonomous nature of agents means higher costs, and the potential for compounding errors. We recommend extensive testing in sandboxed environments, along with the appropriate guardrails.
-
-**Examples where agents are useful:**
-
-The following examples are from our own implementations:
-
-- A coding Agent to resolve [SWE-bench tasks](https://www.anthropic.com/research/swe-bench-sonnet), which involve edits to many files based on a task description;
-- Our [“computer use” reference implementation](https://github.com/anthropics/anthropic-quickstarts/tree/main/computer-use-demo), where Claude uses a computer to accomplish tasks.
-
-https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F4b9a1f4eb63d5962a6e1746ac26bbc857cf3474f-2400x1666.png&w=3840&q=75
-
-## Combining and customizing these patterns
-
-These building blocks aren't prescriptive. They're common patterns that developers can shape and combine to fit different use cases. The key to success, as with any LLM features, is measuring performance and iterating on implementations. To repeat: you should consider adding complexity _only_ when it demonstrably improves outcomes.
-
-## Summary
-
-Success in the LLM space isn't about building the most sophisticated system. It's about building the _right_ system for your needs. Start with simple prompts, optimize them with comprehensive evaluation, and add multi-step agentic systems only when simpler solutions fall short.
-
-When implementing agents, we try to follow three core principles:
-
-1. Maintain **simplicity** in your agent's design.
-2. Prioritize **transparency** by explicitly showing the agent’s planning steps.
-3. Carefully craft your agent-computer interface (ACI) through thorough tool **documentation and testing**.
-
-Frameworks can help you get started quickly, but don't hesitate to reduce abstraction layers and build with basic components as you move to production. By following these principles, you can create agents that are not only powerful but also reliable, maintainable, and trusted by their users.
-
-### Acknowledgements
-
-Written by Erik Schluntz and Barry Zhang. This work draws upon our experiences building agents at Anthropic and the valuable insights shared by our customers, for which we're deeply grateful.
-
-## Appendix 1: Agents in practice
-
-Our work with customers has revealed two particularly promising applications for AI agents that demonstrate the practical value of the patterns discussed above. Both applications illustrate how agents add the most value for tasks that require both conversation and action, have clear success criteria, enable feedback loops, and integrate meaningful human oversight.
-
-### A. Customer support
-
-Customer support combines familiar chatbot interfaces with enhanced capabilities through tool integration. This is a natural fit for more open-ended agents because:
-
-- Support interactions naturally follow a conversation flow while requiring access to external information and actions;
-- Tools can be integrated to pull customer data, order history, and knowledge base articles;
-- Actions such as issuing refunds or updating tickets can be handled programmatically; and
-- Success can be clearly measured through user-defined resolutions.
-
-Several companies have demonstrated the viability of this approach through usage-based pricing models that charge only for successful resolutions, showing confidence in their agents' effectiveness.
-
-### B. Coding agents
-
-The software development space has shown remarkable potential for LLM features, with capabilities evolving from code completion to autonomous problem-solving. Agents are particularly effective because:
-
-- Code solutions are verifiable through automated tests;
-- Agents can iterate on solutions using test results as feedback;
-- The problem space is well-defined and structured; and
-- Output quality can be measured objectively.
-
-In our own implementation, agents can now solve real GitHub issues in the [SWE-bench Verified](https://www.anthropic.com/research/swe-bench-sonnet) benchmark based on the pull request description alone. However, whereas automated testing helps verify functionality, human review remains crucial for ensuring solutions align with broader system requirements.
-
-## Appendix 2: Prompt engineering your tools
-
-No matter which agentic system you're building, tools will likely be an important part of your agent. [Tools](https://www.anthropic.com/news/tool-use-ga) enable Claude to interact with external services and APIs by specifying their exact structure and definition in our API. When Claude responds, it will include a [tool use block](https://docs.anthropic.com/en/docs/build-with-claude/tool-use#example-api-response-with-a-tool-use-content-block) in the API response if it plans to invoke a tool. Tool definitions and specifications should be given just as much prompt engineering attention as your overall prompts. In this brief appendix, we describe how to prompt engineer your tools.
-
-There are often several ways to specify the same action. For instance, you can specify a file edit by writing a diff, or by rewriting the entire file. For structured output, you can return code inside markdown or inside JSON. In software engineering, differences like these are cosmetic and can be converted losslessly from one to the other. However, some formats are much more difficult for an LLM to write than others. Writing a diff requires knowing how many lines are changing in the chunk header before the new code is written. Writing code inside JSON (compared to markdown) requires extra escaping of newlines and quotes.
-
-Our suggestions for deciding on tool formats are the following:
-
-- Give the model enough tokens to "think" before it writes itself into a corner.
-- Keep the format close to what the model has seen naturally occurring in text on the internet.
-- Make sure there's no formatting "overhead" such as having to keep an accurate count of thousands of lines of code, or string-escaping any code it writes.
-
-One rule of thumb is to think about how much effort goes into human-computer interfaces (HCI), and plan to invest just as much effort in creating good _agent_-computer interfaces (ACI). Here are some thoughts on how to do so:
-
-- Put yourself in the model's shoes. Is it obvious how to use this tool, based on the description and parameters, or would you need to think carefully about it? If so, then it’s probably also true for the model. A good tool definition often includes example usage, edge cases, input format requirements, and clear boundaries from other tools.
-- How can you change parameter names or descriptions to make things more obvious? Think of this as writing a great docstring for a junior developer on your team. This is especially important when using many similar tools.
-- Test how the model uses your tools: Run many example inputs in our [workbench](https://console.anthropic.com/workbench) to see what mistakes the model makes, and iterate.
-- [Poka-yoke](https://en.wikipedia.org/wiki/Poka-yoke) your tools. Change the arguments so that it is harder to make mistakes.
-
-While building our agent for [SWE-bench](https://www.anthropic.com/research/swe-bench-sonnet), we actually spent more time optimizing our tools than the overall prompt. For example, we found that the model would make mistakes with tools using relative filepaths after the agent had moved out of the root directory. To fix this, we changed the tool to always require absolute filepaths—and we found that the model used this method flawlessly.
 
 </details>
 
 <details>
 <summary>building-react-agents-from-scratch-a-hands-on-guide-using-ge</summary>
-
-# Building ReAct Agents from Scratch: A Hands-On Guide using Gemini
-
-`tldr` **:** _ReAct (Reason + Act) is a powerful framework for building AI agents that seamlessly integrates reasoning and decision-making with task execution. By leveraging large language models (LLMs) like Gemini, ReAct agents can dynamically analyze problems, choose appropriate tools, and iteratively work towards solutions. This article explores the foundations of ReAct, provides a step-by-step guide to building a ReAct agent from scratch, and discusses its implications for the future of generative AI. It includes a_ [_GitHub repo_](https://github.com/arunpshankar/react-from-scratch) _with all the code and artifacts needed to get started quickly. Even though the post uses Gemini, the underlying LLM can easily be replaced with any foundational models._
-
-https://miro.medium.com/v2/resize:fit:700/1*o307XLpR20oxEXi6iZEe7g.jpeg
 
 Throughout human history, tool use has been a defining characteristic of our species, shaping our evolution and cognitive development. Tools have been instrumental in human evolution, enhancing both our physical and mental abilities. They’ve enabled us to surpass our natural limitations, fostering cognitive growth and a deeper understanding of cause and effect. Through tools, we’ve developed increasingly compact technologies and learned to view external objects as extensions of ourselves, significantly expanding our capabilities to interact with and shape our environment. As we venture into the era of artificial intelligence (AI), we find ourselves at a fascinating juncture where AI agents are beginning to mirror this fundamental aspect of human behavior. By incorporating tool use and complex reasoning, AI agents are pushing the boundaries of what machines can accomplish, potentially revolutionizing how AI interacts with and understands the world around it.
 
@@ -4615,11 +2680,7 @@ By framing the agent’s thought processes and actions as a sequence of natural 
 
 # I. Building a ReAct Agent with Gemini
 
-Now that we’ve established the foundations, let’s explore the process of building a ReAct agent using Gemini as our LLM of choice.
-
-https://miro.medium.com/v2/resize:fit:1000/1*TQspcqCDuqzbv5bCiIG26w.png
-
-ReAct Agent — A 1000 foot view
+Now that we’ve established the foundations, let’s explore the process of building a ReAct agent using Gemini as our LLM of choice.https://miro.medium.com/v2/resize:fit:1000/1*TQspcqCDuqzbv5bCiIG26w.png
 
 ## Overview of ReAct Agent Design
 
@@ -4741,11 +2802,7 @@ These classes and structures work together to create a flexible and powerful ReA
 
 ## Step 3: Implementing the Think-Act-Observe Loop
 
-The core of the ReAct agent is its ability to think, act, and observe in an iterative loop. A high-level flow diagram below illustrates how a ReAct agent functions in this loop. The core pieces are the thinking (reasoning) phase, the acting phase (calling APIs and accessing the environment through tool use), and finally, the observation phase (collecting results). This cycle repeats, allowing the agent to improve and move towards a common goal set initially. In the following sections, we’ll examine each component of this loop in detail.
-
-https://miro.medium.com/v2/resize:fit:700/1*O8k5Oy65KYhkNFQ13PRpUA.png
-
-Think-Act-Observe loop
+The core of the ReAct agent is its ability to think, act, and observe in an iterative loop. A high-level flow diagram below illustrates how a ReAct agent functions in this loop. The core pieces are the thinking (reasoning) phase, the acting phase (calling APIs and accessing the environment through tool use), and finally, the observation phase (collecting results). This cycle repeats, allowing the agent to improve and move towards a common goal set initially. In the following sections, we’ll examine each component of this loop in detail.https://miro.medium.com/v2/resize:fit:700/1*O8k5Oy65KYhkNFQ13PRpUA.png
 
 **_Think_**
 
@@ -4860,9 +2917,7 @@ Remember:
 
 You can find the prompt template in the shared repo [here](https://github.com/arunpshankar/react-from-scratch/blob/main/data/input/react.txt).
 
-# II. Comparing Approaches: Traditional vs. ReAct Agents
-
-https://miro.medium.com/v2/resize:fit:700/1*8xI6wr1Pj32h5ylDU5Tr1w.jpeg
+# II. Comparing Approaches: Traditional vs. ReAct Agentshttps://miro.medium.com/v2/resize:fit:700/1*8xI6wr1Pj32h5ylDU5Tr1w.jpeg
 
 To appreciate the power and flexibility of the ReAct framework, comparing it to traditional methods for tool selection and query processing reveals key differences. Traditional systems often rely on predefined rules or pattern matching, such as routing biographical queries to Wikipedia and location queries to Google. ReAct, however, leverages a language model to dynamically analyze and select tools based on context, offering distinct advantages:
 
@@ -5376,8 +3431,6 @@ The ReAct framework opens up numerous possibilities for enhanced functionality a
 
 In future posts, we’ll explore a multi-agent scenario where a single steering agent interacts with multiple sub-agents, each fulfilling distinct tasks and communicating their findings back for a cohesive outcome. This will extend our current exercise, building a foundation for scalable, collaborative agent networks.
 
-Thanks for reading the article and for your engagement. Your follow and claps mean a lot. If you have any questions or doubts about the content or the shared notebooks, feel free to contact me at [_arunpshankar@google.com_](mailto:arunprsh@amazon.com) or [_shankar.arunp@gmail.com_](mailto:shankar.arunp@gmail.com). You can also find me on [https://www.linkedin.com/in/arunprasath-shankar/](https://www.linkedin.com/in/arunprasath-shankar/)
-
 </details>
 
 <details>
@@ -5402,182 +3455,7 @@ smart home devices.
 
 Get WeatherSchedule MeetingCreate Chart
 
-[Python](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#javascript)[REST](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#rest)More
-
-```
-from google import genai
-from google.genai import types
-
-# Define the function declaration for the model
-schedule_meeting_function = {
-    "name": "schedule_meeting",
-    "description": "Schedules a meeting with specified attendees at a given time and date.",
-    "parameters": {
-        "type": "object",
-        "properties": {
-            "attendees": {
-                "type": "array",
-                "items": {"type": "string"},
-                "description": "List of people attending the meeting.",
-            },
-            "date": {
-                "type": "string",
-                "description": "Date of the meeting (e.g., '2024-07-29')",
-            },
-            "time": {
-                "type": "string",
-                "description": "Time of the meeting (e.g., '15:00')",
-            },
-            "topic": {
-                "type": "string",
-                "description": "The subject or topic of the meeting.",
-            },
-        },
-        "required": ["attendees", "date", "time", "topic"],
-    },
-}
-
-# Configure the client and tools
-client = genai.Client()
-tools = types.Tool(function_declarations=[schedule_meeting_function])
-config = types.GenerateContentConfig(tools=[tools])
-
-# Send request with function declarations
-response = client.models.generate_content(
-    model="gemini-2.5-flash",
-    contents="Schedule a meeting with Bob and Alice for 03/14/2025 at 10:00 AM about the Q3 planning.",
-    config=config,
-)
-
-# Check for a function call
-if response.candidates[0].content.parts[0].function_call:
-    function_call = response.candidates[0].content.parts[0].function_call
-    print(f"Function to call: {function_call.name}")
-    print(f"Arguments: {function_call.args}")
-    #  In a real app, you would call your function here:
-    #  result = schedule_meeting(**function_call.args)
-else:
-    print("No function call found in the response.")
-    print(response.text)
-
-```
-
-```
-import { GoogleGenAI, Type } from '@google/genai';
-
-// Configure the client
-const ai = new GoogleGenAI({});
-
-// Define the function declaration for the model
-const scheduleMeetingFunctionDeclaration = {
-  name: 'schedule_meeting',
-  description: 'Schedules a meeting with specified attendees at a given time and date.',
-  parameters: {
-    type: Type.OBJECT,
-    properties: {
-      attendees: {
-        type: Type.ARRAY,
-        items: { type: Type.STRING },
-        description: 'List of people attending the meeting.',
-      },
-      date: {
-        type: Type.STRING,
-        description: 'Date of the meeting (e.g., "2024-07-29")',
-      },
-      time: {
-        type: Type.STRING,
-        description: 'Time of the meeting (e.g., "15:00")',
-      },
-      topic: {
-        type: Type.STRING,
-        description: 'The subject or topic of the meeting.',
-      },
-    },
-    required: ['attendees', 'date', 'time', 'topic'],
-  },
-};
-
-// Send request with function declarations
-const response = await ai.models.generateContent({
-  model: 'gemini-2.5-flash',
-  contents: 'Schedule a meeting with Bob and Alice for 03/27/2025 at 10:00 AM about the Q3 planning.',
-  config: {
-    tools: [{\
-      functionDeclarations: [scheduleMeetingFunctionDeclaration]\
-    }],
-  },
-});
-
-// Check for function calls in the response
-if (response.functionCalls && response.functionCalls.length > 0) {
-  const functionCall = response.functionCalls[0]; // Assuming one function call
-  console.log(`Function to call: ${functionCall.name}`);
-  console.log(`Arguments: ${JSON.stringify(functionCall.args)}`);
-  // In a real app, you would call your actual function here:
-  // const result = await scheduleMeeting(functionCall.args);
-} else {
-  console.log("No function call found in the response.");
-  console.log(response.text);
-}
-
-```
-
-```
-curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent" \
-  -H "x-goog-api-key: $GEMINI_API_KEY" \
-  -H 'Content-Type: application/json' \
-  -X POST \
-  -d '{
-    "contents": [\
-      {\
-        "role": "user",\
-        "parts": [\
-          {\
-            "text": "Schedule a meeting with Bob and Alice for 03/27/2025 at 10:00 AM about the Q3 planning."\
-          }\
-        ]\
-      }\
-    ],
-    "tools": [\
-      {\
-        "functionDeclarations": [\
-          {\
-            "name": "schedule_meeting",\
-            "description": "Schedules a meeting with specified attendees at a given time and date.",\
-            "parameters": {\
-              "type": "object",\
-              "properties": {\
-                "attendees": {\
-                  "type": "array",\
-                  "items": {"type": "string"},\
-                  "description": "List of people attending the meeting."\
-                },\
-                "date": {\
-                  "type": "string",\
-                  "description": "Date of the meeting (e.g., '2024-07-29')"\
-                },\
-                "time": {\
-                  "type": "string",\
-                  "description": "Time of the meeting (e.g., '15:00')"\
-                },\
-                "topic": {\
-                  "type": "string",\
-                  "description": "The subject or topic of the meeting."\
-                }\
-              },\
-              "required": ["attendees", "date", "time", "topic"]\
-            }\
-          }\
-        ]\
-      }\
-    ]
-  }'
-
-```
-
-## How function calling works
-
-https://ai.google.dev/static/gemini-api/docs/images/function-calling-overview.png
+## How function calling workshttps://ai.google.dev/static/gemini-api/docs/images/function-calling-overview.png
 
 Function calling involves a structured interaction between your application, the
 model, and external functions. Here's a breakdown of the process:
@@ -5604,9 +3482,9 @@ response that incorporates the information from the function call.
 
 This process can be repeated over multiple turns, allowing for complex
 interactions and workflows. The model also supports calling multiple functions
-in a single turn ( [parallel function\\
+in a single turn ( [parallel function\
 calling](https://ai.google.dev/gemini-api/docs/function-calling#parallel_function_calling)) and in
-sequence ( [compositional function\\
+sequence ( [compositional function\
 calling](https://ai.google.dev/gemini-api/docs/function-calling#compositional_function_calling)).
 
 ### Step 1: Define a function declaration
@@ -5615,7 +3493,7 @@ Define a function and its declaration within your application code that allows
 users to set light values and make an API request. This function could call
 external services or APIs.
 
-[Python](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#javascript)More
+[Python](https://ai.google.dev/gemini-api/docs/function-calling#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling#javascript)More
 
 ```
 # Define a function that the model can call to control smart lights
@@ -5701,7 +3579,7 @@ use them. It analyzes the prompt and function declarations and decides whether
 to respond directly or to call a function. If a function is called, the response
 object will contain a function call suggestion.
 
-[Python](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#javascript)More
+[Python](https://ai.google.dev/gemini-api/docs/function-calling#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling#javascript)More
 
 ```
 from google.genai import types
@@ -5765,7 +3643,7 @@ The model then returns a `functionCall` object in an OpenAPI compatible
 schema specifying how to call one or more of the declared functions in order to
 respond to the user's question.
 
-[Python](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#javascript)More
+[Python](https://ai.google.dev/gemini-api/docs/function-calling#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling#javascript)More
 
 ```
 id=None args={'color_temp': 'warm', 'brightness': 25} name='set_light_values'
@@ -5785,7 +3663,7 @@ id=None args={'color_temp': 'warm', 'brightness': 25} name='set_light_values'
 Extract the function call details from the model's response, parse the arguments
 , and execute the `set_light_values` function.
 
-[Python](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#javascript)More
+[Python](https://ai.google.dev/gemini-api/docs/function-calling#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling#javascript)More
 
 ```
 # Extract tool call details, it may not be in the first part.
@@ -5814,7 +3692,7 @@ if (tool_call.name === 'set_light_values') {
 Finally, send the result of the function execution back to the model so it can
 incorporate this information into its final response to the user.
 
-[Python](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#javascript)More
+[Python](https://ai.google.dev/gemini-api/docs/function-calling#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling#javascript)More
 
 ```
 # Create a function response part
@@ -5929,7 +3807,7 @@ Follow these rules to ensure the model's context is preserved:
 While not necessary for implementation, you can inspect the response to see the
 `thought_signature` for debugging or educational purposes.
 
-[Python](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#javascript)More
+[Python](https://ai.google.dev/gemini-api/docs/function-calling#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling#javascript)More
 
 ```
 import base64
@@ -5968,7 +3846,7 @@ as retrieving customer details from different databases or checking inventory
 levels across various warehouses or performing multiple actions such as
 converting your apartment into a disco.
 
-[Python](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#javascript)More
+[Python](https://ai.google.dev/gemini-api/docs/function-calling#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling#javascript)More
 
 ```
 power_disco_ball = {
@@ -6080,7 +3958,7 @@ Configure the function calling mode to allow using all of the specified tools.
 To learn more, you can read about
 [configuring function calling](https://ai.google.dev/gemini-api/docs/function-calling#function_calling_modes).
 
-[Python](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#javascript)More
+[Python](https://ai.google.dev/gemini-api/docs/function-calling#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling#javascript)More
 
 ```
 from google import genai
@@ -6161,7 +4039,7 @@ which automatically converts Python functions to declarations, handles the
 function call execution and response cycle for you. Following is an example for
 the disco use case.
 
-[Python](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#python)More
+[Python](https://ai.google.dev/gemini-api/docs/function-calling#python)More
 
 ```
 from google import genai
@@ -6234,7 +4112,7 @@ takes the location as a parameter.
 The following example demonstrates how to implement compositional function
 calling using the Python SDK and automatic function calling.
 
-[Python](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#javascript)More
+[Python](https://ai.google.dev/gemini-api/docs/function-calling#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling#javascript)More
 
 This example uses the automatic function calling feature of the
 `google-genai` Python SDK. The SDK automatically converts the Python
@@ -6445,7 +4323,7 @@ Compositional function calling is a native [Live\\
 API](https://ai.google.dev/gemini-api/docs/live) feature. This means Live API
 can handle the function calling similar to the Python SDK.
 
-[Python](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#javascript)More
+[Python](https://ai.google.dev/gemini-api/docs/function-calling#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling#javascript)More
 
 ```
 # Light control schemas
@@ -6503,7 +4381,7 @@ equivalent to sending a request without any function declarations. Use this to
 temporarily disable function calling without removing your tool definitions.
 
 
-[Python](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#javascript)More
+[Python](https://ai.google.dev/gemini-api/docs/function-calling#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling#javascript)More
 
 ```
 from google.genai import types
@@ -6545,19 +4423,22 @@ const config = {
 ## Automatic function calling (Python only)
 
 When using the Python SDK, you can provide Python functions directly as tools.
-The SDK automatically converts the Python function to declarations, handles the
-function call execution and the response cycle for you. The Python SDK
-then automatically:
+The SDK converts these functions into declarations, manages the function call
+execution, and handles the response cycle for you. Define your function with
+type hints and a docstring. For optimal results, it is recommended to use
+[Google-style docstrings.](https://google.github.io/styleguide/pyguide.html#383-functions-and-methods)
+The SDK will then automatically:
 
-1. Detects function call responses from the model.
+1. Detect function call responses from the model.
 2. Call the corresponding Python function in your code.
-3. Sends the function response back to the model.
-4. Returns the model's final text response.
+3. Send the function's response back to the model.
+4. Return the model's final text response.
 
-To use this, define your function with type hints and a docstring, and then pass
-the function itself (not a JSON declaration) as a tool:
+The SDK currently does not parse argument descriptions into the property
+description slots of the generated function declaration. Instead, it sends the
+entire docstring as the top-level function description.
 
-[Python](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#python)More
+[Python](https://ai.google.dev/gemini-api/docs/function-calling#python)More
 
 ```
 from google import genai
@@ -6595,7 +4476,7 @@ print(response.text)  # The SDK handles the function call and returns the final 
 
 You can disable automatic function calling with:
 
-[Python](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#python)More
+[Python](https://ai.google.dev/gemini-api/docs/function-calling#python)More
 
 ```
 config = types.GenerateContentConfig(
@@ -6607,21 +4488,23 @@ config = types.GenerateContentConfig(
 
 ### Automatic function schema declaration
 
-Automatic schema extraction from Python functions doesn't work in all cases. For
-example, it doesn't handle cases where you describe the fields of a nested
-dictionary-object. The API is able to describe any of the following types:
+The API is able to describe any of the following types. `Pydantic` types are
+allowed, as long as the fields defined on them are also composed of allowed
+types. Dict types (like `dict[str: int]`) are not well supported here, don't
+use them.
 
-[Python](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#python)More
+[Python](https://ai.google.dev/gemini-api/docs/function-calling#python)More
 
 ```
-AllowedType = (int | float | bool | str | list['AllowedType'] | dict[str, AllowedType])
+AllowedType = (
+  int | float | bool | str | list['AllowedType'] | pydantic.BaseModel)
 
 ```
 
 To see what the inferred schema looks like, you can convert it using
 [`from_callable`](https://googleapis.github.io/python-genai/genai.html#genai.types.FunctionDeclaration.from_callable):
 
-[Python](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#python)More
+[Python](https://ai.google.dev/gemini-api/docs/function-calling#python)More
 
 ```
 def multiply(a: float, b: float):
@@ -6643,7 +4526,7 @@ function calling at the same time. Here's an example that enables two tools,
 [code execution](https://ai.google.dev/gemini-api/docs/code-execution), in a request using the
 [Live API](https://ai.google.dev/gemini-api/docs/live).
 
-[Python](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#javascript)More
+[Python](https://ai.google.dev/gemini-api/docs/function-calling#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling#javascript)More
 
 ```
 # Multiple tasks example - combining lights, code execution, and search
@@ -6712,7 +4595,7 @@ no more tool calls are made by the model.
 Here, you can find an example of how to use a local MCP server with Gemini and
 `mcp` SDK.
 
-[Python](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#javascript)More
+[Python](https://ai.google.dev/gemini-api/docs/function-calling#python)[JavaScript](https://ai.google.dev/gemini-api/docs/function-calling#javascript)More
 
 Make sure the latest version of the
 [`mcp` SDK](https://modelcontextprotocol.io/introduction) is installed on
@@ -7095,9 +4978,7 @@ from IPython.display import Image, display
 
 display(Image(graph.get_graph().draw_mermaid_png()))
 
-```
-
-https://ai.google.dev/static/gemini-api/docs/images/langgraph-react-agent_16_0.png
+```https://ai.google.dev/static/gemini-api/docs/images/langgraph-react-agent_16_0.png
 
 Now let's run the agent.
 
@@ -7129,14 +5010,12 @@ for state in graph.stream(state, stream_mode="values"):
 <details>
 <summary>scraping-failed</summary>
 
-⚠️ Error scraping https://arxiv.org/pdf/2504.19678: Internal Server Error: Failed to scrape URL. (Internal server error) - Scrape resulted in unsupported file: File size exceeds 10MB - No additional error details provided.
+⚠️ Error scraping https://arxiv.org/pdf/2504.19678 after 3 attempts: Internal Server Error: Failed to make POST request. (Internal server error) - Scrape resulted in unsupported file: File size exceeds 10MB - No additional error details provided.
 
 </details>
 
 <details>
 <summary>what-is-a-react-agent-ibm</summary>
-
-# What is a ReAct agent?
 
 A ReAct agent is an [AI agent](https://www.ibm.com/think/topics/ai-agents) that uses the “reasoning and acting” (ReAct) framework to combine [chain of thought (CoT)](https://www.ibm.com/think/topics/chain-of-thoughts) reasoning with external tool use. The ReAct framework enhances the ability of a [large language model (LLM)](https://www.ibm.com/think/topics/large-language-models) to handle complex tasks and decision-making in [agentic workflows](https://www.ibm.com/think/topics/agentic-workflows).
 
@@ -7158,13 +5037,16 @@ Imagine packing for a brief trip. You might start by identifying key considerati
 
 By using that new information (“ _It’s going to be cold_”), you determine your next consideration (“ _What warm clothes do I have?_”) and action (“ _I’ll check my closet_”). Upon taking that action, you might encounter an unexpected obstacle (“ _All of my warm clothes are in storage_”) and adjust your next step accordingly (“ _What clothes can I layer together?_”).
 
-In a similar fashion, the ReAct framework uses [prompt engineering](https://www.ibm.com/topics/prompt-engineering) to structure an AI agent’s activity in a formal pattern of alternating thoughts, actions and observations:
+In a similar fashion, the ReAct framework uses [prompt engineering](https://www.ibm.com/think/topics/prompt-engineering) to structure an AI agent’s activity in a formal pattern of alternating thoughts, actions and observations:
 
 - The verbalized CoT reasoning steps ( _thoughts_) help the model decompose the larger task into more manageable subtasks.
 
+
 - Predefined _actions_ enable the model to use tools, make [application programming interface (API)](https://www.ibm.com/think/topics/api) calls and gather more information from external sources (such as search engines) or knowledge bases (such as an internal docstore).
 
+
 - After taking an action, the model then reevaluates its progress and uses that _observation_ to either deliver a final answer or inform the next _thought_. The observation might ideally also consider prior information, whether from earlier in the model’s standard context window or from an external memory component.
+
 
 Because the performance of a ReAct agent depends heavily on the ability of its central LLM to “verbally” think its way through complex tasks, ReAct agents benefit greatly from highly capable models with advanced reasoning and instruction-following ability.
 
@@ -7192,15 +5074,21 @@ Whether through explicit instructions or the inclusion of [few-shot](https://www
 
 - **Guide the model to use chain of thought reasoning:** Prompt the model to reason its way through tasks by thinking step by step, interleaving thoughts with actions.
 
+
 - **Define actions:** Establish the specific actions available to the model. An action might entail the generation of a specific type of next thought or subprompt but usually involves [using external tools](https://www.ibm.com/think/topics/tool-calling) or making APIs.
+
 
 - **Instruct the model to make observations:** Prompt the model to reassess its context after each action step and use that updated context to inform the next reasoning step.
 
+
 - **Loop:** Instruct the model to repeat the previous steps if necessary. You could provide specific conditions for ending that loop, such as a maximum number of loops, or instruct the agent to end its reasoning process whenever it feels it has arrived at the correct final output.
+
 
 - **Output final answer:** Whenever those end conditions have been met, provide the user with the final output in response to their initial query. As with many uses of LLMs, as reasoning models employing chain of thought reasoning before determining a final output, ReAct agents are often prompted to conduct their reasoning process within a [“scratchpad.”](https://arxiv.org/abs/2112.00114)
 
-A classic demonstration of ReAct prompting is the system prompt for the prebuilt ZERO\_SHOT\_REACT-DESCRIPTION ReAct agent module in [Langchain](https://www.ibm.com/think/topics/langchain)’s LangGraph. It’s called “ [zero-shot](https://www.ibm.com/think/topics/zero-shot-learning)” because, with this predefined system prompt, the LLM being used with the module does not need any further examples to behave as a ReAct agent.
+
+A classic demonstration of ReAct prompting is the system prompt for the prebuiltZERO\_SHOT\_REACT-DESCRIPTION
+ReAct agent module in [Langchain](https://www.ibm.com/think/topics/langchain)’s LangGraph. It’s called “ [zero-shot](https://www.ibm.com/think/topics/zero-shot-learning)” because, with this predefined system prompt, the LLM being used with the module does not need any further examples to behave as a ReAct agent.
 
 ```
 Answer the following questions as best you can. You have access to the following tools:
@@ -7224,6 +5112,7 @@ Begin!
 
 Question: {input}
 Thought:{agent_scratchpad}
+
 ```
 
 ## Benefits of ReAct agents
@@ -7234,11 +5123,15 @@ The utility of ReAct agents is drawn largely from some of the inherent qualities
 
 - **Versatility:** ReAct agents can be configured to work with a wide variety of external tools and APIs. Though [fine-tuning](https://www.ibm.com/think/topics/fine-tuning) relevant ReAct prompts (using relevant tools) can improve performance, no prior configuration of the model is required to execute [tool calls](https://www.ibm.com/think/topics/tool-calling).
 
+
 - **Adaptability:** This versatility, along with the dynamic and situational nature of how they determine the appropriate tool or API to call, means that ReAct agents can use their reasoning process to adapt to new challenges. Especially when operating within a lengthy context window or augmented with external memory, they can learn from past mistakes and successes to tackle unforeseen obstacles and situations. This makes ReAct agents flexible and resilient.
+
 
 - **Explainability:** The verbalized reasoning process of a ReAct agent is simple to follow, which facilitates debugging and helps make them relatively user-friendly to build and optimize.
 
+
 - **Accuracy:** As the original ReAct paper asserts, chain of thought (CoT) reasoning alone has many benefits for LLMs, but also runs an increased risk of hallucination. ReAct’s combination of CoT with a connection external to information sources significantly reduces [hallucinations](https://www.ibm.com/think/topics/ai-hallucinations), making ReAct agents more accurate and trustworthy.
+
 
 ## ReAct agents vs. function calling
 
@@ -7264,8 +5157,6 @@ As an alternative to developing custom ReAct agents, many agentic AI frameworks,
 
 <details>
 <summary>what-is-ai-agent-orchestration-ibm</summary>
-
-# What is AI agent orchestration?
 
 [Artificial intelligence (AI)](https://www.ibm.com/think/artificial-intelligence) agent orchestration is the process of coordinating multiple specialized [AI agents](https://www.ibm.com/think/topics/ai-agents) within a unified system to efficiently achieve shared objectives.
 
@@ -7413,8 +5304,6 @@ AI agent orchestration comes with several challenges, but each has potential sol
 
 <details>
 <summary>what-is-ai-agent-planning-ibm</summary>
-
-# What is AI agent planning?
 
 AI agent planning refers to the process by which an artificial intelligence (AI) agent determines a sequence of actions to achieve a specific goal. It involves decision-making, goal prioritization and action sequencing, often using various planning algorithms and frameworks.
 
