@@ -1,18 +1,114 @@
 ## Global Context of the Lesson
 
-- **What I'm planning to share**: A hands-on lesson presenting the fundamentals of working with multimodal data in the context of LLMs, RAG and context engineering - all fundamental components required to build industry-level AI agents or LLM workflows. Specifically, we will demonstrate how to work with multimodal LLMs, RAG systems and AI Agents. We want to blend theory with practicality. Thus, 20% of the article should explain the principles of multimodal LLMs, embedding models and RAG systems, while the rest will focus on practical implementation with use cases such as working with text, image and PDFs. In the context of building RAG systems for PDF docs, we want to explain the advantages of using multimodal techniques such as ColPali compared to older OCR-based techniques. On the hands-on side, we will show how to work with LLMs with images, PDFs, and text. Then we will build a simple multimodal text-image RAG system and then a multimodal text-image agentic RAG project. 
-- **Why I think it's valuable**: In the real world, we rarely work only with text data. Often, we have to manipulate multimodal data such as text, images, and PDFs within the same context window or integrate them using various tools that interface with the LLM. An extremely popular example is building AI agents that process rich visual PDFs that contain tables, diagrams and graphs. Thus the most common tools for multimodal AI agents are retrieval tools that can return different types of data based on specific queries. Thus, knowing how to manipulate multimodal data and integrate it with LLMs, RAG, and AI agents is a foundational skill in the industry and enterprise applications.
-- **Who the intended audience is**: Aspiring AI Engineers who are learning for the first time about multimodal LLMs, RAG, and AI agents.
-- **Theory / Practice ratio**: 20% theory / 80% practice
-- **Expected length of the article in words (without the titles and references) ** (where 200-250 words ≈ 1 minute of reading time): 3800 words
+### What We Are Planning to Share
 
+A hands-on lesson presenting the fundamentals of working with multimodal data in the context of LLMs, LLM workflows and AI Agents. When building AI apps, in the real world, we rarely work only with text data. As human beings we work daily with all types of data: text, images, documents, audio. Thus, having them integrated into our AI systems is a must. This quickly translates to a business problem, where all enterprise grade AI apps use and require multimodal data (text, images, documents) when manipulating their private data from databases, warehouses and lakes. 
+
+In the early days, most AI apps tried to normalize everything to text. For example, we used OCRs to parse documents and map them to text or tabular data. The plot twist behind this lesson is that instead of translating images or documents to text, when building AI and RAG systems, it's better and recommened to process them directly as native images or documents. Like this we can natively pass all the visual rich information to the model. To understand how to do that we have to cover a few theoretical aspects such as how multimodal LLMs, embedding models, and RAG systems work. Just enough theory for the reader to have an intuition on how these works. Then, we will implement a few hands-on use cases where we explain how to work with LLM with text, images, and documents combined. Then we will connect the reader to the bigger picture and show them, first, how to build a simple text-image RAG system, and then an agentic RAG app. We want to highlight that once you built an text-image system, as the documents are processed as images as well, mapping it to a text-images-document modality is a no brainer.
+
+So this lesson will provide all the knowledge to built enterprise AI agents or LLM workflows that can process your personal or organization data. Side note: most of these techniques can be transalted to video or audio, but that won't be covered here.
+
+### Why We Think It's Valuable
+
+Often, we have to manipulate various types of multimodal data such as text, images, and documents within the same context window and tools. Most of the issues come when we start threating each image or document the same. We cannot do that. An extremely popular example is building AI agents that process various financial PDFs that sometimes contain only text and sometime tables, diagrams and graphs from various reports and research. If we try to translate the documents or images with complex layouts to text we loose a lot of information, resulting in suboptimal solutions. Thus, instead of using OCR-based systems that normalize everything to text, modern AI systems directly processs data input in their native format (documents, images, audio), preserving all the rich information made possible by their specific format. For example if we translate sketches or diagrams to text it's impossible to grasp all the details, such as the colors and geometrical relationships between the elements, in text. But directly processing the image, as a human would, it's easier to implement, faster, cheaper, more intutive and usually more performant. That's why AI apps MUST have native support for images and documents to easily process complex data formats and relationships that are natural for a human being to use in their daily workflow.
+
+### Expected Length of the Lesson
+
+**3800 words** (without the titles and references), where we assume that 200-250 words ≈ 1 minute of reading time.
+
+### Theory / Practice Ratio
+
+30% theory - 70% real-world examples
+
+## Anchoring the Lesson in the Course
+
+### Details About the Course
+
+This piece is part of a broader course on AI agents and LLM workflows. The course consists of 4 parts, each with multiple lessons. 
+
+Thus, it's essential to always anchor this piece into the broader course, understanding where the reader is in its journey. You will be careful to consider the following:
+- The points of view
+- To not reintroduce concepts already taught in the previous lesson.
+- To be careful when talking about concepts introduced only in future lessons
+- To always reference previous and future lessons when discussing topics outside the piece's scope.
+
+### Lesson Scope
+
+This is lesson 11 (from part 3) of the course on working with multimodal data, such as text, images and documents.
+
+### Point of View
+The course is created by a team writing for a single reader, also known as the student. Thus, for voice consistency across the course, we will always use 'we,' 'our,' and 'us' to refer to the team who creates the course, and 'you' or 'your' to address the reader. Avoid singular first person and don't use 'we' to refer to the student.
+
+Examples of correct point of view:
+- Instead of "Before we can choose between workflows and agents, we need a clear understanding of what they are." word it as "To choose between workflows and agents, you need a clear understanding of what they are."
+
+### Who Is the Intended Audience
+
+Aspiring AI engineers who are learning about working with multimodal data for the first time.
+
+### Concepts Introduced in Previous Lessons
+
+In previous lessons of the course, we introduced the following concepts:
+
+**Part 1:**
+
+- **Lesson 1 - AI Engineering & Agent Landscape**: Understanding the role, the stack, and why agents matter now
+- **Lesson 2 - Workflows vs. Agents**: Grasping the crucial difference between predefined logic and LLM-driven autonomy
+- **Lesson 3 - Context Engineering**: The art of managing information flow to LLMs
+- **Lesson 4 - Structured Outputs**: Ensuring reliable data extraction from LLM responses
+- **Lesson 5 - Basic Workflow Ingredients**: Implementing chaining, routing, parallel and the orchestrator-worker patterns
+- **Lesson 6 - Agent Tools & Function Calling**: Giving your LLM the ability to take action
+- **Lesson 7 - Planning & Reasoning**: Understanding patterns like ReAct (Reason + Act)
+- **Lesson 8 - Implementing ReAct**: Building a reasoning agent from scratch
+- **Lesson 9 - Agent Memory & Knowledge**: Short-term vs. long-term memory (procedural, episodic, semantic)
+- **Lesson 10 - RAG Deep Dive**: Advanced retrieval techniques for knowledge-augmented agents
+
+As this is only the last lesson of the first part of the course, we introduced most of the required concepts for people to work with LLM workflows and AI agents, except the last piece of the puzzle: multimodal data.
+
+### Concepts That Will Be Introduced in Future Lessons
+
+In future lessons of the course, we will introduce the following concepts:
+
+**Part 1:**
+
+DONE - except the current lesson on multimodal data
+
+**Part 2:**
+
+In this section, you'll move from theory to practice by starting your work on the course's central project: an interconnected research and writing agent system. After a deep dive into agentic design patterns and a comparative look at modern frameworks, we'll focus on LangGraph. You will implement the research agent, equipping it with tools for web scraping and analysis. Then, you'll construct the writing workflow to convert research into polished content. Finally, you'll integrate these components, working on the orchestration of a complete, multi-agent pipeline from start to finish.
+
+Other concepts from Part 2:
+- MCP
+
+**Part 3:**
+
+With the agent system built, this section focuses on the engineering practices required for production. You will learn to design and implement robust evaluation frameworks to measure and guarantee agent reliability, moving far beyond simple demos. We will cover AI observability, using specialized tools to trace, debug, and understand complex agent behaviors. Finally, you’ll explore optimization techniques for cost and performance and learn the fundamentals of deploying your agent system, ensuring it is scalable and ready for real-world use.
+
+**Part 4:**
+
+In this final part of the course, you will build and submit your own advanced LLM agent, applying what you've learned throughout the previous sections. We provide a complete project template repository, enabling you to either extend our agent pipeline or build your own novel solution. Your project will be reviewed to ensure functionality, relevance, and adherence to course guidelines for the awarding of your course certification.
+
+### Anchoring the Reader in the Educational Journey
+
+Within the course we are teaching the reader multiple topics and concepts. Thus, understanding where the reader is in their educational journey is critical for this piece. You have to use only previously introduced concepts, while being reluctant about using concepts that haven't been introduced yet.
+
+When discussing the **concepts introduced in previous lessons** listed in the `Concepts Introduced in Previous Lessons` section, avoid reintroducing them to the reader. Especially don't reintroduce the acronyms. Use them as if the reader already knows what they are. 
+
+Avoid using all the **concepts that haven't been introduced in previous lessons** listed in the `Concepts That Will Be Introduced in Future Lessons` subsection. Whenever another concept requires references to these banned concepts, instead of directly using them, use intuitive analogies or explanations that are more general and easier to understand, as you would explain them to a 7-year-old. For example:
+- If the "tools" concept wasn't introduced yet and you have to talk about agents, refer to them as "actions".
+- If the "routing" concept wasn't introduced yet and you have to talk about it, refer to it as "guiding the workflow between multiple decisions".
+You can use the concepts that haven't been introduced in previous lessons listed in the `Concepts That Will Be Introduced in Future Lessons` subsection only if we explicitly specify them. Still, even in that case, as the reader doesn't know how that concept works, you are only allowed to use the term, while keeping the explanation extremely high-level and intuitive, as if you were explaining it to a 7-year-old.
+Whenever you use a concept from the `Concepts That Will Be Introduced in Future Lessons` subsection, explicitly specify in what lesson it will be explained in more detail, leveraging the particulars from the subsection. If not explicitly specified in the subsection, simply state that we will cover it in future lessons without providing a concrete lesson number. 
+
+In all use cases avoid using acronyms that aren't explicitly stated in the guidelines. Rather use other more accessible synonyms or descriptions that are easier to understand by non-experts.
 
 ## Narrative Flow of the Lesson
 
 Follow the next narrative flow when writing the end-to-end lesson:
 
-- What problem are we solving? Why is it essential to solve it?
-- Why other solutions do not work and what is wrong with them.
+- What problem are we learning to solve? Why is it essential to solve it?
+    - Start with a personal story where we encountered the problem
+- Why other solutions are not working and what's wrong with them.
 - At a theoretical level, explain our solution or transformation. Highlight:
     - The theoretical foundations.
     - Why is it better than other solutions?
@@ -20,62 +116,93 @@ Follow the next narrative flow when writing the end-to-end lesson:
 - Provide some hands-on examples.
 - Go deeper into the advanced theory.
 - Provide a more complex example supporting the advanced theory.
-- Connect our solution to the bigger picture and next steps.
-
+- Connect our solution to the bigger field of AI Engineering. Add course next steps.
 
 ## Lesson Outline 
 
-1. The need for multimodal AI
-2. Limitations of traditional document processing
-3. Foundations of multimodal LLMs
-4. Applying multimodal LLMs to images, PDFs, and text
-5. Foundations of multimodal embedding models
-6. Foundations of multimodal RAG (ColPali architecture)
-7. Implementing multimodal RAG for images and text
-8. Building multimodal AI agents
+1. Section 1 - Introduction: The need for multimodal AI
+2. Section 2: Limitations of traditional document processing
+3. Section 3: Foundations of multimodal LLMs
+4. Section 4: Applying multimodal LLMs to images, PDFs, and text
+5. Section 5: Foundations of multimodal embedding models
+6. Section 6: Foundations of multimodal RAG (ColPali architecture)
+7. Section 7: Implementing multimodal RAG for images and text
+8. Section 8: Building multimodal AI agents
+9. Section 9: Conclusion
 
 
 ## Section 1 - Introduction: The need for multimodal AI
-- Why agents need to understand images, documents, and complex layouts
-- Industry real-world scenarios and limitations of text-only approaches:
-    - Financial reports with embedded charts
-    - Medical documents with diagnostics
-    - Technical documents with diagrams
-    - Analyzing images for customer service
-    - Research assistants processing charts and diagrams
-    - Object detection and classification
-- Often, processing directly the images or PDFs as visual elements, as humans see them, makes the AI system more intuitive, easier to implement and more performant
--  **Section length:** 300 words
+(What problem are we learning to solve? Why is it essential to solve it?)
+
+- **Quick reference to what we've learned in previous lessons:** Take the core ideas of what we've learned in previous lessons from the `Concepts Introduced in Previous Lessons` subsection of the `Anchoring the Lesson in the Course` section.
+- **Transition to what we'll learn in this lesson:** After presenting what we learned in the past, make a transition to what we will learn in this lesson. Take the core ideas of the lesson from the `What We Are Planning to Share` subsection and highlight the importance and existence of the lesson from the `Why We Think It's Valuable` subsection of the `Global Context of the Lesson` section.
+
+- On top of the general WHAT and WHY give some industry real-world use cases and limitations of text-only approaches. At the moment you can keep them more general, just to anchor the reader in the real-world:
+    - Use cases:
+        - Object detection and classification in images
+        - Image captioning
+    - Limitations:
+        - Financial reports with complex charts
+        - Research assistants processing charts and diagrams
+        - Medical documents with diagnostics
+        - Technical documents with diagrams
+        - Building sketches 
+
+-  **Section length:** 100 words
 
 ## Section 2: Limitations of traditional document processing
-- Quick overview of traditional PDFdocument processing workflows done with OCR + Layout detection
-- Text extraction challenges with complex layouts
-- When traditional methods break down:
-    - Advanced OCR engines struggle with handwritten text, poor scans, stylized fonts, or more complex layouts such as nested table extraction or complex multi-column layouts. *[Note: Add some report numbers on this.]*
-    - The standard approach of OCR → layout detection → chunking → embedding → search works for simple documents but becomes clunky, brittle, and does not scale well across real-world data.
-    - The multi-step nature of traditional document processing creates a cascade effect where errors compound at each stage. 
-- Comparison between traditional document processing and interpreting the PDFs as images directly (similar to how humans interpret PDFs)
--  **Section length**: 300 words
+(What problem are we learning to solve? Why is it essential to solve it?)
+
+- To sediment the problem, dig deeper into the limitations of traditional document processing. The problem can be translated to other data types such as images or audio. The core and real idea is that previous approaches tried to normalize everything to text before passing it into an AI model, which has many flaws, as during the translation we loose a ton of information. For example, when encountering diagrams, charts or sketches into a document, it's impossible to fully reproduce them in text. 
+- Make our point, by digging deeper into the problem of processing documents as text using OCR-based systems
+- Give a high-level overview of traditional document processing workflows done with Layout detection + OCR. Use processing a PDF mixed with text, diagrams and tables, as an example:
+    1. Load the document
+    2. Document preprocessing (e.g., noise removal)
+    3. Layout detection for different regions with the document
+    3. Use OCR models to process text regions and other specialzed models for each expected data structure such as images, tables, charts, etc.
+    4. Output the text + other metadata as JSON or other structured data formats (images, tables, charts, etc.)
+    (Figure 1: Create a marmaid diagram of this flow.)
+- Challenges. Too many moving pieces within the flow - layout detection, OCR models, and different models for each data structures. This makes the system:
+    1. rigid to new data structures (e.g., if a document contains charts and we don't have a model for it, it will fail)
+    2. slow and costly as we have to call too many models
+    3. fragile as we have to keep in check all these models
+    4. Performance challenges:
+        - The multi-step nature of traditional document processing creates a cascade effect where errors compound at each stage. 
+        - Advanced OCR engines struggle with handwritten text, poor scans, stylized fonts, or more complex layouts such as nested tables, complex multi-column layouts, building sketches, X-rays, noisy handwritten documents. *[Note: Add some report numbers on this.]*
+    (Figure 2: Add an image with a building sketche showing how hard this is for classic OCR-systems)
+
+- This might work for extremely specialized applications, but it's obvious that it has tons of problems and it doesn't scale for a world of AI agents that have to flexible and fast.
+- Transition: That's why modern AI solutions use multimodal LLMs, such as Gemini, that can directly interpret text, images or even PDFs as native input, completely bypassing the OCR-workflow from Figure 1. Thus, let's understand how multimodal LLMs work.
+-  **Section length**: 400 words (without the mermaid diagram or image links)
 
 ## Section 3: Foundations of multimodal LLMs
-- Core concepts and architecture:
+
+- Before showing you the code on how to use LLMs with images and documents, you have to understand how multimodal LLMs works. You don't have to understand all the details. That's the job of a AI researcher, but you need an intuition on how they work. We will use text-image LLMs as an example. 
+- Present the core concepts and architecture of text-image multimodal LLMs.
     - Explain the foundations and how they work using a text-image multimodal LLM as a concrete example.
-    - Focus on the core architecture (how the vision encoder, projection layer, and text encoder work) and the training process
-    - Focus only on the most successful approaches, which are based on "late interaction" mechanisms.
-    - Enumerate popular multimodal LLM architectures and models, such as LLaVA
+    - Focus on the core architecture (how the vision encoder, projection layer, and text encoder work together). Focus only on the most successful approaches, which are based on "late interaction" mechanisms.
+    - Quickly explain the training process
+    (Add an image from the research showing the architecture of a text-image multimodal LLM)
+    - In 2025, most LLMs are actually multimodal. For example:
+        - in the open-source world we have Llama 4, Gemma 2, Qwen3 and DeepSeek R1/V3
+        - in the closed-source world we have GPT-5, Gemini 2.5 and Claude
+        (most probably their version will increase constantly, but these are the most popular family of models)
     - Capabilities and limitations
-- Add an image from the research showing the architecture of a text-image multimodal LLM
-- Discussion of how it can be expanded to other modalities, such as PDF documents, audio, or video:
-    - Popular models
-    - Capabilities and limitations
-- Include a paragraph on the most popular image generation models, such as Midjourney or Stable Diffusion:
+- A paragraph on how it can be expanded to other modalities, such as PDFs, audio or video
+    - Present the core idea 
+    - List some popular models
+- Include a paragraph on multimodal LLMs vs. diffusion generation models, such as Midjourney or Stable Diffusion:
     - Comparison between diffusion image generation models and multimodal LLMs that support generating images (e.g., GPT-4o)
-    - Explain that diffusion models are a different family of models than LLMs, which we will not cover in depth in this lesson.
-    - In the context of agents, these models can easily be integrated as tools.
+    - Explain that diffusion models are a different family of models than LLMs, which we will not cover in this course, as they are used only to generate images or videos, not to build AI agents
+    - Still, in the context of LLM workflows and agents, these models can easily be integrated as tools.
+- Now that we understand how LLMs can directly input images or documents, let's see how this works in pratice.
 -  **Section length**: 500 words
 
+@TODO: Check Llava ("Enumerate popular multimodal LLM architectures and models, such as LLaVA")
+
 ## Section 4: Applying multimodal LLMs to images, PDFs, and text
-- Short coding example that supports Section 3, which is purely theoretical. In this section, we show how to use Gemini to work with images and PDFs.
+
+- To better understand how multimodal LLMs work, let's write a few examples in Gemini to show you some best practices when working with images and PDFs.
 - There are three core ways to process images with LLMs: as raw bytes, Base64, and URLs:
     1. Raw bytes are the easiest way and work well for one-off API calls. However, when storing the image, it can easily get corrupted. (Explain why.)
     2. Base64 is a way to encode raw bytes as strings, allowing images to be stored in your database without getting corrupted. Therefore, we often use this format when storing images directly in a database.
@@ -83,6 +210,7 @@ Follow the next narrative flow when writing the end-to-end lesson:
 - Knowing how to work with all three methods is important due to different deployment scenarios. Here are the advantages of each method:
     - URL-based approaches excel in cloud-native environments where content is already distributed and accessible
     - Base64 encoding is easier to implement, as we can store images directly in the database.
+- IMPORTANT! Explain how all of this connects to processing documents. We translate documents to images and process them as multi-image artifacts (similar to videos).
 - When working with Gemini with images, show the following scenarios:
     - bytes / one image
     - bytes / two images
@@ -154,10 +282,12 @@ Follow the next narrative flow when writing the end-to-end lesson:
 -  **Section length**: 500 words (Don't count the code)
 
 ## Section 9: Conclusion
+(Connect our solution to the bigger field of AI Engineering. Add course next steps.)
 
 - Wrap-up the article by explaining that we will use multimodal techniques in our capstone project
 to pass images and PDFs from our research agent to the writer agent, avoiding any text translation and
 benefit of the complete visual information from them
+- To transition from this lesson to the next, specify what we will learn in future lessons. First mention what we will learn in next lesson, which is Lesson <x>. Next leverage the concepts listed in subsection `Concepts That Will Be Introduced in Future Lessons` to make slight references to other topics we will learn during this course. To stay focused, specify only the ones that are present in this current lesson.
 -  **Section length**: 100 words
 
 ## Article Code

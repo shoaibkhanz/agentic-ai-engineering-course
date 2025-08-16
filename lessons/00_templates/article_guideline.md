@@ -95,7 +95,7 @@ In this final part of the course, you will build and submit your own advanced LL
 </adapt_based_on_your_lesson>
 
 <optional>
-As <x> is the core foundation of AI engineering, we will have to introduce new terms, but we will discuss them in a highly intuitive manner, being careful not to confuse the reader with too many terms that haven't been introduced yet in the course.
+As <x> lesson on the core foundation of AI engineering, we will have to make references to new terms that haven't been introduced yet. We will discuss them in a highly intuitive manner, being careful not to confuse the reader with too many terms that haven't been introduced yet in the course.
 </optional>
 
 ### Anchoring the Reader in the Educational Journey
@@ -145,8 +145,14 @@ Follow the next narrative flow when writing the end-to-end lesson:
 ## Section 2: ...
 
 - ...
-- Give step-by-step examples from section `2. <X>` of the provided Notebook. Follow the code flow from the Notebook, highlighting each code cell step by step, while utilizing the markdown/text cells for inspiration.
-Avoid using code from other sections of the Notebook.
+- Now, let's dig into the code. Using the code examples from the provided Notebook within the <research> tag, use all the code from the <notebook_section_title>`1. ...`</notebook_section_title> section to explain how to 
+<what_we_are_implementing>...</what_we_are_implementing>
+- Here is how you should use and format the code from the <notebook_section_title>`1. ...`</notebook_section_title> section of the provided Notebook along with other notes:
+    <define_how_the_code_should_be_explained_step_by_step>
+    1. ...
+    2. ...
+    3. ...
+    </define_how_the_code_should_be_explained_step_by_step>
 -  **Section length:** <X> words
 
 ## Section 3 - Conclusion: ...
