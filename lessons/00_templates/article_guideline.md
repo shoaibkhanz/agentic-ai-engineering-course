@@ -146,7 +146,7 @@ Follow the next narrative flow when writing the end-to-end lesson:
 
 - ...
 - Now, let's dig into the code. Using the code examples from the provided Notebook within the <research> tag, use all the code from the <notebook_section_title>`1. ...`</notebook_section_title> section to explain how to 
-<what_we_are_implementing>...</what_we_are_implementing>
+<what_we_are_implementing>...</what_we_are_implementing>.
 - Here is how you should use and format the code from the <notebook_section_title>`1. ...`</notebook_section_title> section of the provided Notebook along with other notes:
     <define_how_the_code_should_be_explained_step_by_step>
     1. ...
