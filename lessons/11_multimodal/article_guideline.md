@@ -399,7 +399,7 @@ Follow the next narrative flow when writing the end-to-end lesson:
 
 Links to code that will be used to support the article. Always prioritize this code over any other code found in the sources: 
 
-1. [Notebook 1](https://github.com/towardsai/course-ai-agents/blob/main/lessons/11_multimodal/notebook.ipynb)
+1. [Notebook 1](https://github.com/towardsai/course-ai-agents/blob/dev/lessons/11_multimodal/notebook.ipynb)
 
 ## Golden Sources
 
