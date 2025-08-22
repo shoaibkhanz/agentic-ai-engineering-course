@@ -10,7 +10,7 @@ So this lesson will provide all the knowledge to build enterprise AI agents or L
 
 ### Why We Think It's Valuable
 
-Often, we have to manipulate various types of multimodal data such as text, images, and documents within the same context window and tools. Most of the issues come when we start treating each image or document the same. We cannot do that. An extremely popular example is building AI agents that process various financial PDFs that sometimes contain only text and sometimes tables, diagrams, and graphs from various reports and research. If we try to translate the documents or images with complex layouts to text, we lose a lot of information, resulting in suboptimal solutions. Thus, instead of using OCR-based systems that normalize everything to text, modern AI systems directly process data input in their native format (documents, images, audio), preserving all the rich information made possible by their specific format. For example, if we translate sketches or diagrams to text, it's impossible to grasp all the details, such as the colors and geometrical relationships between the elements, in text. But directly processing the image, as a human would, is easier to implement, faster, cheaper, more intuitive, and usually more performant. That's why AI apps MUST have native support for images and documents to easily process complex data formats and relationships that are natural for a human being to use in their daily workflow.
+Often, we have to manipulate various types of multimodal data such as text, images, and documents within the same context window and tools. Most of the issues come when we start treating each image or document the same. We cannot do that. An extremely popular example is building AI agents that process various financial PDFs that sometimes contain only text and sometimes tables, diagrams, and graphs from various reports and research. If we translate text-only documents to text, that's fine. But if we try to translate the documents or images with complex layouts to text, we lose a lot of information, resulting in suboptimal solutions. Thus, instead of using OCR-based systems that normalize everything to text, modern AI systems directly process data input in their native format (documents, images, audio), preserving all the rich information made possible by their specific format. For example, if we translate sketches or diagrams to text, it's impossible to grasp all the details, such as the colors and geometrical relationships between the elements, in text. But directly processing the image, as a human would, is easier to implement, faster, cheaper, more intuitive, and usually more performant. That's why AI apps MUST have native support for images and documents to easily process complex data formats and relationships that are natural for a human being to use in their daily workflow.
 
 ### Expected Length of the Lesson
 
@@ -124,7 +124,7 @@ Follow the next narrative flow when writing the end-to-end lesson:
 2. Section 2: Limitations of traditional document processing
 3. Section 3: Foundations of multimodal LLMs
 4. Section 4: Applying multimodal LLMs to images and PDFs
-5. Section 5: Foundations of multimodal RAG (ColPali architecture)
+5. Section 5: Foundations of multimodal RAG
 6. Section 6: Implementing multimodal RAG for images, PDFs and text
 7. Section 7: Building multimodal AI agents
 8. Section 8: Conclusion
@@ -152,7 +152,7 @@ Follow the next narrative flow when writing the end-to-end lesson:
 ## Section 2: Limitations of traditional document processing
 (What problem are we learning to solve? Why is it essential to solve it?)
 
-- To cement the problem, dig deeper into the limitations of traditional document processing. The problem can be translated to other data types such as images or audio. The core and real idea is that previous approaches tried to normalize everything to text before passing it into an AI model, which has many flaws, as during the translation we lose a ton of information. For example, when encountering diagrams, charts, or sketches in a document, it's impossible to fully reproduce them in text. 
+- To cement the problem, we will dig deeper into the limitations of traditional document processing, such as processing invoices, documentation or reports using AI systems. The problem can be translated to other data types such as images or audio. The core and real idea is that previous approaches tried to normalize everything to text before passing it into an AI model, which has many flaws, as during the translation we lose a ton of information. For example, when encountering diagrams, charts, or sketches in a document, it's impossible to fully reproduce them in text. 
 - Make our point, by digging deeper into the problem of processing documents as text using OCR-based systems
 - Give a high-level overview of traditional document processing workflows done with Layout detection + OCR. Use processing a PDF mixed with text, diagrams and tables, as an example:
     1. Load the document
@@ -176,35 +176,33 @@ Follow the next narrative flow when writing the end-to-end lesson:
 
 ## Section 3: Foundations of multimodal LLMs
 
-@TODO: Give a double-check on the structure of this section, relation to Sebastian's article: https://magazine.sebastianraschka.com/p/understanding-multimodal-llms
-
-- Before showing you the code on how to use LLMs with images and documents, you have to understand how multimodal LLMs work. We won't cover all the details, as you don't have to understand them as an AI Engineer. That's the job of an AI researcher. But you need an intuition on how they work to know how to use, deploy, and monitor them.
+- Before showing you the code on how to use LLMs with images and documents, you have to understand how multimodal LLMs work. We won't cover all the details, as this is not the scope of this lessons as you don't have to understand them all the little details as an AI Engineer. That's the job of an AI researcher. But you need an intuition on how they work to know how to use, deploy, optimize and monitor them.
 - High-level overview of the common approaches to building multimodal LLMs using text-image models as an example:
     1. Unified Embedding Decoder Architecture approach;
     2. Cross-modality Attention Architecture approach.
     (Figure 3: Image from Sebastian's Raschka magazine showing the two approaches)
-- Dig deeper into the `Unified Embedding Decoder Architecture` approach. Explain how the image information is passed to the text-LLM through the image encoder as input tokens along with the text tokens.
+- Dig deeper into the first approach: `Unified Embedding Decoder Architecture`. Explain how the image information is passed to the text-LLM through the image encoder as input tokens along with the text tokens.
 (Figure 4: Image from Sebastian's Raschka magazine showing the method)
-- Dig deeper into the `Cross-modality Attention Architecture` approach. Explain how the image information is passed to the text-LLM decoder through the attention mechanism
+- Dig deeper into the second approach: `Cross-modality Attention Architecture`. Explain how the image information is passed to the text-LLM decoder through the attention mechanism
 (Figure 5: Image from Sebastian's Raschka magazine showing the method)
-- Quick walkthrough over image encoders:
+- Quick walkthrough over image encoders (which are the same with image embedding models):
     1. Make parallel between text tokenization (e.g., using Byte-Pair Encoding) and patching images
     (Figure 6: Image from Sebastian's Raschka magazine showing image tokenization and embedding (left) and text tokenization and embedding (right) side by side.)
     2. Explain how creating image embeddings through patching works
     (Figure 7: Image from Sebastian's Raschka magazine showing the ViT setup)
     3. Highlight how the output has the same structure and dimensions, as embeddings, that's why we can input image embeddings along text embeddings with no issues
     4. Even if the image and text embeddings have the same dimensions, in the vector space, they have to be aligned. Thus, explain how we do this through the linear projection module
-    5. Examples of image encoder models: CLIP or OpenCLIP. Explain that most image encoders that have the embeddings in the same vector space as the text embeddings are leveraging the core CLIP architecture.
+    5. Examples of image encoder models: CLIP, OpenCLIP or SigLIP. Explain that most image encoders that have the embeddings in the same vector space as the text embeddings are leveraging the core CLIP architecture.
     6. Explain that these are also used as embedding models for multimodal RAG to find semantic similarities between images and text data points. In other words, you can run similarity metrics between text/image/document/audio vectors 
     (Figure 8: Image showing text/image embeddings within the same vector space)
 - Trade-offs between the two methods:
-    1. `Unified Embedding Decoder Architecture approach`: higher accuracy in OCR-related tasks (what we talked about in section 2)
-    2. `Cross-modality Attention Architecture approach`: superior computational efficiency for high-resolution images as we don't have to pass all the tokens as input
-    3. `Hybrid Approaches`: best of both worlds
+    1. `Unified Embedding Decoder Architecture approach`: simpler to implement (just concatenate tokens), higher accuracy in OCR-related tasks (what we talked about in section 2)
+    2. `Cross-modality Attention Architecture approach`:  require more complex training procedures, superior computational efficiency for high-resolution images as we don't have to pass all the tokens as input but inject it directly into the attention mechanism
+    3. `Hybrid Approaches`: Combine benefits of both methods
 - In 2025, most LLMs are actually multimodal. For example:
     - in the open-source world we have Llama 4, Gemma 2, Qwen3 and DeepSeek R1/V3
     - in the closed-source world we have GPT-5, Gemini 2.5 and Claude
-    (most probably their version will increase constantly, but these are the most popular family of models)
+    (even if new versions will constantly appear, these are the most popular family of models as of 2025)
 - A paragraph on how it can be expanded to other modalities, such as PDFs, audio, or video, by hooking different encoders for each modality
 - Include a paragraph on multimodal LLMs vs. diffusion generation models, such as Midjourney or Stable Diffusion:
     - Comparison between diffusion image generation models and multimodal LLMs that support generating images (e.g., GPT-4o)
@@ -218,8 +216,8 @@ Follow the next narrative flow when writing the end-to-end lesson:
 
 - To better understand how multimodal LLMs work, let's write a few examples in Gemini to show you some best practices when working with images and PDFs.
 - First, let's quickly look at the three core ways to process multimodal data with LLMs: as raw bytes, Base64, and URLs:
-    1. **Raw bytes:** The easiest way to work with LLMs. Work well for one-off API calls. However, the biggest con of this method is that when storing the item in a database, it can easily get corrupted. Explain why it can get corrupted.
-    2. **Base64:** As a way to encode raw bytes as strings. This method is often used to embed images directly into a website, but in our use case the biggest advantage is that it allows us to store images or documents in a database (e.g., PostgreSQL, MongoDB) without getting corrupted. Therefore, we often use this format when storing multiformat data directly in a database and want to avoid data lakes such as AWS S3. Its biggest downside is that because we store it as strings, its size is usually 33% bigger.
+    1. **Raw bytes:** The easiest way to work with LLMs. Work well for one-off API calls. However, the biggest con of this method is that when storing the item in a database, it can easily get corrupted as most database interpret the input as text/strings, instead of bytes. Explain why it can get corrupted.
+    2. **Base64:** As a way to encode raw bytes as strings. This method is often used to embed images directly into a website, but in our use case the biggest advantage is that it allows us to store images or documents in a database (e.g., PostgreSQL, MongoDB) without getting corrupted as strings are what all databases and query languages know how to work with. Therefore, we often use this format when storing multiformat data directly in a database and want to avoid data lakes such as AWS S3. Its biggest downside is that because we store it as strings, its size is usually 33% bigger.
     3. **URLs:** Useful in two core scenarios: public data from the internet or data stored in a company's data lake, such as AWS S3 or GCP GCS. When working with public data, usually we can pass the link to the website, PDF, or image directly to the LLM. Still, in enterprise scenarios, which require privacy and scale, the data will be stored in some sort of data lake. Thus, instead of downloading the data from a database and passing it to the LLM API, the LLM can directly download the media from the bucket instead of passing it around the network, making this the most efficient option since I/O is usually the most common bottleneck of AI apps.
     (Figure 9: Mermaid diagram comparing method 2 based on Base64 + databases and method based on URLs + data lakes)
 - Conclude the theoretical section by highlighting each method's advantages and when to use them when building AI apps:
@@ -229,8 +227,8 @@ Follow the next narrative flow when writing the end-to-end lesson:
 
 - Now, let's dig into the code. Using the code examples from the provided Notebook within the <research> tag, use all the code from the <notebook_section_title>`2. Applying multimodal LLMs to images, PDFs, and text`</notebook_section_title> section to explain how to 
 <what_we_are_implementing>work with LLMs with images and PDFs in multiple formats such as bytes, base64 and URLs</what_we_are_implementing>
-- We will showcase these scenarios by extracting image captions and PDF descriptions using Gemini
-- Here is how you should use and format the code from the <notebook_section_title>`2. Applying multimodal LLMs to images, PDFs, and text`</notebook_section_title> section of the provided Notebook along with other notes:
+- We will showcase these scenarios by extracting image captions, PDF descriptions and more complex tasks such as object detection using Gemini
+- Here is how you should use and format the code from the <notebook_section_title>`2.Applying multimodal LLMs to images and PDFs`</notebook_section_title> section of the provided Notebook along with other notes:
     <define_how_the_code_should_be_explained_step_by_step>
     1. Display sample image
     2. Process image as raw bytes:
@@ -275,14 +273,15 @@ Follow the next narrative flow when writing the end-to-end lesson:
         - Show the LLM response explaining the content of the document
     9. Object detection on PDF pages as images:
         - To further emphasize how you can also input to LLMs PDFs as images, especially when containing complex layouts, let's do object detection on top of the `attention_is_all_you_need_paper.pdf` PDF paper 
-        - Show the `attention_is_all_you_need_1.jpeg` PDF page as image used as an example for detecting the diagram
+        - Short section on processing PDFs as base64 vs images: Along the trade-offs similar to processing images as bytes vs base64, this is more of a architectural decission mostly related to how we store the PDFs in our database and how they fit into our AI architecture
+        - Back to implementation: Show the `attention_is_all_you_need_1.jpeg` PDF page as image used as an example for detecting the diagram
         - Define the prompt and load the image as bytes
         - Call the LLM used to detect the diagram from the PDF page as image
         - Show the image with the detection
         - Conclude by highlighting how well LLMs understand images nowadays, making translating them to text completely redundant
     </define_how_the_code_should_be_explained_step_by_step>
 
--  **Section length**: 600 words (Don't count the code, images or mermaid diagrams)
+-  **Section length**: 700 words (Don't count the code, images or mermaid diagrams)
 
 
 ## Section 5: Foundations of multimodal RAG
@@ -301,23 +300,28 @@ Follow the next narrative flow when writing the end-to-end lesson:
     - Example: This technique is heavily used in image search engines, such as Google or Apple Photos, such as when you query "pictures of dogs" and it returns only images of dogs
     (Figure 10: Mermaid diagram illustrating the ingestion & retrieval pipelines + vector database of the multimodal RAG system)
 
-- For our enterprise use case, where we want to do RAG on top of documents, not images, the most popular architecture is called ColPali. Let's see how it works in more detail.
+- For our enterprise use case, where we want to do RAG on top of documents, not images, as of 2025, the most popular architecture is called ColPali. Let's see how it works in more detail.
 - Give a brief introduction to ColPali, explaining that this is the modern architecture for multimodal RAG when working with PDF documents
 - Explain the ColPali innovations in one paragraph:
     - The problem it solves
-    - The innovation lies in bypassing the entire OCR pipeline that typically involves text extraction, layout detection, chunking, and embedding. Instead, ColPali processes document images directly using vision-language models to understand both textual and visual content simultaneously.
+    - As we kept suggesting in this lessons, the innovation lies in bypassing the entire OCR pipeline that typically involves text extraction, layout detection, chunking, and embedding. Instead, ColPali processes document images directly using vision-language models to understand both textual and visual content simultaneously.
     - Based on our discussions on why layouts are so important for document comprehension, explain that ColPali works great for documents with tables, figures, and other complex visual layouts.
 - Explain the core patterns from ColPali architecture. Write a short paragraph on each topic:
     1. Offline indexing (ingestion pipeline)
-    2. Online query logic
-    3. Used models
+    2. Online query logic: 
+        - Uses late interaction mechanism (MaxSim operator) to compute similarities between query tokens and document patches
+        - Each query token finds its maximum similarity with document patches, then sums these scores
+    3. 3. Used models: ColPali is based on PaliGemma (3B parameters) with SigLIP vision encoder
     4. Chunking text vs. Patching images
-    5. Outputting "bag-of-embeddings"
+    5. Outputting "bag-of-embeddings" where we don't care about the order of elements (also known as "Multi-vector embeddings"). For example:
+        - Traditional approach: Document → Single embedding vector (e.g., 768-dimensional vector)
+        - ColPali approach: Document image → Multiple embedding vectors (e.g., 128 patches × 128 dimensions each = "bag of 128 embeddings")
 (Figure 11: Use an image from the research showing the architecture of ColPali)
 - Highlight that we can also use ColPali as a reranking system. 
 - Highlight the paradigm shift comparison:
     1. Standard retrieval (OCR, layout detection, chunking, indexing using a text embedding model) vs. ColPali (patching and indexing documents as images using a multimodal multi-vector embedding model, where each image outputs a "bag-of-embedding" representation)
-    2. Performance advantages over Standard methods
+    2. 2-10x faster query latency and fewer failure points compared to traditional OCR pipelines (which require text extraction, layout detection, and chunking) 
+    3. Outperforms all baseline systems on ViDoRe benchmark with 81.3% average nDCG@5 score
     3. Scalability of ColPali as a reranker
 - Real-world example scenarios, mostly related to RAG, where we have to interpret and retrieve complex PDF documents:
     - Financial document analysis with charts, tables, and spatial relationships
@@ -333,12 +337,13 @@ Follow the next narrative flow when writing the end-to-end lesson:
 - Explain mini-project: A simple multimodal RAG example where we populate an in-memory vector database with multiple images from the `images` folder and further query it with text questions. To replicate the ColPali design as much as possible, we will load some pages of the `Attention Is All You Need` paper PDF as images and shuffle them together with standard images. Still, as our main goal at this point is to build the intuition behind multimodal RAG, we will keep it simple, and won't patch the images or use the ColBert ReRanker.
 - Figure 11: Generate a mermaid diagram of our multimodal RAG example
 
-- Now, let's dig into the code. Using the code examples from the provided Notebook within the <research> tag, use all the code from the <notebook_section_title>`3. Implementing multimodal RAG for images and text`</notebook_section_title> section to explain how to 
+- Now, let's dig into the code. Using the code examples from the provided Notebook within the <research> tag, use all the code from the <notebook_section_title>`3. Implementing multimodal RAG for images, PDFs and text`</notebook_section_title> section to explain how to 
 <what_we_are_implementing>build a multimodal RAG system</what_we_are_implementing>.
-- Here is how you should use and format the code from the <notebook_section_title>`3. Implementing multimodal RAG for images and text`</notebook_section_title> section of the provided Notebook along with other notes:
+- Here is how you should use and format the code from the <notebook_section_title>`3. Implementing multimodal RAG for images, PDFs and text`</notebook_section_title> section of the provided Notebook along with other notes:
     <define_how_the_code_should_be_explained_step_by_step>
     1. Display the images that we will embed and load into our mocked vector index
-    2. Define and explain the `create_multimodal_embeddings` function. 
+    2. Define and explain the `create_vector_index` function. 
+        - explain how the function works to create the vector index as a list
         - As we have only a few images, we will mock the vector index as a simple list. Explain that in the real-world you use a vector database that has dedicated vector indexes that scale using algorithms such as HNSW.
         - As we preached that doing image -> text translations is a bad idea explain in more depth why we did this here through the `generate_image_description` function:
             - The Gemini Dev API doesn't support image embeddings. To keep it simple and avoid integrating another API or running open-source models on a GPU, we will create a description of each image using Gemini and embed that using the text embedding model. As we kept highlighting throughout the lesson, this is usually not recommended. But the good news is that once you have a multimodal embedding model available, you can just skip creating the image description and embed the image directly. Everything else from the RAG system, conceptually remains the same as the image and text embeddings are within the same vector space, which means you can run similarity metrics between the two.
@@ -352,12 +357,14 @@ Follow the next narrative flow when writing the end-to-end lesson:
             ```
     3. Define and explain the `generate_image_description` function
     4. Define and explain the `embed_text_with_gemini` function
-    5. Define the `search_multimodal` function. Explain that it's used to find top `k` images based on a text query
-    6. Call the `search_multimodal` function using the `"what is the architecture of the transformer neural network?"` query
-    7. Show the text results and the output image. 
-    8. Another example with the `query = "a kitten with a robot"`
-    9. Show the text results and the output image
-    10. Highlight how we used the same image vector index to search for both images and PDF pages as we normalized everything to images. We could take this even further and sample video footage or translate audio data to spectrograms.  
+    5. Call the `create_vector_index` function to create the `vector_index` list
+    6. Show how the keys of the `vector_index` look like and then how the embedding and description look like for the first element
+    7. Define the `search_multimodal` function. Explain that it's used to find top `k` images based on a text query
+    8. Call the `search_multimodal` function using the `"what is the architecture of the transformer neural network?"` query
+    9. Show the text results and the output image. 
+    10. Another example with the `query = "a kitten with a robot"`
+    11. Show the text results and the output image
+    12. Highlight how we used the same image vector index to search for both images and PDF pages as we normalized everything to images. We could take this even further and sample video footage or translate audio data to spectrograms.  
     </define_how_the_code_should_be_explained_step_by_step>
 
 -  **Section length**: 400 words (don't count the code, images or mermaid diagrams)
@@ -381,16 +388,19 @@ Follow the next narrative flow when writing the end-to-end lesson:
         - Emphasize the `system_prompt`
         - Highlight that we will dig more into why we choose LangGraph and how it works in part 2 of the course. For now, we used it as a drop-in replacement for the ReAct agent.
     3. Build the `react_agent`
-    4. Call the ReAct agent using the `"what color is my kitten?"` `test_question`
-    5. Show all the intermediate steps of the ReAct agent
-    6. Show the final answer of the ReAct agent along with the kitten image from the Notebook
+    4. Figure 13: Show the ReAct agent image
+    5. Call the ReAct agent using the `"what color is my kitten?"` `test_question`
+    6. Show all the intermediate steps of the ReAct agent
+    7. Show the final answer of the ReAct agent along with the kitten image from the Notebook
     </define_how_the_code_should_be_explained_step_by_step>
 -  **Section length**: 350 words (don't count the code, images or mermaid diagrams)
+
+**Final thoughts:** In this lesson, we combined structured outputs, tools, ReAct, RAG and multimodal to create a multimodal agentic RAG PoC.
 
 ## Section 8: Conclusion
 (Connect our solution to the bigger field of AI Engineering. Add course next steps.)
 
-- Wrap-up the lesson by explaining that we will use multimodal techniques in our capstone project to pass images and PDFs from our research agent to the writer agent, avoiding any text translation issues and benefiting from the complete visual information from the research
+- **Transition:** Wrap-up the lesson by explaining that we will use multimodal techniques in our capstone project to pass images and PDFs from our research agent to the writer agent, avoiding any text translation issues and benefiting from the complete visual information from the research
 - To transition from this lesson to the next, specify that this was the last lesson from part 1, on the fundamentals of AI Engineering. 
 - Next specify what we will learn in future lessons. Mention what we will learn in the next part of the course, which is Part 2. Leverage the concepts listed in subsection `Concepts That Will Be Introduced in Future Lessons` to provide a short summary of what we will do in Part 2.
 -  **Section length**: 100 words
