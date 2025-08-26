@@ -163,8 +163,8 @@ By keeping these real-world challenges in mind, you can design memory systems th
 *   **Section length:** 500 words
 
 ## **Golden Sources**
-
-- https://www.youtube.com/watch?v=7AmhgMAJIT4&list=PLDV8PPvY5K8VlygSJcp3__mhToZMBoiwX&index=112 (Nice real-world example)
+- https://github.com/towardsai/agentic-ai-engineering-course/blob/dev/lessons/09_memory_knowledge_access/notebook.ipynb
+- https://www.youtube.com/watch?v=7AmhgMAJIT4&list=PLDV8PPvY5K8VlygSJcp3__mhToZMBoiwX&index=112
 - https://decodingml.substack.com/p/memory-the-secret-sauce-of-ai-agents
 - https://www.newsletter.swirlai.com/p/memory-in-agent-systems
 - https://arxiv.org/html/2309.02427
@@ -172,7 +172,6 @@ By keeping these real-world challenges in mind, you can design memory systems th
 
 
 ## **Other Sources**
-
 - https://www.ibm.com/think/topics/ai-agent-memory
 - https://arxiv.org/html/2504.19413 (Mem0: Building Production-Ready AI Agents with Scalable Long-Term Memory)
 - https://docs.letta.com/guides/agents/memory
