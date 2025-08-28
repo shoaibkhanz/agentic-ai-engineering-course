@@ -1,31 +1,40 @@
 {
-    "num_chars_article": 20797,
-    "num_chars_conclusion": 1094,
-    "num_chars_introduction": 1481,
-    "num_sections": 4,
-    "num_words_article": 2581,
-    "num_words_conclusion": 159,
-    "num_words_introduction": 239,
+    "config": {
+        "thread_id": "c4222fe3-cdc8-4cf1-83c2-4b60a6d9b341",
+        "article_id": "09_memory_knowledge_access",
+        "enable_human_review": null
+    },
+    "num_chars_article": 32753,
+    "num_chars_conclusion": 1521,
+    "num_chars_introduction": 3068,
+    "num_sections": 5,
+    "num_words_article": 4325,
+    "num_words_conclusion": 231,
+    "num_words_introduction": 462,
     "sections": {
         "The Layers of Memory: Internal, Short-Term, and Long-Term": {
-            "num_chars": 2800,
-            "num_words": 396
+            "num_chars": 2639,
+            "num_words": 333
         },
-        "The Three Pillars of Long-Term Memory: Semantic, Episodic, and Procedural": {
-            "num_chars": 3422,
-            "num_words": 494
+        "Long-Term Memory: Semantic, Episodic, and Procedural": {
+            "num_chars": 4163,
+            "num_words": 645
         },
-        "Creating Memories: How Agents Learn and Remember": {
-            "num_chars": 4039,
-            "num_words": 464
+        "Storing Memories: Pros and Cons of Different Approaches": {
+            "num_chars": 6089,
+            "num_words": 741
+        },
+        "Memory implementations with code examples": {
+            "num_chars": 8057,
+            "num_words": 1115
         },
         "Real-World Lessons: Challenges and Best Practices": {
-            "num_chars": 5004,
-            "num_words": 593
+            "num_chars": 4059,
+            "num_words": 541
         }
     },
     "seo": {
-        "title": "AI Agents: Give Them Memory!",
-        "description": "Unlock AI's true potential! Learn why memory is crucial for AI agents & how to implement long-term, short-term, and internal memory for smarter, personalized LLMs. Explore semantic, episodic, and procedural memory, plus best practices for building AI that remembers."
+        "title": "AI Agents: Unlock Personalized Long-Term Memory",
+        "description": "Discover why AI agents need memory to thrive. Learn about semantic, episodic, & procedural memory, and how to implement them for personalized AI experiences."
     }
 }

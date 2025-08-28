@@ -1,44 +1,36 @@
-# Research
-
-## Research Results
-
-<details>
-<summary>What are the best practices for managing AI agent memory to avoid user cognitive overhead?</summary>
-
-### Source [2]: https://www.letta.com/blog/agent-memory
+<?xml version="1.0" encoding="UTF-8"?>
+<research>
+  <research_results>
+    <query_group>
+      <query><![CDATA[What are the best practices for managing AI agent memory to avoid user cognitive overhead?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [2]: https://www.letta.com/blog/agent-memory
 
 Query: What are the best practices for managing AI agent memory to avoid user cognitive overhead?
 
 Answer: Best practices for managing AI agent memory to avoid user cognitive overhead include **Message Eviction & Summarization**: when context windows fill up, agents should intelligently evict and summarize older messages, retaining essential details and compressing information without losing continuity. Techniques like **Recursive Summarization** ensure that as conversations grow, summaries are periodically updated, with recent interactions given more weight. **Memory Blocks** structure memory by labeling, describing, and limiting stored information, allowing agents to rewrite or consolidate blocks as needed. For long-term or external memory, **Vector and Graph Databases** enable efficient retrieval, embedding, and reasoning over past experiences. These practices collectively help agents maintain relevant context, minimize redundancy, and organize memory for optimal retrieval, thereby reducing user cognitive overhead[2].
 
------
-
------
-
-### Source [3]: https://www.youtube.com/watch?v=W2HVdB4Jbjs
+-----]]></source_block>
+        <source_block><![CDATA[### Source [3]: https://www.youtube.com/watch?v=W2HVdB4Jbjs
 
 Query: What are the best practices for managing AI agent memory to avoid user cognitive overhead?
 
 Answer: Effective agent memory management draws inspiration from human memory systems—such as **episodic, working, semantic, and procedural memory**—to create believable, reliable, and capable AI agents. Architecting agent memory involves structuring memory components (conversation, workflow, persona) and operationalizing short-term, long-term, and dynamic memory modes. Production-ready practices include leveraging **vector databases and hybrid search** for scalable persistence, using **embeddings and relevance scoring** for semantic retrieval, and implementing strategies like **memory cascading and selective deletion** to optimize context window use. Advanced techniques such as integrating tool use and persona memory further enhance context awareness. The key is to balance retention of important information with performance constraints, ensuring agents can remember and reason without overwhelming users with excessive or irrelevant detail[3].
 
------
-
------
-
-### Source [4]: https://techcommunity.microsoft.com/blog/azure-ai-foundry-blog/memory-management-for-ai-agents/4406359
+-----]]></source_block>
+        <source_block><![CDATA[### Source [4]: https://techcommunity.microsoft.com/blog/azure-ai-foundry-blog/memory-management-for-ai-agents/4406359
 
 Query: What are the best practices for managing AI agent memory to avoid user cognitive overhead?
 
 Answer: To minimize user cognitive overhead, AI agent memory should: **extract key information** from past interactions (avoiding unnecessary details), **prevent duplication** in stored memory, **append new facts** to existing memory, and **update or change stored data** as conversations evolve. Prioritizing memory items by frequency of access ensures the most relevant information is readily available. Using dedicated memory management frameworks (like Mem0) can automate these processes, integrating with retrieval systems (e.g., Azure AI Search) for streamlined storage and access. These approaches keep memory concise and relevant, allowing users to interact with agents without wading through excessive historical information, thereby reducing cognitive burden[4].
 
------
-
-</details>
-
-<details>
-<summary>How have expanding LLM context windows changed strategies for AI agent memory compression and summarization?</summary>
-
-### Source [6]: https://arxiv.org/html/2406.06110v1
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[How have expanding LLM context windows changed strategies for AI agent memory compression and summarization?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [6]: https://arxiv.org/html/2406.06110v1
 
 Query: How have expanding LLM context windows changed strategies for AI agent memory compression and summarization?
 
@@ -46,11 +38,8 @@ Answer: Expanding the context window of large language models (LLMs) historicall
 
 -----
 
------
-
------
-
-### Source [7]: https://aclanthology.org/2024.findings-emnlp.358.pdf
+-----]]></source_block>
+        <source_block><![CDATA[### Source [7]: https://aclanthology.org/2024.findings-emnlp.358.pdf
 
 Query: How have expanding LLM context windows changed strategies for AI agent memory compression and summarization?
 
@@ -58,11 +47,8 @@ Answer: Selective Compression Attention (SCA) is introduced as a general method 
 
 -----
 
------
-
------
-
-### Source [8]: https://supermemory.ai/blog/extending-context-windows-in-llms/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [8]: https://supermemory.ai/blog/extending-context-windows-in-llms/
 
 Query: How have expanding LLM context windows changed strategies for AI agent memory compression and summarization?
 
@@ -70,11 +56,8 @@ Answer: Two main strategies address LLM context window limitations: Semantic Com
 
 -----
 
------
-
------
-
-### Source [9]: https://research.ibm.com/blog/larger-context-window
+-----]]></source_block>
+        <source_block><![CDATA[### Source [9]: https://research.ibm.com/blog/larger-context-window
 
 Query: How have expanding LLM context windows changed strategies for AI agent memory compression and summarization?
 
@@ -82,11 +65,8 @@ Answer: Larger context windows in LLMs function as an expanded working memory, a
 
 -----
 
------
-
------
-
-### Source [10]: https://www.factory.ai/news/compressing-context
+-----]]></source_block>
+        <source_block><![CDATA[### Source [10]: https://www.factory.ai/news/compressing-context
 
 Query: How have expanding LLM context windows changed strategies for AI agent memory compression and summarization?
 
@@ -94,14 +74,13 @@ Answer: Setting thresholds for when to compress context introduces tradeoffs bet
 
 -----
 
------
-
-</details>
-
-<details>
-<summary>What are the pros and cons of storing AI agent memories as raw strings versus structured data like JSON or knowledge graphs?</summary>
-
-### Source [11]: https://www.geeksforgeeks.org/artificial-intelligence/ai-agent-memory/
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[What are the pros and cons of storing AI agent memories as raw strings versus structured data like JSON or knowledge graphs?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [11]: https://www.geeksforgeeks.org/artificial-intelligence/ai-agent-memory/
 
 Query: What are the pros and cons of storing AI agent memories as raw strings versus structured data like JSON or knowledge graphs?
 
@@ -117,11 +96,8 @@ In summary, **raw strings** are optimal for speed and simplicity in short-term c
 
 -----
 
------
-
------
-
-### Source [12]: https://dev.to/foxgem/ai-agent-memory-a-comparative-analysis-of-langgraph-crewai-and-autogen-31dp
+-----]]></source_block>
+        <source_block><![CDATA[### Source [12]: https://dev.to/foxgem/ai-agent-memory-a-comparative-analysis-of-langgraph-crewai-and-autogen-31dp
 
 Query: What are the pros and cons of storing AI agent memories as raw strings versus structured data like JSON or knowledge graphs?
 
@@ -133,11 +109,8 @@ The choice between raw strings and structured data is thus influenced by applica
 
 -----
 
------
-
------
-
-### Source [13]: https://www.arxiv.org/pdf/2506.06326
+-----]]></source_block>
+        <source_block><![CDATA[### Source [13]: https://www.arxiv.org/pdf/2506.06326
 
 Query: What are the pros and cons of storing AI agent memories as raw strings versus structured data like JSON or knowledge graphs?
 
@@ -149,11 +122,8 @@ Structured memory enables the extraction and tracking of evolving user preferenc
 
 -----
 
------
-
------
-
-### Source [14]: https://diamantai.substack.com/p/memory-optimization-strategies-in
+-----]]></source_block>
+        <source_block><![CDATA[### Source [14]: https://diamantai.substack.com/p/memory-optimization-strategies-in
 
 Query: What are the pros and cons of storing AI agent memories as raw strings versus structured data like JSON or knowledge graphs?
 
@@ -165,11 +135,8 @@ The main trade-off is between **simplicity and scalability**: raw string memory 
 
 -----
 
------
-
------
-
-### Source [15]: https://www.letta.com/blog/benchmarking-ai-agent-memory
+-----]]></source_block>
+        <source_block><![CDATA[### Source [15]: https://www.letta.com/blog/benchmarking-ai-agent-memory
 
 Query: What are the pros and cons of storing AI agent memories as raw strings versus structured data like JSON or knowledge graphs?
 
@@ -179,14 +146,13 @@ However, relying solely on raw string storage presents risks for complex, long-r
 
 Thus, while raw string storage can be surprisingly effective for some benchmarks, structured data formats are necessary for robust long-term memory, learning, and the ability to handle complex AI agent objectives.
 
------
-
-</details>
-
-<details>
-<summary>How can procedural memory be implemented in AI agents to allow them to learn new skills from user interactions?</summary>
-
-### Source [16]: https://research.aimultiple.com/ai-agent-memory/
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[How can procedural memory be implemented in AI agents to allow them to learn new skills from user interactions?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [16]: https://research.aimultiple.com/ai-agent-memory/
 
 Query: How can procedural memory be implemented in AI agents to allow them to learn new skills from user interactions?
 
@@ -202,11 +168,8 @@ The key steps are:
 
 -----
 
------
-
------
-
-### Source [17]: https://arxiv.org/html/2411.00489v1
+-----]]></source_block>
+        <source_block><![CDATA[### Source [17]: https://arxiv.org/html/2411.00489v1
 
 Query: How can procedural memory be implemented in AI agents to allow them to learn new skills from user interactions?
 
@@ -216,11 +179,8 @@ A proposed Cognitive Architecture of Self-Adaptive Long-term Memory (SALM) integ
 
 -----
 
------
-
------
-
-### Source [18]: https://arxiv.org/html/2505.03434v1
+-----]]></source_block>
+        <source_block><![CDATA[### Source [18]: https://arxiv.org/html/2505.03434v1
 
 Query: How can procedural memory be implemented in AI agents to allow them to learn new skills from user interactions?
 
@@ -235,11 +195,8 @@ Such a modular system allows an agent to continuously adapt procedural routines 
 
 -----
 
------
-
------
-
-### Source [19]: https://decodingml.substack.com/p/memory-the-secret-sauce-of-ai-agents
+-----]]></source_block>
+        <source_block><![CDATA[### Source [19]: https://decodingml.substack.com/p/memory-the-secret-sauce-of-ai-agents
 
 Query: How can procedural memory be implemented in AI agents to allow them to learn new skills from user interactions?
 
@@ -251,11 +208,8 @@ The system can support this adaptability by exposing interfaces for modifying th
 
 -----
 
------
-
------
-
-### Source [20]: http://www.gocharlie.ai/blog/memory/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [20]: http://www.gocharlie.ai/blog/memory/
 
 Query: How can procedural memory be implemented in AI agents to allow them to learn new skills from user interactions?
 
@@ -268,14 +222,13 @@ For agents to learn new skills from user interactions, their procedural methods 
 
 The key is to structure internal processes so they are modular and amenable to change, allowing procedural memory to evolve in response to ongoing user interaction[5].
 
------
-
-</details>
-
-<details>
-<summary>What are real-world examples of product-driven AI memory architecture design?</summary>
-
-### Source [21]: https://completeaitraining.com/news/ai-driven-memory-architecture-transforms-scientific/
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[What are real-world examples of product-driven AI memory architecture design?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [21]: https://completeaitraining.com/news/ai-driven-memory-architecture-transforms-scientific/
 
 Query: What are real-world examples of product-driven AI memory architecture design?
 
@@ -287,11 +240,8 @@ Micron’s senior fellow, Mark Helm, highlights that Crete “redefines how memo
 
 -----
 
------
-
------
-
-### Source [22]: https://arxiv.org/pdf/2504.19413
+-----]]></source_block>
+        <source_block><![CDATA[### Source [22]: https://arxiv.org/pdf/2504.19413
 
 Query: What are real-world examples of product-driven AI memory architecture design?
 
@@ -303,11 +253,8 @@ Mem0’s design achieves a balance between **response quality and computational 
 
 -----
 
------
-
------
-
-### Source [23]: https://learn.microsoft.com/en-us/azure/architecture/ai-ml/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [23]: https://learn.microsoft.com/en-us/azure/architecture/ai-ml/
 
 Query: What are real-world examples of product-driven AI memory architecture design?
 
@@ -322,11 +269,8 @@ Azure’s architecture is designed to be compatible with various hardware, ensur
 
 -----
 
------
-
------
-
-### Source [24]: https://engineering.salesforce.com/how-a-new-ai-architecture-unifies-1000-sources-and-100-million-rows-in-5-minutes/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [24]: https://engineering.salesforce.com/how-a-new-ai-architecture-unifies-1000-sources-and-100-million-rows-in-5-minutes/
 
 Query: What are real-world examples of product-driven AI memory architecture design?
 
@@ -338,14 +282,13 @@ To validate the memory and compute architecture, Salesforce developed synthetic 
 
 -----
 
------
-
-</details>
-
-<details>
-<summary>What are the practical trade-offs when choosing between knowledge graphs and vector databases for an AI agent's long-term memory architecture?</summary>
-
-### Source [25]: https://writer.com/engineering/vector-database-vs-graph-database/
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[What are the practical trade-offs when choosing between knowledge graphs and vector databases for an AI agent's long-term memory architecture?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [25]: https://writer.com/engineering/vector-database-vs-graph-database/
 
 Query: What are the practical trade-offs when choosing between knowledge graphs and vector databases for an AI agent's long-term memory architecture?
 
@@ -359,11 +302,8 @@ Key trade-offs identified:
 
 -----
 
------
-
------
-
-### Source [26]: https://neo4j.com/blog/genai/knowledge-graph-vs-vectordb-for-retrieval-augmented-generation/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [26]: https://neo4j.com/blog/genai/knowledge-graph-vs-vectordb-for-retrieval-augmented-generation/
 
 Query: What are the practical trade-offs when choosing between knowledge graphs and vector databases for an AI agent's long-term memory architecture?
 
@@ -377,11 +317,8 @@ In summary:
 
 -----
 
------
-
------
-
-### Source [27]: https://www.falkordb.com/blog/knowledge-graph-vs-vector-database/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [27]: https://www.falkordb.com/blog/knowledge-graph-vs-vector-database/
 
 Query: What are the practical trade-offs when choosing between knowledge graphs and vector databases for an AI agent's long-term memory architecture?
 
@@ -395,11 +332,8 @@ A hybrid approach, combining both, can yield high accuracy and completeness, but
 
 -----
 
------
-
------
-
-### Source [28]: https://www.useparagon.com/blog/vector-database-vs-knowledge-graphs-for-rag
+-----]]></source_block>
+        <source_block><![CDATA[### Source [28]: https://www.useparagon.com/blog/vector-database-vs-knowledge-graphs-for-rag
 
 Query: What are the practical trade-offs when choosing between knowledge graphs and vector databases for an AI agent's long-term memory architecture?
 
@@ -411,11 +345,8 @@ A **hybrid approach** leverages both: using knowledge graphs for structured quer
 
 -----
 
------
-
------
-
-### Source [29]: https://www.elastic.co/blog/vector-database-vs-graph-database
+-----]]></source_block>
+        <source_block><![CDATA[### Source [29]: https://www.elastic.co/blog/vector-database-vs-graph-database
 
 Query: What are the practical trade-offs when choosing between knowledge graphs and vector databases for an AI agent's long-term memory architecture?
 
@@ -427,14 +358,13 @@ Key trade-offs:
 - **Vector database**: Best for unstructured, similarity-based retrieval; scalable, but with limited relationship modeling.
 - **Graph/Knowledge graph**: Best for rich, relationship-driven queries; flexible schema, but may require optimization for performance at scale.
 
------
-
-</details>
-
-<details>
-<summary>How have large context windows in models like Gemini 2.5 Pro impacted the design of memory retrieval and compression pipelines for AI agents?</summary>
-
-### Source [30]: https://www.dhiwise.com/post/the-gemini-context-window-and-its-role-in-ai-precision
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[How have large context windows in models like Gemini 2.5 Pro impacted the design of memory retrieval and compression pipelines for AI agents?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [30]: https://www.dhiwise.com/post/the-gemini-context-window-and-its-role-in-ai-precision
 
 Query: How have large context windows in models like Gemini 2.5 Pro impacted the design of memory retrieval and compression pipelines for AI agents?
 
@@ -442,11 +372,8 @@ Answer: Large context windows in models such as Gemini 1.5 Pro (and by extension
 
 -----
 
------
-
------
-
-### Source [31]: https://codingscape.com/blog/llms-with-largest-context-windows
+-----]]></source_block>
+        <source_block><![CDATA[### Source [31]: https://codingscape.com/blog/llms-with-largest-context-windows
 
 Query: How have large context windows in models like Gemini 2.5 Pro impacted the design of memory retrieval and compression pipelines for AI agents?
 
@@ -454,11 +381,8 @@ Answer: LLMs with massive context windows (like Gemini 2.5 Pro with up to 1 mill
 
 -----
 
------
-
------
-
-### Source [32]: https://ai.google.dev/gemini-api/docs/long-context
+-----]]></source_block>
+        <source_block><![CDATA[### Source [32]: https://ai.google.dev/gemini-api/docs/long-context
 
 Query: How have large context windows in models like Gemini 2.5 Pro impacted the design of memory retrieval and compression pipelines for AI agents?
 
@@ -466,11 +390,8 @@ Answer: Google’s official Gemini documentation explains that context windows o
 
 -----
 
------
-
------
-
-### Source [33]: https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-5-pro
+-----]]></source_block>
+        <source_block><![CDATA[### Source [33]: https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-5-pro
 
 Query: How have large context windows in models like Gemini 2.5 Pro impacted the design of memory retrieval and compression pipelines for AI agents?
 
@@ -478,25 +399,21 @@ Answer: Gemini 2.5 Pro is designed to comprehend vast datasets and tackle challe
 
 -----
 
------
-
------
-
-### Source [34]: https://storage.googleapis.com/deepmind-media/gemini/gemini_v2_5_report.pdf
+-----]]></source_block>
+        <source_block><![CDATA[### Source [34]: https://storage.googleapis.com/deepmind-media/gemini/gemini_v2_5_report.pdf
 
 Query: How have large context windows in models like Gemini 2.5 Pro impacted the design of memory retrieval and compression pipelines for AI agents?
 
 Answer: According to the Gemini 2.5 technical report, the model features the largest context window to date—up to 2 million tokens. This capacity allows AI agents to handle much larger conversational threads, codebases, or document collections without loss of continuity or context. Performance benchmarks show that Gemini 2.5 Pro surpasses previous models in tasks requiring deep reasoning over extended input, thanks to its ability to process more information at once. For memory retrieval and compression pipelines, this means less need for aggressive filtering or summarization; systems can present far more context directly to the model, relying on its internal attention mechanisms to extract relevant details for output[5].
 -----
 
------
-
-</details>
-
-<details>
-<summary>What are best practices for designing an AI agent's memory architecture based on specific product requirements, such as a Q&A bot versus a personal companion?</summary>
-
-### Source [35]: https://www.speakeasy.com/mcp/ai-agents/architecture-patterns
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[What are best practices for designing an AI agent's memory architecture based on specific product requirements, such as a Q&A bot versus a personal companion?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [35]: https://www.speakeasy.com/mcp/ai-agents/architecture-patterns
 
 Query: What are best practices for designing an AI agent's memory architecture based on specific product requirements, such as a Q&A bot versus a personal companion?
 
@@ -504,11 +421,8 @@ Answer: Designing an AI agent’s memory architecture should be dictated by the 
 
 -----
 
------
-
------
-
-### Source [36]: https://www.youtube.com/watch?v=W2HVdB4Jbjs
+-----]]></source_block>
+        <source_block><![CDATA[### Source [36]: https://www.youtube.com/watch?v=W2HVdB4Jbjs
 
 Query: What are best practices for designing an AI agent's memory architecture based on specific product requirements, such as a Q&A bot versus a personal companion?
 
@@ -516,11 +430,8 @@ Answer: Best practices in AI agent memory architecture draw inspiration from hum
 
 -----
 
------
-
------
-
-### Source [37]: https://www.lindy.ai/blog/ai-agent-architecture
+-----]]></source_block>
+        <source_block><![CDATA[### Source [37]: https://www.lindy.ai/blog/ai-agent-architecture
 
 Query: What are best practices for designing an AI agent's memory architecture based on specific product requirements, such as a Q&A bot versus a personal companion?
 
@@ -528,11 +439,8 @@ Answer: Memory architecture in AI agents demands a combination of **working memo
 
 -----
 
------
-
------
-
-### Source [38]: https://www.jit.io/resources/devsecops/its-not-magic-its-memory-how-to-architect-short-term-memory-for-agentic-ai
+-----]]></source_block>
+        <source_block><![CDATA[### Source [38]: https://www.jit.io/resources/devsecops/its-not-magic-its-memory-how-to-architect-short-term-memory-for-agentic-ai
 
 Query: What are best practices for designing an AI agent's memory architecture based on specific product requirements, such as a Q&A bot versus a personal companion?
 
@@ -540,25 +448,21 @@ Answer: Short-term memory architecture is vital for coherent user experiences an
 
 -----
 
------
-
------
-
-### Source [39]: https://langchain-ai.github.io/langgraph/concepts/agentic_concepts/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [39]: https://langchain-ai.github.io/langgraph/concepts/agentic_concepts/
 
 Query: What are best practices for designing an AI agent's memory architecture based on specific product requirements, such as a Q&A bot versus a personal companion?
 
 Answer: Effective agent memory architecture distinguishes between **short-term memory** (context within a session or multi-step workflow) and **long-term memory** (recall of information from previous interactions). LangGraph enables granular control, letting you define the **state schema**—specifying exactly what information is retained. The **checkpointer** persists state at every step, supporting context propagation and recovery. The **store** persists user or application-level data across sessions. This flexibility means you can tailor memory retention and retrieval to the needs of a Q&A bot (emphasizing immediate context and recent queries) or a personal companion (emphasizing continuity, preferences, and long-term user history). Effective memory management thus enhances agent context-awareness, learning, and decision-making by leveraging structured, persistent state across interactions.
 -----
 
------
-
-</details>
-
-<details>
-<summary>How can procedural memory be implemented in AI agents to allow them to learn new multi-step tasks from user feedback or interaction history?</summary>
-
-### Source [40]: https://langchain-ai.github.io/langgraph/concepts/memory/
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[How can procedural memory be implemented in AI agents to allow them to learn new multi-step tasks from user feedback or interaction history?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [40]: https://langchain-ai.github.io/langgraph/concepts/memory/
 
 Query: How can procedural memory be implemented in AI agents to allow them to learn new multi-step tasks from user feedback or interaction history?
 
@@ -570,11 +474,8 @@ This form of prompt-based procedural memory enables agents to adapt to new multi
 
 -----
 
------
-
------
-
-### Source [41]: https://www.youtube.com/watch?v=WW-v5mO2P7w
+-----]]></source_block>
+        <source_block><![CDATA[### Source [41]: https://www.youtube.com/watch?v=WW-v5mO2P7w
 
 Query: How can procedural memory be implemented in AI agents to allow them to learn new multi-step tasks from user feedback or interaction history?
 
@@ -586,11 +487,8 @@ The tutorial emphasizes the **importance of separating procedural memory for dif
 
 -----
 
------
-
------
-
-### Source [42]: https://decodingml.substack.com/p/memory-the-secret-sauce-of-ai-agents
+-----]]></source_block>
+        <source_block><![CDATA[### Source [42]: https://decodingml.substack.com/p/memory-the-secret-sauce-of-ai-agents
 
 Query: How can procedural memory be implemented in AI agents to allow them to learn new multi-step tasks from user feedback or interaction history?
 
@@ -602,11 +500,8 @@ The article notes that procedural memory is typically *long-term* and forms the 
 
 -----
 
------
-
------
-
-### Source [43]: https://blog.langchain.com/memory-for-agents/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [43]: https://blog.langchain.com/memory-for-agents/
 
 Query: How can procedural memory be implemented in AI agents to allow them to learn new multi-step tasks from user feedback or interaction history?
 
@@ -618,11 +513,8 @@ Despite its utility, prompt updating as a form of procedural memory adaptation i
 
 -----
 
------
-
------
-
-### Source [44]: https://arya.ai/blog/why-memory-matters-for-ai-agents-insights-from-nikolay-penkov
+-----]]></source_block>
+        <source_block><![CDATA[### Source [44]: https://arya.ai/blog/why-memory-matters-for-ai-agents-insights-from-nikolay-penkov
 
 Query: How can procedural memory be implemented in AI agents to allow them to learn new multi-step tasks from user feedback or interaction history?
 
@@ -632,14 +524,13 @@ By continuously interacting with users and receiving feedback, agents can reinfo
 
 Procedural memory complements other memory types (semantic and episodic) to provide context retention, predictive capabilities, and personalization. This enables agents to adapt their task execution dynamically, based on accumulated user feedback and interaction history, ultimately supporting more effective learning of new, complex processes.
 
------
-
-</details>
-
-<details>
-<summary>What are effective strategies for an AI agent to autonomously manage its memory, including resolving conflicting information and deciding what to forget, without requiring user intervention?</summary>
-
-### Source [45]: https://arxiv.org/html/2506.06326
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[What are effective strategies for an AI agent to autonomously manage its memory, including resolving conflicting information and deciding what to forget, without requiring user intervention?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [45]: https://arxiv.org/html/2506.06326
 
 Query: What are effective strategies for an AI agent to autonomously manage its memory, including resolving conflicting information and deciding what to forget, without requiring user intervention?
 
@@ -652,11 +543,8 @@ This holistic system enables agents to autonomously manage memory, resolve confl
 
 -----
 
------
-
------
-
-### Source [46]: https://blog.savantly.net/intelligent-memory-management-for-ai-agents/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [46]: https://blog.savantly.net/intelligent-memory-management-for-ai-agents/
 
 Query: What are effective strategies for an AI agent to autonomously manage its memory, including resolving conflicting information and deciding what to forget, without requiring user intervention?
 
@@ -672,11 +560,8 @@ Strategies highlighted include:
 
 -----
 
------
-
------
-
-### Source [48]: https://www.mongodb.com/company/blog/technical/dont-just-build-agents-build-memory-augmented-ai-agents
+-----]]></source_block>
+        <source_block><![CDATA[### Source [48]: https://www.mongodb.com/company/blog/technical/dont-just-build-agents-build-memory-augmented-ai-agents
 
 Query: What are effective strategies for an AI agent to autonomously manage its memory, including resolving conflicting information and deciding what to forget, without requiring user intervention?
 
@@ -689,11 +574,8 @@ These design patterns enable agents to autonomously manage memory, resolve confl
 
 -----
 
------
-
------
-
-### Source [49]: https://dev.to/bredmond1019/building-intelligent-ai-agents-with-memory-a-complete-guide-5gnk
+-----]]></source_block>
+        <source_block><![CDATA[### Source [49]: https://dev.to/bredmond1019/building-intelligent-ai-agents-with-memory-a-complete-guide-5gnk
 
 Query: What are effective strategies for an AI agent to autonomously manage its memory, including resolving conflicting information and deciding what to forget, without requiring user intervention?
 
@@ -704,11 +586,8 @@ Answer: The guide emphasizes the importance of memory for intelligence in AI age
 - **Relationship-building and failure learning**: Agents can autonomously update memory by learning from failures and successes, deciding what to forget based on outcome relevance instead of explicit user instruction.  
 These principles align with human-like memory management, enabling agents to resolve conflicts, adaptively forget, and maintain relevant context without user intervention.
 
------
-
------
-
-### Source [50]: https://arxiv.org/html/2506.06326
+-----]]></source_block>
+        <source_block><![CDATA[### Source [50]: https://arxiv.org/html/2506.06326
 
 Query: What are effective strategies for an AI agent to autonomously manage its memory, including resolving conflicting information and deciding what to forget, without requiring user intervention?
 
@@ -722,11 +601,8 @@ This system autonomously resolves conflicting information by updating memory seg
 
 -----
 
------
-
------
-
-### Source [51]: https://blog.savantly.net/intelligent-memory-management-for-ai-agents/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [51]: https://blog.savantly.net/intelligent-memory-management-for-ai-agents/
 
 Query: What are effective strategies for an AI agent to autonomously manage its memory, including resolving conflicting information and deciding what to forget, without requiring user intervention?
 
@@ -740,11 +616,8 @@ This approach allows AI agents to manage memory without user intervention, ensur
 
 -----
 
------
-
------
-
-### Source [53]: https://dev.to/bredmond1019/building-intelligent-ai-agents-with-memory-a-complete-guide-5gnk
+-----]]></source_block>
+        <source_block><![CDATA[### Source [53]: https://dev.to/bredmond1019/building-intelligent-ai-agents-with-memory-a-complete-guide-5gnk
 
 Query: What are effective strategies for an AI agent to autonomously manage its memory, including resolving conflicting information and deciding what to forget, without requiring user intervention?
 
@@ -760,11 +633,8 @@ The guide suggests that intelligent memory management leverages autonomous updat
 
 -----
 
------
-
------
-
-### Source [54]: https://www.vincirufus.com/posts/memory-based-agent-learning/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [54]: https://www.vincirufus.com/posts/memory-based-agent-learning/
 
 Query: What are effective strategies for an AI agent to autonomously manage its memory, including resolving conflicting information and deciding what to forget, without requiring user intervention?
 
@@ -776,14 +646,13 @@ Answer: The Memento framework introduces a **memory-based learning system** for 
 
 Memento’s memory-based learning empowers agents to autonomously curate and manage their knowledge base, continuously refining memory through relevance filtering, conflict resolution, and intelligent forgetting mechanisms.
 
------
-
-</details>
-
-<details>
-<summary>What are the cognitive and biological inspirations behind the classification of AI agent memory into semantic, episodic, and procedural types?</summary>
-
-### Source [55]: https://connectai.blog/agents-memory
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[What are the cognitive and biological inspirations behind the classification of AI agent memory into semantic, episodic, and procedural types?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [55]: https://connectai.blog/agents-memory
 
 Query: What are the cognitive and biological inspirations behind the classification of AI agent memory into semantic, episodic, and procedural types?
 
@@ -799,11 +668,8 @@ The implementation of these memory types in AI is informed by the cognitive dist
 
 -----
 
------
-
------
-
-### Source [56]: https://decodingml.substack.com/p/memory-the-secret-sauce-of-ai-agents
+-----]]></source_block>
+        <source_block><![CDATA[### Source [56]: https://decodingml.substack.com/p/memory-the-secret-sauce-of-ai-agents
 
 Query: What are the cognitive and biological inspirations behind the classification of AI agent memory into semantic, episodic, and procedural types?
 
@@ -819,11 +685,8 @@ The **biological inspiration** comes from observing that humans segment memory b
 
 -----
 
------
-
------
-
-### Source [57]: https://langchain-ai.github.io/langgraph/concepts/memory/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [57]: https://langchain-ai.github.io/langgraph/concepts/memory/
 
 Query: What are the cognitive and biological inspirations behind the classification of AI agent memory into semantic, episodic, and procedural types?
 
@@ -841,11 +704,8 @@ The analogy is not perfect, but using this cognitive classification provides a p
 
 -----
 
------
-
------
-
-### Source [58]: https://www.marktechpost.com/2025/03/30/understanding-ai-agent-memory-building-blocks-for-intelligent-systems/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [58]: https://www.marktechpost.com/2025/03/30/understanding-ai-agent-memory-building-blocks-for-intelligent-systems/
 
 Query: What are the cognitive and biological inspirations behind the classification of AI agent memory into semantic, episodic, and procedural types?
 
@@ -861,11 +721,8 @@ The classification draws from established models in psychology and neuroscience,
 
 -----
 
------
-
------
-
-### Source [59]: https://arya.ai/blog/why-memory-matters-for-ai-agents-insights-from-nikolay-penkov
+-----]]></source_block>
+        <source_block><![CDATA[### Source [59]: https://arya.ai/blog/why-memory-matters-for-ai-agents-insights-from-nikolay-penkov
 
 Query: What are the cognitive and biological inspirations behind the classification of AI agent memory into semantic, episodic, and procedural types?
 
@@ -881,14 +738,13 @@ This biologically-inspired classification enables AI agents to retain context, r
 
 -----
 
------
-
-</details>
-
-<details>
-<summary>How is episodic memory implemented in AI agents to provide nuanced, long-term conversational context beyond simple fact retrieval?</summary>
-
-### Source [65]: https://www.geeksforgeeks.org/artificial-intelligence/episodic-memory-in-ai-agents/
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[How is episodic memory implemented in AI agents to provide nuanced, long-term conversational context beyond simple fact retrieval?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [65]: https://www.geeksforgeeks.org/artificial-intelligence/episodic-memory-in-ai-agents/
 
 Query: How is episodic memory implemented in AI agents to provide nuanced, long-term conversational context beyond simple fact retrieval?
 
@@ -905,11 +761,8 @@ Episodic memory thus elevates agent intelligence from merely reactive to reflect
 
 -----
 
------
-
------
-
-### Source [66]: https://www.digitalocean.com/community/tutorials/episodic-memory-in-ai
+-----]]></source_block>
+        <source_block><![CDATA[### Source [66]: https://www.digitalocean.com/community/tutorials/episodic-memory-in-ai
 
 Query: How is episodic memory implemented in AI agents to provide nuanced, long-term conversational context beyond simple fact retrieval?
 
@@ -922,11 +775,8 @@ For **large language models (LLMs)** like GPT-3 or GPT-4, episodic memory is not
 
 -----
 
------
-
------
-
-### Source [67]: https://arxiv.org/html/2501.11739v1
+-----]]></source_block>
+        <source_block><![CDATA[### Source [67]: https://arxiv.org/html/2501.11739v1
 
 Query: How is episodic memory implemented in AI agents to provide nuanced, long-term conversational context beyond simple fact retrieval?
 
@@ -945,11 +795,8 @@ These principles are suggested to ensure that episodic memory enhances AI agent 
 
 -----
 
------
-
------
-
-### Source [68]: https://www.cs.columbia.edu/~dechant/safeaiworkshop2023.pdf
+-----]]></source_block>
+        <source_block><![CDATA[### Source [68]: https://www.cs.columbia.edu/~dechant/safeaiworkshop2023.pdf
 
 Query: How is episodic memory implemented in AI agents to provide nuanced, long-term conversational context beyond simple fact retrieval?
 
@@ -963,11 +810,8 @@ The goal is to enable AI agents to retain rich, long-term context for nuanced re
 
 -----
 
------
-
------
-
-### Source [69]: https://deepblue.lib.umich.edu/bitstream/handle/2027.42/57720/anuxoll_1.pdf
+-----]]></source_block>
+        <source_block><![CDATA[### Source [69]: https://deepblue.lib.umich.edu/bitstream/handle/2027.42/57720/anuxoll_1.pdf
 
 Query: How is episodic memory implemented in AI agents to provide nuanced, long-term conversational context beyond simple fact retrieval?
 
@@ -982,14 +826,13 @@ The work highlights that episodic memory's value is realized through its integra
 
 -----
 
------
-
-</details>
-
-<details>
-<summary>What are the trade-offs between using larger context windows versus sophisticated memory retrieval and compression pipelines for AI agents?</summary>
-
-### Source [70]: https://nebius.com/blog/posts/context-window-in-ai
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[What are the trade-offs between using larger context windows versus sophisticated memory retrieval and compression pipelines for AI agents?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [70]: https://nebius.com/blog/posts/context-window-in-ai
 
 Query: What are the trade-offs between using larger context windows versus sophisticated memory retrieval and compression pipelines for AI agents?
 
@@ -1001,11 +844,8 @@ Thus, the trade-off is between the simplicity and immediate capability of large 
 
 -----
 
------
-
------
-
-### Source [71]: https://blog.capitaltg.com/overcoming-memory-limitations-in-generative-ai-managing-context-windows-effectively/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [71]: https://blog.capitaltg.com/overcoming-memory-limitations-in-generative-ai-managing-context-windows-effectively/
 
 Query: What are the trade-offs between using larger context windows versus sophisticated memory retrieval and compression pipelines for AI agents?
 
@@ -1017,11 +857,8 @@ The trade-off centers on balancing **cost, latency, and context relevance**: lar
 
 -----
 
------
-
------
-
-### Source [72]: https://www.emerge.haus/blog/long-context-windows-in-generative-ai
+-----]]></source_block>
+        <source_block><![CDATA[### Source [72]: https://www.emerge.haus/blog/long-context-windows-in-generative-ai
 
 Query: What are the trade-offs between using larger context windows versus sophisticated memory retrieval and compression pipelines for AI agents?
 
@@ -1033,11 +870,8 @@ Hardware considerations also arise as context windows scale. Memory becomes a bo
 
 -----
 
------
-
------
-
-### Source [73]: https://www.meibel.ai/post/understanding-the-impact-of-increasing-llm-context-windows
+-----]]></source_block>
+        <source_block><![CDATA[### Source [73]: https://www.meibel.ai/post/understanding-the-impact-of-increasing-llm-context-windows
 
 Query: What are the trade-offs between using larger context windows versus sophisticated memory retrieval and compression pipelines for AI agents?
 
@@ -1052,11 +886,8 @@ Models with smaller context windows remain popular due to lower memory and compu
 
 -----
 
------
-
------
-
-### Source [74]: https://www.ibm.com/think/topics/context-window
+-----]]></source_block>
+        <source_block><![CDATA[### Source [74]: https://www.ibm.com/think/topics/context-window
 
 Query: What are the trade-offs between using larger context windows versus sophisticated memory retrieval and compression pipelines for AI agents?
 
@@ -1068,17 +899,14 @@ The trade-off is between the straightforward but costly approach of increasing c
 
 -----
 
------
-
-</details>
-
-
-## Sources Scraped From Research Results
-
-<details>
-<summary>(The video begins with the text "AI Engineer" in a metallic, gradient font against a black background.)</summary>
-
-(The video begins with the text "AI Engineer" in a metallic, gradient font against a black background.)
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+  </research_results>
+  <sources_scraped>
+    <scraped_source>
+      <title><![CDATA[(The video begins with the text "AI Engineer" in a metallic, gradient font against a black background.)]]></title>
+      <content><![CDATA[(The video begins with the text "AI Engineer" in a metallic, gradient font against a black background.)
 
 [00:00]
 (The text "AI Engineer" is now above a white outlined box containing "World's Fair". Upbeat, electronic music plays in the background. The screen then shows a "PRESENTING SPONSOR" title card with the Microsoft logo and name.)
@@ -1286,14 +1114,11 @@ The trade-off is between the straightforward but costly approach of increasing c
 
 (The video ends with the "AI Engineer World's Fair" logo.)
 
-*The speaker concludes by positioning MongoDB, enhanced with the recent acquisition of Voyage AI, as the ultimate memory provider for building advanced agentic systems, emphasizing a vision inspired by neuroscience to simplify development and push the boundaries of AI.*
-
-</details>
-
-<details>
-<summary>AI Agent Memory</summary>
-
-# AI Agent Memory
+*The speaker concludes by positioning MongoDB, enhanced with the recent acquisition of Voyage AI, as the ultimate memory provider for building advanced agentic systems, emphasizing a vision inspired by neuroscience to simplify development and push the boundaries of AI.*]]></content>
+    </scraped_source>
+    <scraped_source>
+      <title><![CDATA[AI Agent Memory]]></title>
+      <content><![CDATA[# AI Agent Memory
 
 AI Agent Memory is the ability of an AI agent to store, recall and use information from past interactions to make better decisions in the present and future. Without memory, an agent treats every interaction as if it is the first interaction. With memory, an agent can maintain context, adapt to users and improve over time i.e memory gives AI agent continuity, context-awareness and learning abilities.https://media.geeksforgeeks.org/wp-content/uploads/20250722125643748319/ai_agent_memory-.webp
 
@@ -1366,14 +1191,11 @@ Let's compare the key memory approaches for AI Agents:
 - **Customer Service Chatbots**: Chatbots remember past interactions to offer faster, personalized support.For example: A bot recalls previous orders and suggests relevant products.
 - **Virtual Assistants:** Assistants like Siri and Alexa remember schedules and preferences to provide tailored help. For example: An assistant recalls your daily routine and adjusts reminders.
 - **Healthcare AI:** AI in healthcare tracks patient histories and suggests treatments based on past data. For example: A healthcare assistant reminds you about medications and appointments.
-- **E-commerce Platforms:** Online stores remember browsing and purchase history to improve recommendations. For example **:** Amazon suggests products related to previous purchases.
-
-</details>
-
-<details>
-<summary>1. Cognitive Limitations of LLMs in Autonomous Decision-Making</summary>
-
-## 1. Cognitive Limitations of LLMs in Autonomous Decision-Making
+- **E-commerce Platforms:** Online stores remember browsing and purchase history to improve recommendations. For example **:** Amazon suggests products related to previous purchases.]]></content>
+    </scraped_source>
+    <scraped_source>
+      <title><![CDATA[1. Cognitive Limitations of LLMs in Autonomous Decision-Making]]></title>
+      <content><![CDATA[## 1. Cognitive Limitations of LLMs in Autonomous Decision-Making
 
 Large language models excel at generating fluent procedural outputs but often falter when faced with dynamic, “wicked” environments that require flexible reasoning and memory recall. In this paper, we first provide a cognitive‐science‐informed analysis of why procedural‐memory‐centric LLM architectures fail in complex tasks, and propose a modular system that augments LLMs with dedicated semantic and associative memory components to support causal decision‐making. We then review the limitations of procedural memory in LLMs, detail our three‐part modular architecture, and compare our approach to related work and illustrate its benefits.
 
@@ -1523,23 +1345,17 @@ Rigorous Environment Classification. Both application and data systems must be d
 
 Investment in Associative and Semantic Systems. Prioritize research into neural-symbolic architectures, sparse memory models, and other frameworks that enable explicit reasoning and adaptive learning.
 
-By embracing these principles, we can develop agents that complement human ingenuity in uncertainty—not merely replicate procedural expertise in structured domains. This shift from monolithic to modular architectures represents a necessary evolution in AI design, one that acknowledges the complexity of real-world decision-making and the limitations of current approaches.
+By embracing these principles, we can develop agents that complement human ingenuity in uncertainty—not merely replicate procedural expertise in structured domains. This shift from monolithic to modular architectures represents a necessary evolution in AI design, one that acknowledges the complexity of real-world decision-making and the limitations of current approaches.]]></content>
+    </scraped_source>
+    <scraped_source>
+      <title><![CDATA[I have reviewed the provided markdown content against the article guidelines. The markdown appears to be a research paper titled "Recurrent Context Compression: Efficiently Expanding the Context Window of LLM". The article guidelines, however, describe a lesson on the concept of agent "memory", covering topics like semantic, episodic, and procedural memory, storage methods, and implementation examples.]]></title>
+      <content><![CDATA[I have reviewed the provided markdown content against the article guidelines. The markdown appears to be a research paper titled "Recurrent Context Compression: Efficiently Expanding the Context Window of LLM". The article guidelines, however, describe a lesson on the concept of agent "memory", covering topics like semantic, episodic, and procedural memory, storage methods, and implementation examples.
 
-</details>
-
-<details>
-<summary>I have reviewed the provided markdown content against the article guidelines. The markdown appears to be a research paper titled "Recurrent Context Compression: Efficiently Expanding the Context Window of LLM". The article guidelines, however, describe a lesson on the concept of agent "memory", covering topics like semantic, episodic, and procedural memory, storage methods, and implementation examples.</summary>
-
-I have reviewed the provided markdown content against the article guidelines. The markdown appears to be a research paper titled "Recurrent Context Compression: Efficiently Expanding the Context Window of LLM". The article guidelines, however, describe a lesson on the concept of agent "memory", covering topics like semantic, episodic, and procedural memory, storage methods, and implementation examples.
-
-The content of the provided markdown does not align with the topics specified in the article guidelines. Therefore, there is no relevant content to retain. Following the instruction to keep *only* the core textual content that is pertinent to the article guidelines, the resulting cleaned markdown is empty.
-
-</details>
-
-<details>
-<summary>This history is why RAG, or retrieval-augmented generation, is often seen as the holy grail of knowledge management.</summary>
-
-This history is why RAG, or retrieval-augmented generation, is often seen as the holy grail of knowledge management.
+The content of the provided markdown does not align with the topics specified in the article guidelines. Therefore, there is no relevant content to retain. Following the instruction to keep *only* the core textual content that is pertinent to the article guidelines, the resulting cleaned markdown is empty.]]></content>
+    </scraped_source>
+    <scraped_source>
+      <title><![CDATA[This history is why RAG, or retrieval-augmented generation, is often seen as the holy grail of knowledge management.]]></title>
+      <content><![CDATA[This history is why RAG, or retrieval-augmented generation, is often seen as the holy grail of knowledge management.
 
 By the time companies reach enterprise level, they’ve likely gone through numerous re-brands, restructurings, and pivots, with executives and board members coming and going and hundreds or thousands of employees onboarding and departing. In this context, answering even simple questions about the company can be challenging.
 
@@ -1807,17 +1623,13 @@ Context loss is one of the most common weaknesses of other databases, especially
 
 Due to their emphasis on semantic information, knowledge graphs tend to have a lot of data to condense, often resulting in the need for significant computational power to support them. Operations running across knowledge graphs can sometimes be expensive, and that costliness can make them difficult to scale.
 
-And, similar to the weaknesses inherent to graph databases, knowledge graphs can’t take on the work of capturing and cleaning data well. Similarly, an effective knowledge graph will be hampered by an LLM that can’t formulate readable answers without hallucinations.
-
-</details>
-
-
-## Code Sources
-
-<details>
-<summary>Repository analysis for https://github.com/towardsai/agentic-ai-engineering-course/blob/dev/lessons/09_memory_knowledge_access/notebook.ipynb</summary>
-
-# Repository analysis for https://github.com/towardsai/agentic-ai-engineering-course/blob/dev/lessons/09_memory_knowledge_access/notebook.ipynb
+And, similar to the weaknesses inherent to graph databases, knowledge graphs can’t take on the work of capturing and cleaning data well. Similarly, an effective knowledge graph will be hampered by an LLM that can’t formulate readable answers without hallucinations.]]></content>
+    </scraped_source>
+  </sources_scraped>
+  <code_sources>
+    <code_source>
+      <title><![CDATA[Repository analysis for https://github.com/towardsai/agentic-ai-engineering-course/blob/dev/lessons/09_memory_knowledge_access/notebook.ipynb]]></title>
+      <content><![CDATA[# Repository analysis for https://github.com/towardsai/agentic-ai-engineering-course/blob/dev/lessons/09_memory_knowledge_access/notebook.ipynb
 
 ## Summary
 Repository: towardsai/agentic-ai-engineering-course
@@ -2170,15 +1982,15 @@ print(proc or "Not found.")
 
 #   {'id': 'ab0940fe-c9a4-446f-b3ff-cbaea099faee', 'memory': 'Procedure: monthly_report\nSteps:\n1. Query sales DB for the last 30 days.\n2. Summarize top 5 insights.\n3. Ask user whether to email or display.', 'hash': 'e66b82a0dcc57034cfa0a54084a643b5', 'metadata': {'procedure_name': 'monthly_report', 'category': 'procedure'}, 'score': 0.9708564281463623, 'created_at': '2025-08-25T17:26:28.965650-07:00', 'updated_at': None, 'user_id': 'lesson9_notebook_student', 'role': 'user'}
 
-</details>
 
 
-## YouTube Video Transcripts
-
-<details>
-<summary>Here is the enriched transcript of the video.</summary>
-
-Here is the enriched transcript of the video.
+]]></content>
+    </code_source>
+  </code_sources>
+  <youtube_video_transcripts>
+    <youtube_transcript>
+      <title><![CDATA[Here is the enriched transcript of the video.]]></title>
+      <content><![CDATA[Here is the enriched transcript of the video.
 
 (Intro sequence with upbeat music showing attendees at a tech event. People are listening to speakers, networking, and mingling. Banners for "LangGraph" and "LangSmith" are visible.)
 
@@ -2298,24 +2110,17 @@ So we think the procedural memory and like basically the insights, the interpret
 [11:30]
 (A slide with the speaker's and company's social media handles appears: "Sam Whitmore, CEO @sjwhitmore" and "New Computer @newcomputer". The audience applauds.)
 
-That's it. So you can follow us at Twitter, New Computer. (A final title card for the "AI Memory" event with Sam Whitmore's name and title is shown.)
-
-</details>
-
-
-## Additional Sources Scraped
-
-<details>
-<summary>agent-memory-letta</summary>
-
-Agent memory is what enables AI agents to maintain persistent state, learn from interactions, and develop long-term relationships with users. Unlike traditional chatbots that treat each conversation as isolated, agents with sophisticated memory systems can build understanding over time.
-
-</details>
-
-<details>
-<summary>ai-agent-memory-short-long-term-rag-agentic-rag</summary>
-
-Designing a robust memory layer for your agents is one of the most underrated aspects of building AI applications. Memory sits at the core of any AI project, guiding how you implement your RAG (or agentic RAG) algorithm, how you access external information used as context, manage multiple conversation threads, and handle multiple users. All critical aspects of any successful agentic application.
+That's it. So you can follow us at Twitter, New Computer. (A final title card for the "AI Memory" event with Sam Whitmore's name and title is shown.)]]></content>
+    </youtube_transcript>
+  </youtube_video_transcripts>
+  <additional_sources>
+    <additional_source>
+      <title><![CDATA[agent-memory-letta]]></title>
+      <content><![CDATA[Agent memory is what enables AI agents to maintain persistent state, learn from interactions, and develop long-term relationships with users. Unlike traditional chatbots that treat each conversation as isolated, agents with sophisticated memory systems can build understanding over time.]]></content>
+    </additional_source>
+    <additional_source>
+      <title><![CDATA[ai-agent-memory-short-long-term-rag-agentic-rag]]></title>
+      <content><![CDATA[Designing a robust memory layer for your agents is one of the most underrated aspects of building AI applications. Memory sits at the core of any AI project, guiding how you implement your RAG (or agentic RAG) algorithm, how you access external information used as context, manage multiple conversation threads, and handle multiple users. All critical aspects of any successful agentic application.
 
 Every agent has short-term memory and some level of long-term memory. Understanding the difference between the two and what types of long-term memory exist is essential to knowing what to adopt in your toolbelt and how to design your AI application system and business logic.
 
@@ -2355,14 +2160,11 @@ With episodic memory, your agent can recall previous conversations with a specif
 
 Implementing episodic memory typically involves implementing a RAG-like system on top of your conversation histories. Like this, you can move your short-term memory into the long-term memory, extracting only chunks of past conversation that are helpful to answer present queries (instead of keeping the whole history in the context window).
 
-When implementing AI agents, you always have short-term memory. Depending on your use case, you have one or more types of long-term memory, where the procedural and semantic ones are the most common.
-
-</details>
-
-<details>
-<summary>cognitive-architectures-for-language-agents</summary>
-
-Language models are _stateless_: they do not persist information across calls. In contrast, language agents may store and maintain information internally for multi-step interaction with the world. Under the CoALA framework, language agents explicitly organize information (mainly textural, but other modalities also allowed) into multiple memory modules, each containing a different form of information. These include short-term working memory and several long-term memories: episodic, semantic, and procedural.
+When implementing AI agents, you always have short-term memory. Depending on your use case, you have one or more types of long-term memory, where the procedural and semantic ones are the most common.]]></content>
+    </additional_source>
+    <additional_source>
+      <title><![CDATA[cognitive-architectures-for-language-agents]]></title>
+      <content><![CDATA[Language models are _stateless_: they do not persist information across calls. In contrast, language agents may store and maintain information internally for multi-step interaction with the world. Under the CoALA framework, language agents explicitly organize information (mainly textural, but other modalities also allowed) into multiple memory modules, each containing a different form of information. These include short-term working memory and several long-term memories: episodic, semantic, and procedural.
 
 Working memory. Working memory maintains active and readily available information as symbolic variables for the current decision cycle (Section [4.6](https://arxiv.org/html/2309.02427v3#S4.SS6 "4.6 Decision making ‣ 4 Cognitive Architectures for Language Agents (CoALA): A Conceptual Framework ‣ Cognitive Architectures for Language Agents")). This includes perceptual inputs, active knowledge (generated by reasoning or retrieved from long-term memory), and other core information carried over from the previous decision cycle (e.g., agent’s active goals). Previous methods encourage the LLM to generate intermediate reasoning (Wei et al., [2022b](https://arxiv.org/html/2309.02427v3#bib.bib203 ""); Nye et al., [2021](https://arxiv.org/html/2309.02427v3#bib.bib146 "")), using the LLM’s own context as a form of working memory. CoALA’s notion of working memory is more general: it is a data structure that persists across LLM calls. On each LLM call, the LLM input is synthesized from a subset of working memory (e.g., a prompt template and relevant variables). The LLM output is then parsed back into other variables (e.g., an action name and arguments) which are stored back in working memory and used to execute the corresponding action (Figure [3](https://arxiv.org/html/2309.02427v3#S3.F3 "Figure 3 ‣ 3.2 Prompt engineering as control flow ‣ 3 Connections between Language Models and Production Systems ‣ Cognitive Architectures for Language Agents") A).
 Besides the LLM, the working memory also interacts with long-term memories and grounding interfaces. It thus serves as the central hub connecting different components of a language agent.https://arxiv.org/html/2309.02427v3/x5.pngFigure 5: Agents’ action spaces can be divided into internal memory accesses and external interactions with the world. Reasoning and retrieval actions are used to support planning.
@@ -2374,14 +2176,11 @@ For example, retrieval-augmented methods in NLP (Lewis et al., [2020](https://
 In RL, “reading to learn” approaches (Branavan et al., [2012](https://arxiv.org/html/2309.02427v3#bib.bib14 ""); Narasimhan et al., [2018](https://arxiv.org/html/2309.02427v3#bib.bib127 ""); Hanjie et al., [2021](https://arxiv.org/html/2309.02427v3#bib.bib59 ""); Zhong et al., [2021](https://arxiv.org/html/2309.02427v3#bib.bib232 "")) leverage game manuals and facts as a semantic memory to affect the policy.
 While these examples essentially employ a fixed, read-only semantic memory, language agents may also write new knowledge obtained from LLM reasoning into semantic memory as a form of learning (Section [4.5](https://arxiv.org/html/2309.02427v3#S4.SS5 "4.5 Learning actions ‣ 4 Cognitive Architectures for Language Agents (CoALA): A Conceptual Framework ‣ Cognitive Architectures for Language Agents")) to incrementally build up world knowledge from experience.
 
-Procedural memory. Language agents contain two forms of procedural memory: _implicit_ knowledge stored in the LLM weights, and _explicit_ knowledge written in the agent’s code. The agent’s code can be further divided into two types: procedures that implement actions (reasoning, retrieval, grounding, and learning procedures), and procedures that implement decision-making itself (Section [4.6](https://arxiv.org/html/2309.02427v3#S4.SS6 "4.6 Decision making ‣ 4 Cognitive Architectures for Language Agents (CoALA): A Conceptual Framework ‣ Cognitive Architectures for Language Agents")). During a decision cycle, the LLM can be accessed via reasoning actions, and various code-based procedures can be retrieved and executed. Unlike episodic or semantic memory that may be initially empty or even absent, procedural memory must be initialized by the designer with proper code to bootstrap the agent. Finally, while learning new actions by writing to procedural memory is possible (Section [4.5](https://arxiv.org/html/2309.02427v3#S4.SS5 "4.5 Learning actions ‣ 4 Cognitive Architectures for Language Agents (CoALA): A Conceptual Framework ‣ Cognitive Architectures for Language Agents")), it is significantly riskier than writing to episodic or semantic memory, as it can easily introduce bugs or allow an agent to subvert its designers’ intentions.
-
-</details>
-
-<details>
-<summary>giving-your-ai-a-mind-exploring-memory-frameworks-for-agenti</summary>
-
-Hey everyone, Richardson Gunde here! Ever feel like you’re having a conversation with a goldfish? You tell it something, it seems to listen… then, poof! It forgets everything the second you finish speaking. That’s often the experience with many chatbots — they lack the crucial ingredient of _memory_. But what if we could give our AI assistants a proper memory, a real mind to hold onto information and learn from past experiences? That’s what we’re diving into today.
+Procedural memory. Language agents contain two forms of procedural memory: _implicit_ knowledge stored in the LLM weights, and _explicit_ knowledge written in the agent’s code. The agent’s code can be further divided into two types: procedures that implement actions (reasoning, retrieval, grounding, and learning procedures), and procedures that implement decision-making itself (Section [4.6](https://arxiv.org/html/2309.02427v3#S4.SS6 "4.6 Decision making ‣ 4 Cognitive Architectures for Language Agents (CoALA): A Conceptual Framework ‣ Cognitive Architectures for Language Agents")). During a decision cycle, the LLM can be accessed via reasoning actions, and various code-based procedures can be retrieved and executed. Unlike episodic or semantic memory that may be initially empty or even absent, procedural memory must be initialized by the designer with proper code to bootstrap the agent. Finally, while learning new actions by writing to procedural memory is possible (Section [4.5](https://arxiv.org/html/2309.02427v3#S4.SS5 "4.5 Learning actions ‣ 4 Cognitive Architectures for Language Agents (CoALA): A Conceptual Framework ‣ Cognitive Architectures for Language Agents")), it is significantly riskier than writing to episodic or semantic memory, as it can easily introduce bugs or allow an agent to subvert its designers’ intentions.]]></content>
+    </additional_source>
+    <additional_source>
+      <title><![CDATA[giving-your-ai-a-mind-exploring-memory-frameworks-for-agenti]]></title>
+      <content><![CDATA[Hey everyone, Richardson Gunde here! Ever feel like you’re having a conversation with a goldfish? You tell it something, it seems to listen… then, poof! It forgets everything the second you finish speaking. That’s often the experience with many chatbots — they lack the crucial ingredient of _memory_. But what if we could give our AI assistants a proper memory, a real mind to hold onto information and learn from past experiences? That’s what we’re diving into today.
 
 This isn’t just about remembering the last few messages; it’s about building truly _agentic_ systems — AI that can learn, adapt, and even anticipate your needs. We’re going to explore different memory frameworks inspired by human cognition, and I’ll show you how to implement them using LangChain and other tools. Get ready for an “Aha!” moment or two — this is where the magic happens.
 
@@ -3039,14 +2838,11 @@ print(system_prompt.content)
 print(context_message.content)
 ```
 
-This shows how we can encapsulate a skill (text summarization) as a function and call it when needed. This allows us to build increasingly complex and capable chatbots by adding more and more procedural memories.
-
-</details>
-
-<details>
-<summary>mem0-building-production-ready-ai-agents-with-scalable-long-</summary>
-
-# Mem0: Building Production-Ready AI Agents with Scalable Long-Term Memory
+This shows how we can encapsulate a skill (text summarization) as a function and call it when needed. This allows us to build increasingly complex and capable chatbots by adding more and more procedural memories.]]></content>
+    </additional_source>
+    <additional_source>
+      <title><![CDATA[mem0-building-production-ready-ai-agents-with-scalable-long-]]></title>
+      <content><![CDATA[# Mem0: Building Production-Ready AI Agents with Scalable Long-Term Memory
 
 ## 1 Introduction
 
@@ -3112,14 +2908,11 @@ From an implementation perspective, the system utilizes Neo4j111 [https://neo4j.
 
 We have introduced Mem0 and Mem0gsuperscriptMem0𝑔\\texttt{Mem0}^{\\tiny g}Mem0 start\_POSTSUPERSCRIPT italic\_g end\_POSTSUPERSCRIPT, two complementary memory architectures that overcome the intrinsic limitations of fixed context windows in LLMs. By dynamically extracting, consolidating, and retrieving compact memory representations, Mem0 achieves state-of-the-art performance across single-hop and multi-hop reasoning, while Mem0gsuperscriptMem0𝑔\\texttt{Mem0}^{\\tiny g}Mem0 start\_POSTSUPERSCRIPT italic\_g end\_POSTSUPERSCRIPT’s graph-based extensions unlock significant gains in temporal and open-domain tasks. On the LOCOMO benchmark, our methods deliver 5%, 11%, and 7% relative improvements in single-hop, temporal, and multi-hop reasoning question types over best performing methods in respective question type and reduce p95 latency by over 91% compared to full-context baselines—demonstrating a powerful balance between precision and responsiveness. Mem0’s dense memory pipeline excels at rapid retrieval for straightforward queries, minimizing token usage and computational overhead. In contrast, Mem0gsuperscriptMem0𝑔\\texttt{Mem0}^{\\tiny g}Mem0 start\_POSTSUPERSCRIPT italic\_g end\_POSTSUPERSCRIPT’s structured graph representations provide nuanced relational clarity, enabling complex event sequencing and rich context integration without sacrificing practical efficiency. Together, they form a versatile memory toolkit that adapts to diverse conversational demands while remaining deployable at scale.
 
-Future research directions include optimizing graph operations to reduce the latency overhead in Mem0gsuperscriptMem0𝑔\\texttt{Mem0}^{\\tiny g}Mem0 start\_POSTSUPERSCRIPT italic\_g end\_POSTSUPERSCRIPT, exploring hierarchical memory architectures that blend efficiency with relational representation, and developing more sophisticated memory consolidation mechanisms inspired by human cognitive processes. Additionally, extending our memory frameworks to domains beyond conversational scenarios, such as procedural reasoning and multimodal interactions, would further validate their broader applicability. By addressing the fundamental limitations of fixed context windows, our work represents a significant advancement toward conversational AI systems capable of maintaining coherent, contextually rich interactions over extended periods, much like their human counterparts.
-
-</details>
-
-<details>
-<summary>memex-2-0-memory-the-missing-piece-for-real-intelligence</summary>
-
-We’ve all been there. You ask your AI assistant about a recipe it recommended last week, only to hear, “Sorry, what recipe?” Or worse, it hallucinates something you never discussed. Even with context windows now spanning millions oftokens, most AI agents still suffer from functional amnesia. But what if memory could transform forgetful apps into adaptive companions that learn, personalize, and evolve over time?
+Future research directions include optimizing graph operations to reduce the latency overhead in Mem0gsuperscriptMem0𝑔\\texttt{Mem0}^{\\tiny g}Mem0 start\_POSTSUPERSCRIPT italic\_g end\_POSTSUPERSCRIPT, exploring hierarchical memory architectures that blend efficiency with relational representation, and developing more sophisticated memory consolidation mechanisms inspired by human cognitive processes. Additionally, extending our memory frameworks to domains beyond conversational scenarios, such as procedural reasoning and multimodal interactions, would further validate their broader applicability. By addressing the fundamental limitations of fixed context windows, our work represents a significant advancement toward conversational AI systems capable of maintaining coherent, contextually rich interactions over extended periods, much like their human counterparts.]]></content>
+    </additional_source>
+    <additional_source>
+      <title><![CDATA[memex-2-0-memory-the-missing-piece-for-real-intelligence]]></title>
+      <content><![CDATA[We’ve all been there. You ask your AI assistant about a recipe it recommended last week, only to hear, “Sorry, what recipe?” Or worse, it hallucinates something you never discussed. Even with context windows now spanning millions oftokens, most AI agents still suffer from functional amnesia. But what if memory could transform forgetful apps into adaptive companions that learn, personalize, and evolve over time?
 
 The most promising applications of AI are still ahead. True personalization and long-term utility depend on an agent’s ability to remember, learn, and adapt. With rapid progress in foundation models, agentic frameworks, and specialized infrastructure, production-ready memory systems are finally emerging.
 
@@ -3175,14 +2968,11 @@ Another key benefit of graph-based memory is its auditability. Each memory retri
 
 > _​”We tested many different approaches to agent memory architecture and knowledge graphs consistently outperformed alternatives. Knowledge graphs preserve the relationships and context that matter most to users, while giving LLMs the structured data they need to generate accurate responses.”_
 
-However, knowledge graphs are not a cure-all. Building effective graph-based memory requires significant upfront investment in data modeling and schema design. Converting unstructured memories into structured triples demands deep domain expertise and ongoing maintenance. Graph traversals may also be slower than vector lookups, potentially impacting real-time responsiveness. Finally, graphs can suffer from schema rigidity: memories that do not fit the established structure may be lost or misrepresented. For simple use cases, the complexity of graph infrastructure may outweigh its benefits.
-
-</details>
-
-<details>
-<summary>memory-in-agent-systems-by-aurimas-grici-nas</summary>
-
-### Memory component of an Agent.
+However, knowledge graphs are not a cure-all. Building effective graph-based memory requires significant upfront investment in data modeling and schema design. Converting unstructured memories into structured triples demands deep domain expertise and ongoing maintenance. Graph traversals may also be slower than vector lookups, potentially impacting real-time responsiveness. Finally, graphs can suffer from schema rigidity: memories that do not fit the established structure may be lost or misrepresented. For simple use cases, the complexity of graph infrastructure may outweigh its benefits.]]></content>
+    </additional_source>
+    <additional_source>
+      <title><![CDATA[memory-in-agent-systems-by-aurimas-grici-nas]]></title>
+      <content><![CDATA[### Memory component of an Agent.
 
 In this article I will focus on the memory component of the Agent. Generally, we tend to use memory patterns present in humans to both model and describe agentic memory. Keeping that in mind, there are two types of agentic memory:
 
@@ -3269,14 +3059,11 @@ Memory in agents is one of the main tools to allow planning that is grounded in 
 
 Frameworks that help you build agentic applications implement memory in different ways and you should research how it is done in order to avoid unexpected surprises.
 
-We are still early in understanding how to manage memory of an agent efficiently and I am super glad to have the opportunity to build at the forefront of it all. I will continue to write on the subject so stay tuned in
-
-</details>
-
-<details>
-<summary>overview</summary>
-
-[Memory](https://langchain-ai.github.io/langgraph/how-tos/memory/add-memory/) is a system that remembers information about previous interactions. For AI agents, memory is crucial because it lets them remember previous interactions, learn from feedback, and adapt to user preferences. As agents tackle more complex tasks with numerous user interactions, this capability becomes essential for both efficiency and user satisfaction.
+We are still early in understanding how to manage memory of an agent efficiently and I am super glad to have the opportunity to build at the forefront of it all. I will continue to write on the subject so stay tuned in]]></content>
+    </additional_source>
+    <additional_source>
+      <title><![CDATA[overview]]></title>
+      <content><![CDATA[[Memory](https://langchain-ai.github.io/langgraph/how-tos/memory/add-memory/) is a system that remembers information about previous interactions. For AI agents, memory is crucial because it lets them remember previous interactions, learn from feedback, and adapt to user preferences. As agents tackle more complex tasks with numerous user interactions, this capability becomes essential for both efficiency and user satisfaction.
 
 This conceptual guide covers two types of memory, based on their recall scope:
 
@@ -3445,14 +3232,11 @@ items = store.search(
 
 ```
 
-For more information about the memory store, see the [Persistence](https://langchain-ai.github.io/langgraph/concepts/persistence/#memory-store) guide.
-
-</details>
-
-<details>
-<summary>what-is-ai-agent-memory-ibm</summary>
-
-AI agent memory refers to an [artificial intelligence](https://www.ibm.com/think/topics/artificial-intelligence) (AI) system’s ability to store and recall past experiences to improve decision-making, perception and overall performance.
+For more information about the memory store, see the [Persistence](https://langchain-ai.github.io/langgraph/concepts/persistence/#memory-store) guide.]]></content>
+    </additional_source>
+    <additional_source>
+      <title><![CDATA[what-is-ai-agent-memory-ibm]]></title>
+      <content><![CDATA[AI agent memory refers to an [artificial intelligence](https://www.ibm.com/think/topics/artificial-intelligence) (AI) system’s ability to store and recall past experiences to improve decision-making, perception and overall performance.
 
 Unlike traditional AI models that process each task independently, AI agents with memory can retain context, recognize patterns over time and adapt based on past interactions. This capability is essential for goal-oriented AI applications, where feedback loops, knowledge bases and adaptive learning are required.
 
@@ -3528,6 +3312,7 @@ By integrating vector databases, agentic systems can efficiently store embedding
 
 The rise of [open source](https://www.ibm.com/think/topics/open-source) frameworks has accelerated the development of memory-enhanced AI agents. Platforms such as GitHub host numerous repositories that provide tools and templates for integrating memory into [AI workflows](https://www.ibm.com/think/topics/ai-workflow).
 
-Additionally, [Hugging Face](https://huggingface.co/) offers pretrained models that can be fine-tuned with memory components to improve AI recall capabilities. Python, a dominant language in AI development, provides libraries for handling [orchestration](https://www.ibm.com/think/topics/ai-agent-orchestration), memory storage and retrieval mechanisms, making it a go-to choice for implementing AI memory systems.
-
-</details>
+Additionally, [Hugging Face](https://huggingface.co/) offers pretrained models that can be fine-tuned with memory components to improve AI recall capabilities. Python, a dominant language in AI development, provides libraries for handling [orchestration](https://www.ibm.com/think/topics/ai-agent-orchestration), memory storage and retrieval mechanisms, making it a go-to choice for implementing AI memory systems.]]></content>
+    </additional_source>
+  </additional_sources>
+</research>
