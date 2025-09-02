@@ -1,11 +1,10 @@
-# Research
-
-## Research Results
-
-<details>
-<summary>What are the fundamental architectural differences between a standard RAG pipeline and an agentic RAG system?</summary>
-
-### Source [2]: https://weaviate.io/blog/what-is-agentic-rag
+<?xml version="1.0" encoding="UTF-8"?>
+<research>
+  <research_results>
+    <query_group>
+      <query><![CDATA[What are the fundamental architectural differences between a standard RAG pipeline and an agentic RAG system?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [2]: https://weaviate.io/blog/what-is-agentic-rag
 
 Query: What are the fundamental architectural differences between a standard RAG pipeline and an agentic RAG system?
 
@@ -20,11 +19,8 @@ Agentic RAG thus moves from a rigid, sequential architecture to a flexible, agen
 
 -----
 
------
-
------
-
-### Source [3]: https://galileo.ai/blog/agentic-rag-integration-ai-architecture
+-----]]></source_block>
+        <source_block><![CDATA[### Source [3]: https://galileo.ai/blog/agentic-rag-integration-ai-architecture
 
 Query: What are the fundamental architectural differences between a standard RAG pipeline and an agentic RAG system?
 
@@ -39,11 +35,8 @@ These architectural advances enable agentic RAG systems to deliver superior accu
 
 -----
 
------
-
------
-
-### Source [4]: https://arize.com/blog/understanding-agentic-rag/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [4]: https://arize.com/blog/understanding-agentic-rag/
 
 Query: What are the fundamental architectural differences between a standard RAG pipeline and an agentic RAG system?
 
@@ -59,11 +52,8 @@ These capabilities reflect a shift from static, deterministic workflows to adapt
 
 -----
 
------
-
------
-
-### Source [5]: https://www.moveworks.com/us/en/resources/blog/what-is-agentic-rag
+-----]]></source_block>
+        <source_block><![CDATA[### Source [5]: https://www.moveworks.com/us/en/resources/blog/what-is-agentic-rag
 
 Query: What are the fundamental architectural differences between a standard RAG pipeline and an agentic RAG system?
 
@@ -78,14 +68,13 @@ Overall, agentic RAG systems are characterized by adaptivity, autonomy, and the 
 
 -----
 
------
-
-</details>
-
-<details>
-<summary>What are the best practices and common pitfalls when designing the offline ingestion and online retrieval phases of a RAG pipeline for production systems?</summary>
-
-### Source [7]: https://www.ragie.ai/blog/the-architects-guide-to-production-rag-navigating-challenges-and-building-scalable-ai
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[What are the best practices and common pitfalls when designing the offline ingestion and online retrieval phases of a RAG pipeline for production systems?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [7]: https://www.ragie.ai/blog/the-architects-guide-to-production-rag-navigating-challenges-and-building-scalable-ai
 
 Query: What are the best practices and common pitfalls when designing the offline ingestion and online retrieval phases of a RAG pipeline for production systems?
 
@@ -93,11 +82,8 @@ Answer: The design of a production RAG system depends on careful architectural d
 
 -----
 
------
-
------
-
-### Source [8]: https://orkes.io/blog/rag-best-practices/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [8]: https://orkes.io/blog/rag-best-practices/
 
 Query: What are the best practices and common pitfalls when designing the offline ingestion and online retrieval phases of a RAG pipeline for production systems?
 
@@ -105,11 +91,8 @@ Answer: Key best practices for production-scale RAG systems include focusing on 
 
 -----
 
------
-
------
-
-### Source [9]: https://docs.llamaindex.ai/en/stable/optimizing/production_rag/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [9]: https://docs.llamaindex.ai/en/stable/optimizing/production_rag/
 
 Query: What are the best practices and common pitfalls when designing the offline ingestion and online retrieval phases of a RAG pipeline for production systems?
 
@@ -117,11 +100,8 @@ Answer: For performant production RAG applications, **structured retrieval** tec
 
 -----
 
------
-
------
-
-### Source [10]: https://resources.nvidia.com/en-us-nim/rag-application-pilot
+-----]]></source_block>
+        <source_block><![CDATA[### Source [10]: https://resources.nvidia.com/en-us-nim/rag-application-pilot
 
 Query: What are the best practices and common pitfalls when designing the offline ingestion and online retrieval phases of a RAG pipeline for production systems?
 
@@ -129,14 +109,13 @@ Answer: Although the full content is not displayed, the NVIDIA source focuses on
 
 -----
 
------
-
-</details>
-
-<details>
-<summary>How does GraphRAG specifically improve retrieval for queries that require understanding complex relationships across multiple documents, compared to vector-based hybrid search?</summary>
-
-### Source [11]: https://www.chitika.com/graph-rag-vs-vector-rag/
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[How does GraphRAG specifically improve retrieval for queries that require understanding complex relationships across multiple documents, compared to vector-based hybrid search?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [11]: https://www.chitika.com/graph-rag-vs-vector-rag/
 
 Query: How does GraphRAG specifically improve retrieval for queries that require understanding complex relationships across multiple documents, compared to vector-based hybrid search?
 
@@ -148,11 +127,8 @@ A **hybrid approach** can mitigate these trade-offs by using vector search for i
 
 -----
 
------
-
------
-
-### Source [12]: https://arxiv.org/html/2507.03608v1
+-----]]></source_block>
+        <source_block><![CDATA[### Source [12]: https://arxiv.org/html/2507.03608v1
 
 Query: How does GraphRAG specifically improve retrieval for queries that require understanding complex relationships across multiple documents, compared to vector-based hybrid search?
 
@@ -164,11 +140,8 @@ Hybrid GraphRAG further improves performance by **compensating for gaps** in eit
 
 -----
 
------
-
------
-
-### Source [13]: https://weaviate.io/blog/graph-rag
+-----]]></source_block>
+        <source_block><![CDATA[### Source [13]: https://weaviate.io/blog/graph-rag
 
 Query: How does GraphRAG specifically improve retrieval for queries that require understanding complex relationships across multiple documents, compared to vector-based hybrid search?
 
@@ -183,11 +156,8 @@ This process allows the system to **uncover direct and indirect relationships** 
 
 -----
 
------
-
------
-
-### Source [14]: https://www.useparagon.com/blog/vector-database-vs-knowledge-graphs-for-rag
+-----]]></source_block>
+        <source_block><![CDATA[### Source [14]: https://www.useparagon.com/blog/vector-database-vs-knowledge-graphs-for-rag
 
 Query: How does GraphRAG specifically improve retrieval for queries that require understanding complex relationships across multiple documents, compared to vector-based hybrid search?
 
@@ -202,11 +172,8 @@ This method allows for both **deep relationship reasoning** (via the knowledge g
 
 -----
 
------
-
------
-
-### Source [15]: https://www.falkordb.com/blog/graph-rag-vs-vector-rag-solving-gartner-challenges/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [15]: https://www.falkordb.com/blog/graph-rag-vs-vector-rag-solving-gartner-challenges/
 
 Query: How does GraphRAG specifically improve retrieval for queries that require understanding complex relationships across multiple documents, compared to vector-based hybrid search?
 
@@ -218,14 +185,13 @@ Graph RAG’s **structured retrieval** is more adept at handling queries requiri
 
 -----
 
------
-
-</details>
-
-<details>
-<summary>What are the most effective query transformation techniques, such as HyDE and multi-query decomposition, for improving retrieval relevance in RAG systems?</summary>
-
-### Source [16]: https://www.pondhouse-data.com/blog/advanced-rag-hypothetical-document-embeddings
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[What are the most effective query transformation techniques, such as HyDE and multi-query decomposition, for improving retrieval relevance in RAG systems?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [16]: https://www.pondhouse-data.com/blog/advanced-rag-hypothetical-document-embeddings
 
 Query: What are the most effective query transformation techniques, such as HyDE and multi-query decomposition, for improving retrieval relevance in RAG systems?
 
@@ -233,11 +199,8 @@ Answer: **HyDE (Hypothetical Document Embeddings)** is an advanced technique for
 
 -----
 
------
-
------
-
-### Source [17]: https://www.chitika.com/hyde-query-expansion-rag/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [17]: https://www.chitika.com/hyde-query-expansion-rag/
 
 Query: What are the most effective query transformation techniques, such as HyDE and multi-query decomposition, for improving retrieval relevance in RAG systems?
 
@@ -245,11 +208,8 @@ Answer: **Query expansion via HyDE** transforms vague or ambiguous queries into 
 
 -----
 
------
-
------
-
-### Source [18]: https://blog.gopenai.com/part-5-advanced-rag-techniques-llm-based-query-rewriting-and-hyde-dbcadb2f20d1
+-----]]></source_block>
+        <source_block><![CDATA[### Source [18]: https://blog.gopenai.com/part-5-advanced-rag-techniques-llm-based-query-rewriting-and-hyde-dbcadb2f20d1
 
 Query: What are the most effective query transformation techniques, such as HyDE and multi-query decomposition, for improving retrieval relevance in RAG systems?
 
@@ -257,11 +217,8 @@ Answer: This source discusses **LLM-based query rewriting** and **HyDE** as two 
 
 -----
 
------
-
------
-
-### Source [19]: https://wandb.ai/site/articles/rag-techniques/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [19]: https://wandb.ai/site/articles/rag-techniques/
 
 Query: What are the most effective query transformation techniques, such as HyDE and multi-query decomposition, for improving retrieval relevance in RAG systems?
 
@@ -274,11 +231,8 @@ These techniques are essential for handling brief, ambiguous, or compound querie
 
 -----
 
------
-
------
-
-### Source [20]: https://docs.llamaindex.ai/en/stable/examples/query_transformations/HyDEQueryTransformDemo/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [20]: https://docs.llamaindex.ai/en/stable/examples/query_transformations/HyDEQueryTransformDemo/
 
 Query: What are the most effective query transformation techniques, such as HyDE and multi-query decomposition, for improving retrieval relevance in RAG systems?
 
@@ -286,11 +240,8 @@ Answer: The official LlamaIndex documentation demonstrates how **HyDE** can subs
 
 -----
 
------
-
------
-
-### Source [96]: https://www.pondhouse-data.com/blog/advanced-rag-hypothetical-document-embeddings
+-----]]></source_block>
+        <source_block><![CDATA[### Source [96]: https://www.pondhouse-data.com/blog/advanced-rag-hypothetical-document-embeddings
 
 Query: What are the most effective query transformation techniques, such as HyDE and multi-query decomposition, for improving retrieval relevance in RAG systems?
 
@@ -300,11 +251,8 @@ The source also provides practical insights into integrating HyDE: by configurin
 
 -----
 
------
-
------
-
-### Source [97]: https://www.chitika.com/hyde-query-expansion-rag/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [97]: https://www.chitika.com/hyde-query-expansion-rag/
 
 Query: What are the most effective query transformation techniques, such as HyDE and multi-query decomposition, for improving retrieval relevance in RAG systems?
 
@@ -316,11 +264,8 @@ The source also notes that in specialized domains, the quality of generated hypo
 
 -----
 
------
-
------
-
-### Source [98]: https://blog.gopenai.com/part-5-advanced-rag-techniques-llm-based-query-rewriting-and-hyde-dbcadb2f20d1
+-----]]></source_block>
+        <source_block><![CDATA[### Source [98]: https://blog.gopenai.com/part-5-advanced-rag-techniques-llm-based-query-rewriting-and-hyde-dbcadb2f20d1
 
 Query: What are the most effective query transformation techniques, such as HyDE and multi-query decomposition, for improving retrieval relevance in RAG systems?
 
@@ -334,11 +279,8 @@ Both techniques address the inefficiency of using the same prompt for retrieval 
 
 -----
 
------
-
------
-
-### Source [99]: https://wandb.ai/site/articles/rag-techniques/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [99]: https://wandb.ai/site/articles/rag-techniques/
 
 Query: What are the most effective query transformation techniques, such as HyDE and multi-query decomposition, for improving retrieval relevance in RAG systems?
 
@@ -351,11 +293,8 @@ These transformations make user inputs more digestible for retrieval systems, es
 
 -----
 
------
-
------
-
-### Source [100]: https://docs.llamaindex.ai/en/stable/examples/query_transformations/HyDEQueryTransformDemo/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [100]: https://docs.llamaindex.ai/en/stable/examples/query_transformations/HyDEQueryTransformDemo/
 
 Query: What are the most effective query transformation techniques, such as HyDE and multi-query decomposition, for improving retrieval relevance in RAG systems?
 
@@ -365,14 +304,13 @@ The process can include the original query along with the hypothetical document,
 
 -----
 
------
-
-</details>
-
-<details>
-<summary>How does a ReAct agent decide when to use a RAG retrieval tool versus other available tools like a web search or code interpreter?</summary>
-
-### Source [21]: https://arize.com/blog/understanding-agentic-rag/
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[How does a ReAct agent decide when to use a RAG retrieval tool versus other available tools like a web search or code interpreter?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [21]: https://arize.com/blog/understanding-agentic-rag/
 
 Query: How does a ReAct agent decide when to use a RAG retrieval tool versus other available tools like a web search or code interpreter?
 
@@ -380,11 +318,8 @@ Answer: A ReAct agent within an agentic RAG system dynamically decides when and 
 
 -----
 
------
-
------
-
-### Source [22]: https://workativ.com/ai-agent/blog/agentic-rag
+-----]]></source_block>
+        <source_block><![CDATA[### Source [22]: https://workativ.com/ai-agent/blog/agentic-rag
 
 Query: How does a ReAct agent decide when to use a RAG retrieval tool versus other available tools like a web search or code interpreter?
 
@@ -392,11 +327,8 @@ Answer: ReAct agents in an agentic RAG pipeline combine **routing, query plannin
 
 -----
 
------
-
------
-
-### Source [23]: https://airbyte.com/data-engineering-resources/using-langchain-react-agents
+-----]]></source_block>
+        <source_block><![CDATA[### Source [23]: https://airbyte.com/data-engineering-resources/using-langchain-react-agents
 
 Query: How does a ReAct agent decide when to use a RAG retrieval tool versus other available tools like a web search or code interpreter?
 
@@ -404,11 +336,8 @@ Answer: LangChain’s ReAct agents select tools through a reasoning-and-action l
 
 -----
 
------
-
------
-
-### Source [24]: https://docs.llamaindex.ai/en/stable/examples/agent/react_agent_with_query_engine/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [24]: https://docs.llamaindex.ai/en/stable/examples/agent/react_agent_with_query_engine/
 
 Query: How does a ReAct agent decide when to use a RAG retrieval tool versus other available tools like a web search or code interpreter?
 
@@ -416,22 +345,16 @@ Answer: In LlamaIndex’s implementation, a ReAct agent is equipped with multipl
 
 -----
 
------
-
------
-
-### Source [25]: https://docs.smith.langchain.com/evaluation/tutorials/rag
+-----]]></source_block>
+        <source_block><![CDATA[### Source [25]: https://docs.smith.langchain.com/evaluation/tutorials/rag
 
 Query: How does a ReAct agent decide when to use a RAG retrieval tool versus other available tools like a web search or code interpreter?
 
 Answer: The ReAct pattern, as used in LangSmith’s evaluation framework, integrates **reasoning and acting**, allowing the agent to select and invoke tools (e.g., Wikipedia search API, RAG retrieval, or others), then reason about the outputs to decide the next action. The agent’s tool selection is guided by the initial analysis of the question and iterative assessment of the helpfulness and relevance of each tool’s results. If a tool’s output does not sufficiently address the query, the agent can switch tools or refine its approach. This cycle continues until the agent is confident in its answer, ensuring that the most appropriate tool (RAG, web search, code interpreter, etc.) is used at each decision point[5].
 -----
 
------
-
------
-
-### Source [71]: https://arize.com/blog/understanding-agentic-rag/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [71]: https://arize.com/blog/understanding-agentic-rag/
 
 Query: How does a ReAct agent decide when to use a RAG retrieval tool versus other available tools like a web search or code interpreter?
 
@@ -446,11 +369,8 @@ This decision-making is dynamic and context-dependent, allowing the agent to sel
 
 -----
 
------
-
------
-
-### Source [72]: https://workativ.com/ai-agent/blog/agentic-rag
+-----]]></source_block>
+        <source_block><![CDATA[### Source [72]: https://workativ.com/ai-agent/blog/agentic-rag
 
 Query: How does a ReAct agent decide when to use a RAG retrieval tool versus other available tools like a web search or code interpreter?
 
@@ -464,11 +384,8 @@ The agent's planner and executor components ensure that each step, including too
 
 -----
 
------
-
------
-
-### Source [73]: https://airbyte.com/data-engineering-resources/using-langchain-react-agents
+-----]]></source_block>
+        <source_block><![CDATA[### Source [73]: https://airbyte.com/data-engineering-resources/using-langchain-react-agents
 
 Query: How does a ReAct agent decide when to use a RAG retrieval tool versus other available tools like a web search or code interpreter?
 
@@ -482,11 +399,8 @@ This iterative, tool-agnostic approach enables ReAct agents to handle complex qu
 
 -----
 
------
-
------
-
-### Source [74]: https://docs.llamaindex.ai/en/stable/examples/agent/react_agent_with_query_engine/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [74]: https://docs.llamaindex.ai/en/stable/examples/agent/react_agent_with_query_engine/
 
 Query: How does a ReAct agent decide when to use a RAG retrieval tool versus other available tools like a web search or code interpreter?
 
@@ -498,11 +412,8 @@ Answer: In LlamaIndex's implementation, a ReAct agent can be configured with mul
 
 -----
 
------
-
------
-
-### Source [75]: https://docs.smith.langchain.com/evaluation/tutorials/rag
+-----]]></source_block>
+        <source_block><![CDATA[### Source [75]: https://docs.smith.langchain.com/evaluation/tutorials/rag
 
 Query: How does a ReAct agent decide when to use a RAG retrieval tool versus other available tools like a web search or code interpreter?
 
@@ -515,14 +426,13 @@ Answer: LangChain’s evaluation documentation highlights that ReAct agents inte
 The decision to use a RAG retrieval tool versus alternatives is thus an outcome of this ongoing, context-driven reasoning and observation loop[5].
 -----
 
------
-
-</details>
-
-<details>
-<summary>What are the fundamental differences and trade-offs between various document chunking strategies like fixed-size, recursive character splitting, and semantic chunking for RAG pipelines?</summary>
-
-### Source [26]: https://developer.nvidia.com/blog/finding-the-best-chunking-strategy-for-accurate-ai-responses/
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[What are the fundamental differences and trade-offs between various document chunking strategies like fixed-size, recursive character splitting, and semantic chunking for RAG pipelines?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [26]: https://developer.nvidia.com/blog/finding-the-best-chunking-strategy-for-accurate-ai-responses/
 
 Query: What are the fundamental differences and trade-offs between various document chunking strategies like fixed-size, recursive character splitting, and semantic chunking for RAG pipelines?
 
@@ -536,11 +446,8 @@ The optimal strategy is highly dataset- and use-case-dependent, requiring empiri
 
 -----
 
------
-
------
-
-### Source [27]: https://infohub.delltechnologies.com/es-es/p/chunk-twice-retrieve-once-rag-chunking-strategies-optimized-for-different-content-types/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [27]: https://infohub.delltechnologies.com/es-es/p/chunk-twice-retrieve-once-rag-chunking-strategies-optimized-for-different-content-types/
 
 Query: What are the fundamental differences and trade-offs between various document chunking strategies like fixed-size, recursive character splitting, and semantic chunking for RAG pipelines?
 
@@ -555,11 +462,8 @@ The chunking strategy should be chosen based on document type and retrieval requ
 
 -----
 
------
-
------
-
-### Source [28]: https://www.snowflake.com/en/engineering-blog/impact-retrieval-chunking-finance-rag/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [28]: https://www.snowflake.com/en/engineering-blog/impact-retrieval-chunking-finance-rag/
 
 Query: What are the fundamental differences and trade-offs between various document chunking strategies like fixed-size, recursive character splitting, and semantic chunking for RAG pipelines?
 
@@ -576,11 +480,8 @@ Answer: This source compares three main chunking strategies:
 
 -----
 
------
-
------
-
-### Source [29]: https://www.superteams.ai/blog/a-deep-dive-into-chunking-strategy-chunking-methods-and-precision-in-rag-applications
+-----]]></source_block>
+        <source_block><![CDATA[### Source [29]: https://www.superteams.ai/blog/a-deep-dive-into-chunking-strategy-chunking-methods-and-precision-in-rag-applications
 
 Query: What are the fundamental differences and trade-offs between various document chunking strategies like fixed-size, recursive character splitting, and semantic chunking for RAG pipelines?
 
@@ -595,11 +496,8 @@ Challenges and pitfalls highlighted include:
 
 -----
 
------
-
------
-
-### Source [30]: https://www.tigerdata.com/blog/which-rag-chunking-and-formatting-strategy-is-best
+-----]]></source_block>
+        <source_block><![CDATA[### Source [30]: https://www.tigerdata.com/blog/which-rag-chunking-and-formatting-strategy-is-best
 
 Query: What are the fundamental differences and trade-offs between various document chunking strategies like fixed-size, recursive character splitting, and semantic chunking for RAG pipelines?
 
@@ -612,14 +510,13 @@ Key points:
 
 The trade-off with recursive character splitting is between structure preservation and chunk granularity: it excels at maintaining structural coherence, but may still include context boundaries that are not optimally aligned with semantic meaning if structural cues are weak.
 
------
-
-</details>
-
-<details>
-<summary>How do hybrid search systems in RAG combine keyword-based (like BM25) and vector-based search, and what are the primary benefits of this approach for retrieval accuracy?</summary>
-
-### Source [31]: https://blog.vectorchord.ai/hybrid-search-with-postgres-native-bm25-and-vectorchord
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[How do hybrid search systems in RAG combine keyword-based (like BM25) and vector-based search, and what are the primary benefits of this approach for retrieval accuracy?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [31]: https://blog.vectorchord.ai/hybrid-search-with-postgres-native-bm25-and-vectorchord
 
 Query: How do hybrid search systems in RAG combine keyword-based (like BM25) and vector-based search, and what are the primary benefits of this approach for retrieval accuracy?
 
@@ -634,11 +531,8 @@ This approach is especially effective for applications like recommendation engin
 
 -----
 
------
-
------
-
-### Source [32]: https://www.elastic.co/what-is/hybrid-search
+-----]]></source_block>
+        <source_block><![CDATA[### Source [32]: https://www.elastic.co/what-is/hybrid-search
 
 Query: How do hybrid search systems in RAG combine keyword-based (like BM25) and vector-based search, and what are the primary benefits of this approach for retrieval accuracy?
 
@@ -655,11 +549,8 @@ The primary benefit is that hybrid systems can handle complex, ambiguous, or mul
 
 -----
 
------
-
------
-
-### Source [33]: https://superlinked.com/vectorhub/articles/optimizing-rag-with-hybrid-search-reranking
+-----]]></source_block>
+        <source_block><![CDATA[### Source [33]: https://superlinked.com/vectorhub/articles/optimizing-rag-with-hybrid-search-reranking
 
 Query: How do hybrid search systems in RAG combine keyword-based (like BM25) and vector-based search, and what are the primary benefits of this approach for retrieval accuracy?
 
@@ -674,11 +565,8 @@ The key benefits of this hybrid strategy are:
 
 -----
 
------
-
------
-
-### Source [34]: https://cloud.google.com/vertex-ai/docs/vector-search/about-hybrid-search
+-----]]></source_block>
+        <source_block><![CDATA[### Source [34]: https://cloud.google.com/vertex-ai/docs/vector-search/about-hybrid-search
 
 Query: How do hybrid search systems in RAG combine keyword-based (like BM25) and vector-based search, and what are the primary benefits of this approach for retrieval accuracy?
 
@@ -693,11 +581,8 @@ The benefit of this approach is that it enables the system to retrieve documents
 
 -----
 
------
-
------
-
-### Source [35]: https://www.fuzzylabs.ai/blog-post/improving-rag-performance-hybrid-search
+-----]]></source_block>
+        <source_block><![CDATA[### Source [35]: https://www.fuzzylabs.ai/blog-post/improving-rag-performance-hybrid-search
 
 Query: How do hybrid search systems in RAG combine keyword-based (like BM25) and vector-based search, and what are the primary benefits of this approach for retrieval accuracy?
 
@@ -709,14 +594,13 @@ The primary benefit here is **improved performance for the retrieval stage in RA
 
 -----
 
------
-
-</details>
-
-<details>
-<summary>What is the role of a re-ranker, such as a cross-encoder model, in a RAG pipeline, and what are the performance trade-offs compared to relying solely on initial retrieval scores?</summary>
-
-### Source [36]: https://adasci.org/a-hands-on-guide-to-enhance-rag-with-re-ranking/
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[What is the role of a re-ranker, such as a cross-encoder model, in a RAG pipeline, and what are the performance trade-offs compared to relying solely on initial retrieval scores?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [36]: https://adasci.org/a-hands-on-guide-to-enhance-rag-with-re-ranking/
 
 Query: What is the role of a re-ranker, such as a cross-encoder model, in a RAG pipeline, and what are the performance trade-offs compared to relying solely on initial retrieval scores?
 
@@ -724,11 +608,8 @@ Answer: A **re-ranker** such as a cross-encoder model plays a vital role in a RA
 
 -----
 
------
-
------
-
-### Source [37]: https://developer.nvidia.com/blog/enhancing-rag-pipelines-with-re-ranking/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [37]: https://developer.nvidia.com/blog/enhancing-rag-pipelines-with-re-ranking/
 
 Query: What is the role of a re-ranker, such as a cross-encoder model, in a RAG pipeline, and what are the performance trade-offs compared to relying solely on initial retrieval scores?
 
@@ -736,11 +617,8 @@ Answer: In a RAG pipeline, integrating re-ranking means augmenting the pipeline 
 
 -----
 
------
-
------
-
-### Source [38]: https://sbert.net/examples/sentence_transformer/applications/retrieve_rerank/README.html
+-----]]></source_block>
+        <source_block><![CDATA[### Source [38]: https://sbert.net/examples/sentence_transformer/applications/retrieve_rerank/README.html
 
 Query: What is the role of a re-ranker, such as a cross-encoder model, in a RAG pipeline, and what are the performance trade-offs compared to relying solely on initial retrieval scores?
 
@@ -748,11 +626,8 @@ Answer: The **cross-encoder re-ranker** is used after a fast initial retrieval s
 
 -----
 
------
-
------
-
-### Source [39]: https://zilliz.com/learn/optimize-rag-with-rerankers-the-role-and-tradeoffs
+-----]]></source_block>
+        <source_block><![CDATA[### Source [39]: https://zilliz.com/learn/optimize-rag-with-rerankers-the-role-and-tradeoffs
 
 Query: What is the role of a re-ranker, such as a cross-encoder model, in a RAG pipeline, and what are the performance trade-offs compared to relying solely on initial retrieval scores?
 
@@ -760,24 +635,20 @@ Answer: A reranker-enhanced RAG architecture uses a **two-stage retrieval system
 
 -----
 
------
-
------
-
-### Source [40]: https://www.pinecone.io/learn/series/rag/rerankers/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [40]: https://www.pinecone.io/learn/series/rag/rerankers/
 
 Query: What is the role of a re-ranker, such as a cross-encoder model, in a RAG pipeline, and what are the performance trade-offs compared to relying solely on initial retrieval scores?
 
 Answer: **Reranking** in RAG pipelines dramatically improves recall and overall answer relevance. The process involves retrieving a larger pool of candidate documents (e.g., top 25) and using a reranker to reorder these candidates, selecting the most relevant ones (e.g., top 3) for the language model. The result is a significant increase in relevant information and a reduction in noise, which enhances answer quality for users. The performance trade-off is that reranking adds an extra computational step, increasing processing time and system resource consumption compared to relying solely on the initial retrieval scores, which are fast but less precise in terms of semantic relevance.
 
------
-
-</details>
-
-<details>
-<summary>How does GraphRAG leverage knowledge graphs to answer complex, multi-hop questions that standard vector-based RAG struggles with?</summary>
-
-### Source [41]: https://www.zyphra.com/post/understanding-graph-based-rag-and-multi-hop-question-answering
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[How does GraphRAG leverage knowledge graphs to answer complex, multi-hop questions that standard vector-based RAG struggles with?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [41]: https://www.zyphra.com/post/understanding-graph-based-rag-and-multi-hop-question-answering
 
 Query: How does GraphRAG leverage knowledge graphs to answer complex, multi-hop questions that standard vector-based RAG struggles with?
 
@@ -785,11 +656,8 @@ Answer: Graph-based RAG systems address the limitations of vector-based RAG in a
 
 -----
 
------
-
------
-
-### Source [42]: https://arxiv.org/html/2506.19967v1
+-----]]></source_block>
+        <source_block><![CDATA[### Source [42]: https://arxiv.org/html/2506.19967v1
 
 Query: How does GraphRAG leverage knowledge graphs to answer complex, multi-hop questions that standard vector-based RAG struggles with?
 
@@ -797,11 +665,8 @@ Answer: Inference Scaled GraphRAG enhances multi-hop reasoning over knowledge gr
 
 -----
 
------
-
------
-
-### Source [43]: https://aclanthology.org/2024.icnlsp-1.45.pdf
+-----]]></source_block>
+        <source_block><![CDATA[### Source [43]: https://aclanthology.org/2024.icnlsp-1.45.pdf
 
 Query: How does GraphRAG leverage knowledge graphs to answer complex, multi-hop questions that standard vector-based RAG struggles with?
 
@@ -809,11 +674,8 @@ Answer: SG-RAG is a **zero-shot GraphRAG method** that leverages knowledge graph
 
 -----
 
------
-
------
-
-### Source [44]: https://neo4j.com/blog/genai/knowledge-graph-llm-multi-hop-reasoning/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [44]: https://neo4j.com/blog/genai/knowledge-graph-llm-multi-hop-reasoning/
 
 Query: How does GraphRAG leverage knowledge graphs to answer complex, multi-hop questions that standard vector-based RAG struggles with?
 
@@ -821,11 +683,8 @@ Answer: GraphRAG combines RAG applications with knowledge graphs to improve the 
 
 -----
 
------
-
------
-
-### Source [45]: https://arxiv.org/abs/2506.19967
+-----]]></source_block>
+        <source_block><![CDATA[### Source [45]: https://arxiv.org/abs/2506.19967
 
 Query: How does GraphRAG leverage knowledge graphs to answer complex, multi-hop questions that standard vector-based RAG struggles with?
 
@@ -833,11 +692,8 @@ Answer: Inference Scaled GraphRAG is designed to improve multi-hop question answ
 
 -----
 
------
-
------
-
-### Source [61]: https://www.zyphra.com/post/understanding-graph-based-rag-and-multi-hop-question-answering
+-----]]></source_block>
+        <source_block><![CDATA[### Source [61]: https://www.zyphra.com/post/understanding-graph-based-rag-and-multi-hop-question-answering
 
 Query: How does GraphRAG leverage knowledge graphs to answer complex, multi-hop questions that standard vector-based RAG struggles with?
 
@@ -845,11 +701,8 @@ Answer: Graph-based RAG systems are particularly effective at answering **multi-
 
 -----
 
------
-
------
-
-### Source [62]: https://arxiv.org/html/2506.19967v1
+-----]]></source_block>
+        <source_block><![CDATA[### Source [62]: https://arxiv.org/html/2506.19967v1
 
 Query: How does GraphRAG leverage knowledge graphs to answer complex, multi-hop questions that standard vector-based RAG struggles with?
 
@@ -861,11 +714,8 @@ Inference Scaled GraphRAG demonstrates improved performance, particularly for qu
 
 -----
 
------
-
------
-
-### Source [63]: https://aclanthology.org/2024.icnlsp-1.45.pdf
+-----]]></source_block>
+        <source_block><![CDATA[### Source [63]: https://aclanthology.org/2024.icnlsp-1.45.pdf
 
 Query: How does GraphRAG leverage knowledge graphs to answer complex, multi-hop questions that standard vector-based RAG struggles with?
 
@@ -877,11 +727,8 @@ By retrieving entire **subgraphs** instead of isolated nodes, SG-RAG ensures tha
 
 -----
 
------
-
------
-
-### Source [64]: https://neo4j.com/blog/genai/knowledge-graph-llm-multi-hop-reasoning/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [64]: https://neo4j.com/blog/genai/knowledge-graph-llm-multi-hop-reasoning/
 
 Query: How does GraphRAG leverage knowledge graphs to answer complex, multi-hop questions that standard vector-based RAG struggles with?
 
@@ -895,21 +742,15 @@ When a multi-hop question is posed, GraphRAG queries the graph to follow the nec
 
 -----
 
------
-
------
-
-### Source [65]: https://arxiv.org/abs/2506.19967
+-----]]></source_block>
+        <source_block><![CDATA[### Source [65]: https://arxiv.org/abs/2506.19967
 
 Query: How does GraphRAG leverage knowledge graphs to answer complex, multi-hop questions that standard vector-based RAG struggles with?
 
 Answer: Inference Scaled GraphRAG is presented as a solution to **multi-hop question answering on knowledge graphs**, which standard vector-based RAG fails to solve consistently. This approach leverages the graph’s structured relationships to traverse multiple hops at inference time, aggregating evidence from different parts of the graph. Experimental results show that this method outperforms both traditional GraphRAG and previous graph traversal techniques, especially on questions that require combining information from several connected entities or synthesizing abstract patterns across the graph. This demonstrates the importance of **explicit graph traversal** and structured retrieval, which are inherently lacking in vector-based systems.
 
------
-
------
-
-### Source [91]: https://www.zyphra.com/post/understanding-graph-based-rag-and-multi-hop-question-answering
+-----]]></source_block>
+        <source_block><![CDATA[### Source [91]: https://www.zyphra.com/post/understanding-graph-based-rag-and-multi-hop-question-answering
 
 Query: How does GraphRAG leverage knowledge graphs to answer complex, multi-hop questions that standard vector-based RAG struggles with?
 
@@ -923,11 +764,8 @@ Each "hop" corresponds to a traversal along the graph, allowing for **sequential
 
 -----
 
------
-
------
-
-### Source [92]: https://arxiv.org/html/2506.19967v1
+-----]]></source_block>
+        <source_block><![CDATA[### Source [92]: https://arxiv.org/html/2506.19967v1
 
 Query: How does GraphRAG leverage knowledge graphs to answer complex, multi-hop questions that standard vector-based RAG struggles with?
 
@@ -940,11 +778,8 @@ The method demonstrates significant improvements, particularly for questions req
 
 -----
 
------
-
------
-
-### Source [93]: https://aclanthology.org/2024.icnlsp-1.45.pdf
+-----]]></source_block>
+        <source_block><![CDATA[### Source [93]: https://aclanthology.org/2024.icnlsp-1.45.pdf
 
 Query: How does GraphRAG leverage knowledge graphs to answer complex, multi-hop questions that standard vector-based RAG struggles with?
 
@@ -956,11 +791,8 @@ This approach allows SG-RAG to explicitly collect and chain together the pieces 
 
 -----
 
------
-
------
-
-### Source [94]: https://neo4j.com/blog/genai/knowledge-graph-llm-multi-hop-reasoning/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [94]: https://neo4j.com/blog/genai/knowledge-graph-llm-multi-hop-reasoning/
 
 Query: How does GraphRAG leverage knowledge graphs to answer complex, multi-hop questions that standard vector-based RAG struggles with?
 
@@ -972,24 +804,20 @@ Because of this, GraphRAG can retrieve and synthesize information across several
 
 -----
 
------
-
------
-
-### Source [95]: https://arxiv.org/abs/2506.19967
+-----]]></source_block>
+        <source_block><![CDATA[### Source [95]: https://arxiv.org/abs/2506.19967
 
 Query: How does GraphRAG leverage knowledge graphs to answer complex, multi-hop questions that standard vector-based RAG struggles with?
 
 Answer: Inference Scaled GraphRAG improves **multi-hop question answering on knowledge graphs** by leveraging the graph’s structure to perform sequential, inference-time reasoning. The approach is benchmarked on datasets specifically designed to challenge multi-hop capabilities, showing that the method yields better performance as the number of hops required increases. The explicit modeling of entity relationships and the ability to traverse multiple connected nodes are key factors in GraphRAG’s superior handling of complex, multi-hop questions, compared to standard vector-based RAG approaches.
 
------
-
-</details>
-
-<details>
-<summary>What are the core architectural and behavioral distinctions between a standard, linear RAG pipeline and an "Agentic RAG" system that uses a ReAct-style agent?</summary>
-
-### Source [46]: https://weaviate.io/blog/what-is-agentic-rag
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[What are the core architectural and behavioral distinctions between a standard, linear RAG pipeline and an "Agentic RAG" system that uses a ReAct-style agent?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [46]: https://weaviate.io/blog/what-is-agentic-rag
 
 Query: What are the core architectural and behavioral distinctions between a standard, linear RAG pipeline and an "Agentic RAG" system that uses a ReAct-style agent?
 
@@ -1006,11 +834,8 @@ Behaviorally, Agentic RAG enables dynamic, context-aware retrieval, adaptation, 
 
 -----
 
------
-
------
-
-### Source [47]: https://empathyfirstmedia.com/building-multi-agent-rag-systems-step-by-step-implementation-guide/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [47]: https://empathyfirstmedia.com/building-multi-agent-rag-systems-step-by-step-implementation-guide/
 
 Query: What are the core architectural and behavioral distinctions between a standard, linear RAG pipeline and an "Agentic RAG" system that uses a ReAct-style agent?
 
@@ -1029,11 +854,8 @@ Behaviorally, this architecture supports:
 
 -----
 
------
-
------
-
-### Source [48]: https://www.eyelevel.ai/post/agentic-rag
+-----]]></source_block>
+        <source_block><![CDATA[### Source [48]: https://www.eyelevel.ai/post/agentic-rag
 
 Query: What are the core architectural and behavioral distinctions between a standard, linear RAG pipeline and an "Agentic RAG" system that uses a ReAct-style agent?
 
@@ -1051,11 +873,8 @@ Behaviorally, a ReAct-style Agentic RAG system:
 
 -----
 
------
-
------
-
-### Source [49]: https://www.digitalocean.com/community/conceptual-articles/rag-ai-agents-agentic-rag-comparative-analysis
+-----]]></source_block>
+        <source_block><![CDATA[### Source [49]: https://www.digitalocean.com/community/conceptual-articles/rag-ai-agents-agentic-rag-comparative-analysis
 
 Query: What are the core architectural and behavioral distinctions between a standard, linear RAG pipeline and an "Agentic RAG" system that uses a ReAct-style agent?
 
@@ -1075,11 +894,8 @@ Behaviorally, Agentic RAG systems:
 
 -----
 
------
-
------
-
-### Source [50]: https://www.k2view.com/blog/react-agent-llm/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [50]: https://www.k2view.com/blog/react-agent-llm/
 
 Query: What are the core architectural and behavioral distinctions between a standard, linear RAG pipeline and an "Agentic RAG" system that uses a ReAct-style agent?
 
@@ -1095,11 +911,8 @@ Behaviorally, ReAct agent LLMs in an Agentic RAG framework:
 - Deliver more reliable, up-to-date, and context-aware outputs compared to linear RAG, which lacks such iterative refinement.
 - Are well-suited for tasks requiring both critical thinking and the integration of current, external knowledge.
 
------
-
------
-
-### Source [66]: https://weaviate.io/blog/what-is-agentic-rag
+-----]]></source_block>
+        <source_block><![CDATA[### Source [66]: https://weaviate.io/blog/what-is-agentic-rag
 
 Query: What are the core architectural and behavioral distinctions between a standard, linear RAG pipeline and an "Agentic RAG" system that uses a ReAct-style agent?
 
@@ -1113,11 +926,8 @@ The behavioral distinction is the agent’s autonomy in reasoning, selecting sou
 
 -----
 
------
-
------
-
-### Source [67]: https://empathyfirstmedia.com/building-multi-agent-rag-systems-step-by-step-implementation-guide/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [67]: https://empathyfirstmedia.com/building-multi-agent-rag-systems-step-by-step-implementation-guide/
 
 Query: What are the core architectural and behavioral distinctions between a standard, linear RAG pipeline and an "Agentic RAG" system that uses a ReAct-style agent?
 
@@ -1130,11 +940,8 @@ Answer: A **multi-agent RAG system** is architected around specialized agents wi
 
 -----
 
------
-
------
-
-### Source [68]: https://www.eyelevel.ai/post/agentic-rag
+-----]]></source_block>
+        <source_block><![CDATA[### Source [68]: https://www.eyelevel.ai/post/agentic-rag
 
 Query: What are the core architectural and behavioral distinctions between a standard, linear RAG pipeline and an "Agentic RAG" system that uses a ReAct-style agent?
 
@@ -1146,11 +953,8 @@ Answer: The **ReAct architecture** (Reasoning and Act) forms the backbone of man
 
 -----
 
------
-
------
-
-### Source [69]: https://www.digitalocean.com/community/conceptual-articles/rag-ai-agents-agentic-rag-comparative-analysis
+-----]]></source_block>
+        <source_block><![CDATA[### Source [69]: https://www.digitalocean.com/community/conceptual-articles/rag-ai-agents-agentic-rag-comparative-analysis
 
 Query: What are the core architectural and behavioral distinctions between a standard, linear RAG pipeline and an "Agentic RAG" system that uses a ReAct-style agent?
 
@@ -1163,11 +967,8 @@ Answer: **Agentic RAG** advances RAG from static, single-turn interactions to dy
 
 -----
 
------
-
------
-
-### Source [70]: https://www.k2view.com/blog/react-agent-llm/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [70]: https://www.k2view.com/blog/react-agent-llm/
 
 Query: What are the core architectural and behavioral distinctions between a standard, linear RAG pipeline and an "Agentic RAG" system that uses a ReAct-style agent?
 
@@ -1180,14 +981,13 @@ Answer: A **ReAct agent LLM** exemplifies Agentic RAG by combining reasoning and
 
 -----
 
------
-
-</details>
-
-<details>
-<summary>What are the key architectural components and data flows in a production-ready RAG system, from offline ingestion to online retrieval?</summary>
-
-### Source [51]: https://galileo.ai/blog/rag-architecture
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[What are the key architectural components and data flows in a production-ready RAG system, from offline ingestion to online retrieval?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [51]: https://galileo.ai/blog/rag-architecture
 
 Query: What are the key architectural components and data flows in a production-ready RAG system, from offline ingestion to online retrieval?
 
@@ -1201,11 +1001,8 @@ The data flow starts with the retriever, which ensures the generation component 
 
 -----
 
------
-
------
-
-### Source [52]: https://python.langchain.com/docs/tutorials/rag/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [52]: https://python.langchain.com/docs/tutorials/rag/
 
 Query: What are the key architectural components and data flows in a production-ready RAG system, from offline ingestion to online retrieval?
 
@@ -1224,11 +1021,8 @@ This structure ensures fast, relevant retrieval and coherent generation, with of
 
 -----
 
------
-
------
-
-### Source [53]: https://developer.nvidia.com/blog/rag-101-demystifying-retrieval-augmented-generation-pipelines/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [53]: https://developer.nvidia.com/blog/rag-101-demystifying-retrieval-augmented-generation-pipelines/
 
 Query: What are the key architectural components and data flows in a production-ready RAG system, from offline ingestion to online retrieval?
 
@@ -1247,11 +1041,8 @@ Each phase can be structured as microservices, allowing for modularity and scala
 
 -----
 
------
-
------
-
-### Source [54]: https://www.ibm.com/think/topics/retrieval-augmented-generation
+-----]]></source_block>
+        <source_block><![CDATA[### Source [54]: https://www.ibm.com/think/topics/retrieval-augmented-generation
 
 Query: What are the key architectural components and data flows in a production-ready RAG system, from offline ingestion to online retrieval?
 
@@ -1274,11 +1065,8 @@ Additional components can include a **ranker** (to order retrieved results by re
 
 -----
 
------
-
------
-
-### Source [55]: https://docs.spring.io/spring-ai/reference/api/retrieval-augmented-generation.html
+-----]]></source_block>
+        <source_block><![CDATA[### Source [55]: https://docs.spring.io/spring-ai/reference/api/retrieval-augmented-generation.html
 
 Query: What are the key architectural components and data flows in a production-ready RAG system, from offline ingestion to online retrieval?
 
@@ -1292,14 +1080,13 @@ Answer: Spring AI provides a modular approach to RAG systems, supporting custom 
 This modular architecture enables customization and reconfiguration of each pipeline component. For example, you can swap retrieval strategies, add post-processing, or replace the generation model without disrupting the entire system. This flexibility is critical for production systems needing to adapt to evolving requirements and data sources.[5]
 -----
 
------
-
-</details>
-
-<details>
-<summary>What are the most effective document chunking strategies (e.g., fixed-size, recursive, semantic) for different types of unstructured data, and what are their trade-offs?</summary>
-
-### Source [56]: https://www.f22labs.com/blogs/7-chunking-strategies-in-rag-you-need-to-know/
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[What are the most effective document chunking strategies (e.g., fixed-size, recursive, semantic) for different types of unstructured data, and what are their trade-offs?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [56]: https://www.f22labs.com/blogs/7-chunking-strategies-in-rag-you-need-to-know/
 
 Query: What are the most effective document chunking strategies (e.g., fixed-size, recursive, semantic) for different types of unstructured data, and what are their trade-offs?
 
@@ -1317,11 +1104,8 @@ Each strategy has trade-offs related to context preservation, chunk size consist
 
 -----
 
------
-
------
-
-### Source [57]: https://www.pinecone.io/learn/chunking-strategies/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [57]: https://www.pinecone.io/learn/chunking-strategies/
 
 Query: What are the most effective document chunking strategies (e.g., fixed-size, recursive, semantic) for different types of unstructured data, and what are their trade-offs?
 
@@ -1337,11 +1121,8 @@ These structure-aware approaches maintain semantic integrity and logical flow, i
 
 -----
 
------
-
------
-
-### Source [58]: https://bitpeak.com/chunking-methods-in-rag-methods-comparison/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [58]: https://bitpeak.com/chunking-methods-in-rag-methods-comparison/
 
 Query: What are the most effective document chunking strategies (e.g., fixed-size, recursive, semantic) for different types of unstructured data, and what are their trade-offs?
 
@@ -1361,11 +1142,8 @@ Trade-offs center on chunk coherence versus speed and cost: advanced semantic me
 
 -----
 
------
-
------
-
-### Source [59]: https://infohub.delltechnologies.com/es-es/p/chunk-twice-retrieve-once-rag-chunking-strategies-optimized-for-different-content-types/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [59]: https://infohub.delltechnologies.com/es-es/p/chunk-twice-retrieve-once-rag-chunking-strategies-optimized-for-different-content-types/
 
 Query: What are the most effective document chunking strategies (e.g., fixed-size, recursive, semantic) for different types of unstructured data, and what are their trade-offs?
 
@@ -1383,11 +1161,8 @@ Multi-modal chunking is optimal for documents with heterogeneous content types a
 
 -----
 
------
-
------
-
-### Source [60]: https://developer.nvidia.com/blog/finding-the-best-chunking-strategy-for-accurate-ai-responses/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [60]: https://developer.nvidia.com/blog/finding-the-best-chunking-strategy-for-accurate-ai-responses/
 
 Query: What are the most effective document chunking strategies (e.g., fixed-size, recursive, semantic) for different types of unstructured data, and what are their trade-offs?
 
@@ -1400,14 +1175,13 @@ For refinement or specialized cases:
 
 The main trade-off is that page-level chunking may not be optimal for all datasets, but it provides high average accuracy and stability. Token-based chunking offers granularity but can fragment context, while section-level chunking can improve relevance for structured documents.
 
------
-
-</details>
-
-<details>
-<summary>What are the practical trade-offs and best practices when choosing a document chunking strategy, such as semantic, layout-aware, or context-enriched, for different types of unstructured data in RAG?</summary>
-
-### Source [76]: https://www.f22labs.com/blogs/7-chunking-strategies-in-rag-you-need-to-know/
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[What are the practical trade-offs and best practices when choosing a document chunking strategy, such as semantic, layout-aware, or context-enriched, for different types of unstructured data in RAG?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [76]: https://www.f22labs.com/blogs/7-chunking-strategies-in-rag-you-need-to-know/
 
 Query: What are the practical trade-offs and best practices when choosing a document chunking strategy, such as semantic, layout-aware, or context-enriched, for different types of unstructured data in RAG?
 
@@ -1415,11 +1189,8 @@ Answer: Chunking strategies like **fixed-size chunking** and **recursive charact
 
 -----
 
------
-
------
-
-### Source [77]: https://infohub.delltechnologies.com/es-es/p/chunk-twice-retrieve-once-rag-chunking-strategies-optimized-for-different-content-types/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [77]: https://infohub.delltechnologies.com/es-es/p/chunk-twice-retrieve-once-rag-chunking-strategies-optimized-for-different-content-types/
 
 Query: What are the practical trade-offs and best practices when choosing a document chunking strategy, such as semantic, layout-aware, or context-enriched, for different types of unstructured data in RAG?
 
@@ -1427,11 +1198,8 @@ Answer: The chunking strategy directly determines a RAG system’s retrieval acc
 
 -----
 
------
-
------
-
-### Source [78]: https://www.ibm.com/think/tutorials/chunking-strategies-for-rag-with-langchain-watsonx-ai
+-----]]></source_block>
+        <source_block><![CDATA[### Source [78]: https://www.ibm.com/think/tutorials/chunking-strategies-for-rag-with-langchain-watsonx-ai
 
 Query: What are the practical trade-offs and best practices when choosing a document chunking strategy, such as semantic, layout-aware, or context-enriched, for different types of unstructured data in RAG?
 
@@ -1439,11 +1207,8 @@ Answer: Effective chunking breaks large text into smaller, meaningful chunks for
 
 -----
 
------
-
------
-
-### Source [79]: https://bitpeak.com/chunking-methods-in-rag-methods-comparison/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [79]: https://bitpeak.com/chunking-methods-in-rag-methods-comparison/
 
 Query: What are the practical trade-offs and best practices when choosing a document chunking strategy, such as semantic, layout-aware, or context-enriched, for different types of unstructured data in RAG?
 
@@ -1451,11 +1216,8 @@ Answer: Comparative analysis shows that **semantic double-pass merging chunking*
 
 -----
 
------
-
------
-
-### Source [80]: https://www.tigerdata.com/blog/which-rag-chunking-and-formatting-strategy-is-best
+-----]]></source_block>
+        <source_block><![CDATA[### Source [80]: https://www.tigerdata.com/blog/which-rag-chunking-and-formatting-strategy-is-best
 
 Query: What are the practical trade-offs and best practices when choosing a document chunking strategy, such as semantic, layout-aware, or context-enriched, for different types of unstructured data in RAG?
 
@@ -1463,14 +1225,13 @@ Answer: **Recursive character text splitting** can be tailored for different doc
 
 -----
 
------
-
-</details>
-
-<details>
-<summary>What are the key architectural patterns and implementation challenges when building a production-ready "Agentic RAG" system that can dynamically choose between retrieval and other tools?</summary>
-
-### Source [82]: https://workativ.com/ai-agent/blog/agentic-rag
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[What are the key architectural patterns and implementation challenges when building a production-ready "Agentic RAG" system that can dynamically choose between retrieval and other tools?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [82]: https://workativ.com/ai-agent/blog/agentic-rag
 
 Query: What are the key architectural patterns and implementation challenges when building a production-ready "Agentic RAG" system that can dynamically choose between retrieval and other tools?
 
@@ -1487,11 +1248,8 @@ Implementation challenges include:
 
 -----
 
------
-
------
-
-### Source [83]: https://www.moveworks.com/us/en/resources/blog/what-is-agentic-rag
+-----]]></source_block>
+        <source_block><![CDATA[### Source [83]: https://www.moveworks.com/us/en/resources/blog/what-is-agentic-rag
 
 Query: What are the key architectural patterns and implementation challenges when building a production-ready "Agentic RAG" system that can dynamically choose between retrieval and other tools?
 
@@ -1507,11 +1265,8 @@ Implementation challenges include:
 
 -----
 
------
-
------
-
-### Source [84]: https://aws.amazon.com/blogs/machine-learning/create-an-agentic-rag-application-for-advanced-knowledge-discovery-with-llamaindex-and-mistral-in-amazon-bedrock/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [84]: https://aws.amazon.com/blogs/machine-learning/create-an-agentic-rag-application-for-advanced-knowledge-discovery-with-llamaindex-and-mistral-in-amazon-bedrock/
 
 Query: What are the key architectural patterns and implementation challenges when building a production-ready "Agentic RAG" system that can dynamically choose between retrieval and other tools?
 
@@ -1528,11 +1283,8 @@ Implementation challenges:
 
 -----
 
------
-
------
-
-### Source [85]: https://www.codiste.com/implementing-agentic-rag-enterprise-guide
+-----]]></source_block>
+        <source_block><![CDATA[### Source [85]: https://www.codiste.com/implementing-agentic-rag-enterprise-guide
 
 Query: What are the key architectural patterns and implementation challenges when building a production-ready "Agentic RAG" system that can dynamically choose between retrieval and other tools?
 
@@ -1549,71 +1301,55 @@ Implementation challenges:
 
 -----
 
------
-
-</details>
-
-<details>
-<summary>How do re-ranking models, such as cross-encoders, improve retrieval relevance in a RAG pipeline, and what are the associated performance trade-offs in terms of latency and computational cost?</summary>
-
-### Source [86]: https://haystack.deepset.ai/blog/optimize-rag-with-nvidia-nemo
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+    <query_group>
+      <query><![CDATA[How do re-ranking models, such as cross-encoders, improve retrieval relevance in a RAG pipeline, and what are the associated performance trade-offs in terms of latency and computational cost?]]></query>
+      <source_blocks>
+        <source_block><![CDATA[### Source [86]: https://haystack.deepset.ai/blog/optimize-rag-with-nvidia-nemo
 
 Query: How do re-ranking models, such as cross-encoders, improve retrieval relevance in a RAG pipeline, and what are the associated performance trade-offs in terms of latency and computational cost?
 
 Answer: Adding a reranking component—often implemented as a cross-encoder or fine-tuned large language model (LLM)—to a RAG pipeline improves both **recall** (ability to retrieve all relevant documents) and **precision** (ranking the most relevant documents at the top). The reranker reorders the initially retrieved document chunks so the **most relevant ones appear first**, thus enhancing the likelihood that the LLM receives the best context for answer generation. This is especially critical when the LLM has a limited context window or when inference speed and cost-efficiency are priorities. Reranking is particularly valuable in **hybrid retrieval** scenarios, where multiple retrieval methods are combined—ensuring consistent, semantically relevant document selection regardless of the retrieval method used. This process helps counteract biases of individual retrievers and raises overall output quality.
 
------
-
------
-
-### Source [87]: https://www.chatbase.co/blog/reranking
+-----]]></source_block>
+        <source_block><![CDATA[### Source [87]: https://www.chatbase.co/blog/reranking
 
 Query: How do re-ranking models, such as cross-encoders, improve retrieval relevance in a RAG pipeline, and what are the associated performance trade-offs in terms of latency and computational cost?
 
 Answer: Reranking is described as a **crucial technique** for dramatically improving the relevance and quality of retrieved results in RAG pipelines. While standard retrieval steps may surface a set of candidates, they often fail to consistently identify the most pertinent documents due to limited retrieval model expressivity. By applying more sophisticated relevance judgments—such as cross-encoder-based scoring—rerankers **ensure that the most salient information is passed to the language model** for generation. The source emphasizes that mastering reranking substantially boosts retrieval capabilities and is essential for advanced RAG systems, highlighting its impact on both quality and relevance of outputs.
 
------
-
------
-
-### Source [88]: https://www.pinecone.io/learn/series/rag/rerankers/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [88]: https://www.pinecone.io/learn/series/rag/rerankers/
 
 Query: How do re-ranking models, such as cross-encoders, improve retrieval relevance in a RAG pipeline, and what are the associated performance trade-offs in terms of latency and computational cost?
 
 Answer: After implementing reranking, the information sent to the LLM is **far more relevant**, resulting in significantly improved RAG performance. Rerankers maximize the presence of relevant content while minimizing noise, leading to better recall and reduced irrelevant input for the LLM. The two-stage retrieval process—retrieving a broader set of candidates, then reranking—enables scalable search while maintaining high-quality results. The source highlights reranking as one of the simplest and most effective methods for **dramatically improving recall** in RAG or similar retrieval-based pipelines, explaining that the reranker often outperforms the initial embedding-based retriever in selecting the best candidates.
 
------
-
------
-
-### Source [89]: https://galileo.ai/blog/mastering-rag-how-to-select-a-reranking-model
+-----]]></source_block>
+        <source_block><![CDATA[### Source [89]: https://galileo.ai/blog/mastering-rag-how-to-select-a-reranking-model
 
 Query: How do re-ranking models, such as cross-encoders, improve retrieval relevance in a RAG pipeline, and what are the associated performance trade-offs in terms of latency and computational cost?
 
 Answer: A reranker acts as a **second-pass document filter** in information retrieval (IR) systems by reordering the initial candidate set based on more sophisticated query-document relevance metrics. This boosts the **quality of ranked search results** and mitigates risks like hallucinations. Cross-encoders and multi-vector rerankers are specifically noted for their ability to deeply augment search precision. The reranker’s main objective is to enhance search result relevance, but this comes with a trade-off: rerankers, especially cross-encoders, are more **computationally intensive** than simple vector-based retrieval, potentially introducing **latency** and increasing **computational cost**. Thus, while they improve effectiveness, they require careful tuning and observability to maintain practical performance in production RAG systems.
 
------
-
------
-
-### Source [90]: https://developer.nvidia.com/blog/enhancing-rag-pipelines-with-re-ranking/
+-----]]></source_block>
+        <source_block><![CDATA[### Source [90]: https://developer.nvidia.com/blog/enhancing-rag-pipelines-with-re-ranking/
 
 Query: How do re-ranking models, such as cross-encoders, improve retrieval relevance in a RAG pipeline, and what are the associated performance trade-offs in terms of latency and computational cost?
 
 Answer: Re-ranking leverages the advanced language understanding capabilities of LLMs to **enhance the relevance of search results**. In a RAG pipeline, integrating a reranker ensures that only the **most relevant chunks** are used to augment the original query, producing more accurate and contextually appropriate responses. This process involves using LLM-based models to assess and reorder candidate documents, thereby improving the quality of the final answer. While the source demonstrates practical integration of reranking into a RAG pipeline, it also implies that reranking with LLMs is resource-intensive, as it requires applying complex models to multiple candidate documents, which increases computational workload and can result in higher latency compared to simpler retrieval methods.
 -----
 
------
-
-</details>
-
-
-## Sources Scraped From Research Results
-
-<details>
-<summary>Despite the rapid advancements in AI, nearly 70% of organizations still struggle to extract actionable insights from their data. Why? Because the tools they rely on often fail to bridge the gap between unstructured information and meaningful context. This is where Retrieval-Augmented Generation (RAG) systems come into play, offering a lifeline to businesses drowning in data. But here’s the twist—choosing the right RAG approach isn’t as straightforward as it seems.</summary>
-
-Despite the rapid advancements in AI, nearly 70% of organizations still struggle to extract actionable insights from their data. Why? Because the tools they rely on often fail to bridge the gap between unstructured information and meaningful context. This is where Retrieval-Augmented Generation (RAG) systems come into play, offering a lifeline to businesses drowning in data. But here’s the twist—choosing the right RAG approach isn’t as straightforward as it seems.
+-----]]></source_block>
+      </source_blocks>
+    </query_group>
+  </research_results>
+  <sources_scraped>
+    <scraped_source>
+      <title><![CDATA[Despite the rapid advancements in AI, nearly 70% of organizations still struggle to extract actionable insights from their data. Why? Because the tools they rely on often fail to bridge the gap between unstructured information and meaningful context. This is where Retrieval-Augmented Generation (RAG) systems come into play, offering a lifeline to businesses drowning in data. But here’s the twist—choosing the right RAG approach isn’t as straightforward as it seems.]]></title>
+      <content><![CDATA[Despite the rapid advancements in AI, nearly 70% of organizations still struggle to extract actionable insights from their data. Why? Because the tools they rely on often fail to bridge the gap between unstructured information and meaningful context. This is where Retrieval-Augmented Generation (RAG) systems come into play, offering a lifeline to businesses drowning in data. But here’s the twist—choosing the right RAG approach isn’t as straightforward as it seems.
 
 Graph-based RAG and Vector-based RAG, two dominant methodologies, promise to revolutionize how we retrieve and process information. Yet, their differences go far beyond technical nuances; they represent fundamentally distinct philosophies in data handling. Which one aligns with your needs? And more importantly, how do these choices shape the future of AI-driven decision-making?
 
@@ -1849,14 +1585,11 @@ Choosing between Graph-Based RAG and Vector-Based RAG is not a matter of superio
 
 Vector-Based RAG, by contrast, shines in unstructured environments like e-commerce. Imagine a platform recommending products based on semantic similarity—quick, scalable, and intuitive. Yet, its “black-box” nature often leaves users questioning the “why” behind results, a trade-off for speed.
 
-A hybrid approach may seem ideal, but integrating these systems is like merging two languages—powerful yet complex. Ultimately, the choice depends on whether your priority is _clarity_ or _velocity_.
-
-</details>
-
-<details>
-<summary>Retrieval-Augmented Generation (RAG) has become a cornerstone in AI applications, and as our needs grow, more complex, traditional RAG approaches are showing their limitations. Enter Agentic RAG, which introduces intelligent agents into the retrieval process.</summary>
-
-Retrieval-Augmented Generation (RAG) has become a cornerstone in AI applications, and as our needs grow, more complex, traditional RAG approaches are showing their limitations. Enter Agentic RAG, which introduces intelligent agents into the retrieval process.
+A hybrid approach may seem ideal, but integrating these systems is like merging two languages—powerful yet complex. Ultimately, the choice depends on whether your priority is _clarity_ or _velocity_.]]></content>
+    </scraped_source>
+    <scraped_source>
+      <title><![CDATA[Retrieval-Augmented Generation (RAG) has become a cornerstone in AI applications, and as our needs grow, more complex, traditional RAG approaches are showing their limitations. Enter Agentic RAG, which introduces intelligent agents into the retrieval process.]]></title>
+      <content><![CDATA[Retrieval-Augmented Generation (RAG) has become a cornerstone in AI applications, and as our needs grow, more complex, traditional RAG approaches are showing their limitations. Enter Agentic RAG, which introduces intelligent agents into the retrieval process.
 
 Let’s talk about what it is, how it works, and why monitoring and observability are key parts of the process.
 
@@ -1969,27 +1702,19 @@ When implementing Agentic RAG, consider these key points:
 3. **Document Quality:** Ensure your knowledge base documents contain sufficient context for accurate retrieval
 4. **Monitoring Strategy:** Implement comprehensive observability to track and improve system performance
 
-Agentic RAG represents a significant advancement in how we approach information retrieval and question-answering systems. By introducing intelligent agents into the retrieval process, we can handle more complex queries across multiple data sources while maintaining accuracy and relevance. The combination of traditional RAG capabilities with agent-based decision-making opens up new possibilities for building more sophisticated AI applications. As this technology continues to evolve, we can expect to see even more innovative implementations and use cases emerge.
-
-</details>
-
-
-## Code Sources
-
-_No code sources found._
-
-
-## YouTube Video Transcripts
-
-_No YouTube video transcripts found._
-
-
-## Additional Sources Scraped
-
-<details>
-<summary>a-complete-guide-to-rag-towards-ai</summary>
-
-If you haven’t heard about RAG from your refrigerator yet, you surely will very soon, so popular this technique has become. Surprisingly, there is a lack of complete guides that consider all the nuances (like relevance assessment, combating hallucinations, etc.), instead of just fragmented pieces. Based on our experience, I have compiled a guide that covers this topic thoroughly.
+Agentic RAG represents a significant advancement in how we approach information retrieval and question-answering systems. By introducing intelligent agents into the retrieval process, we can handle more complex queries across multiple data sources while maintaining accuracy and relevance. The combination of traditional RAG capabilities with agent-based decision-making opens up new possibilities for building more sophisticated AI applications. As this technology continues to evolve, we can expect to see even more innovative implementations and use cases emerge.]]></content>
+    </scraped_source>
+  </sources_scraped>
+  <code_sources>
+    <message>No code sources found.</message>
+  </code_sources>
+  <youtube_video_transcripts>
+    <message>No YouTube video transcripts found.</message>
+  </youtube_video_transcripts>
+  <additional_sources>
+    <additional_source>
+      <title><![CDATA[a-complete-guide-to-rag-towards-ai]]></title>
+      <content><![CDATA[If you haven’t heard about RAG from your refrigerator yet, you surely will very soon, so popular this technique has become. Surprisingly, there is a lack of complete guides that consider all the nuances (like relevance assessment, combating hallucinations, etc.), instead of just fragmented pieces. Based on our experience, I have compiled a guide that covers this topic thoroughly.
 
 **So, why do we need RAG?**
 
@@ -2291,14 +2016,11 @@ In this article, I’ve provided a comprehensive guide to Retrieval-Augmented Ge
 
 **Ranking and Evaluating:** I covered the importance of ranking, combining, and evaluating retrieved results to improve response quality.
 
-**Advanced Methods:** Finally, I discussed optimizations and advanced methods like RELP and FLARE, as well as considerations for fine-tuning models and maintaining response formatting, style, and tone.
-
-</details>
-
-<details>
-<summary>advanced-rag-blueprint-optimize-llm-retrieval-systems</summary>
-
-The vanilla RAG framework doesn’t address many fundamental aspects that impact the quality of the retrieval and answer generation, such as:
+**Advanced Methods:** Finally, I discussed optimizations and advanced methods like RELP and FLARE, as well as considerations for fine-tuning models and maintaining response formatting, style, and tone.]]></content>
+    </additional_source>
+    <additional_source>
+      <title><![CDATA[advanced-rag-blueprint-optimize-llm-retrieval-systems]]></title>
+      <content><![CDATA[The vanilla RAG framework doesn’t address many fundamental aspects that impact the quality of the retrieval and answer generation, such as:
 
 - Are the retrieved documents relevant to the user’s question?
 - Is the retrieved context enough to answer the user’s question?
@@ -2492,14 +2214,11 @@ To summarize, the primary goal of these optimizations is to enhance the RAG algo
 
 This involves preprocessing data for improved vector indexing, adjusting user queries for more accurate searches, enhancing the embedding model, utilizing classic filtering DB operations, and removing noisy data.
 
-By keeping these goals in mind, you can optimize your RAG workflow for data processing and retrieval.
-
-</details>
-
-<details>
-<summary>build-advanced-retrieval-augmented-generation-systems-micros</summary>
-
-# Build advanced retrieval-augmented generation systems
+By keeping these goals in mind, you can optimize your RAG workflow for data processing and retrieval.]]></content>
+    </additional_source>
+    <additional_source>
+      <title><![CDATA[build-advanced-retrieval-augmented-generation-systems-micros]]></title>
+      <content><![CDATA[# Build advanced retrieval-augmented generation systems
 
 This article explains retrieval-augmented generation (RAG) and what developers need to build a production-ready RAG solution.
 
@@ -2721,14 +2440,11 @@ Post-completion processing happens after the user’s question and all content c
 After the LLM gives an answer, check its accuracy. A post-completion processing pipeline can include:
 
 - **Fact check**: Look for statements in the answer that claim to be facts, then check if they’re true. If a fact check fails, you can ask the LLM again or show an error message.
-- **Policy check**: Make sure the answer doesn’t include harmful content for the user or your organization.
-
-</details>
-
-<details>
-<summary>from-local-to-global-a-graphrag-approach-to-query-focused-su</summary>
-
-Retrieval augmented generation (RAG) (Lewis et al.,, [2020](https://arxiv.org/html/2404.16130v2#bib.bib32 "")) is an established approach to using LLMs to answer queries based on data that is too large to contain in a language model’s _context window_, meaning the maximum number of _tokens_ (units of text) that can be processed by the LLM at once  (Liu et al.,, [2023](https://arxiv.org/html/2404.16130v2#bib.bib33 ""); Kuratov et al.,, [2024](https://arxiv.org/html/2404.16130v2#bib.bib29 "")).
+- **Policy check**: Make sure the answer doesn’t include harmful content for the user or your organization.]]></content>
+    </additional_source>
+    <additional_source>
+      <title><![CDATA[from-local-to-global-a-graphrag-approach-to-query-focused-su]]></title>
+      <content><![CDATA[Retrieval augmented generation (RAG) (Lewis et al.,, [2020](https://arxiv.org/html/2404.16130v2#bib.bib32 "")) is an established approach to using LLMs to answer queries based on data that is too large to contain in a language model’s _context window_, meaning the maximum number of _tokens_ (units of text) that can be processed by the LLM at once  (Liu et al.,, [2023](https://arxiv.org/html/2404.16130v2#bib.bib33 ""); Kuratov et al.,, [2024](https://arxiv.org/html/2404.16130v2#bib.bib29 "")).
 In the canonical RAG setup, the system has access to a large external corpus of text records and retrieves a subset of records that are individually relevant to the query and collectively small enough to fit into the context window of the LLM. The LLM then generates a response based on both the query and the retrieved records (Dang,, [2006](https://arxiv.org/html/2404.16130v2#bib.bib12 ""); Yao et al.,, [2017](https://arxiv.org/html/2404.16130v2#bib.bib71 ""); Baumel et al.,, [2018](https://arxiv.org/html/2404.16130v2#bib.bib6 ""); Laskar et al.,, [2020](https://arxiv.org/html/2404.16130v2#bib.bib31 "")).
 This conventional approach, which we collectively call _vector RAG_, works well for queries that can be answered with information localized within a small set of records.
 However, vector RAG approaches do not support sensemaking queries, meaning queries that require global understanding of the entire dataset, such as ” _What are the key trends in how scientific discoveries are influenced by interdisciplinary research over the past decade?_”
@@ -2779,14 +2495,11 @@ It also adds to a growing body of RAG approaches that use a knowledge graph as a
 Some techniques use subgraphs, elements of the graph, or properties of the graph structure directly in the prompt  (Baek et al.,, [2023](https://arxiv.org/html/2404.16130v2#bib.bib3 ""); He et al.,, [2024](https://arxiv.org/html/2404.16130v2#bib.bib19 ""); Zhang,, [2023](https://arxiv.org/html/2404.16130v2#bib.bib75 "")) or as factual grounding for generated outputs (Kang et al.,, [2023](https://arxiv.org/html/2404.16130v2#bib.bib23 ""); Ranade and Joshi,, [2023](https://arxiv.org/html/2404.16130v2#bib.bib51 "")).
 Other techniques ( [Wang et al., 2023b,](https://arxiv.org/html/2404.16130v2#bib.bib68 "")) use the knowledge graph to enhance retrieval, where at query time an LLM-based agent dynamically traverses a graph with nodes representing document elements (e.g., passages, tables) and edges encoding lexical and semantical similarity or structural relationships.
 GraphRAG contrasts with these approaches by focusing on a previously unexplored quality of graphs in this context: their inherent _modularity_(Newman,, [2006](https://arxiv.org/html/2404.16130v2#bib.bib45 "")) and the ability to partition graphs into nested modular communities of closely related nodes (e.g., Louvain, Blondel et al., [2008](https://arxiv.org/html/2404.16130v2#bib.bib7 ""); Leiden, Traag et al., [2019](https://arxiv.org/html/2404.16130v2#bib.bib62 "")).
-Specifically, GraphRAG recursively creates increasingly global summaries by using the LLM to create summaries spanning this community hierarchy.
-
-</details>
-
-<details>
-<summary>introducing-contextual-retrieval-anthropic</summary>
-
-For an AI model to be useful in specific contexts, it often needs access to background knowledge. For example, customer support chatbots need knowledge about the specific business they're being used for, and legal analyst bots need to know about a vast array of past cases.
+Specifically, GraphRAG recursively creates increasingly global summaries by using the LLM to create summaries spanning this community hierarchy.]]></content>
+    </additional_source>
+    <additional_source>
+      <title><![CDATA[introducing-contextual-retrieval-anthropic]]></title>
+      <content><![CDATA[For an AI model to be useful in specific contexts, it often needs access to background knowledge. For example, customer support chatbots need knowledge about the specific business they're being used for, and legal analyst bots need to know about a vast array of past cases.
 
 Developers typically enhance an AI model's knowledge using Retrieval-Augmented Generation (RAG). RAG is a method that retrieves relevant information from a knowledge base and appends it to the user's prompt, significantly enhancing the model's response. The problem is that traditional RAG solutions remove context when encoding information, which often results in the system failing to retrieve the relevant information from the knowledge base.
 
@@ -2930,14 +2643,11 @@ We ran a large number of tests, comparing different combinations of all the tech
 
 #### Footnotes
 
-1\. For additional reading on chunking strategies, check out [this link](https://www.pinecone.io/learn/chunking-strategies/) and [this link](https://research.trychroma.com/evaluating-chunking).
-
-</details>
-
-<details>
-<summary>rag-fundamentals-first-by-paul-iusztin-decoding-ml</summary>
-
-To build successful and complex RAG applications, you must first deeply understand the fundamentals behind them. _In this article, we will learn why we use RAG and how to design the architecture of your RAG layer._
+1\. For additional reading on chunking strategies, check out [this link](https://www.pinecone.io/learn/chunking-strategies/) and [this link](https://research.trychroma.com/evaluating-chunking).]]></content>
+    </additional_source>
+    <additional_source>
+      <title><![CDATA[rag-fundamentals-first-by-paul-iusztin-decoding-ml]]></title>
+      <content><![CDATA[To build successful and complex RAG applications, you must first deeply understand the fundamentals behind them. _In this article, we will learn why we use RAG and how to design the architecture of your RAG layer._
 
 Retrieval-augmented generation (RAG) enhances the accuracy and reliability of generative AI models with information fetched from external sources. It is a technique complementary to the internal knowledge of the LLMs. Before going into the details, let’s understand what RAG stands for:
 
@@ -3074,14 +2784,11 @@ In this article, we have looked over the fundamentals of RAG.
 
 First, we understood why RAG is so powerful and why many AI applications implement it, as it overcomes challenges such as hallucinations and outdated data.
 
-Secondly, we examined the architecture of a naive RAG system, which consists of an ingestion, retrieval and generation pipeline.
-
-</details>
-
-<details>
-<summary>rag-is-dead-long-live-agentic-retrieval-llamaindex-build-kno</summary>
-
-Nowadays, an AI engineer has to be aware of a plethora of techniques and terminology that encompass the data-retrieval aspects of agentic systems: hybrid search, CRAG, Self-RAG, HyDE, deep research, reranking, multi-modal embeddings, and RAPTOR just to name a few.
+Secondly, we examined the architecture of a naive RAG system, which consists of an ingestion, retrieval and generation pipeline.]]></content>
+    </additional_source>
+    <additional_source>
+      <title><![CDATA[rag-is-dead-long-live-agentic-retrieval-llamaindex-build-kno]]></title>
+      <content><![CDATA[Nowadays, an AI engineer has to be aware of a plethora of techniques and terminology that encompass the data-retrieval aspects of agentic systems: hybrid search, CRAG, Self-RAG, HyDE, deep research, reranking, multi-modal embeddings, and RAPTOR just to name a few.
 
 ## Starting with the basics
 
@@ -3119,14 +2826,11 @@ This setup ensures that retrieval decisions are intelligently routed at each lay
 
 ### Naive RAG is dead, agentic retrieval is the future
 
-Agents have become an essential part of modern applications. For these agents to operate effectively and autonomously, they need precise and relevant context at their fingertips. This is why sophisticated data retrieval is crucial for any agent-based system.
-
-</details>
-
-<details>
-<summary>the-rise-of-rag</summary>
-
-# The Rise of RAG
+Agents have become an essential part of modern applications. For these agents to operate effectively and autonomously, they need precise and relevant context at their fingertips. This is why sophisticated data retrieval is crucial for any agent-based system.]]></content>
+    </additional_source>
+    <additional_source>
+      <title><![CDATA[the-rise-of-rag]]></title>
+      <content><![CDATA[# The Rise of RAG
 
 ### Making LLMs More Reliable Through Additional Information
 
@@ -3188,14 +2892,11 @@ Such systems represent a significant step toward more sophisticated information 
 
 ## Conclusion
 
-RAG isn't just another technical innovation—it's a fundamental shift in approaching AI-powered information coupling retrieval and generation. By bridging the gap between LLMs and real-world knowledge bases, RAG is helping create more reliable, trustworthy, and useful AI systems. As we continue to push the boundaries of what's possible with LLMs, RAG will undoubtedly play a crucial role in shaping the future of AI-powered information systems.
-
-</details>
-
-<details>
-<summary>what-is-agentic-rag-ibm</summary>
-
-# What is agentic RAG?
+RAG isn't just another technical innovation—it's a fundamental shift in approaching AI-powered information coupling retrieval and generation. By bridging the gap between LLMs and real-world knowledge bases, RAG is helping create more reliable, trustworthy, and useful AI systems. As we continue to push the boundaries of what's possible with LLMs, RAG will undoubtedly play a crucial role in shaping the future of AI-powered information systems.]]></content>
+    </additional_source>
+    <additional_source>
+      <title><![CDATA[what-is-agentic-rag-ibm]]></title>
+      <content><![CDATA[# What is agentic RAG?
 
 Agentic RAG is the use of [AI agents](https://www.ibm.com/think/topics/ai-agents) to facilitate [retrieval augmented generation (RAG)](https://www.ibm.com/think/topics/retrieval-augmented-generation). Agentic RAG systems add AI agents to the RAG pipeline to increase adaptability and accuracy. Compared to traditional RAG systems, agentic RAG allows [large language models (LLMs)](https://www.ibm.com/think/topics/large-language-models) to conduct [information retrieval](https://www.ibm.com/think/topics/information-retrieval) from multiple sources and handle more complex [workflows](https://www.ibm.com/think/topics/workflow).
 
@@ -3301,14 +3002,11 @@ While agentic RAG can suit any traditional RAG application, the greater compute 
 - **Automated support:** Businesses wanting to streamline customer support services can use automated RAG systems to handle simpler customer inquiries. The agentic RAG system can escalate more demanding support requests to human personnel.
 
 
-- **Data management:** RAG systems make it easier to find information within proprietary data stores. Employees can quickly get the data they need without having to sort through databases themselves.
-
-</details>
-
-<details>
-<summary>what-is-agentic-rag-weaviate</summary>
-
-While Retrieval-Augmented Generation (RAG) dominated 2023, [agentic workflows are driving massive progress in 2024](https://x.com/AndrewYNg/status/1770897666702233815?lang=en). The usage of AI agents opens up new possibilities for building more powerful, robust, and versatile Large Language Model(LLM)-powered applications. One possibility is enhancing RAG pipelines with AI agents in agentic RAG pipelines.
+- **Data management:** RAG systems make it easier to find information within proprietary data stores. Employees can quickly get the data they need without having to sort through databases themselves.]]></content>
+    </additional_source>
+    <additional_source>
+      <title><![CDATA[what-is-agentic-rag-weaviate]]></title>
+      <content><![CDATA[While Retrieval-Augmented Generation (RAG) dominated 2023, [agentic workflows are driving massive progress in 2024](https://x.com/AndrewYNg/status/1770897666702233815?lang=en). The usage of AI agents opens up new possibilities for building more powerful, robust, and versatile Large Language Model(LLM)-powered applications. One possibility is enhancing RAG pipelines with AI agents in agentic RAG pipelines.
 
 This article introduces you to the concept of agentic RAG, its implementation, and its benefits and limitations.
 
@@ -3539,14 +3237,11 @@ This article discussed agentic RAG architectures using single-agent and multi-ag
 
 With the rise and popularity of AI agent systems, many different frameworks are evolving for implementing agentic RAG, such as LlamaIndex, LangGraph, or CrewAI.
 
-Finally, this article discussed the benefits and limitations of agentic RAG pipelines.
-
-</details>
-
-<details>
-<summary>what-is-retrieval-augmented-generation-aka-rag-nvidia-blogs</summary>
-
-To understand the latest advancements in generative AI, imagine a courtroom.
+Finally, this article discussed the benefits and limitations of agentic RAG pipelines.]]></content>
+    </additional_source>
+    <additional_source>
+      <title><![CDATA[what-is-retrieval-augmented-generation-aka-rag-nvidia-blogs]]></title>
+      <content><![CDATA[To understand the latest advancements in generative AI, imagine a courtroom.
 
 Judges hear and decide cases based on their general understanding of the law. Sometimes a case — like a malpractice suit or a labor dispute — requires special expertise, so judges send court clerks to a law library, looking for precedents and specific cases they can cite.
 
@@ -3612,6 +3307,7 @@ In the background, the embedding model continuously creates and updates machine-
 
 Many developers find LangChain, an open-source library, can be particularly useful in chaining together LLMs, embedding models and knowledge bases.
 
-The future of generative AI lies in agentic AI — where LLMs and knowledge bases are dynamically orchestrated to create autonomous assistants. These AI-driven agents can enhance decision-making, adapt to complex tasks and deliver authoritative, verifiable results for users.
-
-</details>
+The future of generative AI lies in agentic AI — where LLMs and knowledge bases are dynamically orchestrated to create autonomous assistants. These AI-driven agents can enhance decision-making, adapt to complex tasks and deliver authoritative, verifiable results for users.]]></content>
+    </additional_source>
+  </additional_sources>
+</research>

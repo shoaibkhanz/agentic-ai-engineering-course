@@ -1,31 +1,36 @@
 {
-    "num_chars_article": 21788,
-    "num_chars_conclusion": 689,
-    "num_chars_introduction": 2416,
+    "config": {
+        "thread_id": "7e4cc887-81ff-4830-a641-04262f8321bf",
+        "article_id": "10_RAG_Focus",
+        "enable_human_review": null
+    },
+    "num_chars_article": 19680,
+    "num_chars_conclusion": 1538,
+    "num_chars_introduction": 2314,
     "num_sections": 4,
-    "num_words_article": 2675,
-    "num_words_conclusion": 95,
-    "num_words_introduction": 371,
+    "num_words_article": 2508,
+    "num_words_conclusion": 235,
+    "num_words_introduction": 318,
     "sections": {
-        "The Anatomy of a RAG System: Core Components": {
-            "num_chars": 2971,
-            "num_words": 417
+        "The RAG System: Core Components": {
+            "num_chars": 3125,
+            "num_words": 441
         },
-        "The Two-Phase RAG Pipeline: Ingestion and Retrieval": {
-            "num_chars": 3523,
-            "num_words": 492
+        "The RAG Pipeline: Ingestion and Retrieval": {
+            "num_chars": 3253,
+            "num_words": 424
         },
-        "Beyond the Basics: A Tour of Advanced RAG Techniques": {
-            "num_chars": 4832,
-            "num_words": 498
+        "Advanced RAG Techniques": {
+            "num_chars": 3995,
+            "num_words": 483
         },
-        "The Agentic Leap: Standard vs. Agentic RAG": {
-            "num_chars": 3520,
-            "num_words": 497
+        "Agentic RAG": {
+            "num_chars": 3097,
+            "num_words": 432
         }
     },
     "seo": {
-        "title": "RAG: LLMs' Open-Book Exam",
-        "description": "Master RAG for LLMs! Learn basics, advanced techniques like hybrid search & re-ranking, and the future of AI with agentic RAG. Stop hallucinations & build trustworthy AI."
+        "title": "RAG: The LLM Open-Book Exam",
+        "description": "Master RAG: From fundamentals to advanced agentic systems. Solve LLM knowledge gaps, prevent hallucinations, and build trustworthy AI."
     }
 }

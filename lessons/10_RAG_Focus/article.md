@@ -1,209 +1,171 @@
-# RAG: LLMs' Open-Book Exam
-### From basics to agentic RAG
+# RAG: The LLM Open-Book Exam
+### From fundamentals to agentic systems
 
-## Giving LLMs an Open-Book Exam
+## Introduction: Giving LLMs an Open-Book Exam
 
-Large Language Models (LLMs) are powerful, but they operate on a fixed set of knowledge. Their understanding of the world freezes at the moment their training data was collected, making their knowledge static. When you ask an LLM a question, it’s like it's taking a closed-book exam; it relies only on memorized information.
+As we have covered, Large Language Models (LLMs) are trained on a fixed dataset, rendering their knowledge static. This creates a fundamental problem: LLMs are essentially taking a "closed-book exam" on the world's information. They cannot learn new facts or access real-time data once trained, leading to hallucinations and an inability to answer questions about recent events or proprietary information [[1]](https://decodingml.substack.com/p/rag-fundamentals-first?utm_source=publication-search), [[2]](https://highlearningrate.substack.com/p/the-rise-of-rag). Fine-tuning can update a model, but it is an inefficient and expensive process, unlike continuous human learning.
 
-This presents two significant problems for us as AI engineers. First, the LLM's knowledge quickly becomes outdated. Second, if it cannot answer a question from its training data, it often makes things up. We call this phenomenon hallucination. This fundamental limitation stems from how we build these models.
+A practical solution to this knowledge problem is Retrieval-Augmented Generation (RAG). Instead of trying to force an LLM to memorize everything, we give it an "open-book exam." RAG connects the LLM to external knowledge sources, allowing it to retrieve relevant information on-demand and use it to construct an answer [[3]](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/). This approach is a core method within the Context Engineering process we discussed in Lesson 3, where we focused on curating the information flow to an LLM.
 
-One might immediately think of constantly retraining these models with new information. However, for a model with billions of parameters, this is simply not practical. The computational and financial costs of frequently retraining such massive models are enormous.
+With RAG, we do not need to cram every piece of information into the model's parameters. Instead, we teach it how to look things up in manuals, documents, or databases when it encounters a question it cannot answer from its internal knowledge. This makes the system more accurate, verifiable, and trustworthy, as it can cite its sources [[3]](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/). It is important to distinguish this retrieval process from an agent's memory, which deals with storing and recalling past interactions and learned procedures. We will cover memory in detail in Lesson 10.
 
-This makes it infeasible to keep the model updated with every new piece of data. A fixed training dataset cannot keep pace with the real world, whether it is the latest news, evolving scientific discoveries, or your company's rapidly changing internal documents. We need a more elegant and reliable solution that allows LLMs to access dynamic, up-to-date information without constant, expensive retraining cycles [[1]](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/).
+In this lesson, we will build a solid understanding of RAG, starting with its fundamental components and architecture. From there, we will explore the advanced techniques required to build production-ready systems and see how RAG evolves into a powerful tool within the agentic frameworks you have already learned about. With the problem and motivation clear, we will first decompose RAG into its core components so you can see where each responsibility lives.
 
-That solution is Retrieval-Augmented Generation (RAG). Instead of forcing the model to memorize everything, RAG gives it an open-book exam. It connects the LLM to external, real-time knowledge sources, allowing it to retrieve relevant information on-demand and use it to formulate a grounded, trustworthy, and accurate answer.
+## The RAG System: Core Components
 
-This process is a core part of a broader practice we call "Context Engineering." Here, we design and build systems that provide the right context to the LLM at the right time. RAG is the primary method we use to make this happen, ensuring our AI applications are not only intelligent but also verifiable.
+To properly design and implement a RAG system, you first need to understand its three conceptual pillars. These components work together as part of the Context Engineering process we discussed in Lesson 3 to ground an LLM's response in external facts. By breaking the system into these distinct parts, you can isolate responsibilities, troubleshoot issues more effectively, and ensure that the LLM always receives the most relevant and accurate information.
 
-This article will take you from the fundamentals of RAG to the advanced and agentic patterns that define the future of AI. We will start with the basic anatomy of a RAG system and its two-phase pipeline. Then, we will explore the advanced techniques that make it production-ready and, finally, make the leap to Agentic RAG, where the system itself decides when and how to seek knowledge.
+The first pillar is **Retrieval**. This component acts as the search engine of your RAG system. Its primary job is to take a user's query and efficiently find the most relevant pieces of information from a vast knowledge base [[4]](https://towardsai.net/p/l/a-complete-guide-to-rag).
 
-## The Anatomy of a RAG System: Core Components
+The dominant technique for this is semantic search, which relies on vector embeddings. These are numerical representations of text where words and phrases with similar meanings are mapped to nearby points in a high-dimensional space. An embedding model processes text, capturing its semantic meaning and converting it into these dense vectors.
 
-At its core, a Retrieval-Augmented Generation system is straightforward. We can break it down into three conceptual pillars: Retrieval, Augmentation, and Generation. Understanding these components is the first step to mastering how to build and optimize these systems. They work together in a sequential flow to transform a user's query into a factually grounded response.
+We create these embeddings for all your documents during an offline ingestion process and store them in a specialized vector database. When a user query arrives, we convert it into a vector using the same embedding model. Then, we compare this query vector against the document vectors in the database to find the ones that are semantically closest, often using a metric like cosine similarity [[1]](https://decodingml.substack.com/p/rag-fundamentals-first?utm_source=publication-search).
 
-### Retrieval
-The first pillar is Retrieval. This is the engine responsible for finding relevant information from an external knowledge base. When a user asks a question, the retrieval system's job is to search through potentially vast amounts of data to find the specific snippets that can help answer it.
+The next pillar is **Augmentation**. Once the retrieval component finds the most relevant document chunks, we prepare this information for the LLM. Augmentation is the process of taking the retrieved text and carefully formatting it into the prompt we send to the language model. This step plays a key role in effective Context Engineering, as it involves creating a structured prompt that includes the original user query, the retrieved context, and clear instructions for the LLM on how to use that context to generate an accurate answer [[4]](https://towardsai.net/p/l/a-complete-guide-to-rag).
 
-We achieve this most commonly through semantic search, which relies on vector embeddings. We convert large documents into smaller, manageable chunks and convert each chunk into a numerical representation—an embedding—that captures its semantic meaning. We store these embeddings in a specialized vector database. When a user query comes in, we convert it into an embedding and search the database for chunks with the most similar meanings, typically using a metric like cosine similarity [[2]](https://decodingml.substack.com/p/rag-fundamentals-first?utm_source=publication-search).
-
-### Augmentation
-The second pillar is Augmentation. Once the retrieval system has found the most relevant document chunks, we prepare this information for the LLM. Augmentation is the process of taking this retrieved data and formatting it into the context section of a prompt. We combine the user's original query with this new context, creating an "augmented prompt." This step is critical for grounding the model and steering it away from hallucination by providing a verifiable source of truth.
-
-### Generation
-The final pillar is Generation. We send the augmented prompt, containing both the original query and the retrieved context, to the LLM. The model then uses its powerful reasoning capabilities to synthesize an answer based *only* on the information provided in the prompt. The LLM does not just repeat the context; it understands, integrates, and reformulates the information to directly address the user's question. The result is a response that is not only relevant but also grounded in a verifiable source, building trust and reliability into the AI application [[1]](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/).
-
+Finally, we have the **Generation** phase. We send the augmented prompt, now rich with relevant external information, to the LLM. The model's task is to synthesize this information and generate a coherent, factually grounded answer to the user's original question [[1]](https://decodingml.substack.com/p/rag-fundamentals-first?utm_source=publication-search). The quality of the final output depends heavily on the relevance of the retrieved context and the clarity of the instructions we provide in the augmented prompt.
 ```mermaid
 graph TD
-    A[User Query] --> B{Retrieval};
-    B --> C[Relevant Document Chunks];
-    subgraph Augmentation
-        C --> D[Format into Prompt Context];
-        A --> D;
+    subgraph RAG System
+        A[User Query] --> B(Retrieval);
+        B --> C(Augmentation);
+        C --> D{Generation};
+        D --> E[Grounded Answer];
     end
-    D --> E{Generation};
-    E --> F[Grounded Answer];
-    B -- Searches --> G[(Vector Database)];
-
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style F fill:#ccf,stroke:#333,stroke-width:2px
 ```
-Figure 1: The high-level conceptual flow of a RAG system, moving from user query to a grounded answer through retrieval, augmentation, and generation.
+*Figure 1: The three core components of a Retrieval-Augmented Generation system.*
 
-## The Two-Phase RAG Pipeline: Ingestion and Retrieval
+Understanding these three components is the first step. Now, let us see how they fit into the end-to-end operational pipeline of a real-world RAG system.
 
-A production-ready RAG system does not just happen at query time. We split the entire workflow into two distinct phases: an offline phase for preparing the knowledge base and an online phase for answering user queries. Thinking about the process in these two stages—Ingestion and Retrieval—is key to designing and building an effective RAG pipeline that can scale.
+## The RAG Pipeline: Ingestion and Retrieval
 
-### Offline Ingestion & Indexing Pipeline
-This is the preparatory work that happens before any user interacts with the system. Its goal is to take raw data and transform it into a searchable index. This pipeline typically runs as a batch process and consists of four main steps.
+A production-ready RAG system operates in two distinct phases: an offline process for preparing data and an online process for answering queries in real-time. Separating these workflows is important for efficiency and scalability, as it allows you to handle computationally intensive data preparation independently from the low-latency demands of user interactions [[5]](https://learn.microsoft.com/en-us/azure/developer/ai/advanced-retrieval-augmented-generation).
 
-First, we **Load** the data. This involves reading documents from their original sources, which could be anything from PDFs and text files to a Confluence wiki or records in a database [[3]](https://lakefs.io/blog/what-is-rag-pipeline/).
+The first phase is **Offline Ingestion & Indexing**. This is where you build your knowledge base. The process begins with **Loading** documents from various sources like PDFs, websites, or databases. Next, you **Split** these documents into smaller, manageable chunks. This step is important because smaller chunks lead to more precise retrieval and fit within the LLM's context window. You can use rule-based chunkers, like LangChain's `RecursiveCharacterTextSplitter`, or semantic chunkers to ensure that you do not cut ideas in half [[1]](https://decodingml.substack.com/p/rag-fundamentals-first?utm_source=publication-search).
 
-Second, we **Split** the loaded documents. Because LLMs have context limits and we want to retrieve only the most relevant information, we break documents into smaller, manageable pieces, a process known as chunking [[4]](https://www.amazee.io/blog/post/data-pipelines-for-rag/). The strategy for chunking is critical; a naive split can separate related ideas, so we often need advanced strategies that respect the document's structure.
+After splitting, we pass each chunk to an embedding model to **Embed** it, converting the text into a numerical vector that captures its semantic meaning. Popular embedding models include OpenAI's `text-embedding-3-large/small`, Google's `gemini-text-embedding-004`, or Voyage. Finally, you **Store** these embeddings and their corresponding text chunks in a vector database, creating an index that can be searched quickly. You can use local options like FAISS, or production-grade vector databases such as Milvus, Qdrant, or Pinecone [[1]](https://decodingml.substack.com/p/rag-fundamentals-first?utm_source=publication-search).
 
-Third, we **Embed** these chunks. An embedding model converts each text chunk into a vector—a numerical representation of its semantic meaning. The choice of embedding model directly determines the quality of our retrieval [[2]](https://decodingml.substack.com/p/rag-fundamentals-first?utm_source=publication-search).
+The second phase is **Online Retrieval & Generation**, which happens every time a user submits a query. The user's **Query** is the starting point. We then transform this query into a vector using the same embedding model from the ingestion phase to ensure consistency. The system then uses this query vector to **Search** the vector database for the top-k most similar document chunks.
 
-Fourth, we **Store** the results. We load the embeddings and their corresponding text chunks into a vector database. This database becomes the central, queryable knowledge base for our RAG system.
-
-### Online Retrieval & Generation Pipeline
-The second phase is what happens in real-time when a user submits a query. It is the "live" part of the RAG system and also consists of four sequential steps.
-
-It starts with the user's **Query**. The user submits a question to the application, initiating the process.
-
-Next, we **Embed** the query. We apply the same embedding model used during ingestion to the user's query to generate a query vector [[2]](https://decodingml.substack.com/p/rag-fundamentals-first?utm_source=publication-search).
-
-Then, we **Search**. We use the query vector to search the vector database, which returns the top-k most similar chunks of information relevant to the user's question.
-
-Finally, we **Generate** the answer. We format the retrieved chunks and the original query into an augmented prompt and pass it to an LLM. The LLM then synthesizes the final answer, grounding its response in the retrieved data.
-
+Once the relevant chunks are retrieved, we use them to augment the user's query in a prompt. Finally, the LLM **Generates** an answer based on this augmented prompt. As we saw in Lesson 4, you can use structured outputs here to ensure the answer includes citations or is formatted in a specific way [[1]](https://decodingml.substack.com/p/rag-fundamentals-first?utm_source=publication-search).
 ```mermaid
 graph TD
-    subgraph "Phase 1: Offline Ingestion & Indexing"
-        A[Data Sources] --> B(Load);
-        B --> C(Split / Chunk);
+    subgraph Offline Ingestion Pipeline
+        A[Documents] --> B(Load);
+        B --> C(Split);
         C --> D(Embed);
-        D --> E[Vector Database];
+        D --> E[(Vector DB)];
     end
 
-    subgraph "Phase 2: Online Retrieval & Generation"
+    subgraph Online Inference Pipeline
         F[User Query] --> G(Embed);
         G --> H{Search};
         E --> H;
-        H --> I[Retrieved Chunks];
-        I --> J(Generate);
-        F --> J;
-        J --> K[LLM Answer];
+        H --> I(Augment);
+        F --> I;
+        I --> J{Generate};
+        J --> K[Grounded Answer];
     end
-
-    style A fill:#d6eaf8,stroke:#2e86c1
-    style E fill:#d1f2eb,stroke:#1abc9c
-    style F fill:#f9e79f,stroke:#f1c40f
-    style K fill:#f5cba7,stroke:#e67e22
 ```
-Figure 2: The two-phase RAG pipeline, showing the offline ingestion process and the online retrieval and generation flow.
+*Figure 2: The end-to-end RAG pipeline, split into its offline ingestion and online inference phases.*
 
-## Beyond the Basics: A Tour of Advanced RAG Techniques
+With this end-to-end path in place, the next challenge is ensuring quality. A naive RAG pipeline often struggles with the messiness of real-world data, which is why we need advanced techniques to improve retrieval accuracy.
 
-A simple RAG pipeline is a good start, but to build a production-grade system, we need to move beyond the basics. The field has developed a range of advanced techniques that address the limitations of a naive implementation. These methods optimize every stage of the pipeline to ensure higher quality and reliability.
+## Advanced RAG Techniques
+
+While a basic RAG pipeline is a good starting point, production systems need more advanced techniques to handle diverse data and complex queries. These methods improve the quality of the retrieved context, which directly impacts the accuracy of the final answer.
 
 ### Hybrid Search
-**Hybrid Search** is one of the most effective techniques. While vector search excels at semantic meaning, it can miss precise keyword matches. Hybrid search solves this by combining the strengths of keyword-based search, like the classic BM25 algorithm, with vector search [[5]](https://www.chitika.com/hybrid-retrieval-rag/).
-
-BM25 excels at exact term matching, while vector search handles conceptual understanding. By running both searches and fusing their results, we get the best of both worlds: precision for specific terms and relevance for overall meaning [[6]](https://blog.vectorchord.ai/hybrid-search-with-postgres-native-bm25-and-vectorchord), [[7]](https://arxiv.org/html/2502.16767v1).
+Hybrid search combines traditional keyword-based search, such as BM25, with modern vector search. BM25 excels at finding exact matches for specific terms, while vector search captures semantic meaning and synonyms [[6]](https://www.elastic.co/what-is/hybrid-search). For example, if a user asks about a "bill rollover," keyword search finds documents with that exact phrase. Vector search also finds articles about "carryover balances" because it understands the meaning. Combining both approaches provides more comprehensive and relevant results [[7]](https://blog.vectorchord.ai/hybrid-search-with-postgres-native-bm25-and-vectorchord).
 
 ### Re-ranking
-Another critical optimization is **Re-ranking**. The initial retrieval from a vector database is fast but not perfectly accurate. Re-ranking introduces a second, more powerful model, like a cross-encoder, to refine this initial set [[8]](https://www.chitika.com/re-ranking-in-retrieval-augmented-generation-how-to-use-re-rankers-in-rag/).
-
-This process is computationally expensive, so we apply it only to a smaller candidate set of documents [[9]](https://zilliz.com/learn/optimize-rag-with-rerankers-the-role-and-tradeoffs). By re-ordering the documents based on a more accurate relevance score, we ensure the most relevant information is passed to the LLM, significantly improving the final answer's quality [[10]](https://adasci.org/how-to-select-the-best-re-ranking-model-in-rag/), [[11]](https://adasci.org/a-hands-on-guide-to-enhance-rag-with-re-ranking/).
+Re-ranking adds a second stage to the retrieval process. After an initial retrieval fetches a broad set of candidate documents, a more advanced model, like a cross-encoder, re-evaluates and re-orders these candidates. The cross-encoder examines the query and each document together to produce a more accurate relevance score, ensuring the most relevant documents are placed at the top [[8]](https://sbert.net/examples/sentence_transformer/applications/retrieve_rerank/README.html). This is important for the LLM's attention and improves the signal-to-noise ratio of the context [[9]](https://www.pinecone.io/learn/series/rag/rerankers/).
 
 ### Query Transformations
-We can also improve performance by focusing on the query itself through **Query Transformations**. These techniques use an LLM to refine a user's query before it hits the retrieval system. One approach is to break a complex question into several simpler sub-queries, run a search for each, and then synthesize the results [[12]](https://www.swiftorial.com/swiftlessons/rag/advanced-techniques/multi-query-rag). This method, often seen in patterns like RAG-Fusion, increases the likelihood of retrieving all pertinent context [[13]](https://docsbot.ai/article/advanced-rag-techniques-multiquery-and-rank-fusion), [[14]](https://ai.gopubby.com/rag-fusion-redefining-search-using-multi-query-retrieval-and-reranking-88da68783d26).
-
-Other methods include Hypothetical Document Embeddings (HyDE), where an LLM generates a hypothetical answer to search against, and multi-step RAG, which performs iterative retrieval and reasoning cycles [[15]](https://www.f22labs.com/blogs/what-is-multi-step-rag-a-complete-guide/).
+Query transformations modify the user's input to improve retrieval. One method is **decomposition**, which breaks a complex question into simpler sub-questions [[10]](https://wandb.ai/site/articles/rag-techniques/). Another method is **Hypothetical Document Embeddings (HyDE)**. Here, an LLM first generates a hypothetical ideal answer to the query. The embedding of this hypothetical answer is then used for the search, which often retrieves more relevant documents than the original, sometimes ambiguous, query [[11]](https://www.pondhouse-data.com/blog/advanced-rag-hypothetical-document-embeddings).
 
 ### Advanced Chunking Strategies
-The quality of retrieval also heavily depends on **Advanced Chunking Strategies**. Moving beyond simple fixed-size chunking is essential, as arbitrary splits can break logical units of information [[16]](https://www.dailydoseofds.com/p/5-chunking-strategies-for-rag/).
-
-Semantic chunking groups related sentences together, ensuring a complete idea is in one chunk [[17]](https://airbyte.com/data-engineering-resources/chunk-text-for-rag). For documents like PDFs, layout-aware chunking parses content based on its visual structure, preserving tables and figures [[18]](https://www.ibm.com/think/tutorials/chunking-strategies-for-rag-with-langchain-watsonx-ai). Other strategies include recursive chunking or even using an LLM to determine optimal split points, all of which lead to more coherent retrieved context [[19]](https://community.databricks.com/t5/technical-blog/the-ultimate-guide-to-chunking-strategies-for-rag-applications/ba-p/113089).
+Advanced chunking strategies move beyond fixed-size splitting, which can awkwardly cut sentences or ideas in half. **Semantic chunking** splits documents based on topical shifts, keeping related sentences together. For structured documents like PDFs or tables, **layout-aware chunking** preserves the document's inherent structure. Another approach is **context-enriched chunking**, which adds explanatory context to each chunk before embedding, improving retrieval accuracy [[12]](https://www.anthropic.com/news/contextual-retrieval).
 
 ### GraphRAG
-For data where relationships are key, **GraphRAG** offers a powerful alternative. Instead of flat text chunks, GraphRAG builds a knowledge graph where entities are nodes and their relationships are edges [[20]](https://ragaboutit.com/graph-rag-vs-vector-rag-a-comprehensive-tutorial-with-code-examples/). This is perfect for queries that ask about connections, causes, and influences.
-
-GraphRAG excels at understanding the "how" and "why" between data points, enabling multi-hop reasoning that traditional vector RAG struggles with [[21]](https://www.chitika.com/graph-rag-vs-vector-rag/). By leveraging the graph structure, it can synthesize information across multiple nodes, providing a much richer and more contextualized answer [[22]](https://wandb.ai/byyoung3/Generative-AI/reports/GraphRAG-Enhancing-LLMs-with-knowledge-graphs-for-superior-retrieval--VmlldzoxMDY0OTU0MA).
-
-## The Agentic Leap: Standard vs. Agentic RAG
-
-So far, we have treated RAG as a linear, rigid pipeline. This is Standard RAG. It is powerful but inflexible, forcing every query down the same path. The real breakthrough is the shift to a dynamic, adaptive process controlled by an intelligent agent. This is Agentic RAG.
-
-The core distinction is one of control and reasoning. In Agentic RAG, an AI agent, powered by an LLM, acts as an orchestrator. It decides *if*, *when*, and *how* to use its knowledge retrieval tools. RAG is no longer the entire process; it is a tool in the agent's toolkit, just like a web search or a code interpreter [[23]](https://weaviate.io/blog/what-is-agentic-rag).
-
-This agentic approach unlocks a new level of capability. An agent can **iteratively** use its RAG tool, refining its query and searching again if the initial results are insufficient. This process, often incorporating reflection, allows the agent to self-correct and dig deeper [[24]](https://langchain-ai.github.io/langgraph/concepts/agentic_concepts/). The agent can also **choose** which knowledge source to search, routing a query to the most appropriate RAG tool based on its content [[25]](https://www.ibm.com/think/topics/agentic-rag).
-
-Beyond choosing and iterating, an agent can **fuse** information from multiple tools, combining internal data from RAG with public data from a web search. Some advanced agents can even **update** their knowledge base, allowing them to learn and improve over time.
-
-Frameworks like LangGraph are designed to build these agentic systems. We build a stateful graph where nodes represent actions and edges define the logic for transitions. This allows RAG to be deeply integrated into the agent's reasoning loop: reason, act, and observe [[26]](https://blog.lancedb.com/agentic-rag-using-langgraph-building-a-simple-customer-support-autonomous-agent/).
-
-Consider a user asking, "Based on our latest internal performance metrics, what was the public reaction to our Q4 product launch?" An agent's "thought process" might be:
-1.  **Thought:** I need internal metrics and public reaction. I will use two different tools.
-2.  **Action:** Call the `internal_knowledge_base` RAG tool for performance metrics.
-3.  **Observation:** Receive internal data.
-4.  **Thought:** Now I need public reaction. I will use the `web_search` tool.
-5.  **Action:** Call the `web_search` tool for public reaction to the launch.
-6.  **Observation:** Receive news articles and sentiment analysis.
-7.  **Thought:** I have all the information. I will now synthesize a final answer.
-8.  **Action:** Generate a response combining both internal and external data.
-
-This is the difference between a simple lookup and a conversation with a research assistant. Agentic RAG is about reasoning, planning, and dynamically interacting with knowledge to solve complex problems.
-
+GraphRAG uses knowledge graphs to answer questions about complex relationships often lost in unstructured text. Instead of retrieving isolated chunks, it traverses a graph of entities and their connections. This is ideal for **multi-hop questions** that require reasoning across multiple entities or steps [[13]](https://www.zyphra.com/post/understanding-graph-based-rag-and-multi-hop-question-answering). For example, to answer "Which incidents were caused by weekend deployments that also touched the login service?", GraphRAG connects change records, deploy times, affected services, and incident tickets to find the answer [[14]](https://arxiv.org/html/2404.16130v2).
 ```mermaid
 graph TD
-    A[User Query] --> B{Agent};
-    B -- Thought --> B;
-    B -- Action --> C{Router};
-    C -- "Internal Info Needed" --> D[RAG Tool: internal_knowledge_base];
-    C -- "Real-time Info Needed" --> E[Web Search Tool];
-    C -- "Calculation Needed" --> F[Code Interpreter];
-    D -- Observation --> B;
-    E -- Observation --> B;
-    F -- Observation --> B;
-    B --> G[Final Answer];
-
-    style B fill:#e8daef,stroke:#8e44ad,stroke-width:2px
-    style C fill:#d6eaf8,stroke:#2e86c1
-    style G fill:#d1f2eb,stroke:#1abc9c
+    subgraph Hybrid Retrieval
+        A[User Query] --> B(BM25 Search);
+        A --> C(Vector Search);
+        B --> D{Combine Results};
+        C --> D;
+        D --> E(Re-ranker);
+        E --> F[Final Context for LLM];
+    end
 ```
-Figure 3: A conceptual diagram of an agent's reasoning loop, where it chooses between multiple tools, including a RAG tool for internal knowledge.
+*Figure 3: A hybrid retrieval flow combining keyword and vector search, followed by a re-ranking step.*
 
-## Why RAG is a Pillar of Modern AI Engineering
+These techniques improve retrieval quality. Next, we will see how retrieval becomes one of many tools an intelligent agent can choose to use as it reasons through a problem.
 
-Retrieval-Augmented Generation is more than just a technique; it is a foundational pillar for building reliable and trustworthy AI systems. It directly addresses the core limitations of LLMs—static knowledge and hallucination—by grounding them in external, verifiable facts.
+## Agentic RAG
 
-For the modern AI Engineer, mastering RAG is a core competency. Advanced techniques are crucial for production-grade quality, and the future of knowledge retrieval is undeniably agentic. This makes RAG a fundamental part of Context Engineering. By leveraging RAG, we build knowledgeable systems that are customizable with proprietary data and transparent through verifiable sources, ultimately earning user trust.
+As we explored in Lessons 7 and 8, the ReAct framework enables an agent to reason, act, and observe in a loop. Agentic RAG is the practical application of this concept, where RAG is not a rigid pipeline but a dynamic tool that a ReAct-style agent can choose to use. The core distinction is the shift from a linear workflow to an adaptive, iterative process controlled by an agent [[15]](https://www.digitalocean.com/community/conceptual_articles/rag-ai-agents-agentic-rag-comparative-analysis).
+
+In a standard RAG system, every query follows the same fixed path: Retrieve, Augment, Generate. This approach is effective but inflexible. In an Agentic RAG system, an agent decides when to retrieve information, how to formulate the query, which knowledge source to consult, and whether one retrieval is enough [[16]](https://weaviate.io/blog/what-is-agentic-rag). The agent might reason that a user's question requires information from multiple sources or that an initial search was insufficient and needs refinement [[17]](https://arize.com/blog/understanding-agentic-rag/).
+
+This agentic approach enables several advanced capabilities. The agent can iteratively use the RAG tool, refining its query based on initial results. It can also choose which knowledge base to search. For an IT outage, it might query `search_incident_runbooks` instead of `search_marketing_materials`. Furthermore, the agent can fuse information from its RAG tool with outputs from other tools, like a web search or a code interpreter [[18]](https://workativ.com/ai-agent/blog/agentic-rag). The agent can even decide to update its knowledge base with new information it learns, a concept related to memory that we will explore in Lesson 10.
+
+Consider this conceptual thought process for an agent:
+*   **Thought:** The user is asking about "2024 EU data retention rules." Our internal policy cites 2023, which is likely outdated.
+*   **Action:** `retrieve(internal_policy, query="EU data retention 2024")`
+*   **Observation:** The retrieved document mentions amendments but is missing citations.
+*   **Thought:** I need external verification.
+*   **Action:** `web_search("EU data retention 2024 official")`
+*   **Observation:** Found a new directive published by the EU.
+*   **Thought:** I will synthesize and cite both, highlighting changes from 2023.
+
+This transforms RAG from a simple database lookup into a conversation with a knowledgeable research assistant.
+```mermaid
+graph TD
+    subgraph Agent Loop
+        A(Thought) --> B{Action};
+        B -- RAG Tool --> C[internal_knowledge_base];
+        B -- Web Search --> D[web_search];
+        B -- Code Interpreter --> E[code_interpreter];
+        C --> F(Observation);
+        D --> F;
+        E --> F;
+        F --> A;
+    end
+```
+*Figure 4: An agent's reasoning loop, showing its ability to choose between multiple tools, including a RAG tool for internal knowledge.*
+
+You now understand both a linear RAG pipeline and how an agent can control retrieval when needed. Let us wrap up by situating RAG in the wider AI Engineering toolkit and previewing what comes next.
+
+## Conclusion
+
+We have covered a lot of ground, from the fundamentals of RAG to its role in advanced agentic systems. The key takeaway is that RAG is the primary and most reliable solution to the LLM knowledge problem. It addresses core limitations like knowledge cutoffs and hallucinations by grounding models in external, verifiable data. This not only improves accuracy but also builds user trust by enabling systems to cite their sources.
+
+For production-grade applications, moving beyond a naive implementation is necessary. Advanced techniques like hybrid search, re-ranking, and sophisticated chunking are important for achieving the quality and relevance needed in the real world. As we have seen, the future of knowledge retrieval is agentic. By treating RAG as a tool within an intelligent agent's toolkit, we move from rigid, linear pipelines to dynamic, adaptive systems that can reason about their information needs.
+
+Mastering RAG is a foundational competency for any AI Engineer. It is an important part of the broader discipline of Context Engineering, which is central to building effective and trustworthy AI applications.
+
+This lesson sets the stage for our next topic. In Lesson 10, we will explore Memory for Agents, examining how short-term and long-term memory systems complement the on-demand retrieval capabilities of RAG. We have also touched on concepts like retrieval quality evaluations and production monitoring, which are important for maintaining high-performing systems and will be covered in detail later in the course.
 
 ## References
 
-- [1] [What Is Retrieval-Augmented Generation, aka RAG?](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/)
-- [2] [Retrieval-Augmented Generation (RAG) Fundamentals First](https://decodingml.substack.com/p/rag-fundamentals-first?utm_source=publication-search)
-- [3] [What is a RAG pipeline and why do you need one?](https://lakefs.io/blog/what-is-rag-pipeline/)
-- [4] [Data pipelines for RAG](https://www.amazee.io/blog/post/data-pipelines-for-rag/)
-- [5] [Hybrid Retrieval in RAG: A Practical Guide](https://www.chitika.com/hybrid-retrieval-rag/)
-- [6] [Hybrid Search with Postgres Native BM25 and VectorChord](https://blog.vectorchord.ai/hybrid-search-with-postgres-native-bm25-and-vectorchord)
-- [7] [Hybrid Search for RAG](https://arxiv.org/html/2502.16767v1)
-- [8] [Re-ranking in Retrieval-Augmented Generation: How to Use Re-rankers in RAG](https://www.chitika.com/re-ranking-in-retrieval-augmented-generation-how-to-use-re-rankers-in-rag/)
-- [9] [Optimize RAG with Rerankers: The Role and Tradeoffs](https://zilliz.com/learn/optimize-rag-with-rerankers-the-role-and-tradeoffs)
-- [10] [How to Select the Best Re-ranking Model in RAG](https://adasci.org/how-to-select-the-best-re-ranking-model-in-rag/)
-- [11] [A Hands-on Guide to Enhance RAG with Re-ranking](https://adasci.org/a-hands-on-guide-to-enhance-rag-with-re-ranking/)
-- [12] [Multi-Query RAG: An Advanced Technique for Complex Queries](https://www.swiftorial.com/swiftlessons/rag/advanced-techniques/multi-query-rag)
-- [13] [Advanced RAG Techniques: MultiQuery and Rank Fusion](https://docsbot.ai/article/advanced-rag-techniques-multiquery-and-rank-fusion)
-- [14] [RAG-Fusion: Redefining Search Using Multi-Query Retrieval and Reranking](https://ai.gopubby.com/rag-fusion-redefining-search-using-multi-query-retrieval-and-reranking-88da68783d26)
-- [15] [What is Multi-Step RAG? A Complete Guide](https://www.f22labs.com/blogs/what-is-multi-step-rag-a-complete-guide/)
-- [16] [5 Chunking Strategies For RAG](https://www.dailydoseofds.com/p/5-chunking-strategies-for-rag/)
-- [17] [How to chunk text for RAG](https://airbyte.com/data-engineering-resources/chunk-text-for-rag)
-- [18] [Chunking strategies for RAG with LangChain and watsonx.ai](https://www.ibm.com/think/tutorials/chunking-strategies-for-rag-with-langchain-watsonx-ai)
-- [19] [The Ultimate Guide to Chunking Strategies for RAG Applications](https://community.databricks.com/t5/technical-blog/the-ultimate-guide-to-chunking-strategies-for-rag-applications/ba-p/113089)
-- [20] [Graph RAG vs. Vector RAG: A Comprehensive Tutorial with Code Examples](https://ragaboutit.com/graph-rag-vs-vector-rag-a-comprehensive-tutorial-with-code-examples/)
-- [21] [Graph RAG vs. Vector RAG: Which Is Right for You?](https://www.chitika.com/graph-rag-vs-vector-rag/)
-- [22] [GraphRAG: Enhancing LLMs with knowledge graphs for superior retrieval](https://wandb.ai/byyoung3/Generative-AI/reports/GraphRAG-Enhancing-LLMs-with-knowledge-graphs-for-superior-retrieval--VmlldzoxMDY0OTU0MA)
-- [23] [What is Agentic RAG?](https://weaviate.io/blog/what-is-agentic-rag)
-- [24] [Agentic Concepts in LangGraph](https://langchain-ai.github.io/langgraph/concepts/agentic_concepts/)
-- [25] [What is agentic RAG?](https://www.ibm.com/think/topics/agentic-rag)
-- [26] [Agentic RAG using LangGraph: Build autonomous Customer support agent](https://blog.lancedb.com/agentic-rag-using-langgraph-building-a-simple-customer-support-autonomous-agent/)
+- [1] [Retrieval-Augmented Generation (RAG) Fundamentals First](https://decodingml.substack.com/p/rag-fundamentals-first?utm_source=publication-search)
+- [2] [The Rise of RAG](https://highlearningrate.substack.com/p/the-rise-of-rag)
+- [3] [What Is Retrieval-Augmented Generation, aka RAG?](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/)
+- [4] [A Complete Guide to RAG](https://towardsai.net/p/l/a-complete-guide-to-rag)
+- [5] [Build advanced retrieval-augmented generation systems](https://learn.microsoft.com/en-us/azure/developer/ai/advanced-retrieval-augmented-generation)
+- [6] [What is Hybrid Search?](https://www.elastic.co/what-is/hybrid-search)
+- [7] [Hybrid Search with Postgres Native BM25 and VectorChord](https://blog.vectorchord.ai/hybrid-search-with-postgres-native-bm25-and-vectorchord)
+- [8] [Retrieve & Re-Rank](https://sbert.net/examples/sentence_transformer/applications/retrieve_rerank/README.html)
+- [9] [What Are Rerankers?](https://www.pinecone.io/learn/series/rag/rerankers/)
+- [10] [Query Transformations for RAG](https://wandb.ai/site/articles/rag-techniques/)
+- [11] [Advanced RAG: Hypothetical Document Embeddings](https://www.pondhouse-data.com/blog/advanced-rag-hypothetical-document-embeddings)
+- [12] [Introducing Contextual Retrieval](https://www.anthropic.com/news/contextual-retrieval)
+- [13] [Understanding Graph-Based RAG and Multi-Hop Question Answering](https://www.zyphra.com/post/understanding-graph-based-rag-and-multi-hop-question-answering)
+- [14] [From Local to Global: A GraphRAG Approach to Query-Focused Summarization](https://arxiv.org/html/2404.16130v2)
+- [15] [RAG vs. AI Agents vs. Agentic RAG: A Comparative Analysis](https://www.digitalocean.com/community/conceptual_articles/rag-ai-agents-agentic-rag-comparative-analysis)
+- [16] [What is Agentic RAG?](https://weaviate.io/blog/what-is-agentic-rag)
+- [17] [Understanding Agentic RAG](https://arize.com/blog/understanding-agentic-rag/)
+- [18] [Agentic RAG: The Future of RAG-Based Applications](https://workativ.com/ai-agent/blog/agentic-rag)
