@@ -1,6 +1,6 @@
 [project]
 name = "agentic-ai-engineering-course"
-version = "0.1.10"
+version = "0.1.13"
 description = "Python modules for the Agentic AI Engineering course by Towards AI and Decoding ML."
 readme = "README_PACKAGE.md"
 requires-python = ">=3.12.11"
@@ -24,7 +24,7 @@ dependencies = [
     "google-genai>=1.21.1",
     "langchain>=0.3.26",
     "langchain-community>=0.3.27",
-    "langchain-google-genai>=2.1.7",
+    "langchain-google-genai>=2.0.0",
     "langgraph>=0.5.3",
     "matplotlib>=3.10.3",
     "mem0ai>=0.1.116",
@@ -32,6 +32,8 @@ dependencies = [
     "pydantic>=2.11.7",
     "python-dotenv>=1.1.0",
     "scikit-learn>=1.7.0",
+    "requests==2.32.4",
+    "google-ai-generativelanguage==0.6.15",
 ]
 
 [project.urls]
@@ -59,3 +61,9 @@ select = [
 
 [tool.ruff.lint.isort]
 known-first-party = ["lessons"]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+    "notebook>=7.4.5",
+]
