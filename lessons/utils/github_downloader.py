@@ -61,39 +61,53 @@ def _download_file(url: str, dest_path: str, token: str | None = None, retries: 
                 raise
             time.sleep(1.5 * (attempt + 1))  # simple backoff
 
-def download_github_folder(folder_url: str, local_folder: str, recursive: bool = True):
-    """
-    Download all files from a PUBLIC GitHub folder URL into `local_folder`.
-    - folder_url: e.g. "https://github.com/owner/repo/tree/branch/path/to/folder"
-    - local_folder: local destination folder (will be created if it doesn't exist)
-    - recursive: if True, descends into subfolders
+_BASE_REPO_PREFIX = "https://github.com/louisfb01/agent-course-notebooks/tree/main/"
 
-    Notes:
-    - If you hit rate limits, set an environment variable GITHUB_TOKEN with a
-      personal access token (no scopes required for public repos) to increase limits.
+def download_github_folder(relative_path: str, local_folder: str, recursive: bool = True):
     """
+    Download all files from a *relative* folder path within the fixed public repo
+    into `local_folder`.
+
+    Examples of `relative_path`:
+      - "notebooks/lesson_11/images"
+      - "/notebooks/lesson_11/images"   (leading slash ok)
+    
+    Notes:
+    - Any '..' path traversal is blocked.
+    - If you accidentally pass a full GitHub URL, it must start with the fixed base.
+    """
+    # Normalize input: strip leading slashes and forbid traversal
+    rel = relative_path.lstrip("/").strip()
+    if not rel or rel == ".":
+        raise ValueError("Provide a non-empty relative path to a folder inside the repo.")
+    if any(part in ("..",) for part in rel.split("/")):
+        raise ValueError("Path traversal ('..') is not allowed in relative_path.")
+
+    # If user accidentally passes an absolute URL, allow only if within the same base
+    if rel.startswith("https://github.com/"):
+        if not rel.startswith(_BASE_REPO_PREFIX):
+            raise ValueError("Absolute URLs are not allowed unless they belong to the fixed repository base.")
+        folder_url = rel  # already full and within base
+    else:
+        folder_url = _BASE_REPO_PREFIX + rel
+
     owner, repo, branch, path_in_repo = _parse_github_folder_url(folder_url)
     token = os.environ.get("GITHUB_TOKEN")
-
     items = _gh_api_list_dir(owner, repo, path_in_repo, branch, token=token)
 
     for item in items:
-        item_type = item.get("type")
-        item_name = item.get("name")
-        item_path = item.get("path")  # path within repo
-        if item_type == "file":
-            download_url = item.get("download_url")
-            if not download_url:
-                # Fallback to raw URL
-                download_url = f"https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{item_path}"
-            dest_path = os.path.join(local_folder, os.path.relpath(item_path, start=path_in_repo) if path_in_repo else item_name)
+        t = item.get("type"); name = item.get("name"); item_path = item.get("path")
+        if t == "file":
+            download_url = item.get("download_url") or f"https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{item_path}"
+            # Preserve structure inside local_folder, relative to starting folder
+            dest_rel = os.path.relpath(item_path, start=path_in_repo) if path_in_repo else name
+            dest_path = os.path.join(local_folder, dest_rel)
             _download_file(download_url, dest_path, token=token)
-        elif item_type == "dir" and recursive:
-            # Recurse into subdirectory
-            sub_folder_url = f"https://github.com/{owner}/{repo}/tree/{branch}/{item_path}"
-            # Preserve subfolder structure inside local_folder
-            sub_local_folder = os.path.join(local_folder, os.path.relpath(item_path, start=path_in_repo) if path_in_repo else item_name)
-            download_github_folder(sub_folder_url, sub_local_folder, recursive=True)
+        elif t == "dir" and recursive:
+            sub_rel = os.path.relpath(item_path, start=f"{owner}/{repo}") if False else item_path  # noop, just clarity
+            # Call recursively using the relative path (keeps the "hidden" base)
+            sub_relative_from_repo_root = item_path  # already relative to repo root
+            # Strip the leading repo root if present (it's not), ensure it's relative to repo root:
+            download_github_folder(sub_relative_from_repo_root, os.path.join(local_folder, name), recursive=True)
         else:
-            # Skip symlinks, submodules, etc.
             continue
