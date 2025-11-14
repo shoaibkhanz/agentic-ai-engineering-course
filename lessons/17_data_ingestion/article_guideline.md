@@ -125,116 +125,202 @@ Assume **MCP primitives** and **ReAct** are known. If you mention Perplexity loo
 ## Section 1 — From MCP Setup to Ingestion: the Plan
 
 - **Assume L16 is done**: you have a running MCP server and client; you know **in‑memory** and **stdio** transports, and how to list tools/resources/prompts. If you need the refresher, **see L16**.
-- **Why ingestion first**: We’re cementing a **file‑first contract** that future steps read selectively (see **L14** for cost heuristics).
-- **Notebook mapping**: Point to **Notebook Section 1 (Setup)** for API keys (Gemini, Firecrawl, optional GitHub) and **Section 2** for the Step 1–2 excerpt of the server‑hosted prompt.
+- **Why ingestion first**: We're cementing a **file‑first contract** that future steps read selectively (see **L14** for cost heuristics).
+- **Notebook mapping**: 
+    - Follow **Notebook Section 1 – "Setup"** cell by cell. This section covers API key configuration (Gemini, Firecrawl, optional GitHub) and initial environment setup. Copy the cells as-is with minimal adjustments to your paths and API keys.
+    - Follow **Notebook Section 2 – "Understanding the Research Agent Workflow"** to see the MCP prompt excerpt that defines Steps 1–2. Copy the content as-is (it's illustrative; don't modify the prompt structure).
 - **Return policy**: Tools return **short dicts** and **write heavy content to files** for token efficiency.
 
 ---
 
 ## Section 2 — Workflow & Endpoints: where the ingestion tools live
 
+**For the article, copy the following from Notebook Section 2 – "Understanding the Research Agent Workflow" with minimal edits:**
+
+1. **Markdown intro** (the opening paragraph explaining the two-phase approach)
+2. **The MCP prompt excerpt** (the full markdown code block defining Steps 1.1–2.4 with all the details about URL categories, file extensions, and tool names)
+3. **Explanatory prose** following the prompt
+
+Then add your own subsection that **explicitly references the MCP tool registration** in the code:
+
 - **Open the repo** to locate the server‑hosted prompt and tool routers.
 - In `mcp_server/src/routers/tools.py`, verify registration for **five ingestion endpoints** used in Steps **1–2**:
     
     `extract_guidelines_urls`, `process_local_files`, `scrape_and_clean_other_urls`, `process_github_urls`, `transcribe_youtube_urls`.
     
+- **Copy the tool registration code block** from Notebook Cell 9 (the Python code showing `def register_mcp_tools(...)` with all five tool definitions). Include all the docstrings and function signatures as-is.
 - The **server‑hosted prompt** (`mcp_server/src/prompts/research_instructions_prompt.py`) enumerates **Steps 1–6** and the **critical‑stop policy**.
 - **Short returns only**: `{status, counts, output_path, message}`—not full content.
 
-> Reference cue: For MCP primitives and discovery, see L16.
-> 
+**Add an additional subsection** explaining the design rationale:
+
+- **Copy the prose from Notebook Cell 10** (the markdown explanation about token efficiency, context management, selective reading, and error handling) as-is into the article.
+
+> Reference cue: For MCP primitives and discovery, see L16. 
 
 ---
 
 ## Section 3 — Tool to extract URLs & local references from the guideline
 
-- The workflow starts by **scanning the guidelines** and writing a compact JSON registry.
-- **Tool goal:** Scan `article_guideline.md`, extract **GitHub** / **YouTube** / **other HTTP(S)** URLs and **local file references**, then write `.nova/guidelines_filenames.json`. Return a **summary** (counts + output path).
-- *Show section 3 of the notebook:* walk through the implementation of `extract_guidelines_urls_tool.py`:
-    1. Regex URL extraction + domain categorization.
-    2. Local paths are limited to `.py`, `.ipynb`, `.md` (ignore anything that looks like a URL).
-    3. JSON schema keys: `github_urls`, `youtube_videos_urls`, `other_urls`, **`local_file_paths`**.
-    4. Return **short result**: `status`, counts, `output_path`, `message`.
-- **Run it** (show the minimal call + printed dict from the notebook). This tool **seeds all of Step 2** and exemplifies **file‑first + short output** design.
-- **Why this matters**: This tool **seeds Step 2** and enforces a **stable on‑disk contract**.
+**For the article, copy the following from Notebook Section 3 – "Extracting URLs from Guidelines":**
+
+1. **Markdown intro** (the opening paragraphs explaining the tool goal and its role in the pipeline)
+2. **Subsection 3.1 – "URLs Extraction"**: Copy the **entire subsection** including:
+   - The markdown explanation
+   - The source code block showing `def extract_urls(...)`
+   - The explanation of the regex pattern
+3. **Subsection 3.2 – "Local File Path Extraction"**: Copy the **entire subsection** including:
+   - The markdown explanation of the `extract_local_paths` function
+   - The key behaviors (extension constraints, URL exclusion)
+4. **Subsection 3.3 – "Running the Tool"**: Copy the **entire subsection** including:
+   - The markdown instruction to test the tool
+   - The Python code cell importing and calling `extract_guidelines_urls_tool`
+   - The printed output example
+5. **Output structure prose** (Cell 16): Copy the markdown code block showing the expected JSON output structure
+6. **Closing explanation** (Cell 17): Copy the closing explanation about agent decision-making
+
+**For your notebook practice:**
+- Execute all code cells from Section 3 in sequence with your sample research folder to verify the tool works and observe actual output.
+
+**Why this matters**: This tool **seeds Step 2** and enforces a **stable on‑disk contract**. It exemplifies the **file‑first + short output** design principle.
 
 ---
 
 ## Section 4 — Tool to organize local files for LLMs (incl. Jupyter→Markdown)
 
-- With references extracted, **copy/convert local files** into a layout the model can actually read.
-- **Tool goal:** Copy referenced local files into `.nova/local_files_from_research/`, **flattening paths** in filenames. Convert **notebooks to markdown** with code + markdown cells and **truncated outputs** to keep size manageable.
-- *Show section 4 of the notebook:* explain `process_local_files_tool.py`:
-    - Load `guidelines_filenames.json` .
-    - Create a destination folder.
-    - For `.ipynb`, use the notebook converter to produce **LLM‑friendly markdown** (keep code + outputs, truncate very long outputs).
-    - Build and return `{status: "success" | "warning", files_processed, files_total, processed_files, warnings, errors, output_directory, message}`.
-- **Edge behavior**: If 0 local files, return `status="success"` with 0 counts (**non‑critical**). The agent should continue to the other Step‑2 sub‑steps.
-- **Why markdown**: predictable structure, selective reads, lower token waste (**see L14**).
+**For the article, copy the following from Notebook Section 4 – "Processing Local Files":**
+
+1. **Markdown intro** (the opening paragraphs explaining the tool goal and why Jupyter→Markdown conversion matters)
+2. **Tool implementation code block** (Cell 18): Copy the **full Python code block** showing `def process_local_files_tool(...)` with:
+   - Complete function signature and docstring
+   - All logic for loading JSON metadata, creating destination folders, handling `.ipynb` conversion
+   - The full return statement with all keys (`status`, `files_processed`, `files_total`, `processed_files`, `warnings`, `errors`, `output_directory`, `message`)
+3. **Explanatory prose** (the text explaining what the code does step-by-step)
+4. **Note about NotebookToMarkdownConverter** (the paragraph explaining that this class handles notebook conversion and keeping outputs)
+
+**For your notebook practice:**
+- Do NOT implement this tool yourself; the code shown in the notebook is what should go into the article.
+- Execute Cell 18 to verify the tool works (if local files are referenced in your guidelines).
+- Key behaviors to understand: loads `guidelines_filenames.json`, creates destination folder, converts `.ipynb` to **LLM‑friendly markdown** using `NotebookToMarkdownConverter` (keeps code + outputs, truncates very long outputs).
+- **Edge behavior**: If 0 local files, the tool returns `status="success"` with 0 counts (**non‑critical**). This allows the agent to continue to the other Step‑2 sub‑steps.
+
+**Why markdown**: predictable structure, selective reads, lower token waste (**see L14**).
 
 ---
 
 ## Section 5 — Tool to scrape & clean web pages in parallel
 
-- Local artifacts are set—now **tame the web** with robust scrapes and a focused LLM clean pass.
-- **Tool goal:** From `other_urls`, **scrape** each page, save **markdown** files under `.nova/urls_from_guidelines/`, and return a summary (total, successes, failures, output dir). Then run a **brief LLM clean pass** to remove nav/ads/footers and keep content **relevant to the guideline**.
-- *Show section 5 of the notebook:* cover `scrape_and_clean_other_urls_tool.py`:
-    - **Two‑stage pipeline.**
-        1. **Firecrawl**: robust capture that returns **markdown**; handles dynamic content; supports caching and timeouts. Show the code from section 5 of the notebook.
-        2. **LLM clean** (`clean_markdown(...)`): prompt instructs “**remove only irrelevant sections**; do **not** summarize; keep guideline‑pertinent content.” Show the code from section 5 of the notebook.
-    - **Concurrency.** Asynchronous scraping with a **`concurrency_limit`** arg (recommend 4 for stability under vendor load).
-    - **Retries + timeouts.** Show `scrape_url(...)` with retries, per‑request timeout, and Firecrawl `maxAge` to leverage cache where acceptable. ([Firecrawl](https://docs.firecrawl.dev/features/scrape?utm_source=chatgpt.com))
-    - **Outputs.** `status`, `urls_processed` vs `urls_failed`, `successful_urls_count`, `failed_urls_count`, `output_directory`, `message`.
-- Why a vendor scraper? Building and maintaining a modern scraper (JS rendering, anti‑bot handling, diverse HTML) is costly and brittle; Firecrawl specializes in LLM‑ready markdown and scale.
+**For the article, copy the following from Notebook Section 5 – "Web Scraping with Firecrawl and LLM Cleaning":**
+
+1. **Markdown intro** (the opening paragraphs explaining the tool goal and the two-stage approach)
+2. **Tool implementation code block** (Cell 19): Copy the **full Python code block** showing `async def scrape_and_clean_other_urls_tool(...)` with:
+   - Complete function signature and docstring
+   - All logic for reading `GUIDELINES_FILENAMES_FILE`, handling empty URL lists, scraping concurrently, and returning results
+   - The full return statement with all keys
+3. **Subsection 5.1 – "The Two-Stage Cleaning Process"**: Copy the **entire subsection** including:
+   - The markdown explanation of the two stages
+   - The `async def scrape_url(...)` code block (Cell 21) with comments about Firecrawl, retries, timeouts, and `maxAge` parameter
+   - The `async def clean_markdown(...)` code block (Cell 22) with full error handling
+   - The `PROMPT_CLEAN_MARKDOWN` template (the full markdown block showing the LLM cleaning instructions)
+   - The prose explaining the cleaning process and token efficiency gains
+4. **Subsection 5.2 – "Why Use External Scraping Services?"**: Copy the **entire subsection** including all the markdown explanation of web scraping complexity and benefits
+
+**For your notebook practice:**
+- Execute all code cells from Section 5 in sequence with your sample research folder
+- Understand the **`concurrency_limit`** argument (recommend 4 for stability under vendor load) in the tool calls
+- Observe the returned structure: `status`, `urls_processed` vs `urls_failed`, `successful_urls_count`, `failed_urls_count`, `output_directory`, `message`
+- Execute the test cell (Cell 25) that runs `scrape_and_clean_other_urls_tool` and observe the actual output dict structure
 
 ---
 
 ## Section 6 — Tool to ingest content from GitHub
 
-- General pages are covered—**code repos** need a purpose‑built ingest
-- **Tool goal:** Turn GitHub URLs into **prompt‑friendly digests** (repo overview + selected file contents) saved under `.nova/urls_from_guidelines_code/`.
-- *Show section 6 from the notebook:* explain the `process_github_urls_tool.py` flow:
-    - Use **`gitingest`** to fetch repository structure and content optimized for LLMs. It supports **public** and **private repos** (with a token that is used once and discarded). ([gitingest.com](https://gitingest.com/?utm_source=chatgpt.com))
-    - Return `{status, urls_processed, urls_total, files_saved, output_directory, message}` and show a sample result.
-- Why a repo‑specific tool? Repos require different heuristics (trees, code, notebooks); gitingest standardizes this into a digest.
+**For the article, copy the following from Notebook Section 6 – "Processing GitHub URLs":**
+
+1. **Markdown intro** (the opening paragraphs explaining why code repos need a specialized tool)
+2. **Tool explanation prose** (Cell 27): Copy the paragraph explaining `process_github_urls_tool` and the **`gitingest`** library. Include:
+   - The explanation of what gitingest does (fetch repository structure and content optimized for LLMs)
+   - The note about public and private repo support with token usage
+   - The note that you won't show the code here but can check how it works in the codebase
+3. **Test execution guidance** (Cell 28): Copy the code cell showing the test call to `process_github_urls_tool` with comments about public repositories
+4. **Output explanation** (Cell 29): Copy the prose explaining the result and where to find the extracted information
+
+**For your notebook practice:**
+- Do NOT implement this tool yourself; the implementation is in the codebase (referenced in the notebook).
+- Execute Cell 28 to verify the tool works with a sample GitHub URL
+- Understand the return structure: `{status, urls_processed, urls_total, files_saved, output_directory, message}`
+- Observe the actual output dict structure
+
+**Why a repo‑specific tool?** Repos require different heuristics (trees, code, notebooks); gitingest standardizes this into a digest.
 
 ---
 
 ## Section 7 — Tool to transcribe and structure YouTube videos
 
-- Text and code are in—**videos** add fresh, high‑signal context.
-- **Tool goal:** Given `youtube_videos_urls`, produce **timestamped markdown transcripts** saved under `.nova/urls_from_guidelines_youtube_videos/`. Expect **minutes‑scale latency** for longer videos; use **controlled concurrency**.
-- *Show section 7 from the notebook:* walk `transcribe_youtube_videos_tool.py` and the helper `transcribe_youtube(...)`:
-    - **Gemini video understanding:** you can **pass YouTube URLs directly** in a `generateContent` request; transcription is a documented capability.
-    - Provide the prompt text, timestamp interval, retries/timeouts, and output writing.
-    - Return `{status, videos_processed, videos_total, output_directory, message}`.
-- Note for production. Keep concurrency conservative to respect API quotas; show the knob in the code comments. (Vertex AI docs also describe video understanding usage.)
+**For the article, copy the following from Notebook Section 7 – "YouTube Video Transcription":**
+
+1. **Markdown intro** (the opening paragraphs explaining the tool goal and why videos add valuable context)
+2. **Tool explanation prose** (Cell 30): Copy the paragraph explaining `transcribe_youtube_videos_tool` and the helper function. Include:
+   - The explanation of Gemini's multimodal video understanding capabilities
+3. **Core implementation code block** (Cell 30, second code block): Copy the **full Python code block** showing `async def transcribe_youtube(...)` with:
+   - Complete function signature and docstring
+   - All logic including client initialization, prompt formatting, parts construction with `types.Part(file_data=types.FileData(file_uri=url))`
+   - The API call to `generate_content` with proper error handling
+   - The output file writing
+4. **Documentation reference**: Copy the prose explaining Gemini's video transcription capability and the link to the documentation
+5. **Test execution guidance** (Cell 31): Copy the code cell showing the test call to `transcribe_youtube_videos_tool` with comments about time-intensive processing
+6. **Output explanation** (Cell 32): Copy the prose explaining the result, the time estimate for processing, and the note about concurrency
+
+**For your notebook practice:**
+- Do NOT implement this tool yourself; the implementation is in the codebase (referenced in the notebook).
+- Execute Cell 31 to verify the tool works (note: this is time-consuming, especially for long videos)
+- Understand the return structure: `{status, videos_processed, videos_total, output_directory, message}`
+- Observe the actual output dict structure
+- **Concurrency note**: Keep concurrency conservative to respect API quotas (see the code comments for the knob)
+- **Time estimate**: A 39-minute video typically takes ~4.5 minutes to process
 
 ---
 
 ## Section 8 — Run Steps 1–2 end‑to‑end: inspect `.nova/`, handle failures, and wrap‑up
 
-- With all tools wired, **drive the workflow**, explore artifacts, and practice **non‑critical vs. critical** outcomes.
-- **Drive the workflow with the server‑hosted prompt:** show section 8 from the notebook: start the in‑memory client, then type:
-    - `/prompt/full_research_instructions_prompt` → agent explains the numbered steps and asks for `research_directory`.
-    - Provide the path and say: “**Run only Steps 1–2 and stop**.”
-    - Watch tool calls: `extract_guidelines_urls` → local/files/scrape/github/youtube, skipping `process_local_files` if the count is 0.
-- **Why prompts on the server?** Any MCP client can discover and run the same recipe.
-- **Explore the artifacts (from section 9 of the notebook)**
+**For the article, copy the following from Notebook Section 8 – "Running the Full Agent with MCP Prompt":**
 
-```
-research_directory/
-├── article_guideline.md
-├── .nova/
-│   ├── guidelines_filenames.json
-│   ├── local_files_from_research/
-│   ├── urls_from_guidelines/
-│   ├── urls_from_guidelines_code/
-│   └── urls_from_guidelines_youtube_videos/
+1. **Markdown intro** (Cell 33): Copy the opening paragraphs explaining that the tools are now ready and what the reader can do next
+2. **Instructions for running the client** (Cell 33, continued): Copy the numbered list of steps:
+   - Start the workflow
+   - Answer the agent
+   - Watch the agent work
+   - Examine outputs
+3. **Try these commands in sequence** (Cell 33, end): Copy the inline list showing:
+   - `/prompt/full_research_instructions_prompt`
+   - The message format for providing the research folder path and asking to run Steps 1–2
+   - `/quit` to exit
+4. **Client initialization code** (Cell 34): Copy the **full Python code block** showing the async function to start the in-memory MCP client
+5. **Sample output** (Cell 34, output): Copy the truncated LLM output showing:
+   - Available tools/resources/prompts
+   - LLM reasoning (the "Thoughts" section)
+   - LLM response explaining the numbered workflow steps
+6. **Explanation of observed behavior** (Cell 35): Copy the prose explaining what to notice in the output (skipped tools, agent reasoning, final message)
+7. **Artifact exploration** (from Notebook Section 9 – "Exploring Generated Files"): Copy the full section including:
+   - The markdown intro explaining the file structure
+   - The directory tree diagram showing `.nova/` folder contents
+   - The explanatory prose about file persistence, context management, selective access, and auditability
+   - The note about database alternatives in production
 
-```
+**For your notebook practice:**
+- Execute the cells in order, starting with the client initialization
+- Follow the interactive workflow: type the prompt command, provide your research folder path, instruct the agent to run Steps 1–2 only
+- Observe the agent's tool calls and LLM reasoning (shown in "Thoughts" section)
+- After completion, explore the `.nova/` folder structure to verify all expected files were created
+- Exit with `/quit`
 
-**Critical vs. Non‑critical policy (concrete triggers for Steps 1–2):**
+**Why prompts on the server?** Any MCP client can discover and run the same recipe, ensuring reproducibility and discoverability.
+
+---
+
+### Critical vs. Non‑critical Failure Policy (reference for understanding the agent behavior)
+
+The article should include an explanation of how the workflow handles failures. Reference the following concrete triggers for Steps 1–2 so readers understand the agent's decision-making:
 
 - **extract_guidelines_urls**
     - **Critical**: `article_guideline.md` missing or unreadable → stop and ask for a valid path.
