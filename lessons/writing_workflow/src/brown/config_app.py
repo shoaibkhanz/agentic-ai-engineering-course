@@ -33,7 +33,7 @@ class Context(BaseModel):
 
 
 class Memory(BaseModel):
-    checkpointer: Literal["in_memory"]
+    checkpointer: Literal["in_memory", "sqlite"]
 
 
 class ToolConfig(BaseModel):

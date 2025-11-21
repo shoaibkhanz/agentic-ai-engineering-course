@@ -339,7 +339,7 @@ following all the necessary instructions from the profiles and guidelines above.
         written_output = await self.model.ainvoke(inputs)
         if not isinstance(written_output, AIMessage):
             raise InvalidOutputTypeException(AIMessage, type(written_output))
-        written_output = cast(str, written_output.content)
+        written_output = cast(str, written_output.text)
 
         if isinstance(self.reviews, SelectedTextReviews):
             return SelectedText(
