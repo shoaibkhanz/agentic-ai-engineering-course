@@ -22,6 +22,7 @@ def load(dotenv_path: Path | None = None, required_env_vars: list[str] | None = 
     if is_colab:
         try:
             from google.colab import userdata as _colab_userdata
+
             colab_user_data = _colab_userdata
             print("Google Colab environment detected. Using Colab Secrets to load environment variables.")
         except Exception:

@@ -38,6 +38,7 @@ dependencies = [
     "gitingest>=0.1.5",
     "firecrawl-py>=2.7.1",
     "langchain-perplexity>=0.1.2",
+    "langgraph-checkpoint-sqlite>=3.0.0",
 ]
 
 [project.urls]
@@ -71,4 +72,5 @@ known-first-party = ["lessons"]
 dev = [
     "ipykernel>=6.29.5",
     "notebook>=7.4.5",
+    "ruff>=0.14.6",
 ]

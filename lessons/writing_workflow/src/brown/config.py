@@ -19,6 +19,7 @@ class Settings(BaseSettings):
 
     # --- Opik ---
 
+    OPIK_ENABLED: bool = Field(default=False, description="Whether to use Opik for monitoring and logging.")
     OPIK_WORKSPACE: str | None = Field(default=None, description="Name of the Opik workspace containing the project.")
     OPIK_PROJECT_NAME: str = Field(default="brown", description="Name of the Opik project.")
     OPIK_API_KEY: SecretStr | None = Field(default=None, description="The API key for the Opik API.")

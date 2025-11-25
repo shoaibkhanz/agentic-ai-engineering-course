@@ -1,7 +1,9 @@
 import os
 import time
-import requests
 from urllib.parse import urlparse
+
+import requests
+
 
 def _parse_github_folder_url(url: str):
     """
@@ -15,12 +17,15 @@ def _parse_github_folder_url(url: str):
     parts = [p for p in parsed.path.split("/") if p]
     # Expecting: owner / repo / tree / branch / path...
     if len(parts) < 4 or parts[2] != "tree":
-        raise ValueError("URL must be a GitHub 'tree' URL to a folder, e.g. https://github.com/owner/repo/tree/branch/path")
+        raise ValueError(
+            "URL must be a GitHub 'tree' URL to a folder, e.g. https://github.com/owner/repo/tree/branch/path"
+        )
     owner = parts[0]
     repo = parts[1]
     branch = parts[3]
     path_in_repo = "/".join(parts[4:])  # may be empty if root
     return owner, repo, branch, path_in_repo
+
 
 def _gh_api_list_dir(owner: str, repo: str, path_in_repo: str, ref: str, token: str | None = None):
     """
@@ -42,6 +47,7 @@ def _gh_api_list_dir(owner: str, repo: str, path_in_repo: str, ref: str, token: 
         raise ValueError("The provided URL points to a file, not a folder.")
     return data  # list
 
+
 def _download_file(url: str, dest_path: str, token: str | None = None, retries: int = 3):
     os.makedirs(os.path.dirname(dest_path), exist_ok=True)
     headers = {}
@@ -56,12 +62,14 @@ def _download_file(url: str, dest_path: str, token: str | None = None, retries: 
                         if chunk:
                             f.write(chunk)
             return
-        except Exception as e:
+        except Exception:
             if attempt == retries - 1:
                 raise
             time.sleep(1.5 * (attempt + 1))  # simple backoff
 
+
 _BASE_REPO_PREFIX = "https://github.com/louisfb01/agent-course-notebooks/tree/main/"
+
 
 def download_github_folder(relative_path: str, local_folder: str, recursive: bool = True):
     """
@@ -71,7 +79,7 @@ def download_github_folder(relative_path: str, local_folder: str, recursive: boo
     Examples of `relative_path`:
       - "notebooks/lesson_11/images"
       - "/notebooks/lesson_11/images"   (leading slash ok)
-    
+
     Notes:
     - Any '..' path traversal is blocked.
     - If you accidentally pass a full GitHub URL, it must start with the fixed base.
@@ -96,15 +104,19 @@ def download_github_folder(relative_path: str, local_folder: str, recursive: boo
     items = _gh_api_list_dir(owner, repo, path_in_repo, branch, token=token)
 
     for item in items:
-        t = item.get("type"); name = item.get("name"); item_path = item.get("path")
+        t = item.get("type")
+        name = item.get("name")
+        item_path = item.get("path")
         if t == "file":
-            download_url = item.get("download_url") or f"https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{item_path}"
+            download_url = (
+                item.get("download_url") or f"https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{item_path}"
+            )
             # Preserve structure inside local_folder, relative to starting folder
             dest_rel = os.path.relpath(item_path, start=path_in_repo) if path_in_repo else name
             dest_path = os.path.join(local_folder, dest_rel)
             _download_file(download_url, dest_path, token=token)
         elif t == "dir" and recursive:
-            sub_rel = os.path.relpath(item_path, start=f"{owner}/{repo}") if False else item_path  # noop, just clarity
+            os.path.relpath(item_path, start=f"{owner}/{repo}") if False else item_path  # noop, just clarity
             # Call recursively using the relative path (keeps the "hidden" base)
             sub_relative_from_repo_root = item_path  # already relative to repo root
             # Strip the leading repo root if present (it's not), ensure it's relative to repo root:

@@ -1,39 +1,32 @@
 ## Task
 
-Generate a Jupyter Notebook called `notebook.ipynb` based on the source code that can be found within the [writing_workflow directory](../writing_workflow/).
+You are an expert technical writer and AI Engineering who writes educative Jupyter Notebooks for student's getting into AI Engineering.
+
+Generate a Jupyter Notebook called `notebook.ipynb` based on the source code that can be found within the [writing_workflow directory](../writing_workflow/) following the outline from `Outline of the Notebook`
 
 Our goal is to write an educational Jupyter Notebook that explain pieces of the code from [writing_workflow directory](../writing_workflow/) based on the `Outline of the Notebook` instructed below. 
 
-You will follow the same pattern when writing the Jupyter Notebook as in the `Examples`. Use these examples as few-shot examples on how to actually write and structure the Notebook. These are super important for:
-- how to format the code
-- how to format the writing
-- how to format the section
-- how verbose to be when writing code description
+You will follow the same pattern when writing the Jupyter Notebook as in the `Examples`. Use these examples as few-shot examples on how to actually write and structure the Notebook. 
 
-Remember that the Notebook should only take pieces of code from the `writing_workflow` and explain how it works. You can threat the `writing_workflow` as an independent Python package called `brown` that we want to explain. You will find all the details on how the `writing_workflow` is packaged using `uv` under the pyproject.toml files from [writing_workflow directory](../writing_workflow/pyproject.toml) and [the root direcotry](../../pyproject.toml). The package is installed under `brown`. Thus, whenever you want to use code from "../writing_workflow/src/brow" you will use it as `from brown import ...`.
+These are super important for how to format the:
+- structured of the Notebook
+- code
+- writing that describes the code
+- Notebook sections
+- Notebook cells
+- dynamics between Python and Markdown cells
+- the usage of ``` quotes
+Also, you should use them to infer the style of the Notebook, such as:
+- how verbose to be when writing the code description
+- how to frame the tonality, mechanics amd terminology of the writing
 
-## IMPORTANT INSTRUCTIONS
+As a general rule of thumb you will maintain a direct, assertive, clear, confident, but excited and friendly tone and voice. With no fluff, but straight to the point. An active voice, while talking at the second person with "you" and "we" as we address this Notebook to a student from the part of the team who did this Notebook.
 
-- When you explain a partial piece of code, use Markdown cells with ```python...``` blocks (or other languge blocks)
-- Use MagicPython blocks only when you use the actual code that you want to run
-- When we run code, instead of using our sketched code from the Notebook we import it from the [writing_workflow directory](../writing_workflow/) directory through the `brown` package
-- Thus, because we actually execute code from `brown`, you have the freedom to sketch some code blocks that have too much redundant code or imports
-- Whenever a point is marked as Markdown you will use a Markdown cell, and when it's marked as code, or PYthon you will use a MagicPython cell that can be run and uses the `brown` package to import the real code
-- Whenever I explictly state that is a Markdown section that explain a piece of code, you will still add the code, but instead of adding it in a Python magic cell, you will add it in ```python...``` blocks + the text description surrounding it. Remember that this notebook's scope is to explain the code, thus going in detail over every piece of code it's important, even if it's in Markdown.
-- For example if I have the `(Markdown) First, we have to explain the Node, Toolkit and ToolCall interfaces from @nodes/base.py` intrusction, you will walk through all the states classes, such as Node, Toolkit, ToolCall, where you actually add all the code into the Notebook, but instead of adding it into a PYthon Magic Cell, you will add it into Markdown cells surrounded by ```python...``` as we don't want to make it executable. You will respect this strategy for all the sections or points marked as "Markdown"
-- Whenever you have to output longer outputs, such as the article, guidelines, profiles, research, media items, use the `wrapped` function from @utils/pretty_print. You can use it directly as `from utils import pretty_print; pretty_print.wrapped(...)`. Find the full definition at `lessons/utils/pretty_print.py`. This is the interface of the pretty_print function:
-```
-def wrapped(
-    text: Iterable[str] | dict | str,
-    title: str = "",
-    width: int = 100
-) -> None:
-...
-```
-- When writing code within Markdown blocks, be careful at relative imports such as `.mixins`. As these Markdown blocks from brown are seen in isolation they can be confusing, thus always replace them with the absolute path such as instead of `.mixins` do `brown.entities.mixins`. When you do this, look for the import path relative to the `brown` package from "../writing_workflow/src/brown"
-- Whenever you have a ```python block that contains a nested ```mermaid block, use only two back quotes to espace the nested block, such as ``mermaid. You can apply the same logic to any type of combination of blocks.
+## The `brown` Python Project 
 
-## What files to include from the `brown` package
+Remember that the Notebook should only take pieces of code from the `writing_workflow` Python project and explain how it works. You can threat the `writing_workflow` as an independent Python package called `brown` that we want to explain. You will find all the details on how the `writing_workflow` is packaged using `uv` under the pyproject.toml files from [writing_workflow directory](../writing_workflow/pyproject.toml) and [the root direcotry](../../pyproject.toml). The package is installed under `brown`. Thus, whenever you want to use code from "../writing_workflow/src/brow" you will use it as `from brown import ...`.
+
+## What Files to Include From the `brown` Package
 - Entities: Article, Guidelines, Media Items, Mixins, Profiles, Research
 - Nodes: Article Writer, Media Generator, Tool Nodes + Base abstractions
 - Models: Config, Get Model
@@ -50,7 +43,7 @@ def wrapped(
         - Character Profiles (Specific to a given voice): Used to inject a particular voice, either yours, such as Paul Iusztin or from another popular character such as Richard Feynmann
     - Potential content types: article, video transcripts, social media post, technical post, marketing article, etc.
 
-## What to completely exclude from the `brown` package
+## What to Completely Exclude From The `brown` Package
 - Completely ignore as we will touch these only in future parts of the course:
     - evals
     - models/fake_model.py
@@ -68,7 +61,40 @@ def wrapped(
 
 Thus, even if you reference these from other parts of the repository when generating the Notebook, these will always be relative to the notebook following the paths as stated above.
 
+
+## Important Instructions That You Will Respect All the Time
+
+- When you explain a partial piece of code, use Markdown cells with ```python...``` blocks (or other languge blocks)
+- Use MagicPython blocks only when you use the actual code that you want to run
+- When we run code, instead of using our sketched code from the Notebook we import it from the [writing_workflow directory](../writing_workflow/) directory through the `brown` package such as "from brown... import ..."
+
+- Whenever a point is marked as Markdown you will use a Markdown cell, and when it's marked as code, or Python you will use a MagicPython cell that can be run and uses the `brown` package to import the real code
+- Whenever I explictly state that is a Markdown section that explain a piece of code, you will still add the code, but instead of adding it in a Python magic cell, you will add it in ```python...``` blocks + the text description surrounding it. Remember that this notebook's scope is to explain the code, thus going in detail over every piece of code it's important, even if it's in Markdown.
+- For example if I have the `(Markdown) First, we have to explain the Node, Toolkit and ToolCall interfaces from @nodes/base.py` intrusction, you will walk through all the states classes, such as Node, Toolkit, ToolCall, where you actually add all the code into the Notebook, but instead of adding it into a PYthon Magic Cell, you will add it into Markdown cells surrounded by ```python...``` as we don't want to make it executable. But if we provide in the outline something like this `(Python) Give an example on how to use the MediaGeneratorOchestrator by generator 3 mermaid diagrams in parallel using it.` you will create actual Python code, within MagicPython cells that can be run on their own. You will respect this strategy for all the sections or points marked as "Markdown" or "Python/Code"
+
+- Thus, because we actually execute code from `brown`, you have the freedom to exclude redundant code blocks from the Markdown desriptive sketch blocks, such as stating all the imports, pydocs, utility fuctions or classes, etc...
+- If some code blocks, either Markdown code blocks or MagicPython code blocks become too big, split them into groups based on logical units, such as functions, methods, classes, or files
+- When splitting Markdown code blocks split them into multiple ```markdown blocks, where each block is numbered with 1., 2., 3., ... (as a numbered list, where each bullet points contains the code description + the code block).
+- When splitting the MagicPython code blocks into multiple groups, split them into working cells that can be run on their own. Also, at the end of each MagicPython cell, you should add an output showing what we did within that cell/step. Also, there should be a constant dynamic between a Markdown cell that describes the code below and a PythonMagic cell that actually runs the code.
+- When explaining the code, focus just on describing the visible code, assuming people don't know how it works. Also, whenever you find fancier Python code syntax, explain that as well.
+
+- Whenever you have to output longer outputs, prettify a print by surrounding it between "----" dashes + a title, such as "---- TITLE ----" use the `wrapped` function from @utils/pretty_print. You can use it directly as `from utils import pretty_print; pretty_print.wrapped(...)`. Find the full definition at `lessons/utils/pretty_print.py`. This is the interface of the pretty_print function:
+```
+def wrapped(
+    text: Iterable[str] | dict | str,
+    title: str = "",
+    width: int = 100
+) -> None:
+...
+```
+- The `pretty_print.wrapped(...)` function can be especially useful for printing longer elements such as the article, guidelines, profiles, research, media items,
+
+- When writing code within Markdown blocks, be careful at relative imports such as `.mixins`. As these Markdown blocks from brown are seen in isolation they can be confusing, thus always replace them with the absolute path such as instead of `.mixins` do `brown.entities.mixins`. When you do this, look for the import path relative to the `brown` package from "../writing_workflow/src/brown"
+- Whenever you have a ```python block that contains a nested ```mermaid block, use only two back quotes to espace the nested block, such as ``mermaid. You can apply the same logic to any type of combination of blocks.
+
 ## Outline of the Notebook
+
+Here is what the Notebook will contain starting from the introduction up to the conclusion:
 
 1. Quick introduction on what we will explain in this notebook, that will include:
  - the orchestartor-worker pattern to generate media assets
@@ -154,7 +180,7 @@ Thus, even if you reference these from other parts of the repository when genera
         - show the first 200 lines of the output article
         - use the article renderer from @renderers to save the final article.md within the `inputs/tests/01_sample` directory
         - always use the `pretty_print_wrapped` when printing "=" separators, as the function already supports them out of the box
-10. (Markdown) Future steps
+10. (Markdown) Conclusion and Future steps
     - What we've learnt:
         - context engineering: how to properly load all our elements for writing the article and format them using the `ContextMixin` 
         - how to implement from scratch the orchestrator-worker pattern for generating media items
@@ -165,6 +191,7 @@ Thus, even if you reference these from other parts of the repository when genera
     - next lessons we will learn how to automate reviewing and editing with the evaluator-optimizer pattern and how to glue everything together into a LangGraph workflow
 
 ## Examples
+
 - [FastMCP](../16_fastmcp/notebook.ipynb)
 - [Data Ingestion Lesson](../17_data_ingestion/notebook.ipynb)
 - [Research Loops](../18_research_loop/notebook.ipynb)
@@ -175,7 +202,6 @@ Thus, even if you reference these from other parts of the repository when genera
 ## Chain of Thought
 
 - Carefully read the instructions
-- First read the examples and understand how we expect to format the output Jupyter Notebook
-- Understand how to structure the output following the pattern from the examples
-- Generate the Jupter Notebook based on the `Outline of the Notebook`. Follow each point from the outline as is. We expect that each
-bullet point will be present within the Jupyter Notebook
+- First read the examples and understand how we expect the output Jupyter Notebook to look like
+- Understand how to apply our particular `Outline of the Notebook` to a Jupyter Notebook format while following the pattern from the examples
+- Generate the Jupter Notebook based on the `Outline of the Notebook`. Follow each point from the outline as is. We expect that each bullet point will be present within the Jupyter Notebook.
