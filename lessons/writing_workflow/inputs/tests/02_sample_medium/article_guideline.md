@@ -17,7 +17,8 @@
   - Frustrated users who can't rely on the AI application
   - Frustrated executives who cannot affort to keep the AI agent running as the costs are too high relative to the profits
 - Make a quick reference to the real-world where in 2024-2025 billion-dollar AI startups succeed or fail based primarily on this architectural decision. The successful companies, teams and AI engineers know when to use workflows versus agents, and more importantly, how to combine both approaches effectively.
-- **Quick walkthrough of what we'll learn by the end of this lesson:** Take the core ideas of what we'll learn in the lesson from the `What We Are Planning to Share` subsection and highlight the importance and existence of the lesson from `Why We Think It's Valuable` subsection of the `Global Context of the Lesson` section.
+- Quick walkthrough of what we'll learn by the end of this lesson
+
 - **Section length:** 300 words
 
 ## Section 2 - Understanding the Spectrum: From Workflows to Agents
@@ -28,7 +29,7 @@
 	- Characteristics: The steps are defined in advance, resulting in deterministic or rule-based paths with predictable execution and explicit control flow. 
 	- Analogy: A factory assembly line.
 	- Concepts we will learn in future lessons: chaining, routing, orchestrator-worker patterns
-	- Attach an image from the research with a simple LLM Workflow.
+	- Generate a mermaid diagram with an LLM workflow
 - On **AI agents** we care about:
 	- Definition: Systems where an LLM (or multiple LLMs) plays a central role in dynamically deciding (planning) the sequence of steps, reasoning, and actions to achieve a goal. The steps are not defined in advance, but are dynamically planned based on the task and current state of the environment.
 	- Characteristics: Adaptive, capable of handling novelty, LLM-driven autonomy in decision-making and execution path.
