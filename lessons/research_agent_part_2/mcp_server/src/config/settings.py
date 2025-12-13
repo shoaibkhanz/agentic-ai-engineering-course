@@ -45,12 +45,14 @@ class Settings(BaseSettings):
 
     # Opik Monitoring Configuration
     opik_api_key: SecretStr | None = Field(
-        default=None, alias="OPIK_API_KEY", description="The API key for Opik monitoring"
+        default=None, alias="OPIK_API_KEY", description="The API key to authenticate with Opik"
     )
-    opik_workspace: str | None = Field(default=None, alias="OPIK_WORKSPACE", description="The Opik workspace name")
-    opik_project_name: str | None = Field(
-        default="nova", alias="OPIK_PROJECT_NAME", description="The Opik project name"
+    opik_workspace: str | None = Field(
+        default=None,
+        alias="OPIK_WORKSPACE",
+        description="The Opik workspace name. If not set, the default workspace will be used.",
     )
+    opik_project_name: str = Field(default="nova", alias="OPIK_PROJECT_NAME", description="Opik's project name")
 
     @property
     def llm_configs(self) -> Dict[str, Dict[str, Any]]:
