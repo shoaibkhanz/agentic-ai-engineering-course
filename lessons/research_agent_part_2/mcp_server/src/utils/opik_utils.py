@@ -20,12 +20,12 @@ class OpikContext:
     def __init__(self) -> None:
         self.thread_id = str(uuid.uuid4())
 
-    def initialize_thread_id(self):
+    def initialize_thread_id(self) -> None:
         if is_opik_enabled():
             self.thread_id = str(uuid.uuid4())
             opik.opik_context.update_current_trace(thread_id=self.thread_id)
 
-    def get_thread_id(self):
+    def get_thread_id(self) -> str:
         return self.thread_id
 
     def update_thread_id(self) -> None:
