@@ -3,6 +3,7 @@ Multi-Server MCP Client - Interactive MCP client connecting to multiple servers.
 
 This client connects to both Nova (research agent) and Brown (writing workflow) 
 MCP servers using a single FastMCP Client instance with multi-server configuration.
+All tools, resources, and prompts are accessible without prefixes.
 
 Usage:
     uv run python -m src.client
@@ -18,8 +19,9 @@ from pathlib import Path
 from fastmcp import Client
 
 from .settings import settings
-from .utils.command_utils import handle_command
+from .utils.handle_message_utils import handle_user_message
 from .utils.logging_utils import configure_logging
+from .utils.opik_handler import configure_opik
 from .utils.parse_message_utils import parse_user_input
 from .utils.print_utils import Color, print_colored, print_header
 from .utils.types import InputType
@@ -60,6 +62,12 @@ async def main():
         config_path = settings.mcp_config_path
     
     try:
+        # Initialize Opik if configured
+        if configure_opik():
+            logging.info("📊 Opik monitoring enabled")
+        else:
+            logging.info("📊 Opik monitoring disabled (missing configuration)")
+
         # Load configuration from JSON file
         logging.info(f"Loading MCP server configuration from: {config_path}")
         with open(config_path) as f:
@@ -83,52 +91,48 @@ async def main():
                 f"Total capabilities: {len(tools)} tools, {len(resources)} resources, {len(prompts)} prompts"
             )
 
-            # Print welcome message for each server
-            # Extract server prefixes directly from tool names (works for both composed and direct configs)
+            # Print welcome message showing all capabilities
             print()
-            server_prefixes = set()
-            for tool in tools:
-                if "_" in tool.name:
-                    prefix = tool.name.split("_")[0]
-                    server_prefixes.add(prefix)
-            
-            for prefix in sorted(server_prefixes):
-                prefix_tools = [t for t in tools if t.name.startswith(f"{prefix}_")]
-                prefix_resources = [r for r in resources if prefix in str(r.uri)]
-                prefix_prompts = [p for p in prompts if p.name.startswith(f"{prefix}_")]
-                print_welcome_message(prefix, prefix_tools, prefix_resources, prefix_prompts)
+            print_welcome_message("All Servers", tools, resources, prompts)
 
             # Print available commands
-            print("Available Commands: /tools, /resources, /prompts, /quit")
+            print(
+                "Available Commands: /tools, /resources, /prompts, /prompt/<name>?arg=value, "
+                "/resource/<uri>, /model-thinking-switch, /quit"
+            )
             print()
 
-            # Main command loop
+            # Initialize conversation history
+            conversation_history = []
+
+            # Initialize thinking state (enabled by default)
+            thinking_enabled = True
+
+            # Main conversation loop
             while True:
                 try:
                     # Get user input
-                    user_input = input("> ").strip()
+                    user_input = input("👤 You: ").strip()
                     if not user_input:
                         continue
 
-                    # Parse the user input
+                    # Parse the user input to determine what type it is
                     parsed_input = parse_user_input(user_input)
 
-                    # Handle termination
-                    if parsed_input.input_type == InputType.TERMINATE:
-                        logging.info("👋 Terminating application...")
+                    # Handle the user message and determine if we should continue
+                    should_continue, thinking_enabled = await handle_user_message(
+                        parsed_input=parsed_input,
+                        tools=tools,
+                        resources=resources,
+                        prompts=prompts,
+                        conversation_history=conversation_history,
+                        mcp_client=client,
+                        thinking_enabled=thinking_enabled,
+                        server_names=server_names,
+                    )
+
+                    if not should_continue:
                         break
-
-                    # Handle unknown commands
-                    if parsed_input.input_type == InputType.COMMAND_UNKNOWN:
-                        print_colored(
-                            f"❌ Unknown command: '{parsed_input.user_message}'", Color.BRIGHT_RED
-                        )
-                        print("Available commands: /tools, /resources, /prompts, /quit")
-                        print()
-                        continue
-
-                    # Handle informational commands
-                    handle_command(parsed_input, tools, resources, prompts, server_names)
 
                 except KeyboardInterrupt:
                     print()
@@ -137,11 +141,11 @@ async def main():
                 except Exception as e:
                     print()
                     logging.error(f"Error: {e}")
-                    logging.info("Continuing...\n")
+                    logging.info("Continuing conversation...\n")
 
     except FileNotFoundError:
-        logging.error(f"Configuration file not found: {settings.mcp_config_path}")
-        logging.error("Please ensure mcp_servers_config.json exists in the mcp_client directory")
+        logging.error(f"Configuration file not found: {config_path}")
+        logging.error("Please ensure the MCP configuration file exists")
         return
     except json.JSONDecodeError as e:
         logging.error(f"Invalid JSON in configuration file: {e}")

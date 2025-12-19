@@ -10,7 +10,7 @@ def configure_logging():
 
     This function sets up logging levels for:
     - Root logger (main application)
-    - External libraries (opik, httpx, etc.)
+    - External libraries (opik, httpx, google, fastmcp)
     """
     # Configure root logger
     logging.getLogger().setLevel(settings.log_level)

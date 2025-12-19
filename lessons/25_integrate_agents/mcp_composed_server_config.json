@@ -5,7 +5,7 @@
       "command": "uv",
       "args": [
         "--directory",
-        "/Users/fabio/Desktop/course-ai-agents/lessons/agents_integration/mcp_server",
+        "/absolute/path/to/agents_integration/mcp_server",
         "run",
         "python",
         "-m",
