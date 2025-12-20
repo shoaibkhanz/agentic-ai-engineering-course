@@ -99,7 +99,7 @@ def main(
     )
 
     model = SupportedModels.GOOGLE_GEMINI_25_PRO
-    model_config = ModelConfig(temperature=0.0, thinking_budget=1024 * 1, include_thoughts=False, max_retries=3)
+    model_config = ModelConfig(temperature=0.0, thinking_budget=int(1024 * 0.5), include_thoughts=False, max_retries=3)
     evaluation_metrics = build_evaluation_metrics(metrics, model, model_config)
 
     try:
@@ -111,12 +111,14 @@ def main(
             workers=workers,
             nb_samples=nb_samples,
             dataset_item_names=[
+                "Lesson 2: Workflows vs. Agents",
                 "Lesson 3: Context Engineering",
                 "Lesson 5: Workflow Patterns",
+                "Lesson 6: Tools",
+                "Lesson 8: ReAct Practice",
                 "Lesson 9: Retrieval-Augmented Generation (RAG)",
+                "Lesson 10: Memory",
                 "Lesson 11: Multimodal Data",
-                # "Lesson 4: Structured Outputs",
-                # "Lesson 7: Planning and Reasoning",
             ],
         )
 

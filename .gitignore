@@ -185,20 +185,8 @@ cython_debug/
 # Brown Agent
 .brown
 .debug/
-agent_graph.png
-article_outline.md
-article_stage_1.md
-article_stage_1.metadata.json
-article_stage_2.md
-article_stage_2.metadata.json
-article_stage_3.md
-article_stage_3.metadata.json
-reflection_scores.md
-sources.md
-style_guideline.md
-article_error*
-offline_ranked_human_review.md
 checkpoints/
+outputs/
 
 # Nova Agent
 .nova

@@ -46,12 +46,13 @@ brown-create-eval-dataset: # Create the evaluation dataset for Brown.
 		--description "Evaluation dataset on course lessons format."
 
 brown-run-eval: # Run the evaluation for Brown.
-	uv run python -m scripts.brown_run_eval \
+	CONFIG_FILE=./configs/course-gemini-2.5-pro.yaml uv run python -m scripts.brown_run_eval \
 		--dataset-name brown-course-lessons \
 		--metrics follows_gt \
-		--cache-dir outputs/evals
+		--metrics user_intent \
+		--cache-dir outputs/evals \
 		--workers 1 \
-		# --read-from-cache
+		--read-from-cache
 
 
 # --- Tests & QA ---
