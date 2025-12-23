@@ -2,6 +2,7 @@
 
 from typing import Any, Dict
 
+import opik
 from fastmcp import FastMCP
 
 from ..tools import (
@@ -17,6 +18,7 @@ from ..tools import (
     select_research_sources_to_scrape_tool,
     transcribe_youtube_videos_tool,
 )
+from ..utils.opik_utils import opik_context
 
 
 def register_mcp_tools(mcp: FastMCP) -> None:
@@ -27,6 +29,7 @@ def register_mcp_tools(mcp: FastMCP) -> None:
     # ============================================================================
 
     @mcp.tool()
+    @opik.track(type="tool")
     async def extract_guidelines_urls(research_directory: str) -> Dict[str, Any]:
         """
         Extract URLs and local file references from article guidelines.
@@ -51,10 +54,14 @@ def register_mcp_tools(mcp: FastMCP) -> None:
                 - output_path: Path to the generated GUIDELINES_FILENAMES_FILE
                 - message: Human-readable success message
         """
+
+        opik_context.update_thread_id()
+
         result = extract_guidelines_urls_tool(research_directory)
         return result
 
     @mcp.tool()
+    @opik.track(type="tool")
     async def process_local_files(research_directory: str) -> Dict[str, Any]:
         """
         Process local files referenced in the article guidelines.
@@ -77,6 +84,9 @@ def register_mcp_tools(mcp: FastMCP) -> None:
                 - output_directory: Path to the output directory
                 - message: Human-readable success message with processing results
         """
+
+        opik_context.update_thread_id()
+
         result = process_local_files_tool(research_directory)
         return result
 
@@ -85,6 +95,7 @@ def register_mcp_tools(mcp: FastMCP) -> None:
     # ============================================================================
 
     @mcp.tool()
+    @opik.track(type="tool")
     async def scrape_and_clean_other_urls(research_directory: str, concurrency_limit: int = 4) -> Dict[str, Any]:
         """
         Scrape and clean other URLs from GUIDELINES_FILENAMES_FILE.
@@ -108,10 +119,14 @@ def register_mcp_tools(mcp: FastMCP) -> None:
                 - output_directory: Path to the output directory
                 - message: Human-readable success message with processing results
         """
+
+        opik_context.update_thread_id()
+
         result = await scrape_and_clean_other_urls_tool(research_directory, concurrency_limit)
         return result
 
     @mcp.tool()
+    @opik.track(type="tool")
     async def process_github_urls(research_directory: str) -> Dict[str, Any]:
         """
         Process GitHub URLs from GUIDELINES_FILENAMES_FILE using gitingest.
@@ -135,10 +150,14 @@ def register_mcp_tools(mcp: FastMCP) -> None:
                 - output_directory: Path to the output directory
                 - message: Human-readable success message with processing results
         """
+
+        opik_context.update_thread_id()
+
         result = await process_github_urls_tool(research_directory)
         return result
 
     @mcp.tool()
+    @opik.track(type="tool")
     async def transcribe_youtube_urls(research_directory: str) -> Dict[str, Any]:
         """
         Transcribe YouTube video URLs from GUIDELINES_FILENAMES_FILE using an LLM.
@@ -161,6 +180,9 @@ def register_mcp_tools(mcp: FastMCP) -> None:
                 - output_directory: Path to the output directory
                 - message: Human-readable success message with processing results
         """
+
+        opik_context.update_thread_id()
+
         result = await transcribe_youtube_videos_tool(research_directory)
         return result
 
@@ -169,6 +191,7 @@ def register_mcp_tools(mcp: FastMCP) -> None:
     # ============================================================================
 
     @mcp.tool()
+    @opik.track(type="tool")
     async def generate_next_queries(research_directory: str, n_queries: int = 5) -> Dict[str, Any]:
         """
         Generate candidate web-search queries for the next research round.
@@ -190,10 +213,14 @@ def register_mcp_tools(mcp: FastMCP) -> None:
                 - output_path: Path to the generated next_queries.md file
                 - message: Human-readable success message with generation results
         """
+
+        opik_context.update_thread_id()
+
         result = await generate_next_queries_tool(research_directory, n_queries)
         return result
 
     @mcp.tool()
+    @opik.track(type="tool")
     async def run_perplexity_research(research_directory: str, queries: list[str]) -> Dict[str, Any]:
         """
         Run selected web-search queries with Perplexity and store the results.
@@ -218,6 +245,9 @@ def register_mcp_tools(mcp: FastMCP) -> None:
                 - output_path: Path to the updated perplexity_results.md file
                 - message: Human-readable success message with processing results
         """
+
+        opik_context.update_thread_id()
+
         result = await run_perplexity_research_tool(research_directory, queries)
         return result
 
@@ -226,6 +256,7 @@ def register_mcp_tools(mcp: FastMCP) -> None:
     # ============================================================================
 
     @mcp.tool()
+    @opik.track(type="tool")
     async def select_research_sources_to_keep(research_directory: str) -> Dict[str, Any]:
         """
         Automatically select high-quality sources from Perplexity results.
@@ -247,10 +278,14 @@ def register_mcp_tools(mcp: FastMCP) -> None:
                 - results_selected_path: Path to the perplexity_results_selected.md file
                 - message: Human-readable success message with selection results
         """
+
+        opik_context.update_thread_id()
+
         result = await select_research_sources_to_keep_tool(research_directory)
         return result
 
     @mcp.tool()
+    @opik.track(type="tool")
     async def select_research_sources_to_scrape(research_directory: str, max_sources: int = 5) -> Dict[str, Any]:
         """
         Select up to max_sources priority research sources to scrape in full.
@@ -273,10 +308,14 @@ def register_mcp_tools(mcp: FastMCP) -> None:
                 - reasoning: AI reasoning for why these sources were selected
                 - message: Human-readable success message with selection results and reasoning
         """
+
+        opik_context.update_thread_id()
+
         result = await select_research_sources_to_scrape_tool(research_directory, max_sources)
         return result
 
     @mcp.tool()
+    @opik.track(type="tool")
     async def scrape_research_urls(research_directory: str, concurrency_limit: int = 4) -> Dict[str, Any]:
         """
         Scrape the selected research URLs for full content.
@@ -300,6 +339,9 @@ def register_mcp_tools(mcp: FastMCP) -> None:
                 - output_directory: Path to the output directory
                 - message: Human-readable success message with processing results
         """
+
+        opik_context.update_thread_id()
+
         result = await scrape_research_urls_tool(research_directory, concurrency_limit)
         return result
 
@@ -308,6 +350,7 @@ def register_mcp_tools(mcp: FastMCP) -> None:
     # ============================================================================
 
     @mcp.tool()
+    @opik.track(type="tool")
     async def create_research_file(research_directory: str) -> Dict[str, Any]:
         """
         Generate the final comprehensive research.md file.
@@ -330,5 +373,8 @@ def register_mcp_tools(mcp: FastMCP) -> None:
                 - additional_sources_count: Number of additional source sections
                 - message: Human-readable success message with file generation results
         """
+
+        opik_context.update_thread_id()
+
         result = create_research_file_tool(research_directory)
         return result

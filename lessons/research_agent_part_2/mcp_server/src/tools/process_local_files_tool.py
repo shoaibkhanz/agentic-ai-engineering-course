@@ -102,7 +102,7 @@ def process_local_files_tool(research_directory: str) -> Dict[str, Any]:
 
     # Load JSON metadata
     data = json.loads(metadata_path.read_text(encoding="utf-8"))
-    local_files = data.get("local_files", [])
+    local_files = data.get("local_file_paths", [])
 
     if not local_files:
         return {

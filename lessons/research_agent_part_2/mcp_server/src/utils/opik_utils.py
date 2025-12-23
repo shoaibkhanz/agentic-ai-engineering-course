@@ -1,5 +1,9 @@
 """Opik configuration and tracking utilities for MCP Server."""
 
+import logging
+import os
+import uuid
+
 import opik
 from google import genai
 from opik.integrations.genai import track_genai
@@ -9,6 +13,28 @@ from opik.integrations.openai.opik_tracker import OpenAIClient
 
 from ..config.settings import settings
 
+logger = logging.getLogger(__name__)
+
+
+class OpikContext:
+    def __init__(self) -> None:
+        self.thread_id = str(uuid.uuid4())
+
+    def initialize_thread_id(self) -> None:
+        if is_opik_enabled():
+            self.thread_id = str(uuid.uuid4())
+            opik.opik_context.update_current_trace(thread_id=self.thread_id)
+
+    def get_thread_id(self) -> str:
+        return self.thread_id
+
+    def update_thread_id(self) -> None:
+        if is_opik_enabled():
+            opik.opik_context.update_current_trace(thread_id=self.thread_id)
+
+
+opik_context = OpikContext()
+
 
 def configure_opik():
     """Configure Opik monitoring if all required settings are provided.
@@ -16,15 +42,28 @@ def configure_opik():
     Returns:
         bool: True if Opik was configured, False otherwise
     """
-    if settings.opik_api_key and settings.opik_workspace and settings.opik_project_name:
+
+    if not is_opik_enabled():
+        return False
+
+    os.environ["OPIK_PROJECT_NAME"] = settings.opik_project_name
+
+    try:
         opik.configure(
-            api_key=settings.opik_api_key.get_secret_value(),
+            api_key=settings.opik_api_key.get_secret_value() if settings.opik_api_key else None,
             workspace=settings.opik_workspace,
             use_local=False,
             force=True,
+            automatic_approvals=True,
         )
-        return True
-    return False
+    except Exception:
+        logger.warning(
+            "Couldn't configure Opik. Most likely there is a problem with your OPIK_API_KEY or other OPIK_* \
+                environment variables."
+        )
+        return False
+
+    return True
 
 
 def track_genai_client(client: genai.Client) -> genai.Client:
@@ -113,8 +152,5 @@ def is_opik_enabled() -> bool:
     Returns:
         bool: True if Opik is configured and enabled
     """
-    return (
-        settings.opik_api_key is not None
-        and settings.opik_workspace is not None
-        and settings.opik_project_name is not None
-    )
+
+    return settings.opik_api_key is not None and settings.opik_project_name is not None
