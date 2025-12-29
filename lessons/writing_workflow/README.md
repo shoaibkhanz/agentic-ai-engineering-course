@@ -244,18 +244,35 @@ This creates an evaluation dataset from the articles in `inputs/evals/dataset/` 
 
 **Run evaluations:**
 
+Brown provides two evaluation commands for different model configurations:
+
+**1. Run evaluation with Gemini Flash:**
+
 ```bash
 cd lessons/writing_workflow
-make brown-run-eval
+make brown-run-eval-flash
 ```
 
-This runs the evaluation using the `follows_gt` metric (checks if generated articles follow ground truth patterns) and caches results in `outputs/evals/`.
+This runs the evaluation using Gemini Flash model configuration:
+- **Config**: `configs/course-gemini-flash.yaml`
+- **Dataset**: `brown-course-lessons`
+- **Metrics**: `follows_gt` (evaluates adherence to ground truth articles) and `user_intent`
+- **Cache directory**: `outputs/evals-flash`
+- **Reads from cache**: Enabled for faster re-runs
 
-**Parameters:**
-- The dataset name is `brown-course-lessons` (created by the previous command)
-- Metrics: `follows_gt` (evaluates adherence to ground truth articles)
-- Results are cached in `outputs/evals/` for faster re-runs
-- Uses 1 worker for sequential processing
+**2. Run evaluation with Gemini Pro:**
+
+```bash
+cd lessons/writing_workflow
+make brown-run-eval-pro
+```
+
+This runs the evaluation using Gemini Pro model configuration:
+- **Config**: `configs/course-gemini-pro.yaml`
+- **Dataset**: `brown-course-lessons`
+- **Metrics**: `follows_gt` (evaluates adherence to ground truth articles) and `user_intent`
+- **Cache directory**: `outputs/evals-pro`
+- **Reads from cache**: Enabled for faster re-runs
 
 ---
 
