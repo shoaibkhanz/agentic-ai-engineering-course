@@ -1,0 +1,2708 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "mcp-excalidraw-server",
+  "elements": [
+    {
+      "id": "l2-zone",
+      "type": "rectangle",
+      "x": 0,
+      "y": 0,
+      "width": 1800,
+      "height": 900,
+      "backgroundColor": "#e9ecef",
+      "strokeColor": "#868e96",
+      "strokeStyle": "dashed",
+      "roughness": 1,
+      "opacity": 40,
+      "createdAt": "2026-02-18T14:43:35.831Z",
+      "updatedAt": "2026-02-18T14:43:35.831Z",
+      "version": 1
+    },
+    {
+      "id": "l2-title",
+      "type": "text",
+      "x": 40,
+      "y": 20,
+      "strokeColor": "#1e1e1e",
+      "text": "LESSON 2: LLM Workflows vs AI Agents",
+      "fontSize": 28,
+      "createdAt": "2026-02-18T14:43:35.831Z",
+      "updatedAt": "2026-02-18T14:43:35.831Z",
+      "version": 1
+    },
+    {
+      "id": "l2-spectrum-label",
+      "type": "text",
+      "x": 60,
+      "y": 80,
+      "strokeColor": "#868e96",
+      "text": "The Autonomy Spectrum",
+      "fontSize": 20,
+      "createdAt": "2026-02-18T14:43:35.831Z",
+      "updatedAt": "2026-02-18T14:43:35.831Z",
+      "version": 1
+    },
+    {
+      "id": "l2-workflow",
+      "type": "rectangle",
+      "x": 60,
+      "y": 120,
+      "width": 240,
+      "height": 100,
+      "backgroundColor": "#a5d8ff",
+      "strokeColor": "#1971c2",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:43:35.831Z",
+      "updatedAt": "2026-02-18T14:43:35.831Z",
+      "version": 1
+    },
+    {
+      "id": "l2-workflow-title",
+      "type": "text",
+      "x": 100,
+      "y": 135,
+      "strokeColor": "#1971c2",
+      "text": "AI Workflows",
+      "fontSize": 20,
+      "createdAt": "2026-02-18T14:43:35.831Z",
+      "updatedAt": "2026-02-18T14:43:35.831Z",
+      "version": 1
+    },
+    {
+      "id": "l2-workflow-desc",
+      "type": "text",
+      "x": 80,
+      "y": 170,
+      "strokeColor": "#1e1e1e",
+      "text": "Fixed steps, predictable\nDeveloper controls flow\nAssembly line analogy",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:43:35.831Z",
+      "updatedAt": "2026-02-18T14:43:35.831Z",
+      "version": 1
+    },
+    {
+      "id": "l2-arrow-wh",
+      "type": "arrow",
+      "x": 308,
+      "y": 170,
+      "width": 140,
+      "height": 0,
+      "strokeColor": "#868e96",
+      "label": {
+        "text": "more autonomy"
+      },
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          164,
+          2.842170943040401e-14
+        ]
+      ],
+      "createdAt": "2026-02-18T14:43:35.832Z",
+      "updatedAt": "2026-02-18T14:43:35.832Z",
+      "version": 1,
+      "startBinding": {
+        "elementId": "l2-workflow",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "l2-hybrid",
+        "focus": 0,
+        "gap": 8
+      }
+    },
+    {
+      "id": "l2-hybrid",
+      "type": "rectangle",
+      "x": 480,
+      "y": 120,
+      "width": 240,
+      "height": 100,
+      "backgroundColor": "#eebefa",
+      "strokeColor": "#9c36b5",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:43:35.832Z",
+      "updatedAt": "2026-02-18T14:43:35.832Z",
+      "version": 1
+    },
+    {
+      "id": "l2-hybrid-title",
+      "type": "text",
+      "x": 520,
+      "y": 135,
+      "strokeColor": "#9c36b5",
+      "text": "Hybrid Systems",
+      "fontSize": 20,
+      "createdAt": "2026-02-18T14:43:35.832Z",
+      "updatedAt": "2026-02-18T14:43:35.832Z",
+      "version": 1
+    },
+    {
+      "id": "l2-hybrid-desc",
+      "type": "text",
+      "x": 500,
+      "y": 170,
+      "strokeColor": "#1e1e1e",
+      "text": "Orchestrator-Worker\nStructured + agentic\nPerplexity Deep Research",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:43:35.832Z",
+      "updatedAt": "2026-02-18T14:43:35.832Z",
+      "version": 1
+    },
+    {
+      "id": "l2-arrow-ha",
+      "type": "arrow",
+      "x": 728,
+      "y": 170,
+      "width": 140,
+      "height": 0,
+      "strokeColor": "#868e96",
+      "label": {
+        "text": "full autonomy"
+      },
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          164,
+          2.842170943040401e-14
+        ]
+      ],
+      "createdAt": "2026-02-18T14:43:35.832Z",
+      "updatedAt": "2026-02-18T14:43:35.832Z",
+      "version": 1,
+      "startBinding": {
+        "elementId": "l2-hybrid",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "l2-agent",
+        "focus": 0,
+        "gap": 8
+      }
+    },
+    {
+      "id": "l2-agent",
+      "type": "rectangle",
+      "x": 900,
+      "y": 120,
+      "width": 240,
+      "height": 100,
+      "backgroundColor": "#ffd8a8",
+      "strokeColor": "#e8590c",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:43:35.832Z",
+      "updatedAt": "2026-02-18T14:43:35.832Z",
+      "version": 1
+    },
+    {
+      "id": "l2-agent-title",
+      "type": "text",
+      "x": 950,
+      "y": 135,
+      "strokeColor": "#e8590c",
+      "text": "AI Agents",
+      "fontSize": 20,
+      "createdAt": "2026-02-18T14:43:35.832Z",
+      "updatedAt": "2026-02-18T14:43:35.832Z",
+      "version": 1
+    },
+    {
+      "id": "l2-agent-desc",
+      "type": "text",
+      "x": 920,
+      "y": 170,
+      "strokeColor": "#1e1e1e",
+      "text": "LLM reasons in a loop\nReAct: Reason + Act\nSkilled expert analogy",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:43:35.832Z",
+      "updatedAt": "2026-02-18T14:43:35.832Z",
+      "version": 1
+    },
+    {
+      "id": "l2-patterns-label",
+      "type": "text",
+      "x": 60,
+      "y": 260,
+      "strokeColor": "#868e96",
+      "text": "Key Design Patterns",
+      "fontSize": 20,
+      "createdAt": "2026-02-18T14:43:35.832Z",
+      "updatedAt": "2026-02-18T14:43:35.832Z",
+      "version": 1
+    },
+    {
+      "id": "l2-chain",
+      "type": "rectangle",
+      "x": 60,
+      "y": 300,
+      "width": 200,
+      "height": 80,
+      "backgroundColor": "#a5d8ff",
+      "strokeColor": "#1971c2",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:43:35.832Z",
+      "updatedAt": "2026-02-18T14:43:35.832Z",
+      "version": 1
+    },
+    {
+      "id": "l2-chain-text",
+      "type": "text",
+      "x": 90,
+      "y": 315,
+      "strokeColor": "#1e1e1e",
+      "text": "Chaining & Routing\nSequential LLM calls\nRouter classifies intent",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:43:35.832Z",
+      "updatedAt": "2026-02-18T14:43:35.832Z",
+      "version": 1
+    },
+    {
+      "id": "l2-orch",
+      "type": "rectangle",
+      "x": 300,
+      "y": 300,
+      "width": 200,
+      "height": 80,
+      "backgroundColor": "#eebefa",
+      "strokeColor": "#9c36b5",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:43:35.832Z",
+      "updatedAt": "2026-02-18T14:43:35.832Z",
+      "version": 1
+    },
+    {
+      "id": "l2-orch-text",
+      "type": "text",
+      "x": 315,
+      "y": 315,
+      "strokeColor": "#1e1e1e",
+      "text": "Orchestrator-Worker\nDecompose → Delegate\n→ Synthesize results",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:43:35.832Z",
+      "updatedAt": "2026-02-18T14:43:35.832Z",
+      "version": 1
+    },
+    {
+      "id": "l2-eval",
+      "type": "rectangle",
+      "x": 540,
+      "y": 300,
+      "width": 200,
+      "height": 80,
+      "backgroundColor": "#eebefa",
+      "strokeColor": "#9c36b5",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:43:35.832Z",
+      "updatedAt": "2026-02-18T14:43:35.832Z",
+      "version": 1
+    },
+    {
+      "id": "l2-eval-text",
+      "type": "text",
+      "x": 555,
+      "y": 315,
+      "strokeColor": "#1e1e1e",
+      "text": "Evaluator-Optimizer\nGenerate → Critique\n→ Refine loop",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:43:35.832Z",
+      "updatedAt": "2026-02-18T14:43:35.832Z",
+      "version": 1
+    },
+    {
+      "id": "l2-react",
+      "type": "rectangle",
+      "x": 780,
+      "y": 300,
+      "width": 200,
+      "height": 80,
+      "backgroundColor": "#ffd8a8",
+      "strokeColor": "#e8590c",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:43:35.832Z",
+      "updatedAt": "2026-02-18T14:43:35.832Z",
+      "version": 1
+    },
+    {
+      "id": "l2-react-text",
+      "type": "text",
+      "x": 810,
+      "y": 315,
+      "strokeColor": "#1e1e1e",
+      "text": "ReAct Agent Loop\nReason → Act → Observe\n→ Repeat until done",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:43:35.832Z",
+      "updatedAt": "2026-02-18T14:43:35.832Z",
+      "version": 1
+    },
+    {
+      "id": "l2-tradeoffs-label",
+      "type": "text",
+      "x": 60,
+      "y": 420,
+      "strokeColor": "#868e96",
+      "text": "Trade-offs",
+      "fontSize": 20,
+      "createdAt": "2026-02-18T14:43:35.832Z",
+      "updatedAt": "2026-02-18T14:43:35.832Z",
+      "version": 1
+    },
+    {
+      "id": "l2-pro-wf",
+      "type": "rectangle",
+      "x": 60,
+      "y": 460,
+      "width": 340,
+      "height": 120,
+      "backgroundColor": "#b2f2bb",
+      "strokeColor": "#2f9e44",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:43:35.832Z",
+      "updatedAt": "2026-02-18T14:43:35.832Z",
+      "version": 1
+    },
+    {
+      "id": "l2-pro-wf-title",
+      "type": "text",
+      "x": 160,
+      "y": 475,
+      "strokeColor": "#2f9e44",
+      "text": "Workflows Strengths",
+      "fontSize": 16,
+      "createdAt": "2026-02-18T14:43:35.832Z",
+      "updatedAt": "2026-02-18T14:43:35.832Z",
+      "version": 1
+    },
+    {
+      "id": "l2-pro-wf-list",
+      "type": "text",
+      "x": 80,
+      "y": 505,
+      "strokeColor": "#1e1e1e",
+      "text": "✓ Predictable latency & cost\n✓ Easier to debug & monitor\n✓ Use smaller, cheaper models\n✓ Safe for high-stakes domains",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:43:35.833Z",
+      "updatedAt": "2026-02-18T14:43:35.833Z",
+      "version": 1
+    },
+    {
+      "id": "l2-pro-ag",
+      "type": "rectangle",
+      "x": 440,
+      "y": 460,
+      "width": 340,
+      "height": 120,
+      "backgroundColor": "#ffc9c9",
+      "strokeColor": "#e03131",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:43:35.834Z",
+      "updatedAt": "2026-02-18T14:43:35.834Z",
+      "version": 1
+    },
+    {
+      "id": "l2-pro-ag-title",
+      "type": "text",
+      "x": 530,
+      "y": 475,
+      "strokeColor": "#e03131",
+      "text": "Agents Strengths",
+      "fontSize": 16,
+      "createdAt": "2026-02-18T14:43:35.834Z",
+      "updatedAt": "2026-02-18T14:43:35.835Z",
+      "version": 1
+    },
+    {
+      "id": "l2-pro-ag-list",
+      "type": "text",
+      "x": 460,
+      "y": 505,
+      "strokeColor": "#1e1e1e",
+      "text": "✓ Handle open-ended problems\n✓ Adapt dynamically to context\n✓ Navigate edge cases\n✗ Non-deterministic & expensive",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:43:35.835Z",
+      "updatedAt": "2026-02-18T14:43:35.835Z",
+      "version": 1
+    },
+    {
+      "id": "l2-challenges-label",
+      "type": "text",
+      "x": 60,
+      "y": 620,
+      "strokeColor": "#868e96",
+      "text": "Production Challenges",
+      "fontSize": 20,
+      "createdAt": "2026-02-18T14:43:35.835Z",
+      "updatedAt": "2026-02-18T14:43:35.835Z",
+      "version": 1
+    },
+    {
+      "id": "l2-ch1",
+      "type": "rectangle",
+      "x": 60,
+      "y": 660,
+      "width": 180,
+      "height": 70,
+      "backgroundColor": "#ffc9c9",
+      "strokeColor": "#e03131",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:43:35.835Z",
+      "updatedAt": "2026-02-18T14:43:35.835Z",
+      "version": 1
+    },
+    {
+      "id": "l2-ch1-t",
+      "type": "text",
+      "x": 80,
+      "y": 675,
+      "strokeColor": "#1e1e1e",
+      "text": "Compounding Errors\n2% error × 100 loops\n= guaranteed failure",
+      "fontSize": 13,
+      "createdAt": "2026-02-18T14:43:35.835Z",
+      "updatedAt": "2026-02-18T14:43:35.835Z",
+      "version": 1
+    },
+    {
+      "id": "l2-ch2",
+      "type": "rectangle",
+      "x": 280,
+      "y": 660,
+      "width": 180,
+      "height": 70,
+      "backgroundColor": "#ffc9c9",
+      "strokeColor": "#e03131",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:43:35.835Z",
+      "updatedAt": "2026-02-18T14:43:35.835Z",
+      "version": 1
+    },
+    {
+      "id": "l2-ch2-t",
+      "type": "text",
+      "x": 300,
+      "y": 675,
+      "strokeColor": "#1e1e1e",
+      "text": "Context Drift\nModel forgets goal\nin long loops",
+      "fontSize": 13,
+      "createdAt": "2026-02-18T14:43:35.835Z",
+      "updatedAt": "2026-02-18T14:43:35.835Z",
+      "version": 1
+    },
+    {
+      "id": "l2-ch3",
+      "type": "rectangle",
+      "x": 500,
+      "y": 660,
+      "width": 180,
+      "height": 70,
+      "backgroundColor": "#ffc9c9",
+      "strokeColor": "#e03131",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:43:35.835Z",
+      "updatedAt": "2026-02-18T14:43:35.835Z",
+      "version": 1
+    },
+    {
+      "id": "l2-ch3-t",
+      "type": "text",
+      "x": 520,
+      "y": 675,
+      "strokeColor": "#1e1e1e",
+      "text": "Integration Noise\nNoisy data from Slack\n& web → messy outputs",
+      "fontSize": 13,
+      "createdAt": "2026-02-18T14:43:35.835Z",
+      "updatedAt": "2026-02-18T14:43:35.835Z",
+      "version": 1
+    },
+    {
+      "id": "l2-ch4",
+      "type": "rectangle",
+      "x": 720,
+      "y": 660,
+      "width": 180,
+      "height": 70,
+      "backgroundColor": "#ffc9c9",
+      "strokeColor": "#e03131",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:43:35.835Z",
+      "updatedAt": "2026-02-18T14:43:35.835Z",
+      "version": 1
+    },
+    {
+      "id": "l2-ch4-t",
+      "type": "text",
+      "x": 740,
+      "y": 675,
+      "strokeColor": "#1e1e1e",
+      "text": "Economics\nUncontrolled loops\n→ cost spikes",
+      "fontSize": 13,
+      "createdAt": "2026-02-18T14:43:35.835Z",
+      "updatedAt": "2026-02-18T14:43:35.835Z",
+      "version": 1
+    },
+    {
+      "id": "l2-examples-label",
+      "type": "text",
+      "x": 60,
+      "y": 770,
+      "strokeColor": "#868e96",
+      "text": "Real-World Examples",
+      "fontSize": 20,
+      "createdAt": "2026-02-18T14:43:35.835Z",
+      "updatedAt": "2026-02-18T14:43:35.835Z",
+      "version": 1
+    },
+    {
+      "id": "l2-ex1",
+      "type": "rectangle",
+      "x": 60,
+      "y": 810,
+      "width": 260,
+      "height": 60,
+      "backgroundColor": "#a5d8ff",
+      "strokeColor": "#1971c2",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:43:35.835Z",
+      "updatedAt": "2026-02-18T14:43:35.835Z",
+      "version": 1
+    },
+    {
+      "id": "l2-ex1-t",
+      "type": "text",
+      "x": 80,
+      "y": 825,
+      "strokeColor": "#1e1e1e",
+      "text": "Google Doc Summarisation\n→ Workflow (fixed pipeline)",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:43:35.835Z",
+      "updatedAt": "2026-02-18T14:43:35.835Z",
+      "version": 1
+    },
+    {
+      "id": "l2-ex2",
+      "type": "rectangle",
+      "x": 360,
+      "y": 810,
+      "width": 260,
+      "height": 60,
+      "backgroundColor": "#ffd8a8",
+      "strokeColor": "#e8590c",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:43:35.835Z",
+      "updatedAt": "2026-02-18T14:43:35.835Z",
+      "version": 1
+    },
+    {
+      "id": "l2-ex2-t",
+      "type": "text",
+      "x": 390,
+      "y": 825,
+      "strokeColor": "#1e1e1e",
+      "text": "Claude Code / Gemini CLI\n→ Agent (ReAct loop)",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:43:35.835Z",
+      "updatedAt": "2026-02-18T14:43:35.835Z",
+      "version": 1
+    },
+    {
+      "id": "l2-ex3",
+      "type": "rectangle",
+      "x": 660,
+      "y": 810,
+      "width": 260,
+      "height": 60,
+      "backgroundColor": "#eebefa",
+      "strokeColor": "#9c36b5",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:43:35.835Z",
+      "updatedAt": "2026-02-18T14:43:35.835Z",
+      "version": 1
+    },
+    {
+      "id": "l2-ex3-t",
+      "type": "text",
+      "x": 680,
+      "y": 825,
+      "strokeColor": "#1e1e1e",
+      "text": "Perplexity Deep Research\n→ Hybrid (orch + agents)",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:43:35.835Z",
+      "updatedAt": "2026-02-18T14:43:35.835Z",
+      "version": 1
+    },
+    {
+      "id": "l3-zone",
+      "type": "rectangle",
+      "x": 0,
+      "y": 960,
+      "width": 1800,
+      "height": 1020,
+      "backgroundColor": "#e9ecef",
+      "strokeColor": "#868e96",
+      "strokeStyle": "dashed",
+      "roughness": 1,
+      "opacity": 40,
+      "createdAt": "2026-02-18T14:44:37.727Z",
+      "updatedAt": "2026-02-18T14:44:37.727Z",
+      "version": 1
+    },
+    {
+      "id": "l3-title",
+      "type": "text",
+      "x": 40,
+      "y": 980,
+      "strokeColor": "#1e1e1e",
+      "text": "LESSON 3: Context Engineering",
+      "fontSize": 28,
+      "createdAt": "2026-02-18T14:44:37.727Z",
+      "updatedAt": "2026-02-18T14:44:37.727Z",
+      "version": 1
+    },
+    {
+      "id": "l3-core",
+      "type": "text",
+      "x": 60,
+      "y": 1030,
+      "strokeColor": "#868e96",
+      "text": "\"The discipline of orchestrating the information ecosystem so the LLM gets\nexactly what it needs, when it needs it.\" - Karpathy: LLM = CPU, Context = RAM",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:44:37.727Z",
+      "updatedAt": "2026-02-18T14:44:37.727Z",
+      "version": 1
+    },
+    {
+      "id": "l3-evo-label",
+      "type": "text",
+      "x": 60,
+      "y": 1080,
+      "strokeColor": "#1971c2",
+      "text": "Evolution: Prompt Eng → Context Eng → Fine-tuning (last resort)",
+      "fontSize": 18,
+      "createdAt": "2026-02-18T14:44:37.727Z",
+      "updatedAt": "2026-02-18T14:44:37.727Z",
+      "version": 1
+    },
+    {
+      "id": "l3-pe",
+      "type": "rectangle",
+      "x": 60,
+      "y": 1120,
+      "width": 200,
+      "height": 70,
+      "backgroundColor": "#a5d8ff",
+      "strokeColor": "#1971c2",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.727Z",
+      "updatedAt": "2026-02-18T14:44:37.727Z",
+      "version": 1
+    },
+    {
+      "id": "l3-pe-t",
+      "type": "text",
+      "x": 80,
+      "y": 1135,
+      "strokeColor": "#1e1e1e",
+      "text": "Prompt Engineering\nSingle call, stateless\nHow to phrase tasks",
+      "fontSize": 13,
+      "createdAt": "2026-02-18T14:44:37.727Z",
+      "updatedAt": "2026-02-18T14:44:37.727Z",
+      "version": 1
+    },
+    {
+      "id": "l3-pe-ce-arr",
+      "type": "arrow",
+      "x": 268,
+      "y": 1155,
+      "width": 80,
+      "height": 0,
+      "strokeColor": "#1971c2",
+      "label": {
+        "text": "subset of"
+      },
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          84,
+          0
+        ]
+      ],
+      "createdAt": "2026-02-18T14:44:37.727Z",
+      "updatedAt": "2026-02-18T14:44:37.727Z",
+      "version": 1,
+      "startBinding": {
+        "elementId": "l3-pe",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "l3-ce",
+        "focus": 0,
+        "gap": 8
+      }
+    },
+    {
+      "id": "l3-ce",
+      "type": "rectangle",
+      "x": 360,
+      "y": 1120,
+      "width": 240,
+      "height": 70,
+      "backgroundColor": "#b2f2bb",
+      "strokeColor": "#2f9e44",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.727Z",
+      "updatedAt": "2026-02-18T14:44:37.727Z",
+      "version": 1
+    },
+    {
+      "id": "l3-ce-t",
+      "type": "text",
+      "x": 380,
+      "y": 1135,
+      "strokeColor": "#1e1e1e",
+      "text": "Context Engineering\nEntire info ecosystem, stateful\nWhat information to provide",
+      "fontSize": 13,
+      "createdAt": "2026-02-18T14:44:37.727Z",
+      "updatedAt": "2026-02-18T14:44:37.727Z",
+      "version": 1
+    },
+    {
+      "id": "l3-ce-ft-arr",
+      "type": "arrow",
+      "x": 608,
+      "y": 1155,
+      "width": 80,
+      "height": 0,
+      "strokeColor": "#868e96",
+      "strokeStyle": "dashed",
+      "label": {
+        "text": "last resort"
+      },
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          84,
+          0
+        ]
+      ],
+      "createdAt": "2026-02-18T14:44:37.727Z",
+      "updatedAt": "2026-02-18T14:44:37.727Z",
+      "version": 1,
+      "startBinding": {
+        "elementId": "l3-ce",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "l3-ft",
+        "focus": 0,
+        "gap": 8
+      }
+    },
+    {
+      "id": "l3-ft",
+      "type": "rectangle",
+      "x": 700,
+      "y": 1120,
+      "width": 200,
+      "height": 70,
+      "backgroundColor": "#ffc9c9",
+      "strokeColor": "#e03131",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.727Z",
+      "updatedAt": "2026-02-18T14:44:37.727Z",
+      "version": 1
+    },
+    {
+      "id": "l3-ft-t",
+      "type": "text",
+      "x": 720,
+      "y": 1135,
+      "strokeColor": "#1e1e1e",
+      "text": "Fine-Tuning\nExpensive, inflexible\nData changes constantly",
+      "fontSize": 13,
+      "createdAt": "2026-02-18T14:44:37.727Z",
+      "updatedAt": "2026-02-18T14:44:37.727Z",
+      "version": 1
+    },
+    {
+      "id": "l3-mem-label",
+      "type": "text",
+      "x": 60,
+      "y": 1220,
+      "strokeColor": "#868e96",
+      "text": "What Makes Up the Context",
+      "fontSize": 20,
+      "createdAt": "2026-02-18T14:44:37.727Z",
+      "updatedAt": "2026-02-18T14:44:37.727Z",
+      "version": 1
+    },
+    {
+      "id": "l3-stm-zone",
+      "type": "rectangle",
+      "x": 60,
+      "y": 1260,
+      "width": 440,
+      "height": 220,
+      "backgroundColor": "#a5d8ff",
+      "strokeColor": "#1971c2",
+      "strokeStyle": "dashed",
+      "roughness": 1,
+      "opacity": 50,
+      "createdAt": "2026-02-18T14:44:37.727Z",
+      "updatedAt": "2026-02-18T14:44:37.727Z",
+      "version": 1
+    },
+    {
+      "id": "l3-stm-title",
+      "type": "text",
+      "x": 80,
+      "y": 1270,
+      "strokeColor": "#1971c2",
+      "text": "Short-Term Working Memory (volatile)",
+      "fontSize": 16,
+      "createdAt": "2026-02-18T14:44:37.727Z",
+      "updatedAt": "2026-02-18T14:44:37.727Z",
+      "version": 1
+    },
+    {
+      "id": "l3-stm1",
+      "type": "rectangle",
+      "x": 80,
+      "y": 1300,
+      "width": 190,
+      "height": 50,
+      "backgroundColor": "#a5d8ff",
+      "strokeColor": "#1971c2",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.728Z",
+      "updatedAt": "2026-02-18T14:44:37.728Z",
+      "version": 1
+    },
+    {
+      "id": "l3-stm1-t",
+      "type": "text",
+      "x": 100,
+      "y": 1312,
+      "strokeColor": "#1e1e1e",
+      "text": "User Input\nLatest query or command",
+      "fontSize": 12,
+      "createdAt": "2026-02-18T14:44:37.728Z",
+      "updatedAt": "2026-02-18T14:44:37.728Z",
+      "version": 1
+    },
+    {
+      "id": "l3-stm2",
+      "type": "rectangle",
+      "x": 290,
+      "y": 1300,
+      "width": 190,
+      "height": 50,
+      "backgroundColor": "#a5d8ff",
+      "strokeColor": "#1971c2",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.728Z",
+      "updatedAt": "2026-02-18T14:44:37.728Z",
+      "version": 1
+    },
+    {
+      "id": "l3-stm2-t",
+      "type": "text",
+      "x": 310,
+      "y": 1312,
+      "strokeColor": "#1e1e1e",
+      "text": "Message History\nConversation log",
+      "fontSize": 12,
+      "createdAt": "2026-02-18T14:44:37.728Z",
+      "updatedAt": "2026-02-18T14:44:37.728Z",
+      "version": 1
+    },
+    {
+      "id": "l3-stm3",
+      "type": "rectangle",
+      "x": 80,
+      "y": 1370,
+      "width": 190,
+      "height": 50,
+      "backgroundColor": "#a5d8ff",
+      "strokeColor": "#1971c2",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.728Z",
+      "updatedAt": "2026-02-18T14:44:37.728Z",
+      "version": 1
+    },
+    {
+      "id": "l3-stm3-t",
+      "type": "text",
+      "x": 100,
+      "y": 1382,
+      "strokeColor": "#1e1e1e",
+      "text": "Agent's Internal Thoughts\nReasoning & planning",
+      "fontSize": 12,
+      "createdAt": "2026-02-18T14:44:37.728Z",
+      "updatedAt": "2026-02-18T14:44:37.728Z",
+      "version": 1
+    },
+    {
+      "id": "l3-stm4",
+      "type": "rectangle",
+      "x": 290,
+      "y": 1370,
+      "width": 190,
+      "height": 50,
+      "backgroundColor": "#a5d8ff",
+      "strokeColor": "#1971c2",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.729Z",
+      "updatedAt": "2026-02-18T14:44:37.729Z",
+      "version": 1
+    },
+    {
+      "id": "l3-stm4-t",
+      "type": "text",
+      "x": 310,
+      "y": 1382,
+      "strokeColor": "#1e1e1e",
+      "text": "Action Calls & Outputs\nTool results from ext. systems",
+      "fontSize": 12,
+      "createdAt": "2026-02-18T14:44:37.729Z",
+      "updatedAt": "2026-02-18T14:44:37.729Z",
+      "version": 1
+    },
+    {
+      "id": "l3-ltm-zone",
+      "type": "rectangle",
+      "x": 540,
+      "y": 1260,
+      "width": 440,
+      "height": 220,
+      "backgroundColor": "#b2f2bb",
+      "strokeColor": "#2f9e44",
+      "strokeStyle": "dashed",
+      "roughness": 1,
+      "opacity": 50,
+      "createdAt": "2026-02-18T14:44:37.729Z",
+      "updatedAt": "2026-02-18T14:44:37.729Z",
+      "version": 1
+    },
+    {
+      "id": "l3-ltm-title",
+      "type": "text",
+      "x": 560,
+      "y": 1270,
+      "strokeColor": "#2f9e44",
+      "text": "Long-Term Memory (persistent)",
+      "fontSize": 16,
+      "createdAt": "2026-02-18T14:44:37.729Z",
+      "updatedAt": "2026-02-18T14:44:37.729Z",
+      "version": 1
+    },
+    {
+      "id": "l3-ltm1",
+      "type": "rectangle",
+      "x": 560,
+      "y": 1300,
+      "width": 190,
+      "height": 60,
+      "backgroundColor": "#b2f2bb",
+      "strokeColor": "#2f9e44",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.729Z",
+      "updatedAt": "2026-02-18T14:44:37.729Z",
+      "version": 1
+    },
+    {
+      "id": "l3-ltm1-t",
+      "type": "text",
+      "x": 575,
+      "y": 1310,
+      "strokeColor": "#1e1e1e",
+      "text": "Procedural Memory\nSystem prompt, tool defs\nStructured output schemas",
+      "fontSize": 12,
+      "createdAt": "2026-02-18T14:44:37.729Z",
+      "updatedAt": "2026-02-18T14:44:37.729Z",
+      "version": 1
+    },
+    {
+      "id": "l3-ltm2",
+      "type": "rectangle",
+      "x": 770,
+      "y": 1300,
+      "width": 190,
+      "height": 60,
+      "backgroundColor": "#b2f2bb",
+      "strokeColor": "#2f9e44",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.729Z",
+      "updatedAt": "2026-02-18T14:44:37.729Z",
+      "version": 1
+    },
+    {
+      "id": "l3-ltm2-t",
+      "type": "text",
+      "x": 785,
+      "y": 1310,
+      "strokeColor": "#1e1e1e",
+      "text": "Episodic Memory\nUser preferences, past\ninteractions (vector/graph DB)",
+      "fontSize": 12,
+      "createdAt": "2026-02-18T14:44:37.729Z",
+      "updatedAt": "2026-02-18T14:44:37.729Z",
+      "version": 1
+    },
+    {
+      "id": "l3-ltm3",
+      "type": "rectangle",
+      "x": 560,
+      "y": 1380,
+      "width": 400,
+      "height": 50,
+      "backgroundColor": "#b2f2bb",
+      "strokeColor": "#2f9e44",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.729Z",
+      "updatedAt": "2026-02-18T14:44:37.729Z",
+      "version": 1
+    },
+    {
+      "id": "l3-ltm3-t",
+      "type": "text",
+      "x": 620,
+      "y": 1392,
+      "strokeColor": "#1e1e1e",
+      "text": "Semantic Memory - Knowledge base (docs, APIs, web scraping)",
+      "fontSize": 12,
+      "createdAt": "2026-02-18T14:44:37.729Z",
+      "updatedAt": "2026-02-18T14:44:37.729Z",
+      "version": 1
+    },
+    {
+      "id": "l3-chal-label",
+      "type": "text",
+      "x": 60,
+      "y": 1510,
+      "strokeColor": "#868e96",
+      "text": "Production Challenges",
+      "fontSize": 20,
+      "createdAt": "2026-02-18T14:44:37.729Z",
+      "updatedAt": "2026-02-18T14:44:37.729Z",
+      "version": 1
+    },
+    {
+      "id": "l3-chal1",
+      "type": "rectangle",
+      "x": 60,
+      "y": 1550,
+      "width": 220,
+      "height": 70,
+      "backgroundColor": "#ffc9c9",
+      "strokeColor": "#e03131",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.729Z",
+      "updatedAt": "2026-02-18T14:44:37.729Z",
+      "version": 1
+    },
+    {
+      "id": "l3-chal1-t",
+      "type": "text",
+      "x": 75,
+      "y": 1565,
+      "strokeColor": "#1e1e1e",
+      "text": "Context Window Limit\nFinite tokens like RAM\nNot infinite even if large",
+      "fontSize": 13,
+      "createdAt": "2026-02-18T14:44:37.729Z",
+      "updatedAt": "2026-02-18T14:44:37.729Z",
+      "version": 1
+    },
+    {
+      "id": "l3-chal2",
+      "type": "rectangle",
+      "x": 300,
+      "y": 1550,
+      "width": 220,
+      "height": 70,
+      "backgroundColor": "#ffc9c9",
+      "strokeColor": "#e03131",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.729Z",
+      "updatedAt": "2026-02-18T14:44:37.729Z",
+      "version": 1
+    },
+    {
+      "id": "l3-chal2-t",
+      "type": "text",
+      "x": 315,
+      "y": 1565,
+      "strokeColor": "#1e1e1e",
+      "text": "Information Overload\nLost-in-the-middle effect\nNeedle in a haystack",
+      "fontSize": 13,
+      "createdAt": "2026-02-18T14:44:37.731Z",
+      "updatedAt": "2026-02-18T14:44:37.731Z",
+      "version": 1
+    },
+    {
+      "id": "l3-chal3",
+      "type": "rectangle",
+      "x": 540,
+      "y": 1550,
+      "width": 220,
+      "height": 70,
+      "backgroundColor": "#ffc9c9",
+      "strokeColor": "#e03131",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.731Z",
+      "updatedAt": "2026-02-18T14:44:37.731Z",
+      "version": 1
+    },
+    {
+      "id": "l3-chal3-t",
+      "type": "text",
+      "x": 555,
+      "y": 1565,
+      "strokeColor": "#1e1e1e",
+      "text": "Context Drift\nConflicting facts accumulate\n\"Cat is white\" vs \"Cat is black\"",
+      "fontSize": 13,
+      "createdAt": "2026-02-18T14:44:37.731Z",
+      "updatedAt": "2026-02-18T14:44:37.731Z",
+      "version": 1
+    },
+    {
+      "id": "l3-chal4",
+      "type": "rectangle",
+      "x": 780,
+      "y": 1550,
+      "width": 220,
+      "height": 70,
+      "backgroundColor": "#ffc9c9",
+      "strokeColor": "#e03131",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.731Z",
+      "updatedAt": "2026-02-18T14:44:37.731Z",
+      "version": 1
+    },
+    {
+      "id": "l3-chal4-t",
+      "type": "text",
+      "x": 795,
+      "y": 1565,
+      "strokeColor": "#1e1e1e",
+      "text": "Tool Confusion\n>100 tools confuses LLM\nPoor/overlapping descriptions",
+      "fontSize": 13,
+      "createdAt": "2026-02-18T14:44:37.731Z",
+      "updatedAt": "2026-02-18T14:44:37.731Z",
+      "version": 1
+    },
+    {
+      "id": "l3-strat-label",
+      "type": "text",
+      "x": 60,
+      "y": 1650,
+      "strokeColor": "#868e96",
+      "text": "4 Key Optimization Strategies",
+      "fontSize": 20,
+      "createdAt": "2026-02-18T14:44:37.731Z",
+      "updatedAt": "2026-02-18T14:44:37.731Z",
+      "version": 1
+    },
+    {
+      "id": "l3-s1",
+      "type": "rectangle",
+      "x": 60,
+      "y": 1690,
+      "width": 230,
+      "height": 120,
+      "backgroundColor": "#b2f2bb",
+      "strokeColor": "#2f9e44",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.731Z",
+      "updatedAt": "2026-02-18T14:44:37.731Z",
+      "version": 1
+    },
+    {
+      "id": "l3-s1-title",
+      "type": "text",
+      "x": 100,
+      "y": 1700,
+      "strokeColor": "#2f9e44",
+      "text": "1. Select Right Context",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:44:37.731Z",
+      "updatedAt": "2026-02-18T14:44:37.731Z",
+      "version": 1
+    },
+    {
+      "id": "l3-s1-list",
+      "type": "text",
+      "x": 75,
+      "y": 1725,
+      "strokeColor": "#1e1e1e",
+      "text": "- Structured outputs (L4)\n- RAG (L10)\n- Limit tools (<30)\n- Rank by time\n- Repeat core instructions",
+      "fontSize": 12,
+      "createdAt": "2026-02-18T14:44:37.731Z",
+      "updatedAt": "2026-02-18T14:44:37.731Z",
+      "version": 1
+    },
+    {
+      "id": "l3-s2",
+      "type": "rectangle",
+      "x": 310,
+      "y": 1690,
+      "width": 230,
+      "height": 120,
+      "backgroundColor": "#b2f2bb",
+      "strokeColor": "#2f9e44",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.731Z",
+      "updatedAt": "2026-02-18T14:44:37.731Z",
+      "version": 1
+    },
+    {
+      "id": "l3-s2-title",
+      "type": "text",
+      "x": 340,
+      "y": 1700,
+      "strokeColor": "#2f9e44",
+      "text": "2. Compress Context",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:44:37.732Z",
+      "updatedAt": "2026-02-18T14:44:37.732Z",
+      "version": 1
+    },
+    {
+      "id": "l3-s2-list",
+      "type": "text",
+      "x": 325,
+      "y": 1725,
+      "strokeColor": "#1e1e1e",
+      "text": "- Summarise past history\n- Move prefs to LT memory\n- Deduplication\n- Keep working context\n  clean & focused",
+      "fontSize": 12,
+      "createdAt": "2026-02-18T14:44:37.732Z",
+      "updatedAt": "2026-02-18T14:44:37.732Z",
+      "version": 1
+    },
+    {
+      "id": "l3-s3",
+      "type": "rectangle",
+      "x": 560,
+      "y": 1690,
+      "width": 230,
+      "height": 120,
+      "backgroundColor": "#b2f2bb",
+      "strokeColor": "#2f9e44",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.732Z",
+      "updatedAt": "2026-02-18T14:44:37.732Z",
+      "version": 1
+    },
+    {
+      "id": "l3-s3-title",
+      "type": "text",
+      "x": 600,
+      "y": 1700,
+      "strokeColor": "#2f9e44",
+      "text": "3. Isolate Context",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:44:37.732Z",
+      "updatedAt": "2026-02-18T14:44:37.732Z",
+      "version": 1
+    },
+    {
+      "id": "l3-s3-list",
+      "type": "text",
+      "x": 575,
+      "y": 1725,
+      "strokeColor": "#1e1e1e",
+      "text": "- Split across agents\n- Orchestrator-Worker (L5)\n- Each worker: small,\n  focused context\n- Parallel processing",
+      "fontSize": 12,
+      "createdAt": "2026-02-18T14:44:37.732Z",
+      "updatedAt": "2026-02-18T14:44:37.732Z",
+      "version": 1
+    },
+    {
+      "id": "l3-s4",
+      "type": "rectangle",
+      "x": 810,
+      "y": 1690,
+      "width": 230,
+      "height": 120,
+      "backgroundColor": "#b2f2bb",
+      "strokeColor": "#2f9e44",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.732Z",
+      "updatedAt": "2026-02-18T14:44:37.732Z",
+      "version": 1
+    },
+    {
+      "id": "l3-s4-title",
+      "type": "text",
+      "x": 840,
+      "y": 1700,
+      "strokeColor": "#2f9e44",
+      "text": "4. Format Optimisations",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:44:37.732Z",
+      "updatedAt": "2026-02-18T14:44:37.732Z",
+      "version": 1
+    },
+    {
+      "id": "l3-s4-list",
+      "type": "text",
+      "x": 825,
+      "y": 1725,
+      "strokeColor": "#1e1e1e",
+      "text": "- XML tags for structure\n  <user_query>, <docs>\n- YAML over JSON\n  (more token-efficient)\n- Monitor your traces",
+      "fontSize": 12,
+      "createdAt": "2026-02-18T14:44:37.732Z",
+      "updatedAt": "2026-02-18T14:44:37.732Z",
+      "version": 1
+    },
+    {
+      "id": "l3-flow-label",
+      "type": "text",
+      "x": 60,
+      "y": 1840,
+      "strokeColor": "#868e96",
+      "text": "Context Assembly Workflow",
+      "fontSize": 20,
+      "createdAt": "2026-02-18T14:44:37.732Z",
+      "updatedAt": "2026-02-18T14:44:37.732Z",
+      "version": 1
+    },
+    {
+      "id": "l3-f1",
+      "type": "rectangle",
+      "x": 60,
+      "y": 1880,
+      "width": 160,
+      "height": 60,
+      "backgroundColor": "#a5d8ff",
+      "strokeColor": "#1971c2",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.732Z",
+      "updatedAt": "2026-02-18T14:44:37.732Z",
+      "version": 1
+    },
+    {
+      "id": "l3-f1-t",
+      "type": "text",
+      "x": 90,
+      "y": 1898,
+      "strokeColor": "#1e1e1e",
+      "text": "User Input",
+      "fontSize": 16,
+      "createdAt": "2026-02-18T14:44:37.732Z",
+      "updatedAt": "2026-02-18T14:44:37.732Z",
+      "version": 1
+    },
+    {
+      "id": "l3-fa1",
+      "type": "arrow",
+      "x": 228,
+      "y": 1910,
+      "width": 60,
+      "height": 0,
+      "strokeColor": "#1971c2",
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          64,
+          0
+        ]
+      ],
+      "createdAt": "2026-02-18T14:44:37.732Z",
+      "updatedAt": "2026-02-18T14:44:37.732Z",
+      "version": 1,
+      "startBinding": {
+        "elementId": "l3-f1",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "l3-f2",
+        "focus": 0,
+        "gap": 8
+      }
+    },
+    {
+      "id": "l3-f2",
+      "type": "rectangle",
+      "x": 300,
+      "y": 1880,
+      "width": 160,
+      "height": 60,
+      "backgroundColor": "#b2f2bb",
+      "strokeColor": "#2f9e44",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.732Z",
+      "updatedAt": "2026-02-18T14:44:37.732Z",
+      "version": 1
+    },
+    {
+      "id": "l3-f2-t",
+      "type": "text",
+      "x": 310,
+      "y": 1898,
+      "strokeColor": "#1e1e1e",
+      "text": "Retrieve Memory",
+      "fontSize": 16,
+      "createdAt": "2026-02-18T14:44:37.732Z",
+      "updatedAt": "2026-02-18T14:44:37.732Z",
+      "version": 1
+    },
+    {
+      "id": "l3-fa2",
+      "type": "arrow",
+      "x": 468,
+      "y": 1910,
+      "width": 60,
+      "height": 0,
+      "strokeColor": "#2f9e44",
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          64,
+          0
+        ]
+      ],
+      "createdAt": "2026-02-18T14:44:37.732Z",
+      "updatedAt": "2026-02-18T14:44:37.732Z",
+      "version": 1,
+      "startBinding": {
+        "elementId": "l3-f2",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "l3-f3",
+        "focus": 0,
+        "gap": 8
+      }
+    },
+    {
+      "id": "l3-f3",
+      "type": "rectangle",
+      "x": 540,
+      "y": 1880,
+      "width": 160,
+      "height": 60,
+      "backgroundColor": "#eebefa",
+      "strokeColor": "#9c36b5",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.732Z",
+      "updatedAt": "2026-02-18T14:44:37.732Z",
+      "version": 1
+    },
+    {
+      "id": "l3-f3-t",
+      "type": "text",
+      "x": 555,
+      "y": 1898,
+      "strokeColor": "#1e1e1e",
+      "text": "Assemble Context",
+      "fontSize": 16,
+      "createdAt": "2026-02-18T14:44:37.733Z",
+      "updatedAt": "2026-02-18T14:44:37.733Z",
+      "version": 1
+    },
+    {
+      "id": "l3-fa3",
+      "type": "arrow",
+      "x": 708,
+      "y": 1910,
+      "width": 60,
+      "height": 0,
+      "strokeColor": "#9c36b5",
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          64,
+          0
+        ]
+      ],
+      "createdAt": "2026-02-18T14:44:37.733Z",
+      "updatedAt": "2026-02-18T14:44:37.733Z",
+      "version": 1,
+      "startBinding": {
+        "elementId": "l3-f3",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "l3-f4",
+        "focus": 0,
+        "gap": 8
+      }
+    },
+    {
+      "id": "l3-f4",
+      "type": "rectangle",
+      "x": 780,
+      "y": 1880,
+      "width": 160,
+      "height": 60,
+      "backgroundColor": "#ffd8a8",
+      "strokeColor": "#e8590c",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.733Z",
+      "updatedAt": "2026-02-18T14:44:37.733Z",
+      "version": 1
+    },
+    {
+      "id": "l3-f4-t",
+      "type": "text",
+      "x": 815,
+      "y": 1898,
+      "strokeColor": "#1e1e1e",
+      "text": "Call LLM",
+      "fontSize": 16,
+      "createdAt": "2026-02-18T14:44:37.733Z",
+      "updatedAt": "2026-02-18T14:44:37.733Z",
+      "version": 1
+    },
+    {
+      "id": "l3-fa4",
+      "type": "arrow",
+      "x": 948,
+      "y": 1910,
+      "width": 60,
+      "height": 0,
+      "strokeColor": "#e8590c",
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          64,
+          0
+        ]
+      ],
+      "createdAt": "2026-02-18T14:44:37.733Z",
+      "updatedAt": "2026-02-18T14:44:37.733Z",
+      "version": 1,
+      "startBinding": {
+        "elementId": "l3-f4",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "l3-f5",
+        "focus": 0,
+        "gap": 8
+      }
+    },
+    {
+      "id": "l3-f5",
+      "type": "rectangle",
+      "x": 1020,
+      "y": 1880,
+      "width": 160,
+      "height": 60,
+      "backgroundColor": "#99e9f2",
+      "strokeColor": "#0c8599",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:44:37.733Z",
+      "updatedAt": "2026-02-18T14:44:37.733Z",
+      "version": 1
+    },
+    {
+      "id": "l3-f5-t",
+      "type": "text",
+      "x": 1040,
+      "y": 1898,
+      "strokeColor": "#1e1e1e",
+      "text": "Update Memory",
+      "fontSize": 16,
+      "createdAt": "2026-02-18T14:44:37.733Z",
+      "updatedAt": "2026-02-18T14:44:37.733Z",
+      "version": 1
+    },
+    {
+      "id": "l4-zone",
+      "type": "rectangle",
+      "x": 0,
+      "y": 2040,
+      "width": 1800,
+      "height": 780,
+      "backgroundColor": "#e9ecef",
+      "strokeColor": "#868e96",
+      "strokeStyle": "dashed",
+      "roughness": 1,
+      "opacity": 40,
+      "createdAt": "2026-02-18T14:45:49.979Z",
+      "updatedAt": "2026-02-18T14:45:49.979Z",
+      "version": 1
+    },
+    {
+      "id": "l4-title",
+      "type": "text",
+      "x": 40,
+      "y": 2060,
+      "strokeColor": "#1e1e1e",
+      "text": "LESSON 4: Structured Outputs",
+      "fontSize": 28,
+      "createdAt": "2026-02-18T14:45:49.979Z",
+      "updatedAt": "2026-02-18T14:45:49.979Z",
+      "version": 1
+    },
+    {
+      "id": "l4-core",
+      "type": "text",
+      "x": 60,
+      "y": 2110,
+      "strokeColor": "#868e96",
+      "text": "The bridge between Software 3.0 (LLMs) and Software 1.0 (deterministic apps).\nForces LLMs to return consistent, machine-readable data instead of free-form text.",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:45:49.979Z",
+      "updatedAt": "2026-02-18T14:45:49.979Z",
+      "version": 1
+    },
+    {
+      "id": "l4-bridge-label",
+      "type": "text",
+      "x": 60,
+      "y": 2160,
+      "strokeColor": "#868e96",
+      "text": "The Bridge Between Worlds",
+      "fontSize": 20,
+      "createdAt": "2026-02-18T14:45:49.979Z",
+      "updatedAt": "2026-02-18T14:45:49.979Z",
+      "version": 1
+    },
+    {
+      "id": "l4-sw3",
+      "type": "rectangle",
+      "x": 60,
+      "y": 2200,
+      "width": 280,
+      "height": 100,
+      "backgroundColor": "#eebefa",
+      "strokeColor": "#9c36b5",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:45:49.979Z",
+      "updatedAt": "2026-02-18T14:45:49.979Z",
+      "version": 1
+    },
+    {
+      "id": "l4-sw3-t",
+      "type": "text",
+      "x": 100,
+      "y": 2215,
+      "strokeColor": "#9c36b5",
+      "text": "Software 3.0",
+      "fontSize": 20,
+      "createdAt": "2026-02-18T14:45:49.979Z",
+      "updatedAt": "2026-02-18T14:45:49.979Z",
+      "version": 1
+    },
+    {
+      "id": "l4-sw3-d",
+      "type": "text",
+      "x": 80,
+      "y": 2250,
+      "strokeColor": "#1e1e1e",
+      "text": "LLM Workflows & AI Agents\nUnstructured, probabilistic\nPlain English in/out",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:45:49.979Z",
+      "updatedAt": "2026-02-18T14:45:49.979Z",
+      "version": 1
+    },
+    {
+      "id": "l4-bridge1",
+      "type": "arrow",
+      "x": 348,
+      "y": 2250,
+      "width": 100,
+      "height": 0,
+      "strokeColor": "#2f9e44",
+      "strokeWidth": 3,
+      "label": {
+        "text": "structured"
+      },
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          104,
+          0
+        ]
+      ],
+      "createdAt": "2026-02-18T14:45:49.979Z",
+      "updatedAt": "2026-02-18T14:45:49.979Z",
+      "version": 1,
+      "startBinding": {
+        "elementId": "l4-sw3",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "l4-so",
+        "focus": 0,
+        "gap": 8
+      }
+    },
+    {
+      "id": "l4-so",
+      "type": "rectangle",
+      "x": 460,
+      "y": 2200,
+      "width": 280,
+      "height": 100,
+      "backgroundColor": "#b2f2bb",
+      "strokeColor": "#2f9e44",
+      "strokeWidth": 3,
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:45:49.979Z",
+      "updatedAt": "2026-02-18T14:45:49.979Z",
+      "version": 1
+    },
+    {
+      "id": "l4-so-t",
+      "type": "text",
+      "x": 490,
+      "y": 2215,
+      "strokeColor": "#2f9e44",
+      "text": "Structured Outputs",
+      "fontSize": 20,
+      "createdAt": "2026-02-18T14:45:49.979Z",
+      "updatedAt": "2026-02-18T14:45:49.979Z",
+      "version": 1
+    },
+    {
+      "id": "l4-so-d",
+      "type": "text",
+      "x": 480,
+      "y": 2250,
+      "strokeColor": "#1e1e1e",
+      "text": "JSON / Pydantic models\nType-safe, validated\nFormal contract",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:45:49.979Z",
+      "updatedAt": "2026-02-18T14:45:49.979Z",
+      "version": 1
+    },
+    {
+      "id": "l4-bridge2",
+      "type": "arrow",
+      "x": 748,
+      "y": 2250,
+      "width": 100,
+      "height": 0,
+      "strokeColor": "#1971c2",
+      "strokeWidth": 3,
+      "label": {
+        "text": "parsed"
+      },
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          104,
+          0
+        ]
+      ],
+      "createdAt": "2026-02-18T14:45:49.980Z",
+      "updatedAt": "2026-02-18T14:45:49.980Z",
+      "version": 1,
+      "startBinding": {
+        "elementId": "l4-so",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "l4-sw1",
+        "focus": 0,
+        "gap": 8
+      }
+    },
+    {
+      "id": "l4-sw1",
+      "type": "rectangle",
+      "x": 860,
+      "y": 2200,
+      "width": 280,
+      "height": 100,
+      "backgroundColor": "#a5d8ff",
+      "strokeColor": "#1971c2",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:45:49.980Z",
+      "updatedAt": "2026-02-18T14:45:49.980Z",
+      "version": 1
+    },
+    {
+      "id": "l4-sw1-t",
+      "type": "text",
+      "x": 920,
+      "y": 2215,
+      "strokeColor": "#1971c2",
+      "text": "Software 1.0",
+      "fontSize": 20,
+      "createdAt": "2026-02-18T14:45:49.980Z",
+      "updatedAt": "2026-02-18T14:45:49.980Z",
+      "version": 1
+    },
+    {
+      "id": "l4-sw1-d",
+      "type": "text",
+      "x": 880,
+      "y": 2250,
+      "strokeColor": "#1e1e1e",
+      "text": "Traditional Applications\nDeterministic code\nPredictable data structures",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:45:49.980Z",
+      "updatedAt": "2026-02-18T14:45:49.980Z",
+      "version": 1
+    },
+    {
+      "id": "l4-why-label",
+      "type": "text",
+      "x": 60,
+      "y": 2340,
+      "strokeColor": "#868e96",
+      "text": "Why Structured Outputs Matter",
+      "fontSize": 20,
+      "createdAt": "2026-02-18T14:45:49.980Z",
+      "updatedAt": "2026-02-18T14:45:49.980Z",
+      "version": 1
+    },
+    {
+      "id": "l4-w1",
+      "type": "rectangle",
+      "x": 60,
+      "y": 2380,
+      "width": 280,
+      "height": 70,
+      "backgroundColor": "#b2f2bb",
+      "strokeColor": "#2f9e44",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:45:49.980Z",
+      "updatedAt": "2026-02-18T14:45:49.980Z",
+      "version": 1
+    },
+    {
+      "id": "l4-w1-t",
+      "type": "text",
+      "x": 80,
+      "y": 2395,
+      "strokeColor": "#1e1e1e",
+      "text": "Easy to Parse & Debug\nClean Python objects, no\nfragile regex or string splitting",
+      "fontSize": 13,
+      "createdAt": "2026-02-18T14:45:49.980Z",
+      "updatedAt": "2026-02-18T14:45:49.980Z",
+      "version": 1
+    },
+    {
+      "id": "l4-w2",
+      "type": "rectangle",
+      "x": 370,
+      "y": 2380,
+      "width": 280,
+      "height": 70,
+      "backgroundColor": "#b2f2bb",
+      "strokeColor": "#2f9e44",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:45:49.980Z",
+      "updatedAt": "2026-02-18T14:45:49.980Z",
+      "version": 1
+    },
+    {
+      "id": "l4-w2-t",
+      "type": "text",
+      "x": 390,
+      "y": 2395,
+      "strokeColor": "#1e1e1e",
+      "text": "Runtime Validation\nPydantic catches type errors\nimmediately (fail-fast)",
+      "fontSize": 13,
+      "createdAt": "2026-02-18T14:45:49.980Z",
+      "updatedAt": "2026-02-18T14:45:49.980Z",
+      "version": 1
+    },
+    {
+      "id": "l4-w3",
+      "type": "rectangle",
+      "x": 680,
+      "y": 2380,
+      "width": 280,
+      "height": 70,
+      "backgroundColor": "#b2f2bb",
+      "strokeColor": "#2f9e44",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:45:49.980Z",
+      "updatedAt": "2026-02-18T14:45:49.980Z",
+      "version": 1
+    },
+    {
+      "id": "l4-w3-t",
+      "type": "text",
+      "x": 700,
+      "y": 2395,
+      "strokeColor": "#1e1e1e",
+      "text": "Formal Contract\nLLM-to-app data contract\nPass data to DBs, UIs, APIs",
+      "fontSize": 13,
+      "createdAt": "2026-02-18T14:45:49.980Z",
+      "updatedAt": "2026-02-18T14:45:49.980Z",
+      "version": 1
+    },
+    {
+      "id": "l4-impl-label",
+      "type": "text",
+      "x": 60,
+      "y": 2480,
+      "strokeColor": "#868e96",
+      "text": "3 Implementation Approaches (progression)",
+      "fontSize": 20,
+      "createdAt": "2026-02-18T14:45:49.980Z",
+      "updatedAt": "2026-02-18T14:45:49.980Z",
+      "version": 1
+    },
+    {
+      "id": "l4-i1",
+      "type": "rectangle",
+      "x": 60,
+      "y": 2520,
+      "width": 280,
+      "height": 110,
+      "backgroundColor": "#ffc9c9",
+      "strokeColor": "#e03131",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:45:49.980Z",
+      "updatedAt": "2026-02-18T14:45:49.980Z",
+      "version": 1
+    },
+    {
+      "id": "l4-i1-title",
+      "type": "text",
+      "x": 100,
+      "y": 2530,
+      "strokeColor": "#e03131",
+      "text": "1. Manual JSON Prompting",
+      "fontSize": 15,
+      "createdAt": "2026-02-18T14:45:49.980Z",
+      "updatedAt": "2026-02-18T14:45:49.980Z",
+      "version": 1
+    },
+    {
+      "id": "l4-i1-d",
+      "type": "text",
+      "x": 75,
+      "y": 2560,
+      "strokeColor": "#1e1e1e",
+      "text": "Prompt LLM to return JSON\nParse with json.loads()\nManual strip of markdown\nNo validation = fragile",
+      "fontSize": 12,
+      "createdAt": "2026-02-18T14:45:49.980Z",
+      "updatedAt": "2026-02-18T14:45:49.980Z",
+      "version": 1
+    },
+    {
+      "id": "l4-i-arr1",
+      "type": "arrow",
+      "x": 348,
+      "y": 2575,
+      "width": 80,
+      "height": 0,
+      "strokeColor": "#868e96",
+      "label": {
+        "text": "better"
+      },
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          84,
+          0
+        ]
+      ],
+      "createdAt": "2026-02-18T14:45:49.980Z",
+      "updatedAt": "2026-02-18T14:45:49.980Z",
+      "version": 1,
+      "startBinding": {
+        "elementId": "l4-i1",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "l4-i2",
+        "focus": 0,
+        "gap": 8
+      }
+    },
+    {
+      "id": "l4-i2",
+      "type": "rectangle",
+      "x": 440,
+      "y": 2520,
+      "width": 280,
+      "height": 110,
+      "backgroundColor": "#ffd8a8",
+      "strokeColor": "#e8590c",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:45:49.981Z",
+      "updatedAt": "2026-02-18T14:45:49.981Z",
+      "version": 1
+    },
+    {
+      "id": "l4-i2-title",
+      "type": "text",
+      "x": 470,
+      "y": 2530,
+      "strokeColor": "#e8590c",
+      "text": "2. Pydantic + JSON Schema",
+      "fontSize": 15,
+      "createdAt": "2026-02-18T14:45:49.981Z",
+      "updatedAt": "2026-02-18T14:45:49.981Z",
+      "version": 1
+    },
+    {
+      "id": "l4-i2-d",
+      "type": "text",
+      "x": 455,
+      "y": 2560,
+      "strokeColor": "#1e1e1e",
+      "text": "Define schema as Pydantic class\nGenerate JSON Schema auto\nmodel_validate() catches errors\nRuntime type safety",
+      "fontSize": 12,
+      "createdAt": "2026-02-18T14:45:49.981Z",
+      "updatedAt": "2026-02-18T14:45:49.981Z",
+      "version": 1
+    },
+    {
+      "id": "l4-i-arr2",
+      "type": "arrow",
+      "x": 728,
+      "y": 2575,
+      "width": 80,
+      "height": 0,
+      "strokeColor": "#868e96",
+      "label": {
+        "text": "best"
+      },
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          84,
+          0
+        ]
+      ],
+      "createdAt": "2026-02-18T14:45:49.981Z",
+      "updatedAt": "2026-02-18T14:45:49.981Z",
+      "version": 1,
+      "startBinding": {
+        "elementId": "l4-i2",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "l4-i3",
+        "focus": 0,
+        "gap": 8
+      }
+    },
+    {
+      "id": "l4-i3",
+      "type": "rectangle",
+      "x": 820,
+      "y": 2520,
+      "width": 280,
+      "height": 110,
+      "backgroundColor": "#b2f2bb",
+      "strokeColor": "#2f9e44",
+      "strokeWidth": 3,
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:45:49.981Z",
+      "updatedAt": "2026-02-18T14:45:49.981Z",
+      "version": 1
+    },
+    {
+      "id": "l4-i3-title",
+      "type": "text",
+      "x": 850,
+      "y": 2530,
+      "strokeColor": "#2f9e44",
+      "text": "3. Native API (Recommended)",
+      "fontSize": 15,
+      "createdAt": "2026-02-18T14:45:49.981Z",
+      "updatedAt": "2026-02-18T14:45:49.981Z",
+      "version": 1
+    },
+    {
+      "id": "l4-i3-d",
+      "type": "text",
+      "x": 835,
+      "y": 2560,
+      "strokeColor": "#1e1e1e",
+      "text": "Gemini/OpenAI response_schema\nPass Pydantic model directly\nresponse.parsed = ready object\nSimplest, most robust",
+      "fontSize": 12,
+      "createdAt": "2026-02-18T14:45:49.981Z",
+      "updatedAt": "2026-02-18T14:45:49.981Z",
+      "version": 1
+    },
+    {
+      "id": "l4-flow-label",
+      "type": "text",
+      "x": 60,
+      "y": 2660,
+      "strokeColor": "#868e96",
+      "text": "Downstream Data Flow",
+      "fontSize": 20,
+      "createdAt": "2026-02-18T14:45:49.981Z",
+      "updatedAt": "2026-02-18T14:45:49.981Z",
+      "version": 1
+    },
+    {
+      "id": "l4-fl1",
+      "type": "rectangle",
+      "x": 60,
+      "y": 2700,
+      "width": 160,
+      "height": 60,
+      "backgroundColor": "#eebefa",
+      "strokeColor": "#9c36b5",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:45:49.981Z",
+      "updatedAt": "2026-02-18T14:45:49.981Z",
+      "version": 1
+    },
+    {
+      "id": "l4-fl1-t",
+      "type": "text",
+      "x": 90,
+      "y": 2718,
+      "strokeColor": "#1e1e1e",
+      "text": "LLM Response",
+      "fontSize": 16,
+      "createdAt": "2026-02-18T14:45:49.981Z",
+      "updatedAt": "2026-02-18T14:45:49.981Z",
+      "version": 1
+    },
+    {
+      "id": "l4-fla1",
+      "type": "arrow",
+      "x": 228,
+      "y": 2730,
+      "width": 60,
+      "height": 0,
+      "strokeColor": "#9c36b5",
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          64,
+          0
+        ]
+      ],
+      "createdAt": "2026-02-18T14:45:49.981Z",
+      "updatedAt": "2026-02-18T14:45:49.981Z",
+      "version": 1,
+      "startBinding": {
+        "elementId": "l4-fl1",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "l4-fl2",
+        "focus": 0,
+        "gap": 8
+      }
+    },
+    {
+      "id": "l4-fl2",
+      "type": "rectangle",
+      "x": 300,
+      "y": 2700,
+      "width": 180,
+      "height": 60,
+      "backgroundColor": "#b2f2bb",
+      "strokeColor": "#2f9e44",
+      "strokeWidth": 2,
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:45:49.981Z",
+      "updatedAt": "2026-02-18T14:45:49.981Z",
+      "version": 1
+    },
+    {
+      "id": "l4-fl2-t",
+      "type": "text",
+      "x": 310,
+      "y": 2718,
+      "strokeColor": "#2f9e44",
+      "text": "Pydantic Model",
+      "fontSize": 16,
+      "createdAt": "2026-02-18T14:45:49.981Z",
+      "updatedAt": "2026-02-18T14:45:49.981Z",
+      "version": 1
+    },
+    {
+      "id": "l4-fla2a",
+      "type": "arrow",
+      "x": 487.94236490407974,
+      "y": 2718.179369752956,
+      "width": 100,
+      "height": -30,
+      "strokeColor": "#2f9e44",
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          104.11527019184047,
+          -12.565636057636311
+        ]
+      ],
+      "createdAt": "2026-02-18T14:45:49.981Z",
+      "updatedAt": "2026-02-18T14:45:49.981Z",
+      "version": 1,
+      "startBinding": {
+        "elementId": "l4-fl2",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "l4-fl3a",
+        "focus": 0,
+        "gap": 8
+      }
+    },
+    {
+      "id": "l4-fla2b",
+      "type": "arrow",
+      "x": 487.9704381517995,
+      "y": 2738.4457274268793,
+      "width": 100,
+      "height": 0,
+      "strokeColor": "#2f9e44",
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          104.059123696401,
+          8.97061411175855
+        ]
+      ],
+      "createdAt": "2026-02-18T14:45:49.981Z",
+      "updatedAt": "2026-02-18T14:45:49.981Z",
+      "version": 1,
+      "startBinding": {
+        "elementId": "l4-fl2",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "l4-fl3b",
+        "focus": 0,
+        "gap": 8
+      }
+    },
+    {
+      "id": "l4-fla2c",
+      "type": "arrow",
+      "x": 487.67702835108173,
+      "y": 2758.6294738270412,
+      "width": 100,
+      "height": 30,
+      "strokeColor": "#2f9e44",
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          104.64594329783654,
+          30.67208682867613
+        ]
+      ],
+      "createdAt": "2026-02-18T14:45:49.982Z",
+      "updatedAt": "2026-02-18T14:45:49.982Z",
+      "version": 1,
+      "startBinding": {
+        "elementId": "l4-fl2",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "l4-fl3c",
+        "focus": 0,
+        "gap": 8
+      }
+    },
+    {
+      "id": "l4-fl3a",
+      "type": "rectangle",
+      "x": 600,
+      "y": 2670,
+      "width": 160,
+      "height": 50,
+      "backgroundColor": "#99e9f2",
+      "strokeColor": "#0c8599",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:45:49.982Z",
+      "updatedAt": "2026-02-18T14:45:49.982Z",
+      "version": 1
+    },
+    {
+      "id": "l4-fl3a-t",
+      "type": "text",
+      "x": 625,
+      "y": 2685,
+      "strokeColor": "#0c8599",
+      "text": "Database",
+      "fontSize": 16,
+      "createdAt": "2026-02-18T14:45:49.982Z",
+      "updatedAt": "2026-02-18T14:45:49.982Z",
+      "version": 1
+    },
+    {
+      "id": "l4-fl3b",
+      "type": "rectangle",
+      "x": 600,
+      "y": 2730,
+      "width": 160,
+      "height": 50,
+      "backgroundColor": "#a5d8ff",
+      "strokeColor": "#1971c2",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:45:49.982Z",
+      "updatedAt": "2026-02-18T14:45:49.982Z",
+      "version": 1
+    },
+    {
+      "id": "l4-fl3b-t",
+      "type": "text",
+      "x": 640,
+      "y": 2745,
+      "strokeColor": "#1971c2",
+      "text": "UI / Frontend",
+      "fontSize": 16,
+      "createdAt": "2026-02-18T14:45:49.982Z",
+      "updatedAt": "2026-02-18T14:45:49.982Z",
+      "version": 1
+    },
+    {
+      "id": "l4-fl3c",
+      "type": "rectangle",
+      "x": 600,
+      "y": 2790,
+      "width": 160,
+      "height": 50,
+      "backgroundColor": "#ffd8a8",
+      "strokeColor": "#e8590c",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:45:49.982Z",
+      "updatedAt": "2026-02-18T14:45:49.982Z",
+      "version": 1
+    },
+    {
+      "id": "l4-fl3c-t",
+      "type": "text",
+      "x": 620,
+      "y": 2805,
+      "strokeColor": "#e8590c",
+      "text": "Next LLM Step / API",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:45:49.982Z",
+      "updatedAt": "2026-02-18T14:45:49.982Z",
+      "version": 1
+    },
+    {
+      "id": "conn-label",
+      "type": "text",
+      "x": 1200,
+      "y": 80,
+      "strokeColor": "#1e1e1e",
+      "text": "Cross-Lesson Connections",
+      "fontSize": 22,
+      "createdAt": "2026-02-18T14:46:11.864Z",
+      "updatedAt": "2026-02-18T14:46:11.864Z",
+      "version": 1
+    },
+    {
+      "id": "conn-zone",
+      "type": "rectangle",
+      "x": 1180,
+      "y": 120,
+      "width": 560,
+      "height": 340,
+      "backgroundColor": "#ffffff",
+      "strokeColor": "#868e96",
+      "strokeStyle": "dashed",
+      "roughness": 1,
+      "opacity": 80,
+      "createdAt": "2026-02-18T14:46:11.864Z",
+      "updatedAt": "2026-02-18T14:46:11.864Z",
+      "version": 1
+    },
+    {
+      "id": "conn-l2",
+      "type": "rectangle",
+      "x": 1220,
+      "y": 150,
+      "width": 200,
+      "height": 60,
+      "backgroundColor": "#a5d8ff",
+      "strokeColor": "#1971c2",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:46:11.865Z",
+      "updatedAt": "2026-02-18T14:46:11.865Z",
+      "version": 1
+    },
+    {
+      "id": "conn-l2-t",
+      "type": "text",
+      "x": 1235,
+      "y": 168,
+      "strokeColor": "#1971c2",
+      "text": "L2: Workflows vs Agents",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:46:11.865Z",
+      "updatedAt": "2026-02-18T14:46:11.865Z",
+      "version": 1
+    },
+    {
+      "id": "conn-l3",
+      "type": "rectangle",
+      "x": 1220,
+      "y": 280,
+      "width": 200,
+      "height": 60,
+      "backgroundColor": "#b2f2bb",
+      "strokeColor": "#2f9e44",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:46:11.865Z",
+      "updatedAt": "2026-02-18T14:46:11.865Z",
+      "version": 1
+    },
+    {
+      "id": "conn-l3-t",
+      "type": "text",
+      "x": 1235,
+      "y": 298,
+      "strokeColor": "#2f9e44",
+      "text": "L3: Context Engineering",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:46:11.865Z",
+      "updatedAt": "2026-02-18T14:46:11.865Z",
+      "version": 1
+    },
+    {
+      "id": "conn-l4",
+      "type": "rectangle",
+      "x": 1500,
+      "y": 280,
+      "width": 200,
+      "height": 60,
+      "backgroundColor": "#eebefa",
+      "strokeColor": "#9c36b5",
+      "roughness": 1,
+      "createdAt": "2026-02-18T14:46:11.865Z",
+      "updatedAt": "2026-02-18T14:46:11.865Z",
+      "version": 1
+    },
+    {
+      "id": "conn-l4-t",
+      "type": "text",
+      "x": 1520,
+      "y": 298,
+      "strokeColor": "#9c36b5",
+      "text": "L4: Structured Outputs",
+      "fontSize": 14,
+      "createdAt": "2026-02-18T14:46:11.865Z",
+      "updatedAt": "2026-02-18T14:46:11.865Z",
+      "version": 1
+    },
+    {
+      "id": "conn-l2-l3",
+      "type": "arrow",
+      "x": 1320,
+      "y": 218,
+      "width": 0,
+      "height": 54,
+      "strokeColor": "#1971c2",
+      "strokeWidth": 2,
+      "strokeStyle": "dashed",
+      "label": {
+        "text": "Agents need\ncontext mgmt"
+      },
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          54
+        ]
+      ],
+      "createdAt": "2026-02-18T14:46:11.865Z",
+      "updatedAt": "2026-02-18T14:46:11.865Z",
+      "version": 1,
+      "startBinding": {
+        "elementId": "conn-l2",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "conn-l3",
+        "focus": 0,
+        "gap": 8
+      }
+    },
+    {
+      "id": "conn-l3-l4",
+      "type": "arrow",
+      "x": 1428,
+      "y": 310,
+      "width": 64,
+      "height": 0,
+      "strokeColor": "#2f9e44",
+      "strokeWidth": 2,
+      "strokeStyle": "dashed",
+      "label": {
+        "text": "Uses structured\noutputs for data flow"
+      },
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          64,
+          0
+        ]
+      ],
+      "createdAt": "2026-02-18T14:46:11.865Z",
+      "updatedAt": "2026-02-18T14:46:11.865Z",
+      "version": 1,
+      "startBinding": {
+        "elementId": "conn-l3",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "conn-l4",
+        "focus": 0,
+        "gap": 8
+      }
+    },
+    {
+      "id": "conn-l2-l4",
+      "type": "arrow",
+      "x": 1391.871456357372,
+      "y": 213.36889045163701,
+      "width": 172,
+      "height": 92,
+      "strokeColor": "#9c36b5",
+      "strokeWidth": 2,
+      "strokeStyle": "dashed",
+      "label": {
+        "text": "Workflow steps use\nstructured contracts"
+      },
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          136.25708728525615,
+          63.26221909672597
+        ]
+      ],
+      "createdAt": "2026-02-18T14:46:11.866Z",
+      "updatedAt": "2026-02-18T14:46:11.866Z",
+      "version": 1,
+      "startBinding": {
+        "elementId": "conn-l2",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "conn-l4",
+        "focus": 0,
+        "gap": 8
+      }
+    },
+    {
+      "id": "conn-note1",
+      "type": "text",
+      "x": 1220,
+      "y": 370,
+      "strokeColor": "#868e96",
+      "text": "L2 Context Drift → L3 solves with context strategies",
+      "fontSize": 12,
+      "createdAt": "2026-02-18T14:46:11.866Z",
+      "updatedAt": "2026-02-18T14:46:11.866Z",
+      "version": 1
+    },
+    {
+      "id": "conn-note2",
+      "type": "text",
+      "x": 1220,
+      "y": 390,
+      "strokeColor": "#868e96",
+      "text": "L3 Strategy #1 uses L4 Structured Outputs",
+      "fontSize": 12,
+      "createdAt": "2026-02-18T14:46:11.866Z",
+      "updatedAt": "2026-02-18T14:46:11.866Z",
+      "version": 1
+    },
+    {
+      "id": "conn-note3",
+      "type": "text",
+      "x": 1220,
+      "y": 410,
+      "strokeColor": "#868e96",
+      "text": "L3 Strategy #3 uses L2 Orchestrator-Worker pattern",
+      "fontSize": 12,
+      "createdAt": "2026-02-18T14:46:11.866Z",
+      "updatedAt": "2026-02-18T14:46:11.866Z",
+      "version": 1
+    },
+    {
+      "id": "conn-note4",
+      "type": "text",
+      "x": 1220,
+      "y": 430,
+      "strokeColor": "#868e96",
+      "text": "L4 Pydantic models → L3 Procedural Memory schemas",
+      "fontSize": 12,
+      "createdAt": "2026-02-18T14:46:11.866Z",
+      "updatedAt": "2026-02-18T14:46:11.866Z",
+      "version": 1
+    }
+  ],
+  "appState": {
+    "viewBackgroundColor": "#ffffff",
+    "gridSize": null
+  }
+}
